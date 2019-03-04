@@ -1,0 +1,25 @@
+<h1>Game Data</h1>
+<p>This component demonstrates fetching Game data from the server.</p>
+<p *ngIf="!gameList"><em>Loading...</em></p>
+<p>
+  <a [routerLink]="['/register-game']">Create New</a>
+</p>
+<table class='table' *ngIf="gameList">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let game of empList">
+      <td>{{ game.id }}</td>
+      <td>{{ game.name }}</td>
+      <td>
+      <td>
+        <a [routerLink]="['/game/edit/', game.id]">Edit</a> |
+        <a [routerLink]="" (click)="delete(game.id)">Delete</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
