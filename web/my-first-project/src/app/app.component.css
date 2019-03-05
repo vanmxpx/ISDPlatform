@@ -1,0 +1,36 @@
+input {
+    caption-side: top;
+    background: rgba(230,230,230,1);
+    text-decoration-color: black;
+    font-family: 'Comic Sans Ms';
+    font-size: 24px;
+    width:60%;
+    text-align: center;
+    margin-bottom: 15px; 
+    border-radius: 3px;
+}
+button{
+    background: gray;
+    color: cornsilk;
+    font-family: 'Comic Sans Ms';
+    font-size: 24px;
+    border-radius: 3px;
+}
+
+.errorField {
+    color: red;
+    border-color: red;
+}
+
+.errorField::placeholder {
+    color: red;
+}
+
+.searchButton {
+    width:25%;
+
+}
+.centralContentContainer {
+    display: block;
+    text-align: center;
+}

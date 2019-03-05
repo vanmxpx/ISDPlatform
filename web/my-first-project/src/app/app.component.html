@@ -1,0 +1,17 @@
+<app-sign-in></app-sign-in>
+<div class = "row">
+  <div class = "col-md-4"></div>
+  <div class = "col-md-4">
+    <div class = "centralContentContainer">
+      <input type ="text" [(ngModel)]="userName" placeholder = "Email"/>
+      <input type ="text" [(ngModel)]="password" placeholder = "Password" class = "errorField"/>
+      <br/>
+      <button (click)="search()" class = "searchButton">Login</button>
+    </div>
+    <div *ngIf="response">
+      <p>Name {{response}}</p>   
+    </div>
+  </div>
+  <div class = "col-md-4"></div>
+</div>
+
