@@ -16,7 +16,7 @@ namespace Cooper
         public static void Main(string[] args)
         {
             //Console.WriteLine("Starting.\r\n"); 
-            using (var _db = new OracleConnection("Pooling = false; User Id=SYSTEM;Password=qQ1111qQ;Data Source=localhost:1521 /cooper;"))
+            using (var _db = new OracleConnection("Pooling = false; User Id=SYSTEM;Password=QAZse4321;Data Source=localhost:1521/xe;"))
             {
                 Console.WriteLine("Open connection...");
                 _db.Open();
@@ -24,7 +24,7 @@ namespace Cooper
                 Console.WriteLine("Connected to:" + _db.ServerVersion);
                 Console.WriteLine(_db.ConnectionString);
                 Console.WriteLine("\r\nDone. Press key for exit");
-                Console.ReadKey();
+                Console.Read();
             }
             CreateWebHostBuilder(args).Build().Run();
         }
