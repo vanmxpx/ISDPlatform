@@ -1,6 +1,8 @@
-﻿using Oracle.ManagedDataAccess.Client;
+﻿using Microsoft.Extensions.Configuration;
+using Oracle.ManagedDataAccess.Client;
+using System.Configuration;
 
-namespace Cooper.DAL
+namespace Cooper.DAO
 {
 
     public static class DataAccessLayer
@@ -13,4 +15,5 @@ namespace Cooper.DAL
         }
 
     }
+
 }
