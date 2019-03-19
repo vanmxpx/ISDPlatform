@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Cooper.Models
 {
-    public class Chat : Entity
+    public class Entity
     {
-        public string ChatName { get; set; }
+        public long id { get; set; }
     }
 }

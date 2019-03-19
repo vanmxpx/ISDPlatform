@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace Cooper.Models
 {
-    public class User
+    public class User : Entity
     {
-        public int idUser { get; set; }
         public string Name { get; set; }
         public string NickName { get; set; }
         public string Email { get; set; }

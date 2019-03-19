@@ -9,7 +9,7 @@ namespace Cooper.DAO
     public class GameDataAccessLayer
     {
         //private string connectionString = "Put Your Connection string here";
-        private OracleConnection connect = DataAccessLayer.GetConnection();
+        private OracleConnection connect = DbConnecting.GetConnection();
         //To View all games details
         public IEnumerable<Game> GetAllGames()
         {
@@ -27,7 +27,7 @@ namespace Cooper.DAO
                         while (reader.Read())
                         {
                             Game game = new Game();
-                            game.idGame = Convert.ToInt32(reader["idGame"]);
+                            game.id = Convert.ToInt32(reader["idGame"]);
                             game.Name = reader["Name"].ToString();
                             //...
                             lstGame.Add(game);
@@ -55,7 +55,7 @@ namespace Cooper.DAO
                     {
                         //connect.Open();
                         cmd.CommandText = "insert into games (idGame, Name) values(:id, :name)";
-                        cmd.Parameters.Add("id", game.idGame);
+                        cmd.Parameters.Add("id", game.id);
                         cmd.Parameters.Add("name", game.Name);
                         //...
                         connect.Open();
@@ -81,7 +81,7 @@ namespace Cooper.DAO
                     using (OracleCommand cmd = connect.CreateCommand())
                     {
                         cmd.CommandText = "update games set Name = :name where idGame = :id";
-                        cmd.Parameters.Add("id", game.idGame);
+                        cmd.Parameters.Add("id", game.id);
                         cmd.Parameters.Add("name", game.Name);
                         //...
                         connect.Open();
@@ -109,11 +109,11 @@ namespace Cooper.DAO
                         connect.Open();
                         cmd.BindByName = true;
                         cmd.CommandText = "select * from games where idGame = :id";
-                        cmd.Parameters.Add("id", game.idGame);
+                        cmd.Parameters.Add("id", game.id);
                         OracleDataReader reader = cmd.ExecuteReader();
                         while (reader.Read())
                         {
-                            game.idGame = Convert.ToInt32(reader["idGame"]);
+                            game.id = Convert.ToInt32(reader["idGame"]);
                             game.Name = reader["Name"].ToString();
                             //...
                         }

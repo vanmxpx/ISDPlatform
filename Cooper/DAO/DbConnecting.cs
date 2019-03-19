@@ -5,7 +5,7 @@ using System.Configuration;
 namespace Cooper.DAO
 {
 
-    public static class DataAccessLayer
+    public static class DbConnecting
     {
         private static string connectionString = "User Id=system;Password=QAZse4321;Data Source=localhost:1521/xe;";
 

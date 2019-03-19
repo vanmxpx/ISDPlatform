@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace Cooper.Models
 {
-    public class Game
+    public class Game : Entity
     {
-        public int idGame { get; set; }
         public string Name { get; set; }
         public byte[] Description { get; set; }
         public string Genre { get; set; }

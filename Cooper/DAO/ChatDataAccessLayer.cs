@@ -9,7 +9,7 @@ namespace Cooper.DAO
     public class ChatDataAccessLayer
     {
         //private string connectionString = "Put Your Connection string here";
-        private OracleConnection connect = DataAccessLayer.GetConnection();
+        private OracleConnection connect = DbConnecting.GetConnection();
         //To View all chats details
         public IEnumerable<Chat> GetAllChats()
         {
@@ -27,7 +27,7 @@ namespace Cooper.DAO
                         while (reader.Read())
                         {
                             Chat chat = new Chat();
-                            chat.idChat = Convert.ToInt32(reader["idChat"]);
+                            chat.id = Convert.ToInt32(reader["idChat"]);
                             chat.ChatName = reader["chatName"].ToString();
                             lstChat.Add(chat);
                         }
@@ -54,7 +54,7 @@ namespace Cooper.DAO
                     {
                         //connect.Open();
                         cmd.CommandText = "insert into chats (idChat, chatName) values(:id, :name)";
-                        cmd.Parameters.Add("id", chat.idChat);
+                        cmd.Parameters.Add("id", chat.id);
                         cmd.Parameters.Add("name", chat.ChatName);
                         connect.Open();
                         rowsUpdated = cmd.ExecuteNonQuery();
@@ -79,7 +79,6 @@ namespace Cooper.DAO
                     using (OracleCommand cmd = connect.CreateCommand())
                     {
                         cmd.CommandText = "update chats set chatName = :name where idChat = :id";
-                        cmd.Parameters.Add("id", chat.idChat);
                         cmd.Parameters.Add("name", chat.ChatName);
                         connect.Open();
                         rowsUpdated = cmd.ExecuteNonQuery();
@@ -106,11 +105,11 @@ namespace Cooper.DAO
                         connect.Open();
                         cmd.BindByName = true;
                         cmd.CommandText = "select * from chats where idChat = :id";
-                        cmd.Parameters.Add("id", chat.idChat);
+                        cmd.Parameters.Add("id", chat.id);
                         OracleDataReader reader = cmd.ExecuteReader();
                         while (reader.Read())
                         {
-                            chat.idChat = Convert.ToInt32(reader["idChat"]);
+                            chat.id = Convert.ToInt32(reader["idChat"]);
                             chat.ChatName = reader["chatName"].ToString();
                         }
                         reader.Dispose();
