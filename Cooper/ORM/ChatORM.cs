@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 
 
-namespace Cooper.DAO
+namespace Cooper.ORM
 {
-    public class ChatDAO : IORM <Chat>
+    public class ChatORM: IORM <Chat>
     {
         //private string connectionString = "Put Your Connection string here";
         private OracleConnection connection = DbConnecting.GetConnection();
@@ -114,11 +114,11 @@ namespace Cooper.DAO
                             chat.id = Convert.ToInt32(reader["c.idChat"]);
                             chat.ChatName = reader["c.chatName"].ToString();
                             //...
-                            chat.UsersList.Add(new UserDAO().GetEntityData(Convert.ToInt32(reader["u.idUser"])));
+                            chat.UsersList.Add(new UserORM().GetEntityData(Convert.ToInt32(reader["u.idUser"])));
                         }
                         while (reader.Read())
                         {
-                            chat.UsersList.Add(new UserDAO().GetEntityData(Convert.ToInt32(reader["u.idUser"])));
+                            chat.UsersList.Add(new UserORM().GetEntityData(Convert.ToInt32(reader["u.idUser"])));
                         }
                         reader.Dispose();
                         connection.Close();

@@ -1,5 +1,5 @@
-﻿using Cooper.DAO;
-using Cooper.Models;
+﻿using Cooper.Models;
+using Cooper.ORM;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace Cooper.Controllers
 {
     public class UserController: ControllerBase
     {
-        UserDAO objuser = new UserDAO();
+        UserORM objuser = new UserORM();
         [HttpGet]
         [Route("api/User/Index")]
         public IEnumerable<User> Index()

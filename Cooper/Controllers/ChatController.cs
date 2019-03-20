@@ -1,5 +1,5 @@
-﻿using Cooper.DAO;
-using Cooper.Models;
+﻿using Cooper.Models;
+using Cooper.ORM;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace Cooper.Controllers
 {
     public class ChatController: ControllerBase
     {
-        ChatDAO objchat = new ChatDAO();
+        ChatORM objchat = new ChatORM();
         [HttpGet]
         [Route("api/Chat/Index")]
         public IEnumerable<Chat> Index()

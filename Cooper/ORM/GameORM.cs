@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 
 
-namespace Cooper.DAO
+namespace Cooper.ORM
 {
-    public class GameDAO : IORM <Game>
+    public class GameORM : IORM <Game>
     {
         //private string connectionString = "Put Your Connection string here";
         private OracleConnection connect = DbConnecting.GetConnection();

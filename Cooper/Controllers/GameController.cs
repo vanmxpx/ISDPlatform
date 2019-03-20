@@ -1,5 +1,5 @@
-﻿using Cooper.DAO;
-using Cooper.Models;
+﻿using Cooper.Models;
+using Cooper.ORM;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace Cooper.Controllers
 {
     public class GameController: ControllerBase
     {
-        GameDAO objgame = new GameDAO();
+        GameORM objgame = new GameORM();
         [HttpGet]
         [Route("api/Game/Index")]
         public IEnumerable<Game> Index()

@@ -2,7 +2,7 @@
 using Oracle.ManagedDataAccess.Client;
 using System.Configuration;
 
-namespace Cooper.DAO
+namespace Cooper.ORM
 {
 
     public static class DbConnecting

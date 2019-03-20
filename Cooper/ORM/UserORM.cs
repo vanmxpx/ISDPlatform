@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 
 
-namespace Cooper.DAO
+namespace Cooper.ORM
 {
-    public class UserDAO : IORM<User>
+    public class UserORM : IORM <User>
     {
         //private string connectionString = "Put Your Connection string here";
         private OracleConnection connect = DbConnecting.GetConnection();
@@ -118,7 +118,7 @@ namespace Cooper.DAO
                             user.id = Convert.ToInt32(reader["u.idUser"]);
                             user.Name = reader["u.Name"].ToString();
                             //...
-                            user.GamesList.Add(new GameDAO().GetEntityData(Convert.ToInt32(reader["g.idGame"])));
+                            user.GamesList.Add(new GameORM().GetEntityData(Convert.ToInt32(reader["g.idGame"])));
                         }
                         while (reader.Read())
                         {
