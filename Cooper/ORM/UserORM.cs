@@ -22,7 +22,7 @@ namespace Cooper.ORM
                     using (OracleCommand cmd = connect.CreateCommand())
                     {
                         //connect.Open();
-                        cmd.CommandText = "insert into users (idUser, Name) values(:id, :name)";
+                        cmd.CommandText = "insert into users (idUser, Name, ...) values(:id, :name, ...)";
                         cmd.Parameters.Add("id", user.id);
                         cmd.Parameters.Add("name", user.Name);
                         //...
@@ -122,7 +122,7 @@ namespace Cooper.ORM
                         }
                         while (reader.Read())
                         {
-                            user.GamesList.Add((Game)reader["g.*"]);
+                            user.GamesList.Add(new GameORM().GetEntityData(Convert.ToInt32(reader["g.idGame"])));
                         }
                         reader.Dispose();
                         connect.Close();

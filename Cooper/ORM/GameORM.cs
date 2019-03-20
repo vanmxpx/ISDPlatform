@@ -22,7 +22,7 @@ namespace Cooper.ORM
                     using (OracleCommand cmd = connect.CreateCommand())
                     {
                         //connect.Open();
-                        cmd.CommandText = "insert into games (idGame, Name) values(:id, :name)";
+                        cmd.CommandText = "insert into games (idGame, Name, ... ) values(:id, :name, ...)";
                         cmd.Parameters.Add("id", game.id);
                         cmd.Parameters.Add("name", game.Name);
                         //...
@@ -137,7 +137,7 @@ namespace Cooper.ORM
                 {
                     using (OracleCommand cmd = connect.CreateCommand())
                     {
-                        cmd.CommandText = "update games set Name = :name where idGame = :id";
+                        cmd.CommandText = "update games set Name = :name, ... where idGame = :id";
                         cmd.Parameters.Add("id", game.id);
                         cmd.Parameters.Add("name", game.Name);
                         //...
