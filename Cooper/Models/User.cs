@@ -18,5 +18,6 @@ namespace Cooper.Models
         public DateTime EndBanDate { get; set; }
         public string platformLanguage { get; set; }
         public string platformTheme { get; set; }
+        public List<Game> GamesList { get; set; }
     }
 }

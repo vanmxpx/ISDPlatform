@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Cooper.DAO
 {
-    public class UserDAO : IORM <User>
+    public class UserDAO : IORM<User>
     {
         //private string connectionString = "Put Your Connection string here";
         private OracleConnection connect = DbConnecting.GetConnection();
@@ -78,9 +78,11 @@ namespace Cooper.DAO
                         OracleDataReader reader = cmd.ExecuteReader();
                         while (reader.Read())
                         {
-                            User user = new User();
-                            user.id = Convert.ToInt32(reader["idUser"]);
-                            user.Name = reader["Name"].ToString();
+                            User user = new User
+                            {
+                                id = Convert.ToInt32(reader["idUser"]),
+                                Name = reader["Name"].ToString()
+                            };
                             //...
                             lstUser.Add(user);
                         }
@@ -107,14 +109,20 @@ namespace Cooper.DAO
                     {
                         connect.Open();
                         cmd.BindByName = true;
-                        cmd.CommandText = "select * from users where idUser = :id";
-                        cmd.Parameters.Add("id", user.id);
+                        cmd.CommandText = "select u.*, g.idGame from users u, usersgames ug, games g " +
+                            "where u.idUser = :id and ug.idUser = ug.idUser and g.idGame = ug.idGame";
+                        cmd.Parameters.Add("id", id);
                         OracleDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            user.id = Convert.ToInt32(reader["u.idUser"]);
+                            user.Name = reader["u.Name"].ToString();
+                            //...
+                            user.GamesList.Add(new GameDAO().GetEntityData(Convert.ToInt32(reader["g.idGame"])));
+                        }
                         while (reader.Read())
                         {
-                            user.id = Convert.ToInt32(reader["idUser"]);
-                            user.Name = reader["Name"].ToString();
-                            //...
+                            user.GamesList.Add((Game)reader["g.*"]);
                         }
                         reader.Dispose();
                         connect.Close();

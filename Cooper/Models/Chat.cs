@@ -8,5 +8,6 @@ namespace Cooper.Models
     public class Chat : Entity
     {
         public string ChatName { get; set; }
+        public List<User> UsersList { get; set; }
     }
 }

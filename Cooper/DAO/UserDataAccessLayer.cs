@@ -27,7 +27,7 @@ namespace Cooper.DAO
                         while (reader.Read())
                         {
                             User user = new User();
-                            user.idUser = Convert.ToInt32(reader["idUser"]);
+                            user.id = Convert.ToInt32(reader["idUser"]);
                             user.Name = reader["Name"].ToString();
                             //...
                             lstUser.Add(user);
@@ -55,7 +55,7 @@ namespace Cooper.DAO
                     {
                         //connect.Open();
                         cmd.CommandText = "insert into users (idUser, Name) values(:id, :name)";
-                        cmd.Parameters.Add("id", user.idUser);
+                        cmd.Parameters.Add("id", user.id);
                         cmd.Parameters.Add("name", user.Name);
                         //...
                         connect.Open();
@@ -81,7 +81,7 @@ namespace Cooper.DAO
                     using (OracleCommand cmd = connect.CreateCommand())
                     {
                         cmd.CommandText = "update users set Name = :name where idUser = :id";
-                        cmd.Parameters.Add("id", user.idUser);
+                        cmd.Parameters.Add("id", user.id);
                         cmd.Parameters.Add("name", user.Name);
                         //...
                         connect.Open();
@@ -109,11 +109,11 @@ namespace Cooper.DAO
                         connect.Open();
                         cmd.BindByName = true;
                         cmd.CommandText = "select * from users where idUser = :id";
-                        cmd.Parameters.Add("id", user.idUser);
+                        cmd.Parameters.Add("id", user.id);
                         OracleDataReader reader = cmd.ExecuteReader();
                         while (reader.Read())
                         {
-                            user.idUser = Convert.ToInt32(reader["idUser"]);
+                            user.id = Convert.ToInt32(reader["idUser"]);
                             user.Name = reader["Name"].ToString();
                             //...
                         }

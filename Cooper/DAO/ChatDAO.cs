@@ -105,13 +105,20 @@ namespace Cooper.DAO
                     {
                         connection.Open();
                         cmd.BindByName = true;
-                        cmd.CommandText = "select * from chats where idChat = :id";
-                        cmd.Parameters.Add("id", chat.id);
+                        cmd.CommandText = "select c.*, u.idUser from chats c, userschats uc, users u " +
+                            "where c.idChat = :id and ch.idChat = c.idChat and u.idUser = uc.idUser";
+                        cmd.Parameters.Add("id", id);
                         OracleDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            chat.id = Convert.ToInt32(reader["c.idChat"]);
+                            chat.ChatName = reader["c.chatName"].ToString();
+                            //...
+                            chat.UsersList.Add(new UserDAO().GetEntityData(Convert.ToInt32(reader["u.idUser"])));
+                        }
                         while (reader.Read())
                         {
-                            chat.id = Convert.ToInt32(reader["idChat"]);
-                            chat.ChatName = reader["chatName"].ToString();
+                            chat.UsersList.Add(new UserDAO().GetEntityData(Convert.ToInt32(reader["u.idUser"])));
                         }
                         reader.Dispose();
                         connection.Close();
@@ -136,6 +143,7 @@ namespace Cooper.DAO
                     {
                         cmd.CommandText = "update chats set chatName = :name where idChat = :id";
                         cmd.Parameters.Add("name", chat.ChatName);
+                        cmd.Parameters.Add("id", chat.id);
                         connection.Open();
                         rowsUpdated = cmd.ExecuteNonQuery();
                         connection.Close();
