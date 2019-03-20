@@ -11,36 +11,36 @@ namespace Cooper.Controllers
 {
     public class UserController: ControllerBase
     {
-        UserDataAccessLayer objuser = new UserDataAccessLayer();
+        UserDAO objuser = new UserDAO();
         [HttpGet]
         [Route("api/User/Index")]
         public IEnumerable<User> Index()
         {
-            return objuser.GetAllUsers();
+            return objuser.GetAllEntities();
         }
         [HttpPost]
         [Route("api/User/Create")]
-        public bool Create([FromBody] User User)
+        public bool Create([FromBody] User user)
         {
-            return objuser.AddUser(User);
+            return objuser.AddEntity(user);
         }
         [HttpGet]
         [Route("api/User/Details/{id}")]
-        public User Details(int id)
+        public User Details(long id)
         {
-            return objuser.GetUserData(id);
+            return objuser.GetEntityData(id);
         }
         [HttpPut]
         [Route("api/User/Edit")]
-        public bool Edit([FromBody]User User)
+        public bool Edit([FromBody]User user)
         {
-            return objuser.UpdateUser(User);
+            return objuser.UpdateEntity(user);
         }
         [HttpDelete]
         [Route("api/User/Delete/{id}")]
-        public bool Delete(int id)
+        public bool Delete(long id)
         {
-            return objuser.DeleteUser(id);
+            return objuser.DeleteEntity(id);
         }
     }
 }
