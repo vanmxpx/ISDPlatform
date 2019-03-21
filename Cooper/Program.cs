@@ -24,6 +24,7 @@ namespace Cooper
                 Console.WriteLine("\r\nDone. Press key for exit");
                 Console.ReadKey();
             }
+            LogManager.Configuration = config;
             CreateWebHostBuilder(args).Build().Run();
         }
 

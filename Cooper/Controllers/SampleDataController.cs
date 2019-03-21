@@ -11,11 +11,17 @@ namespace Cooper.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+
+        Logger logger;
+
+        public ValuesController()
+        {
+            logger = LogManager.GetLogger("CooperLoger");
+        }
         // GET api/values
         [HttpGet]
         public ActionResult Get()
-        {
-            Logger logger = LogManager.GetLogger("CooperLoger");           
+        {                    
             logger.Info("info log message. Coopers logs are working");
             return new JsonResult("value1");
         }
