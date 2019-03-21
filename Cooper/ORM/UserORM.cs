@@ -22,7 +22,6 @@ namespace Cooper.ORM
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
                     cmd.CommandText = "insert into users (Name, ...) values(:name, ...) returning idUser into :id";
-                    cmd.Parameters.Add("id", user.id);
                     cmd.Parameters.Add("name", user.Name);
                     //...
                     cmd.Parameters.Add(new OracleParameter

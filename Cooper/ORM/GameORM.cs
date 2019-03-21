@@ -21,8 +21,7 @@ namespace Cooper.ORM
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "insert into games (idGame, Name, ... ) values(:id, :name, ...) returning idGame into :id";
-                    cmd.Parameters.Add("id", game.id);
+                    cmd.CommandText = "insert into games (Name, ... ) values(:name, ...) returning idGame into :id";
                     cmd.Parameters.Add("name", game.Name);
                     //...
                     cmd.Parameters.Add(new OracleParameter
