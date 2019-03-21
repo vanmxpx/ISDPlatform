@@ -1,166 +1,157 @@
 ﻿using Cooper.Models;
-using Cooper.ORM;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
-
+using System.Data;
+using System.Data.Common;
 
 namespace Cooper.ORM
 {
-    public class UserORM : IORM <User>
+    public class UserORM : IORM<User>
     {
         //private string connectionString = "Put Your Connection string here";
-        private OracleConnection connect = DbConnecting.GetConnection();
+        private OracleConnection connection = DbConnecting.GetConnection();
 
-        public bool AddEntity(User user)
+        public long Add(User user)
         {
-            int rowsUpdated = 0;
-            try
+            long insertId = -1;
+            using (connection)
             {
-                using (connect)
+                try
                 {
-                    using (OracleCommand cmd = connect.CreateCommand())
+                    connection.Open();
+                    OracleCommand cmd = connection.CreateCommand();
+                    cmd.CommandText = "insert into users (Name, ...) values(:name, ...) returning idUser into :id";
+                    cmd.Parameters.Add("id", user.id);
+                    cmd.Parameters.Add("name", user.Name);
+                    //...
+                    cmd.Parameters.Add(new OracleParameter
                     {
-                        //connect.Open();
-                        cmd.CommandText = "insert into users (idUser, Name, ...) values(:id, :name, ...)";
-                        cmd.Parameters.Add("id", user.id);
-                        cmd.Parameters.Add("name", user.Name);
+                        ParameterName = ":id",
+                        OracleDbType = OracleDbType.Long,
+                        Direction = ParameterDirection.Output
+                    });
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    insertId = Convert.ToInt64(cmd.Parameters[":id"].Value);
+                }
+                catch (DbException ex)
+                {
+                    Console.WriteLine("Exception.Message: {0}", ex.Message);
+                }
+            }
+            return insertId;
+        }
+
+        public int Delete(long id)
+        {
+            int rowsDeleted = 0;
+            using (connection)
+            {
+                try
+                {
+                    connection.Open();
+                    OracleCommand cmd = connection.CreateCommand();
+                    cmd.CommandText = "delete from users where idUser = :id";
+                    cmd.Parameters.Add("id", id);
+                    rowsDeleted = cmd.ExecuteNonQuery();
+                }
+                catch (DbException ex)
+                {
+                    Console.WriteLine("Exception.Message: {0}", ex.Message);
+                }
+            }
+            return rowsDeleted;
+        }
+
+        public IEnumerable<User> GetAll()
+        {
+            List<User> lstUser = new List<User>();
+            using (connection)
+            {
+                try
+                {
+                    connection.Open();
+                    OracleCommand cmd = connection.CreateCommand();
+                    cmd.BindByName = true;
+                    cmd.CommandText = "select * from users";
+                    OracleDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        User user = new User
+                        {
+                            id = Convert.ToInt64(reader["idUser"]),
+                            Name = reader["Name"].ToString()
+                        };
                         //...
-                        connect.Open();
-                        rowsUpdated = cmd.ExecuteNonQuery();
-                        connect.Close();
+                        lstUser.Add(user);
                     }
                 }
-                return rowsUpdated > 0;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        public bool DeleteEntity(long id)
-        {
-            int rowsUpdated = 0;
-            try
-            {
-                using (connect)
+                catch (DbException ex)
                 {
-                    using (OracleCommand cmd = connect.CreateCommand())
-                    {
-                        cmd.CommandText = "delete from users where idUser = :id";
-                        cmd.Parameters.Add("id", id);
-                        connect.Open();
-                        rowsUpdated = cmd.ExecuteNonQuery();
-                        connect.Close();
-                    }
-                }
-                return rowsUpdated > 0;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        public IEnumerable<User> GetAllEntities()
-        {
-            try
-            {
-                List<User> lstUser = new List<User>();
-                using (connect)
-                {
-                    using (OracleCommand cmd = connect.CreateCommand())
-                    {
-                        connect.Open();
-                        cmd.BindByName = true;
-                        cmd.CommandText = "select * from users";
-                        OracleDataReader reader = cmd.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            User user = new User
-                            {
-                                id = Convert.ToInt32(reader["idUser"]),
-                                Name = reader["Name"].ToString()
-                            };
-                            //...
-                            lstUser.Add(user);
-                        }
-                        reader.Dispose();
-                        connect.Close();
-                    }
-                }
-                return lstUser;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        public User GetEntityData(long id)
-        {
-            try
-            {
-                User user = new User();
-                using (connect)
-                {
-                    using (OracleCommand cmd = connect.CreateCommand())
-                    {
-                        connect.Open();
-                        cmd.BindByName = true;
-                        cmd.CommandText = "select u.*, g.idGame from users u, usersgames ug, games g " +
-                            "where u.idUser = :id and ug.idUser = ug.idUser and g.idGame = ug.idGame";
-                        cmd.Parameters.Add("id", id);
-                        OracleDataReader reader = cmd.ExecuteReader();
-                        if (reader.Read())
-                        {
-                            user.id = Convert.ToInt32(reader["u.idUser"]);
-                            user.Name = reader["u.Name"].ToString();
-                            //...
-                            user.GamesList.Add(new GameORM().GetEntityData(Convert.ToInt32(reader["g.idGame"])));
-                        }
-                        while (reader.Read())
-                        {
-                            user.GamesList.Add(new GameORM().GetEntityData(Convert.ToInt32(reader["g.idGame"])));
-                        }
-                        reader.Dispose();
-                        connect.Close();
-                    }
-                    return user;
+                    Console.WriteLine("Exception.Message: {0}", ex.Message);
                 }
             }
-            catch
-            {
-                throw;
-            }
+            return lstUser;
         }
 
-        public bool UpdateEntity(User user)
+        public User GetData(long id)
         {
-            int rowsUpdated = 0;
-            try
+            User user = new User();
+            using (connection)
             {
-                using (connect)
+                try
                 {
-                    using (OracleCommand cmd = connect.CreateCommand())
+                    connection.Open();
+                    OracleCommand cmd = connection.CreateCommand();
+                    cmd.BindByName = true;
+                    //cmd.CommandText = "select u.*, g.idGame from users u, usersgames ug, games g " +
+                    //    "where u.idUser = :id and ug.idUser = ug.idUser and g.idGame = ug.idGame";
+                    cmd.CommandText = "select * from users where idUser = :id";
+                    cmd.Parameters.Add("id", id);
+                    OracleDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
                     {
-                        cmd.CommandText = "update users set Name = :name where idUser = :id";
-                        cmd.Parameters.Add("id", user.id);
-                        cmd.Parameters.Add("name", user.Name);
+                        user.id = Convert.ToInt32(reader["u.idUser"]);
+                        user.Name = reader["u.Name"].ToString();
                         //...
-                        connect.Open();
-                        rowsUpdated = cmd.ExecuteNonQuery();
-                        connect.Close();
+                        //user.GamesList.Add(new GameORM().GetEntityData(Convert.ToInt32(reader["g.idGame"])));
                     }
+                    //while (reader.Read())
+                    //{
+                    //    user.GamesList.Add(new GameORM().GetEntityData(Convert.ToInt32(reader["g.idGame"])));
+                    //}
                 }
-                return rowsUpdated > 0;
+                catch (DbException ex)
+                {
+                    Console.WriteLine("Exception.Message: {0}", ex.Message);
+                }
             }
-            catch
-            {
-                throw;
-            }
+            return user;
         }
 
+        public int Update(User user)
+        {
+            int rowsUpdated = 0;
+            using (connection)
+            {
+                try
+                {
+                    connection.Open();
+                    OracleCommand cmd = connection.CreateCommand();
+                    cmd.CommandText = "update users set Name = :name, ... where idUser = :id";
+                    cmd.Parameters.Add("id", user.id);
+                    cmd.Parameters.Add("name", user.Name);
+                    //...
+                    connection.Open();
+                    rowsUpdated = cmd.ExecuteNonQuery();
+                }
+                catch (DbException ex)
+                {
+                    Console.WriteLine("Exception.Message: {0}", ex.Message);
+                }
+            }
+            return rowsUpdated;
+        }
     }
 }

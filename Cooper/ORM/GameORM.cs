@@ -1,158 +1,149 @@
 ﻿using Cooper.Models;
-using Cooper.ORM;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
-
+using System.Data;
+using System.Data.Common;
 
 namespace Cooper.ORM
 {
-    public class GameORM : IORM <Game>
+    public class GameORM : IORM<Game>
     {
         //private string connectionString = "Put Your Connection string here";
-        private OracleConnection connect = DbConnecting.GetConnection();
+        private OracleConnection connection = DbConnecting.GetConnection();
 
-        public bool AddEntity(Game game)
+        public long Add(Game game)
         {
-            int rowsUpdated = 0;
-            try
+            long insertId = -1;
+            using (connection)
             {
-                using (connect)
+                try
                 {
-                    using (OracleCommand cmd = connect.CreateCommand())
+                    connection.Open();
+                    OracleCommand cmd = connection.CreateCommand();
+                    cmd.CommandText = "insert into games (idGame, Name, ... ) values(:id, :name, ...) returning idGame into :id";
+                    cmd.Parameters.Add("id", game.id);
+                    cmd.Parameters.Add("name", game.Name);
+                    //...
+                    cmd.Parameters.Add(new OracleParameter
                     {
-                        //connect.Open();
-                        cmd.CommandText = "insert into games (idGame, Name, ... ) values(:id, :name, ...)";
-                        cmd.Parameters.Add("id", game.id);
-                        cmd.Parameters.Add("name", game.Name);
-                        //...
-                        connect.Open();
-                        rowsUpdated = cmd.ExecuteNonQuery();
-                        connect.Close();
-                    }
+                        ParameterName = ":id",
+                        OracleDbType = OracleDbType.Long,
+                        Direction = ParameterDirection.Output
+                    });
+                    cmd.ExecuteNonQuery();
+                    insertId = Convert.ToInt64(cmd.Parameters[":id"].Value);
                 }
-                return rowsUpdated > 0;
+                catch (DbException ex)
+                {
+                    Console.WriteLine("Exception.Message: {0}", ex.Message);
+                }
             }
-            catch
-            {
-                throw;
-            }
+            return insertId;
         }
 
-        public bool DeleteEntity(long id)
+        public int Delete(long id)
         {
-            int rowsUpdated = 0;
-            try
+            int rowsDeleted = 0;
+            using (connection)
             {
-                using (connect)
+                try
                 {
-                    using (OracleCommand cmd = connect.CreateCommand())
-                    {
-                        cmd.CommandText = "delete from games where idGame = :id";
-                        cmd.Parameters.Add("id", id);
-                        connect.Open();
-                        rowsUpdated = cmd.ExecuteNonQuery();
-                        connect.Close();
-                    }
+                    connection.Open();
+                    OracleCommand cmd = connection.CreateCommand();
+                    cmd.CommandText = "delete from games where idGame = :id";
+                    cmd.Parameters.Add("id", id);
+                    rowsDeleted = cmd.ExecuteNonQuery();
                 }
-                return rowsUpdated > 0;
+                catch (DbException ex)
+                {
+                    Console.WriteLine("Exception.Message: {0}", ex.Message);
+                }
             }
-            catch
-            {
-                throw;
-            }
+            return rowsDeleted;
         }
 
-        public IEnumerable<Game> GetAllEntities()
+        public IEnumerable<Game> GetAll()
         {
-            try
+            List<Game> lstGame = new List<Game>();
+            using (connection)
             {
-                List<Game> lstGame = new List<Game>();
-                using (connect)
+                try
                 {
-                    using (OracleCommand cmd = connect.CreateCommand())
+                    connection.Open();
+                    OracleCommand cmd = connection.CreateCommand();
+                    cmd.BindByName = true;
+                    cmd.CommandText = "select * from games";
+                    OracleDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        connect.Open();
-                        cmd.BindByName = true;
-                        cmd.CommandText = "select * from games";
-                        OracleDataReader reader = cmd.ExecuteReader();
-                        while (reader.Read())
+                        Game game = new Game
                         {
-                            Game game = new Game();
-                            game.id = Convert.ToInt32(reader["idGame"]);
-                            game.Name = reader["Name"].ToString();
-                            //...
-                            lstGame.Add(game);
-                        }
-                        reader.Dispose();
-                        connect.Close();
+                            id = Convert.ToInt64(reader["idGame"]),
+                            Name = reader["Name"].ToString()
+                        };
+                        lstGame.Add(game);
                     }
                 }
-                return lstGame;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        public Game GetEntityData(long id)
-        {
-            try
-            {
-                Game game = new Game();
-                using (connect)
+                catch (DbException ex)
                 {
-                    using (OracleCommand cmd = connect.CreateCommand())
-                    {
-                        connect.Open();
-                        cmd.BindByName = true;
-                        cmd.CommandText = "select * from games where idGame = :id";
-                        cmd.Parameters.Add("id", game.id);
-                        OracleDataReader reader = cmd.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            game.id = Convert.ToInt32(reader["idGame"]);
-                            game.Name = reader["Name"].ToString();
-                            //...
-                        }
-                        reader.Dispose();
-                        connect.Close();
-                    }
-                    return game;
+                    Console.WriteLine("Exception.Message: {0}", ex.Message);
                 }
             }
-            catch
-            {
-                throw;
-            }
+            return lstGame;
         }
 
-        public bool UpdateEntity(Game game)
+        public Game GetData(long id)
+        {
+            Game game = new Game();
+            using (connection)
+            {
+                try
+                {
+                    connection.Open();
+                    OracleCommand cmd = connection.CreateCommand();
+                    cmd.BindByName = true;
+                    cmd.CommandText = "select * from games where idGame = :id";
+                    cmd.Parameters.Add("id", id);
+                    OracleDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        game.id = Convert.ToInt64(reader["idGame"]);
+                        game.Name = reader["Name"].ToString();
+                        //...
+                    }
+                }
+                catch (DbException ex)
+                {
+                    Console.WriteLine("Exception.Message: {0}", ex.Message);
+                }
+            }
+            return game;
+        }
+
+        public int Update(Game game)
         {
             int rowsUpdated = 0;
-            try
+            using (connection)
             {
-                using (connect)
+                try
                 {
-                    using (OracleCommand cmd = connect.CreateCommand())
-                    {
-                        cmd.CommandText = "update games set Name = :name, ... where idGame = :id";
-                        cmd.Parameters.Add("id", game.id);
-                        cmd.Parameters.Add("name", game.Name);
-                        //...
-                        connect.Open();
-                        rowsUpdated = cmd.ExecuteNonQuery();
-                        connect.Close();
-                    }
+                    connection.Open();
+                    OracleCommand cmd = connection.CreateCommand();
+                    cmd.CommandText = "update games set Name = :name, ... where idGame = :id";
+                    cmd.Parameters.Add("id", game.id);
+                    cmd.Parameters.Add("name", game.Name);
+                    //...
+                    connection.Open();
+                    rowsUpdated = cmd.ExecuteNonQuery();
                 }
-                return rowsUpdated > 0;
+                catch (DbException ex)
+                {
+                    Console.WriteLine("Exception.Message: {0}", ex.Message);
+                }
             }
-            catch
-            {
-                throw;
-            }
+            return rowsUpdated;
         }
-
     }
 }
+

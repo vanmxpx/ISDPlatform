@@ -16,31 +16,31 @@ namespace Cooper.Controllers
         [Route("api/Chat/Index")]
         public IEnumerable<Chat> Index()
         {
-            return objchat.GetAllEntities();
+            return objchat.GetAll();
         }
         [HttpPost]
         [Route("api/Chat/Create")]
-        public bool Create([FromBody] Chat chat)
+        public long Create([FromBody] Chat chat)
         {
-            return objchat.AddEntity(chat);
+            return objchat.Add(chat);
         }
         [HttpGet]
         [Route("api/Chat/Details/{id}")]
         public Chat Details(long id)
         {
-            return objchat.GetEntityData(id);
+            return objchat.GetData(id);
         }
         [HttpPut]
         [Route("api/Chat/Edit")]
-        public bool Edit([FromBody]Chat chat)
+        public int Edit([FromBody]Chat chat)
         {
-            return objchat.UpdateEntity(chat);
+            return objchat.Update(chat);
         }
         [HttpDelete]
         [Route("api/Chat/Delete/{id}")]
-        public bool Delete(long id)
+        public int Delete(long id)
         {
-            return objchat.DeleteEntity(id);
+            return objchat.Delete(id);
         }
     }
 }

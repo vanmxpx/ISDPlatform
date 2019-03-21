@@ -8,14 +8,14 @@ namespace Cooper.ORM
 {
     internal interface IORM <Entity>
     {
-        IEnumerable<Entity> GetAllEntities();
+        IEnumerable<Entity> GetAll();
 
-        bool AddEntity(Entity entity);
+        long Add(Entity entity);
 
-        bool UpdateEntity(Entity entity);
+        int Update(Entity entity);
 
-        Entity GetEntityData(long id);
+        Entity GetData(long id);
 
-        bool DeleteEntity(long id);
+        int Delete(long id);
     }
 }

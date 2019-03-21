@@ -16,31 +16,31 @@ namespace Cooper.Controllers
         [Route("api/Game/Index")]
         public IEnumerable<Game> Index()
         {
-            return objgame.GetAllEntities();
+            return objgame.GetAll();
         }
         [HttpPost]
         [Route("api/Game/Create")]
-        public bool Create([FromBody] Game game)
+        public long Create([FromBody] Game game)
         {
-            return objgame.AddEntity(game);
+            return objgame.Add(game);
         }
         [HttpGet]
         [Route("api/Game/Details/{id}")]
         public Game Details(long id)
         {
-            return objgame.GetEntityData(id);
+            return objgame.GetData(id);
         }
         [HttpPut]
         [Route("api/Game/Edit")]
-        public bool Edit([FromBody]Game game)
+        public int Edit([FromBody]Game game)
         {
-            return objgame.UpdateEntity(game);
+            return objgame.Update(game);
         }
         [HttpDelete]
         [Route("api/Game/Delete/{id}")]
-        public bool Delete(long id)
+        public int Delete(long id)
         {
-            return objgame.DeleteEntity(id);
+            return objgame.Delete(id);
         }
     }
 }

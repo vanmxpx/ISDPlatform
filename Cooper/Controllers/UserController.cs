@@ -16,31 +16,31 @@ namespace Cooper.Controllers
         [Route("api/User/Index")]
         public IEnumerable<User> Index()
         {
-            return objuser.GetAllEntities();
+            return objuser.GetAll();
         }
         [HttpPost]
         [Route("api/User/Create")]
-        public bool Create([FromBody] User user)
+        public long Create([FromBody] User user)
         {
-            return objuser.AddEntity(user);
+            return objuser.Add(user);
         }
         [HttpGet]
         [Route("api/User/Details/{id}")]
         public User Details(long id)
         {
-            return objuser.GetEntityData(id);
+            return objuser.GetData(id);
         }
         [HttpPut]
         [Route("api/User/Edit")]
-        public bool Edit([FromBody]User user)
+        public int Edit([FromBody]User user)
         {
-            return objuser.UpdateEntity(user);
+            return objuser.Update(user);
         }
         [HttpDelete]
         [Route("api/User/Delete/{id}")]
-        public bool Delete(long id)
+        public int Delete(long id)
         {
-            return objuser.DeleteEntity(id);
+            return objuser.Delete(id);
         }
     }
 }
