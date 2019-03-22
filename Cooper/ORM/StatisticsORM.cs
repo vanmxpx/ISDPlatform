@@ -21,7 +21,7 @@ namespace Cooper.ORM
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "insert into statistics (idGame, idUser, TimeSpent, RunsAmount, UserRecord) values(:idgame, :iduser, :time, :runs, :record) returning idStatistics into :id";
+                    cmd.CommandText = "insert into gamesstatistics (idGame, idUser, TimeSpent, RunsAmount, UserRecord) values(:idgame, :iduser, :time, :runs, :record) returning idStatistics into :id";
                     cmd.Parameters.Add("idgame", statistics.idGame);
                     cmd.Parameters.Add("iduser", statistics.idUser);
                     cmd.Parameters.Add("runs", statistics.TimeSpent);
@@ -53,7 +53,7 @@ namespace Cooper.ORM
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "delete from statisticss where idStatistics = :id";
+                    cmd.CommandText = "delete from gamesstatistics where idStatistics = :id";
                     cmd.Parameters.Add("id", id);
                     rowsDeleted = cmd.ExecuteNonQuery();
                 }
@@ -74,7 +74,7 @@ namespace Cooper.ORM
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "select * from statisticss";
+                    cmd.CommandText = "select * from gamesstatistics";
                     OracleDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
@@ -107,7 +107,7 @@ namespace Cooper.ORM
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "select * from statistics where idStatistics = :id";
+                    cmd.CommandText = "select * from gamesstatistics where idStatistics = :id";
                     cmd.Parameters.Add("id", id);
                     OracleDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -138,7 +138,7 @@ namespace Cooper.ORM
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "update statistics set TimeSpent = :time, RunsAmount = :runs, UserRecord = :record where idStatistics = :id";
+                    cmd.CommandText = "update gamesstatistics set TimeSpent = :time, RunsAmount = :runs, UserRecord = :record where idStatistics = :id";
                     cmd.Parameters.Add("time", statistics.TimeSpent);
                     cmd.Parameters.Add("runs", statistics.RunsAmount);
                     cmd.Parameters.Add("record", statistics.UserRecord);
