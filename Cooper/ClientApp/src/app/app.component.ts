@@ -15,7 +15,7 @@ export class AppComponent {
   constructor(private http : HttpClient){
   }
   search(){
-    this.http.get('https://localhost:5001/api/values'/*+this.userName*/).subscribe((response)=>{
+    this.http.get('http://localhost:58437/api/values'/*this.userName*/).subscribe((response) => {
       this.response=response;
       console.log(this.response);
     })
