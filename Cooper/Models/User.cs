@@ -19,5 +19,8 @@ namespace Cooper.Models
         public string platformLanguage { get; set; }
         public string platformTheme { get; set; }
         public List<Game> GamesList { get; set; }
+        public List<Chat> ChatsList { get; set; }
+        public List<Message> MessagesList { get; set; }
+        public List<Statistics> StatisticsList { get; set; }
     }
 }

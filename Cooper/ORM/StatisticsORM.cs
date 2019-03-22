@@ -7,12 +7,12 @@ using System.Data.Common;
 
 namespace Cooper.ORM
 {
-    public class ChatORM : IORM<Chat>
+    public class StatisticsORM : IORM<Statistics>
     {
         //private string connectionString = "Put Your Connection string here";
         private OracleConnection connection = DbConnecting.GetConnection();
 
-        public long Add(Chat chat)
+        public long Add(Statistics statistics)
         {
             long insertId = -1;
             using (connection)
@@ -21,8 +21,12 @@ namespace Cooper.ORM
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "insert into chats (chatName) values(:name) returning idChat into :id";
-                    cmd.Parameters.Add("name", chat.ChatName);
+                    cmd.CommandText = "insert into statistics (idGame, idUser, TimeSpent, RunsAmount, UserRecord) values(:idgame, :iduser, :time, :runs, :record) returning idStatistics into :id";
+                    cmd.Parameters.Add("idgame", statistics.idGame);
+                    cmd.Parameters.Add("iduser", statistics.idUser);
+                    cmd.Parameters.Add("runs", statistics.TimeSpent);
+                    cmd.Parameters.Add("runs", statistics.RunsAmount);
+                    cmd.Parameters.Add("record", statistics.UserRecord);
                     cmd.Parameters.Add(new OracleParameter
                     {
                         ParameterName = ":id",
@@ -49,7 +53,7 @@ namespace Cooper.ORM
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "delete from chats where idChat = :id";
+                    cmd.CommandText = "delete from statisticss where idStatistics = :id";
                     cmd.Parameters.Add("id", id);
                     rowsDeleted = cmd.ExecuteNonQuery();
                 }
@@ -61,26 +65,29 @@ namespace Cooper.ORM
             return rowsDeleted;
         }
 
-        public IEnumerable<Chat> GetAll()
+        public IEnumerable<Statistics> GetAll()
         {
-            List<Chat> lstChat = new List<Chat>();
+            List<Statistics> lstStatistics = new List<Statistics>();
             using (connection)
             {
                 try
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.BindByName = true;
-                    cmd.CommandText = "select * from chats";
+                    cmd.CommandText = "select * from statisticss";
                     OracleDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        Chat chat = new Chat
+                        Statistics statistics = new Statistics
                         {
-                            id = Convert.ToInt64(reader["idChat"]),
-                            ChatName = reader["chatName"].ToString()
+                            id = Convert.ToInt64(reader["idStatistics"]),
+                            idGame = Convert.ToInt64(reader["idGame"]),
+                            idUser = Convert.ToInt64(reader["idUser"]),
+                            TimeSpent = Convert.ToDecimal(reader["TimeSpent"]),
+                            RunsAmount = Convert.ToInt32(reader["RunsAmount"]),
+                            UserRecord = Convert.ToInt32(reader["UserRecord"])
                         };
-                        lstChat.Add(chat);
+                        lstStatistics.Add(statistics);
                     }
                 }
                 catch (DbException ex)
@@ -88,46 +95,41 @@ namespace Cooper.ORM
                     Console.WriteLine("Exception.Message: {0}", ex.Message);
                 }
             }
-            return lstChat;
+            return lstStatistics;
         }
 
-        public Chat GetData(long id)
+        public Statistics GetData(long id)
         {
-            Chat chat = new Chat();
+            Statistics statistics = new Statistics();
             using (connection)
             {
                 try
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.BindByName = true;
-                    /*cmd.CommandText = "select c.*, u.idUser from chats c, userschats uc, users u " +
-                        "where c.idChat = :id and ch.idChat = c.idChat and u.idUser = uc.idUser";*/
-                    cmd.CommandText = "select * from chats where idChat = :id";
+                    cmd.CommandText = "select * from statistics where idStatistics = :id";
                     cmd.Parameters.Add("id", id);
                     OracleDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        chat.id = Convert.ToInt64(reader["c.idChat"]);
-                        chat.ChatName = reader["c.chatName"].ToString();
-                        //...
-                        //chat.UsersList.Add(new UserORM().GetEntityData(Convert.ToInt64(reader["u.idUser"])));
+                        statistics.id = Convert.ToInt64(reader["idStatistics"]);
+                        statistics.idGame = Convert.ToInt64(reader["idGame"]);
+                        statistics.idUser = Convert.ToInt64(reader["idUser"]);
+                        statistics.TimeSpent = Convert.ToDecimal(reader["TimeSpent"]);
+                        statistics.RunsAmount = Convert.ToInt32(reader["RunsAmount"]);
+                        statistics.UserRecord = Convert.ToInt32(reader["UserRecord"]);
                     }
-                    //while (reader.Read())
-                    //{
-                    //    chat.UsersList.Add(new UserORM().GetEntityData(Convert.ToInt64(reader["u.idUser"])));
-                    //}
                 }
                 catch (DbException ex)
                 {
                     Console.WriteLine("Exception.Message: {0}", ex.Message);
                 }
             }
-            return chat;
+            return statistics;
         }
 
 
-        public int Update(Chat chat)
+        public int Update(Statistics statistics)
         {
             int rowsUpdated = -1;
             using (connection)
@@ -136,9 +138,11 @@ namespace Cooper.ORM
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "update chats set chatName = :name where idChat = :id";
-                    cmd.Parameters.Add("name", chat.ChatName);
-                    cmd.Parameters.Add("id", chat.id);
+                    cmd.CommandText = "update statistics set TimeSpent = :time, RunsAmount = :runs, UserRecord = :record where idStatistics = :id";
+                    cmd.Parameters.Add("time", statistics.TimeSpent);
+                    cmd.Parameters.Add("runs", statistics.RunsAmount);
+                    cmd.Parameters.Add("record", statistics.UserRecord);
+                    cmd.Parameters.Add("id", statistics.id);
                     rowsUpdated = cmd.ExecuteNonQuery();
                 }
                 catch (DbException ex)

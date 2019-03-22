@@ -7,12 +7,12 @@ using System.Data.Common;
 
 namespace Cooper.ORM
 {
-    public class ChatORM : IORM<Chat>
+    public class MessageORM : IORM<Message>
     {
         //private string connectionString = "Put Your Connection string here";
         private OracleConnection connection = DbConnecting.GetConnection();
 
-        public long Add(Chat chat)
+        public long Add(Message message)
         {
             long insertId = -1;
             using (connection)
@@ -21,8 +21,12 @@ namespace Cooper.ORM
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "insert into chats (chatName) values(:name) returning idChat into :id";
-                    cmd.Parameters.Add("name", chat.ChatName);
+                    cmd.CommandText = "insert into messages (idSender, idChat, Content, CreateDate, isRead) values(:iduser, :idchat, :content, :date, :isread) returning idMessage into :id";
+                    cmd.Parameters.Add("idchat", message.idChat);
+                    cmd.Parameters.Add("iduser", message.idUser);
+                    cmd.Parameters.Add("content", message.Content);
+                    cmd.Parameters.Add("date", message.CreateDate);
+                    cmd.Parameters.Add("isread", message.isRead);
                     cmd.Parameters.Add(new OracleParameter
                     {
                         ParameterName = ":id",
@@ -49,7 +53,7 @@ namespace Cooper.ORM
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "delete from chats where idChat = :id";
+                    cmd.CommandText = "delete from messages where idMessage = :id";
                     cmd.Parameters.Add("id", id);
                     rowsDeleted = cmd.ExecuteNonQuery();
                 }
@@ -61,26 +65,29 @@ namespace Cooper.ORM
             return rowsDeleted;
         }
 
-        public IEnumerable<Chat> GetAll()
+        public IEnumerable<Message> GetAll()
         {
-            List<Chat> lstChat = new List<Chat>();
+            List<Message> lstMessage = new List<Message>();
             using (connection)
             {
                 try
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.BindByName = true;
-                    cmd.CommandText = "select * from chats";
+                    cmd.CommandText = "select * from messages";
                     OracleDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        Chat chat = new Chat
+                        Message message = new Message
                         {
-                            id = Convert.ToInt64(reader["idChat"]),
-                            ChatName = reader["chatName"].ToString()
+                            id = Convert.ToInt64(reader["idMessage"]),
+                            idChat = Convert.ToInt64(reader["idChat"]),
+                            idUser = Convert.ToInt64(reader["idUser"]),
+                            Content = Convert.ToString(reader["Content"]),
+                            CreateDate = Convert.ToDateTime(reader["CreateDate"]),
+                            isRead = Convert.ToBoolean(reader["isRead"])
                         };
-                        lstChat.Add(chat);
+                        lstMessage.Add(message);
                     }
                 }
                 catch (DbException ex)
@@ -88,46 +95,41 @@ namespace Cooper.ORM
                     Console.WriteLine("Exception.Message: {0}", ex.Message);
                 }
             }
-            return lstChat;
+            return lstMessage;
         }
 
-        public Chat GetData(long id)
+        public Message GetData(long id)
         {
-            Chat chat = new Chat();
+            Message message = new Message();
             using (connection)
             {
                 try
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.BindByName = true;
-                    /*cmd.CommandText = "select c.*, u.idUser from chats c, userschats uc, users u " +
-                        "where c.idChat = :id and ch.idChat = c.idChat and u.idUser = uc.idUser";*/
-                    cmd.CommandText = "select * from chats where idChat = :id";
+                    cmd.CommandText = "select * from messages where idMessage = :id";
                     cmd.Parameters.Add("id", id);
                     OracleDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        chat.id = Convert.ToInt64(reader["c.idChat"]);
-                        chat.ChatName = reader["c.chatName"].ToString();
-                        //...
-                        //chat.UsersList.Add(new UserORM().GetEntityData(Convert.ToInt64(reader["u.idUser"])));
+                        message.id = Convert.ToInt64(reader["idMessage"]);
+                        message.idChat = Convert.ToInt64(reader["idChat"]);
+                        message.idUser = Convert.ToInt64(reader["idUser"]);
+                        message.Content = Convert.ToString(reader["Content"]);
+                        message.CreateDate = Convert.ToDateTime(reader["CreateDate"]);
+                        message.isRead = Convert.ToBoolean(reader["isRead"]);
                     }
-                    //while (reader.Read())
-                    //{
-                    //    chat.UsersList.Add(new UserORM().GetEntityData(Convert.ToInt64(reader["u.idUser"])));
-                    //}
                 }
                 catch (DbException ex)
                 {
                     Console.WriteLine("Exception.Message: {0}", ex.Message);
                 }
             }
-            return chat;
+            return message;
         }
 
 
-        public int Update(Chat chat)
+        public int Update(Message message)
         {
             int rowsUpdated = -1;
             using (connection)
@@ -136,9 +138,11 @@ namespace Cooper.ORM
                 {
                     connection.Open();
                     OracleCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "update chats set chatName = :name where idChat = :id";
-                    cmd.Parameters.Add("name", chat.ChatName);
-                    cmd.Parameters.Add("id", chat.id);
+                    cmd.CommandText = "update messages set Content = :content, CreateDate = :date, isRead = :isread where idMessage = :id";
+                    cmd.Parameters.Add("content", message.Content);
+                    cmd.Parameters.Add("date", message.CreateDate);
+                    cmd.Parameters.Add("isread", message.isRead);
+                    cmd.Parameters.Add("id", message.id);
                     rowsUpdated = cmd.ExecuteNonQuery();
                 }
                 catch (DbException ex)

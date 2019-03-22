@@ -44,7 +44,7 @@ namespace Cooper.ORM
 
         public int Delete(long id)
         {
-            int rowsDeleted = 0;
+            int rowsDeleted = -1;
             using (connection)
             {
                 try
@@ -111,14 +111,14 @@ namespace Cooper.ORM
                     OracleDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        user.id = Convert.ToInt32(reader["u.idUser"]);
+                        user.id = Convert.ToInt64(reader["u.idUser"]);
                         user.Name = reader["u.Name"].ToString();
                         //...
-                        //user.GamesList.Add(new GameORM().GetEntityData(Convert.ToInt32(reader["g.idGame"])));
+                        //user.GamesList.Add(new GameORM().GetEntityData(Convert.ToInt64(reader["g.idGame"])));
                     }
                     //while (reader.Read())
                     //{
-                    //    user.GamesList.Add(new GameORM().GetEntityData(Convert.ToInt32(reader["g.idGame"])));
+                    //    user.GamesList.Add(new GameORM().GetEntityData(Convert.ToInt64(reader["g.idGame"])));
                     //}
                 }
                 catch (DbException ex)
@@ -131,7 +131,7 @@ namespace Cooper.ORM
 
         public int Update(User user)
         {
-            int rowsUpdated = 0;
+            int rowsUpdated = -1;
             using (connection)
             {
                 try

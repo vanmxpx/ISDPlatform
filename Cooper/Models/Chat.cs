@@ -9,5 +9,6 @@ namespace Cooper.Models
     {
         public string ChatName { get; set; }
         public List<User> UsersList { get; set; }
+        public List<Message> MessagesList { get; set; }
     }
 }

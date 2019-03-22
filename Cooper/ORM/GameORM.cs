@@ -43,7 +43,7 @@ namespace Cooper.ORM
 
         public int Delete(long id)
         {
-            int rowsDeleted = 0;
+            int rowsDeleted = -1;
             using (connection)
             {
                 try
@@ -122,7 +122,7 @@ namespace Cooper.ORM
 
         public int Update(Game game)
         {
-            int rowsUpdated = 0;
+            int rowsUpdated = -1;
             using (connection)
             {
                 try
