@@ -9,18 +9,20 @@ namespace Cooper.ORM
 {
     public class GameORM : IORM<Game>
     {
-        //private string connectionString = "Put Your Connection string here";
-        private OracleConnection connection = DbConnecting.GetConnection();
+        //private string ConnectionString = "Put Your Connection string here";
+        //private OracleConnection Connection = DbConnect.GetConnection();
+        private static DbConnect connect = DbConnect.getInstance();
+        public OracleConnection Connection { get; set; } = connect.GetConnection();
 
         public long Add(Game game)
         {
             long insertId = -1;
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "insert into games (Name, ... ) values(:name, ...) returning idGame into :id";
                     cmd.Parameters.Add("name", game.Name);
                     //...
@@ -44,12 +46,12 @@ namespace Cooper.ORM
         public int Delete(long id)
         {
             int rowsDeleted = -1;
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "delete from games where idGame = :id";
                     cmd.Parameters.Add("id", id);
                     rowsDeleted = cmd.ExecuteNonQuery();
@@ -65,42 +67,43 @@ namespace Cooper.ORM
         public IEnumerable<Game> GetAll()
         {
             List<Game> lstGame = new List<Game>();
-            using (connection)
+            //using (Connection)
+            //{
+            try
             {
-                try
+                Connection.Open();
+                OracleCommand cmd = Connection.CreateCommand();
+                cmd.BindByName = true;
+                cmd.CommandText = "select * from games";
+                OracleDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
-                    cmd.BindByName = true;
-                    cmd.CommandText = "select * from games";
-                    OracleDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
+                    Game game = new Game
                     {
-                        Game game = new Game
-                        {
-                            id = Convert.ToInt64(reader["idGame"]),
-                            Name = reader["Name"].ToString()
-                        };
-                        lstGame.Add(game);
-                    }
-                }
-                catch (DbException ex)
-                {
-                    Console.WriteLine("Exception.Message: {0}", ex.Message);
+                        id = Convert.ToInt64(reader["idGame"]),
+                        Name = reader["Name"].ToString()
+                    };
+                    lstGame.Add(game);
                 }
             }
+            catch (DbException ex)
+            {
+                Console.WriteLine("Exception.Message: {0}", ex.Message);
+            }
+            DbConnect.CloseConnection();
+            //}
             return lstGame;
         }
 
         public Game GetData(long id)
         {
             Game game = new Game();
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.BindByName = true;
                     cmd.CommandText = "select * from games where idGame = :id";
                     cmd.Parameters.Add("id", id);
@@ -123,17 +126,17 @@ namespace Cooper.ORM
         public int Update(Game game)
         {
             int rowsUpdated = -1;
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "update games set Name = :name, ... where idGame = :id";
                     cmd.Parameters.Add("id", game.id);
                     cmd.Parameters.Add("name", game.Name);
                     //...
-                    connection.Open();
+                    Connection.Open();
                     rowsUpdated = cmd.ExecuteNonQuery();
                 }
                 catch (DbException ex)

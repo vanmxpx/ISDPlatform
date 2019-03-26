@@ -10,17 +10,19 @@ namespace Cooper.ORM
     public class MessageORM : IORM<Message>
     {
         //private string connectionString = "Put Your Connection string here";
-        private OracleConnection connection = DbConnecting.GetConnection();
+        //private OracleConnection connection = DbConnect.GetConnection();
+        static DbConnect connect = DbConnect.getInstance();
+        public OracleConnection Connection { get; set; } = connect.GetConnection();
 
         public long Add(Message message)
         {
             long insertId = -1;
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "insert into messages (idSender, idChat, Content, CreateDate, isRead) values(:iduser, :idchat, :content, :date, :isread) returning idMessage into :id";
                     cmd.Parameters.Add("idchat", message.idChat);
                     cmd.Parameters.Add("iduser", message.idUser);
@@ -47,12 +49,12 @@ namespace Cooper.ORM
         public int Delete(long id)
         {
             int rowsDeleted = -1;
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "delete from messages where idMessage = :id";
                     cmd.Parameters.Add("id", id);
                     rowsDeleted = cmd.ExecuteNonQuery();
@@ -68,12 +70,12 @@ namespace Cooper.ORM
         public IEnumerable<Message> GetAll()
         {
             List<Message> lstMessage = new List<Message>();
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "select * from messages";
                     OracleDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -101,12 +103,12 @@ namespace Cooper.ORM
         public Message GetData(long id)
         {
             Message message = new Message();
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "select * from messages where idMessage = :id";
                     cmd.Parameters.Add("id", id);
                     OracleDataReader reader = cmd.ExecuteReader();
@@ -132,12 +134,12 @@ namespace Cooper.ORM
         public int Update(Message message)
         {
             int rowsUpdated = -1;
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "update messages set Content = :content, CreateDate = :date, isRead = :isread where idMessage = :id";
                     cmd.Parameters.Add("content", message.Content);
                     cmd.Parameters.Add("date", message.CreateDate);

@@ -10,17 +10,19 @@ namespace Cooper.ORM
     public class StatisticsORM : IORM<Statistics>
     {
         //private string connectionString = "Put Your Connection string here";
-        private OracleConnection connection = DbConnecting.GetConnection();
+        //private OracleConnection Connection = DbConnect.GetConnection();
+        static DbConnect connect = DbConnect.getInstance();
+        public OracleConnection Connection { get; set; } = connect.GetConnection();
 
         public long Add(Statistics statistics)
         {
             long insertId = -1;
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "insert into gamesstatistics (idGame, idUser, TimeSpent, RunsAmount, UserRecord) " +
                         "values(:idgame, :iduser, :time, :runs, :record) returning idStatistics into :id";
                     cmd.Parameters.Add("idgame", statistics.idGame);
@@ -48,12 +50,12 @@ namespace Cooper.ORM
         public int Delete(long id)
         {
             int rowsDeleted = -1;
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "delete from gamesstatistics where idStatistics = :id";
                     cmd.Parameters.Add("id", id);
                     rowsDeleted = cmd.ExecuteNonQuery();
@@ -69,12 +71,12 @@ namespace Cooper.ORM
         public IEnumerable<Statistics> GetAll()
         {
             List<Statistics> lstStatistics = new List<Statistics>();
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "select * from gamesstatistics";
                     OracleDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -102,12 +104,12 @@ namespace Cooper.ORM
         public Statistics GetData(long id)
         {
             Statistics statistics = new Statistics();
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "select * from gamesstatistics where idStatistics = :id";
                     cmd.Parameters.Add("id", id);
                     OracleDataReader reader = cmd.ExecuteReader();
@@ -133,12 +135,12 @@ namespace Cooper.ORM
         public int Update(Statistics statistics)
         {
             int rowsUpdated = -1;
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "update gamesstatistics set TimeSpent = :time, RunsAmount = :runs, UserRecord = :record " +
                         "where idStatistics = :id";
                     cmd.Parameters.Add("time", statistics.TimeSpent);

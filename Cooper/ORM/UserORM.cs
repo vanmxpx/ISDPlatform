@@ -9,18 +9,20 @@ namespace Cooper.ORM
 {
     public class UserORM : IORM<User>
     {
-        //private string connectionString = "Put Your Connection string here";
-        private OracleConnection connection = DbConnecting.GetConnection();
+        //private string ConnectionString = "Put Your Connection string here";
+        //private OracleConnection Connection = DbConnect.GetConnection();
+        static DbConnect connect = DbConnect.getInstance();
+        public OracleConnection Connection { get; set; } = connect.GetConnection();
 
         public long Add(User user)
         {
             long insertId = -1;
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "insert into users (Name, ...) values(:name, ...) returning idUser into :id";
                     cmd.Parameters.Add("name", user.Name);
                     //...
@@ -30,7 +32,7 @@ namespace Cooper.ORM
                         OracleDbType = OracleDbType.Long,
                         Direction = ParameterDirection.Output
                     });
-                    connection.Open();
+                    Connection.Open();
                     cmd.ExecuteNonQuery();
                     insertId = Convert.ToInt64(cmd.Parameters[":id"].Value);
                 }
@@ -45,12 +47,12 @@ namespace Cooper.ORM
         public int Delete(long id)
         {
             int rowsDeleted = -1;
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "delete from users where idUser = :id";
                     cmd.Parameters.Add("id", id);
                     rowsDeleted = cmd.ExecuteNonQuery();
@@ -66,12 +68,12 @@ namespace Cooper.ORM
         public IEnumerable<User> GetAll()
         {
             List<User> lstUser = new List<User>();
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.BindByName = true;
                     cmd.CommandText = "select * from users";
                     OracleDataReader reader = cmd.ExecuteReader();
@@ -97,12 +99,12 @@ namespace Cooper.ORM
         public User GetData(long id)
         {
             User user = new User();
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.BindByName = true;
                     //cmd.CommandText = "select u.*, g.idGame from users u, usersgames ug, games g " +
                     //    "where u.idUser = :id and ug.idUser = ug.idUser and g.idGame = ug.idGame";
@@ -132,17 +134,17 @@ namespace Cooper.ORM
         public int Update(User user)
         {
             int rowsUpdated = -1;
-            using (connection)
+            using (Connection)
             {
                 try
                 {
-                    connection.Open();
-                    OracleCommand cmd = connection.CreateCommand();
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
                     cmd.CommandText = "update users set Name = :name, ... where idUser = :id";
                     cmd.Parameters.Add("id", user.id);
                     cmd.Parameters.Add("name", user.Name);
                     //...
-                    connection.Open();
+                    Connection.Open();
                     rowsUpdated = cmd.ExecuteNonQuery();
                 }
                 catch (DbException ex)

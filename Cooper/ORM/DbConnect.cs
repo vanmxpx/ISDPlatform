@@ -1,35 +1,36 @@
 ﻿using Oracle.ManagedDataAccess.Client;
+using System;
 
 namespace Cooper.ORM
 {
 
-    public class DbConnecting
+    public class DbConnect// : IDisposable
     {
-        private static DbConnecting instance;
+        private static DbConnect instance;
 
         private static string connectionString = "User Id=system;Password=QAZse4321;Data Source=localhost:1521/xe;";
         private static OracleConnection connection;
 
-        private DbConnecting()
+        private DbConnect()
         {
             connection = new OracleConnection(connectionString);
         }
 
-        public static DbConnecting getInstance()
+        public static DbConnect getInstance()
         {
             if (instance == null)
             {
-                instance = new DbConnecting();
+                instance = new DbConnect();
             }
             return instance;
         }
 
-        public static OracleConnection GetConnection()
+        public OracleConnection GetConnection()
         {
             return connection;
         }
 
-        public void CloseConnection()
+        public static void CloseConnection()
         {
             connection.Close();
         }
@@ -38,6 +39,10 @@ namespace Cooper.ORM
             connection.Open();
         }
 
+        //public void Dispose()
+        //{
+        //    connection.Dispose();
+        //}
     }
 
 }
