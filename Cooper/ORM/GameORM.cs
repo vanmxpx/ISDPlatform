@@ -10,9 +10,9 @@ namespace Cooper.ORM
     public class GameORM : IORM<Game>
     {
         //private string ConnectionString = "Put Your Connection string here";
-        //private OracleConnection Connection = DbConnect.GetConnection();
-        private static DbConnect connect = DbConnect.getInstance();
-        public OracleConnection Connection { get; set; } = connect.GetConnection();
+        private OracleConnection Connection = DbConnecting.GetConnection();
+        //private static DbConnecting connect = DbConnecting.getInstance();
+        //public OracleConnection Connection { get; set; } = connect.GetConnection();
 
         public long Add(Game game)
         {
@@ -67,31 +67,31 @@ namespace Cooper.ORM
         public IEnumerable<Game> GetAll()
         {
             List<Game> lstGame = new List<Game>();
-            //using (Connection)
-            //{
-            try
+            using (Connection)
             {
-                Connection.Open();
-                OracleCommand cmd = Connection.CreateCommand();
-                cmd.BindByName = true;
-                cmd.CommandText = "select * from games";
-                OracleDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                try
                 {
-                    Game game = new Game
+                    Connection.Open();
+                    OracleCommand cmd = Connection.CreateCommand();
+                    cmd.BindByName = true;
+                    cmd.CommandText = "select * from games";
+                    OracleDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        id = Convert.ToInt64(reader["idGame"]),
-                        Name = reader["Name"].ToString()
-                    };
-                    lstGame.Add(game);
+                        Game game = new Game
+                        {
+                            id = Convert.ToInt64(reader["idGame"]),
+                            Name = reader["Name"].ToString()
+                        };
+                        lstGame.Add(game);
+                    }
                 }
+                catch (DbException ex)
+                {
+                    Console.WriteLine("Exception.Message: {0}", ex.Message);
+                }
+                //DbConnecting.CloseConnection();
             }
-            catch (DbException ex)
-            {
-                Console.WriteLine("Exception.Message: {0}", ex.Message);
-            }
-            DbConnect.CloseConnection();
-            //}
             return lstGame;
         }
 

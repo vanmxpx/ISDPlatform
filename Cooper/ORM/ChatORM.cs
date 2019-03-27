@@ -10,38 +10,39 @@ namespace Cooper.ORM
     public class ChatORM : IORM<Chat>
     {
         //private string connectionString = "Put Your Connection string here";
-        private static DbConnect connect = DbConnect.getInstance();
-        public OracleConnection Connection { get; set; } = connect.GetConnection();
+        private OracleConnection Connection = DbConnecting.GetConnection();
+        //private static DbConnecting connect = DbConnecting.getInstance();
+        //public OracleConnection Connection { get; set; } = connect.GetConnection();
 
         public long Add(Chat chat)
         {
             long insertId = -1;
             //using (connect)
             //{
-            //using (Connection)
-            //{
-            try
+            using (Connection)
             {
-                //connection.Open();
-                DbConnect.OpenConnection();
-                OracleCommand cmd = Connection.CreateCommand();
-                cmd.CommandText = "insert into chats (chatName) values(:name) returning idChat into :id";
-                cmd.Parameters.Add("name", chat.ChatName);
-                cmd.Parameters.Add(new OracleParameter
+                try
                 {
-                    ParameterName = ":id",
-                    OracleDbType = OracleDbType.Long,
-                    Direction = ParameterDirection.Output
-                });
-                cmd.ExecuteNonQuery();
-                insertId = Convert.ToInt64(cmd.Parameters[":id"].Value);
+                    Connection.Open();
+                    //DbConnecting.OpenConnection();
+                    OracleCommand cmd = Connection.CreateCommand();
+                    cmd.CommandText = "insert into chats (chatName) values(:name) returning idChat into :id";
+                    cmd.Parameters.Add("name", chat.ChatName);
+                    cmd.Parameters.Add(new OracleParameter
+                    {
+                        ParameterName = ":id",
+                        OracleDbType = OracleDbType.Long,
+                        Direction = ParameterDirection.Output
+                    });
+                    cmd.ExecuteNonQuery();
+                    insertId = Convert.ToInt64(cmd.Parameters[":id"].Value);
+                }
+                catch (DbException ex)
+                {
+                    Console.WriteLine("Exception.Message: {0}", ex.Message);
+                }
+                //DbConnecting.CloseConnection();
             }
-            catch (DbException ex)
-            {
-                Console.WriteLine("Exception.Message: {0}", ex.Message);
-            }
-            DbConnect.CloseConnection();
-            //}
             //}
 
             return insertId;
@@ -77,8 +78,8 @@ namespace Cooper.ORM
             {
                 try
                 {
-                    DbConnect.OpenConnection();
-                    //connection.Open();
+                    //DbConnecting.OpenConnection();
+                    Connection.Open();
                     OracleCommand cmd = Connection.CreateCommand();
                     cmd.BindByName = true;
                     cmd.CommandText = "select * from chats";

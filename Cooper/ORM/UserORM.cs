@@ -10,9 +10,9 @@ namespace Cooper.ORM
     public class UserORM : IORM<User>
     {
         //private string ConnectionString = "Put Your Connection string here";
-        //private OracleConnection Connection = DbConnect.GetConnection();
-        static DbConnect connect = DbConnect.getInstance();
-        public OracleConnection Connection { get; set; } = connect.GetConnection();
+        private OracleConnection Connection = DbConnecting.GetConnection();
+        //static DbConnect connect = DbConnect.getInstance();
+        //public OracleConnection Connection { get; set; } = connect.GetConnection();
 
         public long Add(User user)
         {

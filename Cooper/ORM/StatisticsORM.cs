@@ -10,9 +10,9 @@ namespace Cooper.ORM
     public class StatisticsORM : IORM<Statistics>
     {
         //private string connectionString = "Put Your Connection string here";
-        //private OracleConnection Connection = DbConnect.GetConnection();
-        static DbConnect connect = DbConnect.getInstance();
-        public OracleConnection Connection { get; set; } = connect.GetConnection();
+        private OracleConnection Connection = DbConnecting.GetConnection();
+        //static DbConnect connect = DbConnect.getInstance();
+        //public OracleConnection Connection { get; set; } = connect.GetConnection();
 
         public long Add(Statistics statistics)
         {
