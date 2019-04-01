@@ -5,6 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Oracle.ManagedDataAccess;
+using Cooper.Controllers;
+using AutoMapper;
+using Cooper.Models;
+using Cooper.DAO.Models;
+
 
 namespace Cooper
 {
@@ -13,6 +19,7 @@ namespace Cooper
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            
         }
 
         public IConfiguration Configuration { get; }
@@ -20,7 +27,8 @@ namespace Cooper
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -52,6 +60,15 @@ namespace Cooper
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
+            });
+
+
+            // Initializing mapper
+            Mapper.Initialize(cfg => {
+                cfg.CreateMap<UserDb, User>();
+                cfg.CreateMap<User, UserDb>();
+                cfg.CreateMap<GameDb, Game>();
+                cfg.CreateMap<Game, GameDb>();
             });
 
             app.UseSpa(spa =>
