@@ -7,6 +7,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Oracle.ManagedDataAccess.Client;
+using Cooper.Controllers;
 
 namespace Cooper
 {
@@ -14,6 +16,8 @@ namespace Cooper
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine("Starting.\r\n"); 
+
             CreateWebHostBuilder(args).Build().Run();
         }
 

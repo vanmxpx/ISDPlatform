@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooper.Models
+namespace Cooper.DAO.Models
 {
-    public class Chat : Entity
+    public class ChatDb : EntityDb
     {
         #region Main attributes
+
         public string ChatName { get; set; }
+
         #endregion
 
         #region Interop attributes
 
-        public List<User> UsersList { get; set; }
-        public List<Message> MessagesList { get; set; }
+        public List<long> UsersList { get; set; }
+        public List<long> MessagesList { get; set; }
 
         #endregion
     }

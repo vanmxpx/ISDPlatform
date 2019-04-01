@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace Cooper.Models
 {
-    public class Chat : Entity
+    public class UserConnection : Entity
     {
         #region Main attributes
-        public string ChatName { get; set; }
+
+        public bool AreFriends { get; set; }
+        public bool BlackListed { get; set; }
+
         #endregion
 
         #region Interop attributes
 
-        public List<User> UsersList { get; set; }
-        public List<Message> MessagesList { get; set; }
+        public User User1 { get; set; }
+        public User User2 { get; set; }
 
         #endregion
     }
