@@ -38,7 +38,7 @@ namespace Cooper.DAO
 
         public GameDb Get(long id)
         {
-            EntityORM entity = crud.Read(id, table, idColumn, attributes);
+            EntityORM entity = crud.Read(id, idColumn, attributes, table);
 
             EntityMapping.Map(entity, out GameDb game);
 

@@ -56,13 +56,13 @@ namespace Cooper.ORM
             return insertId;
         }
 
-        public EntityORM Read(long id, string table, string idColumn, HashSet<string> attributes)
+        public EntityORM Read(object attribute_value, string attribute_name, HashSet<string> attributes, string table)
         {
             EntityORM entity = new EntityORM();
 
             try
             {
-                string sqlExpression = $"SELECT * from {table} where {idColumn} = {id}";
+                string sqlExpression = $"SELECT * from {table} where {attribute_name} = {attribute_value}";
 
                 Connection.Open();
                 OracleCommand command = new OracleCommand(sqlExpression, Connection);
