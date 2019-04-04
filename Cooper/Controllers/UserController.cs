@@ -12,7 +12,6 @@ using AutoMapper;
 namespace Cooper.Controllers
 {
     [Route("api/users")]
-    [ApiController]
     public class UserController : ControllerBase
     {
         UserRepository userRepository;

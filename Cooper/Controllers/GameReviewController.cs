@@ -10,7 +10,6 @@ using Cooper.Models;
 namespace Cooper.Controllers
 {
     [Route("api/game/reviews")]
-    [ApiController]
     public class GameReviewController : ControllerBase
     {
         // GET: api/<controller>
