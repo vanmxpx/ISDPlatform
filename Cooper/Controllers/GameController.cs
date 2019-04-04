@@ -11,7 +11,6 @@ using Cooper.Repository;
 namespace Cooper.Controllers
 {
     [Route("api/games")]
-    [ApiController]
     public class GameController : ControllerBase
     {
         IRepository<Game> gameRepository;
