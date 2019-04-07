@@ -22,7 +22,7 @@ namespace Cooper
                 Console.WriteLine("Connected to:" + _db.ServerVersion);
                 Console.WriteLine(_db.ConnectionString);
                 Console.WriteLine("\r\nDone. Press key for exit");
-                Console.ReadKey();
+
             }
             LogManager.Configuration = config;
             CreateWebHostBuilder(args).Build().Run();
