@@ -1,10 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Oracle.ManagedDataAccess.Client;
+using Cooper.Controllers;
+using NLog;
+using NLog.Targets;
+using NLog.Config;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Oracle.ManagedDataAccess.Client;
@@ -17,7 +18,6 @@ namespace Cooper
         public static void Main(string[] args)
         {
             Console.WriteLine("Starting.\r\n"); 
-
             CreateWebHostBuilder(args).Build().Run();
         }
 

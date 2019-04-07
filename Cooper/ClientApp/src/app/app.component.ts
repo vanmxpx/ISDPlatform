@@ -1,10 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { MatInputModule} from '@angular/material';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+ templateUrl: './app.component.html',
+ styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  userName: string = "";
+  password: string = "";
+  response: any;
+
+  constructor(private http : HttpClient){
+  }
 }

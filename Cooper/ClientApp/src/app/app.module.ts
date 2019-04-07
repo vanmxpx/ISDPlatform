@@ -1,34 +1,49 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-
+import { Routes, RouterModule } from '@angular/router';
+import {HttpClientModule} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { HttpClient } from 'selenium-webdriver/http';
+import { FirstServiceService } from './first-service.service';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule, MatButtonModule} from '@angular/material';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatTableModule} from '@angular/material/table';
+
+const appRoutes : Routes = [
+  {path: '', redirectTo : '/signIn', pathMatch: 'full'},
+  {path: 'signIn', component: SignInComponent},
+  {path: 'signUp', component: SignUpComponent}
+]
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent
+    SignInComponent,
+    SignUpComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule,
+    AppRoutingModule,
+    RouterModule.forRoot(appRoutes),
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-    ])
+    BrowserAnimationsModule, 
+    MatInputModule,
+    MatFormFieldModule,
+    MatTableModule,
+    MatButtonModule 
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [FirstServiceService],
+  bootstrap: [AppComponent,
+  SignInComponent,
+SignUpComponent]
 })
 export class AppModule { }
+export class PizzaPartyAppModule { }
+export class InputOverviewExample {}
