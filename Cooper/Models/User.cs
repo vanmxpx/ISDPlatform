@@ -34,5 +34,7 @@ namespace Cooper.Models
         
         #endregion 
 
+        public string Token { get; set; }
+
     }
 }
