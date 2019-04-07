@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,8 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Oracle.ManagedDataAccess;
 using Cooper.Controllers;
+using Microsoft.IdentityModel.Tokens;
 using AutoMapper;
 using Cooper.Models;
 using Cooper.DAO.Models;
@@ -19,7 +22,7 @@ namespace Cooper
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            
+
         }
 
         public IConfiguration Configuration { get; }
@@ -29,6 +32,29 @@ namespace Cooper
         {
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            #region Adding Authentification
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)              // register JWT Authentification middleware
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    // tuning parameters for validating JWT
+
+                    ValidateIssuer = true,              // проверка издателя токена - истина если издатель токена действительно наш сервер
+                    ValidateAudience = true,            // проверка того, что получатель информации по токену верный (он есть в БД)
+                    ValidateLifetime = true,            // проверка того, что токен не истек по времени его жизни
+                    ValidateIssuerSigningKey = true,    // ключ подписи валидный (совпадает с ключом подписи сервера)
+
+                    // providing values for issuer, audience, signingKey (Need for a separate class)
+                    ValidIssuer = "http://localhost:50613/",      // издатель должен находится по этому адресу
+                    ValidAudience = "http://localhost:50613/",    // получатель должен находится по этому адресу
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))   // конфигурация ключа подписи
+                };
+            });
+
+            #endregion
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
