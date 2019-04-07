@@ -21,7 +21,7 @@ namespace Cooper.DAO
         private string table;
         private string idColumn;
         private HashSet<string> attributes;
-
+        private HashSet<string> unique_attributes;
 
         public UserDAO()
         {
@@ -32,11 +32,17 @@ namespace Cooper.DAO
 
             table = "USERS";
             idColumn = "ID";
+
             attributes = new HashSet<string>()
             {
                 "ID", "NAME", "NICKNAME", "EMAIL", "PASSWORD", "PHOTOURL",
                 "ISVERIFIED", "ISCREATOR", "ISBANNED", "ENDBANDATE",
                 "PLATFORMLANGUAGE", "PLATFORMTHEME"
+            };
+
+            unique_attributes = new HashSet<string>()
+            {
+                "ID", "NICKNAME", "EMAIL"
             };
         }
 
@@ -44,9 +50,42 @@ namespace Cooper.DAO
 
         public UserDb Get(long id)
         {
-            EntityORM entity = crud.Read(id, table, idColumn, attributes);            
+            string attribute = "ID";
 
-            EntityMapping.Map(entity, out UserDb user);
+            return GetByUniqueAttribute(id, attribute);
+        }
+
+        public UserDb GetByNickname(string nickname)
+        {
+            string attribute = "NICKNAME";
+
+            nickname = $"\'{nickname}\'";       // tuning string for sql query
+            
+            return GetByUniqueAttribute(nickname, attribute);
+        }
+
+        public UserDb GetByEmail(string email)
+        {
+            string attribute = "EMAIL";
+            
+            email = $"\'{email}\'";       // tuning string for sql query
+
+            return GetByUniqueAttribute(email, attribute);
+        }
+
+        public UserDb GetByUniqueAttribute(object attribute_value, string attribute_name)
+        {
+            UserDb user = null;
+
+            if (!unique_attributes.Contains(attribute_name))
+            {
+                logger.Info($"{attribute_name} is not unique attribute. GET-method failed..");
+                return user;
+            }
+
+            EntityORM entity = crud.Read(attribute_value, attribute_name, attributes, table);
+
+            EntityMapping.Map(entity, out user);
 
             return user;
         }
@@ -54,108 +93,8 @@ namespace Cooper.DAO
         public UserDb GetExtended(long id)
         {
             UserDb user = Get(id);
-            
+
             user.ConnectionsList = GetConnectionsList(id);
-
-            return user;
-        }
-
-        public UserDb GetByNickname(string nickname)
-        {
-
-            #region Forming sql expression
-
-            string sqlExpression = $"SELECT * from {table} where nickname = '{nickname}'";
-
-            #endregion
-
-            #region Getting info
-
-
-            EntityORM entity = new EntityORM();
-
-            try
-            {
-                Connection.Open();
-
-                OracleCommand command = new OracleCommand(sqlExpression, Connection);
-
-                OracleDataReader reader = command.ExecuteReader();
-
-                reader.Read();
-
-                foreach (string attribute in attributes)
-                {
-                    object value = reader[attribute];
-                    entity.attributeValue.Add(attribute, value);
-                }
-
-            }
-            catch(Exception ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                Connection.Close();
-            }
-            #endregion
-
-            #region Mapping
-
-            EntityMapping.Map(entity, out UserDb user);
-            
-            #endregion
-
-            return user;
-        }
-
-        public UserDb GetByEmail(string email)
-        {
-
-            #region Forming sql expression
-
-            string sqlExpression = $"SELECT * from {table} where email = '{email}'";
-
-            #endregion
-
-            #region Getting info
-
-
-            EntityORM entity = new EntityORM();
-
-            try
-            {
-                Connection.Open();
-
-                OracleCommand command = new OracleCommand(sqlExpression, Connection);
-
-                OracleDataReader reader = command.ExecuteReader();
-
-                reader.Read();
-
-                foreach (string attribute in attributes)
-                {
-                    object value = reader[attribute];
-                    entity.attributeValue.Add(attribute, value);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                Connection.Close();
-            }
-            #endregion
-
-            #region Mapping
-
-            EntityMapping.Map(entity, out UserDb user);
-
-            #endregion
 
             return user;
         }

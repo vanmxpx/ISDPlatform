@@ -11,7 +11,7 @@ using AutoMapper;
 using Cooper.Models;
 using Cooper.DAO.Models;
 
-
+[assembly: ApiController]
 namespace Cooper
 {
     public class Startup
@@ -28,7 +28,7 @@ namespace Cooper
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

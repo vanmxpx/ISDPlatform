@@ -10,7 +10,7 @@ namespace Cooper.ORM
         
         long Create(string table, string idColumn, EntityORM attributeValue);
 
-        EntityORM Read(long id, string table, string idColumn, HashSet<string> attributes);
+        EntityORM Read(object attribute_value, string attribute_name, HashSet<string> attributes, string table);
 
         IEnumerable<EntityORM> ReadAll(string table, HashSet<string> attributes);
 
