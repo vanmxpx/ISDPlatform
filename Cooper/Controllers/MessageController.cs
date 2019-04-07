@@ -10,7 +10,6 @@ using Cooper.Models;
 namespace Cooper.Controllers
 {
     [Route("api/chat/messages")]
-    [ApiController]
     public class MessageController : ControllerBase
     {
         // GET: api/<controller>
