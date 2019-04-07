@@ -1,0 +1,25 @@
+<h1 class = "headText">Sign Up</h1>
+<div class="personalDataForm">
+    <mat-form-field>
+      <input matInput placeholder="Enter your email" [(ngModel)]="userName" type = "email"/>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Enter your username" [(ngModel)]="nick"/>
+      </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Enter your password" [(ngModel)]="password" type = "password"/>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Repeat your password" [(ngModel)]="reppassword" type = "password"/>
+    </mat-form-field>
+  </div>
+<br/>
+<button class = "signUpButton">Sign up</button>
+<div class = "textHelp">
+  <p>also you can <a routerLink="/signIn" routerLinkActive="active" class="hyperText">Sign in</a>
+  <br>or sign up by:</p>
+</div>
+  <div class = "socialsContainer">
+    <img src = "assets/imageKeeper/google-icon.png" class="socialIcon"/>
+    <img src = "assets/imageKeeper/facebook-icon.png" class="socialIcon"/>
+  </div>
