@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
       console.log(this.jwtHelper.decodeToken(token));
       return true;
     }
-    this.router.navigate(['/signIn'], { queryParams: { returnUrl: state.url }});// строка перебрасывает нас на страничку логирования, если пользователь не залогинен
+    //this.router.navigate(['/signIn'], { queryParams: { returnUrl: state.url }});// строка перебрасывает нас на страничку логирования, если пользователь не залогинен
     // Это происходит в идеале. на практике же, почему- то постоянно проходит проверка. Поэтому не работает
     return false;
   }

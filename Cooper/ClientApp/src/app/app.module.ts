@@ -23,16 +23,7 @@ import { MatInputModule, MatButtonModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
 
-const appRoutes : Routes = [
-  {path: '', redirectTo : '/signIn', pathMatch: 'full'},//??
-  {path: 'signIn', component: SignInComponent},
-  {path: 'signUp', component: SignUpComponent},
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'counter', component: CounterComponent, canActivate: [AuthGuard] },
-  { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },
-  // otherwise redirect to home
-   { path: '**', redirectTo: 'home' }
-]
+
 
 @NgModule({
   declarations: [
@@ -47,7 +38,6 @@ const appRoutes : Routes = [
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule.forRoot(appRoutes),
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule, 
