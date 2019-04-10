@@ -1,14 +1,15 @@
         <h1 class = "headText">Sign In</h1>
+        <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div>
           <div class="personalDataForm">
               <mat-form-field>
-                <input matInput placeholder="Enter your email" [(ngModel)]="userName" type = "email"/>
+                <input matInput type="email" id="username" name="username" placeholder="Enter your email"  type = "email" />
               </mat-form-field>
               <mat-form-field>
-                  <input matInput placeholder="Enter your password" [(ngModel)]="password" type = "password"/>
+                  <input matInput placeholder="Enter your password"   type="password" id="password" name="password"   />
               </mat-form-field>
             </div>
           <br/>
-          <button class = "signUpButton">Sign in</button>
+          <button class = "signUpButton" type="submit" routerLink="/home" >Sign in</button>
           <div class = "textHelp">
             <p>also you can <a routerLink="/signUp" routerLinkActive="active" class="hyperText">Sign up</a>
             <br>or sign in by:</p>
