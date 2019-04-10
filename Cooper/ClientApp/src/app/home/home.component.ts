@@ -9,21 +9,8 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent {
 
-  constructor(private jwtHelper: JwtHelperService, private router: Router) {
+  constructor( private router: Router) {
   }
-
-  isUserAuthenticated() {
-    let token: string = localStorage.getItem("jwt");
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
-  logOut() {
-    localStorage.removeItem("jwt");
-  }
+ 
 
 }
