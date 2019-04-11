@@ -6,9 +6,9 @@ import { Router } from '@angular/router';
   templateUrl: './counter.component.html'
 })
 export class CounterComponent {
-  constructor(private jwtHelper: JwtHelperService, private router: Router) {
+  constructor(private router: Router) {
   }
-
+  /*
     isUserAuthenticated() {
       let token: string = localStorage.getItem("jwt");
       if (token && !this.jwtHelper.isTokenExpired(token)) {
@@ -25,7 +25,7 @@ export class CounterComponent {
    public incrementCounter() {
     this.currentCount++;
  }
-  public currentCount = 0;
+  public currentCount = 0;*/
 
  
 }

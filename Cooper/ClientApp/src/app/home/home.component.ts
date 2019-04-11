@@ -11,6 +11,10 @@ export class HomeComponent {
 
   constructor( private router: Router) {
   }
- 
+
+  ToGames(): void
+  {
+    this.router.navigate(["game"]);
+  }
 
 }
