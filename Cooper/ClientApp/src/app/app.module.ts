@@ -22,7 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule, MatButtonModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
-
+import { GameComponent } from './game/game.component';
 
 
 @NgModule({
@@ -34,6 +34,7 @@ import {MatTableModule} from '@angular/material/table';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
+    GameComponent,
   ],
   imports: [
     BrowserModule,
