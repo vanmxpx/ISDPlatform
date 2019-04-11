@@ -6,7 +6,6 @@ import { NgForm } from '@angular/forms';
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css']
-  
 })
 export class SignInComponent {
 
@@ -16,7 +15,7 @@ export class SignInComponent {
 
   login(form: NgForm) {
     let credentials = JSON.stringify(form.value);
-    this.http.post("http://localhost:54195/api/auth/login", credentials, {
+    this.http.post("http://localhost:60956/api/auth/login", credentials, {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })
@@ -25,7 +24,7 @@ export class SignInComponent {
       localStorage.setItem("jwt", token);
       this.invalidLogin = false;
       this.router.navigate(["home"]);
-      //this.router.navigate(["/"]);
+      
     }, err => {
       this.invalidLogin = true;
     });

@@ -10,8 +10,6 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
 import { AuthGuard } from './guards/auth-guard';
 
@@ -25,6 +23,7 @@ import {MatTableModule} from '@angular/material/table';
 import { GameComponent } from './game/game.component';
 
 
+
 @NgModule({
   declarations: [
     NavMenuComponent,
@@ -32,8 +31,6 @@ import { GameComponent } from './game/game.component';
     SignInComponent,
     SignUpComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     GameComponent,
   ],
   imports: [
