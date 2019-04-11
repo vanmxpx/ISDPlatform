@@ -24,15 +24,11 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
 import {trigger,transition, style, query,group,animateChild, animate, keyframes,} from '@angular/animations';
 
-<<<<<<< HEAD
 const appRoutes : Routes = [
   {path: '', redirectTo : '/signIn', pathMatch: 'full'},
   {path: 'signIn', component: SignInComponent, data: { animation: 'isSignIn' }},
   {path: 'signUp', component: SignUpComponent, data: { animation: 'isSignUp' }}
 ]
-=======
-
->>>>>>> 416ef315e90c5307a1ed41b065153286a1eef022
 
 @NgModule({
   declarations: [
