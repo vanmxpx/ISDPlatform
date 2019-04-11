@@ -8,9 +8,6 @@ using NLog.Targets;
 using NLog.Config;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Oracle.ManagedDataAccess.Client;
-using Cooper.Controllers;
-
 namespace Cooper
 {
     public class Program

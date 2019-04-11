@@ -4,9 +4,17 @@ import { Routes, RouterModule } from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { HomeComponent } from './home/home.component';
+import { CounterComponent } from './counter/counter.component';
+import { FetchDataComponent } from './fetch-data/fetch-data.component';
+
+import { AuthGuard } from './guards/auth-guard';
+
 import { HttpClient } from 'selenium-webdriver/http';
 import { FirstServiceService } from './first-service.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -16,22 +24,29 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
 import {trigger,transition, style, query,group,animateChild, animate, keyframes,} from '@angular/animations';
 
+<<<<<<< HEAD
 const appRoutes : Routes = [
   {path: '', redirectTo : '/signIn', pathMatch: 'full'},
   {path: 'signIn', component: SignInComponent, data: { animation: 'isSignIn' }},
   {path: 'signUp', component: SignUpComponent, data: { animation: 'isSignUp' }}
 ]
+=======
+
+>>>>>>> 416ef315e90c5307a1ed41b065153286a1eef022
 
 @NgModule({
   declarations: [
+    NavMenuComponent,
     AppComponent,
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
+    HomeComponent,
+    CounterComponent,
+    FetchDataComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule.forRoot(appRoutes),
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule, 
