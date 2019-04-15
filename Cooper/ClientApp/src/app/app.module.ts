@@ -20,9 +20,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule, MatButtonModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
+import {trigger,transition, style, query,group,animateChild, animate, keyframes,} from '@angular/animations';
 import { GameComponent } from './game/game.component';
 
-
+const appRoutes : Routes = [
+  {path: '', redirectTo : '/signIn', pathMatch: 'full'},
+  {path: 'signIn', component: SignInComponent, data: { animation: 'isSignIn' }},
+  {path: 'signUp', component: SignUpComponent, data: { animation: 'isSignUp' }}
+]
 
 @NgModule({
   declarations: [
