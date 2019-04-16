@@ -22,7 +22,7 @@ namespace Cooper.ORM
         
         public long Create(string table, string idColumn, EntityORM entity)
         {
-            long insertId = -1;
+            long insertId = 0;
 
             try
             {
@@ -30,7 +30,7 @@ namespace Cooper.ORM
 
                 string sqlExpression = $"INSERT INTO {table} ";
                 string attributes = "( ";
-                string values = "values( ";
+                string values = "VALUES ( ";
 
                 foreach (KeyValuePair<string, object> aV in entity.attributeValue)  // tuning command content
                 {
@@ -40,17 +40,22 @@ namespace Cooper.ORM
 
                 attributes = attributes.TrimEnd(',', ' ') + ')';
                 values = values.TrimEnd(',', ' ') + ')';
-                
-                sqlExpression += $"{attributes} {values} returning {idColumn} into :id";
 
+                sqlExpression += $"{attributes} {values} returning {idColumn} into :id";
+                //sqlExpression = "INSERT INTO USERS ( NAME, NICKNAME, EMAIL, PASSWORD, PHOTOURL, ISVERIFIED, ISCREATOR, ISBANNED, ENDBANDATE, PLATFORMLANGUAGE, PLATFORMTHEME) VALUES(\'Test User\', \'test_user\', \'\', \'qwertynya\', \'photoURL\', \'n\', \'n\', \'n\', \'13-JAN-2000\', \'English\', \'Dark\') returning ID into :id";
+                Console.WriteLine($"{sqlExpression}");
                 #endregion
 
-                insertId = Convert.ToInt64(dbConnect.ExecuteNonQuery(sqlExpression, getId: true));
+                insertId = long.Parse(dbConnect.ExecuteNonQuery(sqlExpression, getId: true).ToString());
 
             }
             catch (DbException ex)
             {
                 logger.Info("Exception.Message: {0}", ex.Message);
+            }
+            finally
+            {
+                Connection.Close();
             }
 
             return insertId;
@@ -144,7 +149,7 @@ namespace Cooper.ORM
                     sqlExpression += $"{aV.Key} = {aV.Value}, ";
                 }
 
-                sqlExpression.TrimEnd(' ', ',');
+                sqlExpression = sqlExpression.TrimEnd(' ', ',');
                 sqlExpression += $" WHERE {idColumn} = {id}";
                 #endregion
 
@@ -154,6 +159,10 @@ namespace Cooper.ORM
             {
                 logger.Info("Exception.Message: {0}", ex.Message);
                 return false;
+            }
+            finally
+            {
+                Connection.Close();
             }
 
             return true;
@@ -171,6 +180,10 @@ namespace Cooper.ORM
             {
                 logger.Info("Exception.Message: {0}", ex.Message);
                 return false;
+            }
+            finally
+            {
+                Connection.Close();
             }
 
             return true;

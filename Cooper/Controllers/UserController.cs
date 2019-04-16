@@ -33,7 +33,13 @@ namespace Cooper.Controllers
         [ProducesResponseType(404)]
         public IActionResult GetUserById(long id)
         {
-            return Ok(userRepository.Get(id));
+            User user = userRepository.Get(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
         }
 
         [HttpGet("email/{email}")]
@@ -41,7 +47,14 @@ namespace Cooper.Controllers
         [ProducesResponseType(404)]
         public IActionResult GetUserByEmail(string email)
         {
-            return Ok(userRepository.GetByEmail(email));
+            User user = userRepository.GetByEmail(email);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
         }
 
         [HttpGet("nickname/{nickname}")]
@@ -49,21 +62,47 @@ namespace Cooper.Controllers
         [ProducesResponseType(404)]
         public IActionResult GetUserByNickname(string nickname)
         {
-            return Ok(userRepository.GetByNickname(nickname));
+            User user = userRepository.GetByNickname(nickname);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
         }
 
         // POST api/<controller>
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]
         public IActionResult Post([FromBody]User user)
         {
-            return Ok(user);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (user.Id == 0)
+            {
+                long id = userRepository.Create(user);
+                user.Id = id;
+
+                return Ok(user);
+            }
+            else
+            {
+                userRepository.Update(user);
+
+                return Ok(user);
+            }
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            // DAO MISSED
+            userRepository.Delete(id);
             return Ok();
         }
     }
