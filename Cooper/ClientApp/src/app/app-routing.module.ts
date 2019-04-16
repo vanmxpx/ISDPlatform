@@ -5,7 +5,9 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { GameComponent } from './default_game/game.component';
+import { GameComponent } from './game/game.component';
+import { GamesComponent } from './components/games/games.component';
+import { GameDetailComponent }  from './components/game-detail/game-detail.component';
 
 import { AuthGuard } from './guards/auth-guard';
 
@@ -16,6 +18,8 @@ const routes: Routes = [
   { path: 'signUp', component: SignUpComponent, data: { animation: 'isSignUp' } },
   { path: 'home', component: HomeComponent },
   { path: 'game', component: GameComponent },
+  { path: 'gamedetail/:id', component: GameDetailComponent },
+  { path: 'games', component: GamesComponent }
 
 ];
 
