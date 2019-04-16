@@ -97,6 +97,8 @@ namespace Cooper.DAO
         {
             EntityORM entity = EntityMapping.Map(game, attributes);
 
+            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+
             long idGame = crud.Create(table, idColumn, entity);
 
             return idGame;

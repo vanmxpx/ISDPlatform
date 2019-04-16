@@ -85,7 +85,8 @@ namespace Cooper.DAO
 
             EntityORM entity = crud.Read(attribute_value, attribute_name, attributes, table);
 
-            EntityMapping.Map(entity, out user);
+            if (entity != null)
+                EntityMapping.Map(entity, out user);
 
             return user;
         }
@@ -93,8 +94,11 @@ namespace Cooper.DAO
         public UserDb GetExtended(long id)
         {
             UserDb user = Get(id);
-
-            user.ConnectionsList = GetConnectionsList(id);
+            
+            if (user != null)
+            {
+                user.ConnectionsList = GetConnectionsList(id);
+            }
 
             return user;
         }
@@ -157,6 +161,8 @@ namespace Cooper.DAO
         public long Save(UserDb user)
         {
             EntityORM entity = EntityMapping.Map(user, attributes);
+
+            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
 
             long idGame = crud.Create(table, idColumn, entity);
 

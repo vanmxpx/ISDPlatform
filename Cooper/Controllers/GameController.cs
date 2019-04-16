@@ -41,15 +41,6 @@ namespace Cooper.Controllers
             return gameRepository.Get(id);
         }
         
-        /*
-        [HttpGet("{name}")]
-        public Game GetGameByName(string name)
-        {
-
-            // MISSED DAO
-            return new Game();
-        }*/
-
         // POST api/<controller>
         [HttpPost]
         public IActionResult Post([FromBody]Game game)

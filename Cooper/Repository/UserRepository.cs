@@ -54,9 +54,13 @@ namespace Cooper.Repository
         public User Get(long id)
         {
             UserDb user = userDAO.GetExtended(id);
+            User user_newTyped = null;
 
-            User user_newTyped = Mapper.Map<User>(user);
-            //User user_newTyped = UserMap(user);
+            if (user != null)
+            {
+                user_newTyped = Mapper.Map<User>(user);
+                //User user_newTyped = UserMap(user);
+            }
 
             return user_newTyped;
         }

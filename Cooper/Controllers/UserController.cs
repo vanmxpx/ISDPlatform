@@ -56,7 +56,6 @@ namespace Cooper.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]User user)
         {
-            // DAO MISSED
             return Ok(user);
         }
 
