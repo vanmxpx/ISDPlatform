@@ -167,41 +167,38 @@ namespace Cooper.DAO.Mapping
 
                 switch (attribute)
                 {
-                    case "ID":
-                        value = user.Id;
-                        break;
                     case "NAME":
-                        value = user.Name;
+                        value = $"\'{user.Name}\'";
                         break;
                     case "NICKNAME":
-                        value = user.Nickname;
+                        value = $"\'{user.Nickname}\'";
                         break;
                     case "EMAIL":
-                        value = user.Email;
+                        value = $"\'{user.Email}\'";
                         break;
                     case "PASSWORD":
-                        value = user.Password;
+                        value = $"\'{ user.Password}\'";
                         break;
                     case "PHOTOURL":
-                        value = user.PhotoURL;
+                        value = $"\'{user.PhotoURL}\'";
                         break;
                     case "ISVERIFIED":
-                        value = user.IsVerified;
+                        value = (user.IsVerified) ? "\'y\'" : "\'n\'";
                         break;
                     case "ISCREATOR":
-                        value = user.IsCreator;
+                        value = (user.IsCreator) ? "\'y\'" : "\'n\'";
                         break;
                     case "ISBANNED":
-                        value = user.IsBanned;
+                        value = (user.IsBanned) ? "\'y\'" : "\'n\'";
                         break;
                     case "ENDBANDATE":
-                        value = user.EndBanDate;
+                        value = $"\'{ToOracleDateFormat(user.EndBanDate)}\'";
                         break;
                     case "PLATFORMLANGUAGE":
-                        value = user.PlatformLanguage;
+                        value = $"\'{user.PlatformLanguage}\'";
                         break;
                     case "PLATFORMTHEME":
-                        value = user.PlatformTheme;
+                        value = $"\'{user.PlatformTheme}\'";
                         break;
                     default:
                         break;
@@ -212,7 +209,64 @@ namespace Cooper.DAO.Mapping
 
             return entity;
         }
-        
+
+        #endregion
+
+        #region Helping methods
+
+        private static string ToOracleDateFormat(DateTime dateTime)
+        {
+            string day = dateTime.Day.ToString();
+            string month = dateTime.Month.ToString();
+            string year = dateTime.Year.ToString();
+
+            switch (month)
+            {
+                case "1":
+                    month = "JAN";
+                    break;
+                case "2":
+                    month = "FEB";
+                    break;
+                case "3":
+                    month = "MAR";
+                    break;
+                case "4":
+                    month = "APR";
+                    break;
+                case "5":
+                    month = "MAN";
+                    break;
+                case "6":
+                    month = "JUN";
+                    break;
+                case "7":
+                    month = "JUL";
+                    break;
+                case "8":
+                    month = "AUG";
+                    break;
+                case "9":
+                    month = "SEP";
+                    break;
+                case "10":
+                    month = "OCT";
+                    break;
+                case "11":
+                    month = "NOV";
+                    break;
+                case "12":
+                    month = "DEC";
+                    break;
+            }
+
+            string oracleDateFormat = $"{day}-{month}-{year}";
+
+            return oracleDateFormat;
+        }
+
         #endregion
     }
+
 }
+

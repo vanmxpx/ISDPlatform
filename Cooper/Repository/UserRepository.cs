@@ -119,6 +119,7 @@ namespace Cooper.Repository
 
             #region Transfer main attributes
 
+            user_newType.Id = user.Id;
             user_newType.Name = user.Name;
             user_newType.Nickname = user.Nickname;
             user_newType.Password = user.Password;

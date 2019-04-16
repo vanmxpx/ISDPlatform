@@ -164,9 +164,11 @@ namespace Cooper.DAO
 
             entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
 
-            long idGame = crud.Create(table, idColumn, entity);
+            long user_id = crud.Create(table, idColumn, entity);
 
-            return idGame;
+            logger.Info($"User with id = {user_id} was created");
+
+            return user_id;
         }
 
         public void Delete(long id)
@@ -188,8 +190,10 @@ namespace Cooper.DAO
         {
             EntityORM entity = EntityMapping.Map(user, attributes);
 
+            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+
             bool ifUpdated = crud.Update(user.Id, table, idColumn, entity);
-            
+
             if (ifUpdated)
             {
                 logger.Info($"User with id={user.Id} was successfully updated.");
