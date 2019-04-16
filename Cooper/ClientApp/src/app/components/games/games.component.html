@@ -1,0 +1,22 @@
+<h2>Games</h2>
+
+<div>
+    <label>Game name:
+      <input #gameName />
+    </label>
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button (click)="add(gameName.value); gameName.value=''">
+      add
+    </button>
+  </div>
+
+<ul class="games">
+  <li *ngFor="let game of games"> 
+    <a routerLink="/gamedetail/{{game.id}}"> 
+    <span class="badge">{{game.id}}</span> {{game.name}}
+    </a>
+    <button class="delete" title="delete game"
+      (click)="delete(game)">x
+    </button>
+  </li>
+</ul>
