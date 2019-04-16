@@ -36,10 +36,16 @@ namespace Cooper.Repository
 
         public Game Get(long id)
         {
-            GameDb game = gameDAO.Get(id);
+            GameDb game = gameDAO.GetExtended(id);
 
-            Game game_newTyped = Mapper.Map<Game>(game);
-            //Game game_newTyped = GameMap(game);
+            Game game_newTyped = null;
+
+
+            if (game != null)
+            {
+                game_newTyped = Mapper.Map<Game>(game);
+                //Game game_newTyped = GameMap(game);
+            }
 
             return game_newTyped;
         }

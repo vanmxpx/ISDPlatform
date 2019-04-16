@@ -38,9 +38,12 @@ namespace Cooper.DAO
 
         public GameDb Get(long id)
         {
+            GameDb game = null;
+
             EntityORM entity = crud.Read(id, idColumn, attributes, table);
 
-            EntityMapping.Map(entity, out GameDb game);
+            if (entity != null)
+                EntityMapping.Map(entity, out game);
 
             return game;
         }
@@ -55,8 +58,7 @@ namespace Cooper.DAO
             GameDb game = Get(id);
 
             //game.PlayersList = GetPlayersList(id);
-
-
+            
             return game;
         }
         
@@ -124,7 +126,9 @@ namespace Cooper.DAO
             EntityORM entity = EntityMapping.Map(game, attributes);
 
             bool ifUpdated = crud.Update(game.Id, table, idColumn, entity);
-            
+
+            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+
             if (ifUpdated)
             {
                 logger.Info($"Game with id={game.Id} was successfully updated.");

@@ -67,25 +67,25 @@ namespace Cooper.DAO.Mapping
                 switch (attribute)
                 {
                     case "NAME":
-                        value = game.Name;
+                        value = $"\'{game.Name}\'";
                         break;
                     case "DESCRIPTION":
-                        value = game.Description;
+                        value = $"\'{game.Description}\'";
                         break;
                     case "GENRE":
-                        value = game.Genre;
+                        value = $"\'{game.Genre}\'";
                         break;
                     case "LINK":
-                        value = game.Link;
+                        value = $"\'{game.Link}\'";
                         break;
                     case "LOGOURL":
-                        value = game.LogoURL;
+                        value = $"\'{game.LogoURL}\'";
                         break;
                     case "COVERURL":
-                        value = game.CoverURL;
+                        value = $"\'{game.CoverURL}\'";
                         break;
                     case "ISVERIFIED":
-                        value = game.IsVerified;
+                        value = (game.IsVerified) ? "\'y\'" : "\'n\'";
                         break;
                     default:
                         break;
