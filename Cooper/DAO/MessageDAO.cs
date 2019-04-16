@@ -112,9 +112,9 @@ namespace Cooper.DAO
         {
             EntityORM entity = EntityMapping.Map(message, attributes);
 
-            bool ifUpdated = crud.Update(message.Id, table, idColumn, entity);
-
             entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+            
+            bool ifUpdated = crud.Update(message.Id, table, idColumn, entity);
 
             if (ifUpdated)
             {

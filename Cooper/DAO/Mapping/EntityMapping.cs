@@ -269,10 +269,10 @@ namespace Cooper.DAO.Mapping
                         value = userReview.IdReviewed;
                         break;
                     case "CONTENT":
-                        value = userReview.Content;
+                        value = $"\'userReview.Content\'";
                         break;
                     case "CREATEDATE":
-                        value = ToOracleDateFormat(userReview.CreateDate);
+                        value = $"\'{ToOracleDateFormat(userReview.CreateDate)}\'";
                         break;
                     case "RATING":
                         value = userReview.Rating;
@@ -344,10 +344,10 @@ namespace Cooper.DAO.Mapping
                         value = message.IdChat;
                         break;
                     case "CONTENT":
-                        value = message.Content;
+                        value = $"\'{message.Content}\'";
                         break;
                     case "CREATEDATE":
-                        value = ToOracleDateFormat(message.CreateDate);
+                        value = $"\'{ToOracleDateFormat(message.CreateDate)}\'";
                         break;
                     case "ISREAD":
                         value = (message.IsRead) ? "\'y\'" : "\'n\'";
