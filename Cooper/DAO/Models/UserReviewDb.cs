@@ -11,15 +11,15 @@ namespace Cooper.DAO.Models
         #region Main attributes
 
         public string Content { get; set; }
-        DateTime Date { get; set; }
+        public DateTime CreateDate { get; set; }
         public int Rating { get; set; }
 
         #endregion
 
         #region Interop attributes
 
-        public long UserId { get; set; }
-        public long ReviewerId { get; set; }
+        public long IdReviewer { get; set; }
+        public long IdReviewed { get; set; }
 
         #endregion
     }

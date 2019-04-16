@@ -212,6 +212,211 @@ namespace Cooper.DAO.Mapping
 
         #endregion
 
+        #region UserReview/entity mapping
+        ///<summary>
+        ///Maps properties from EntityORM object to UserReviewDb object
+        ///</summary>
+        public static void Map(EntityORM entity, out UserReviewDb userReview)
+        {
+            userReview = new UserReviewDb();
+
+            foreach (KeyValuePair<string, object> aV in entity.attributeValue)
+            {
+                switch (aV.Key)  // entity attribute
+                {
+                    case "ID":
+                        userReview.Id = Convert.ToInt64(aV.Value);
+                        break;
+                    case "IDREVIEWER":
+                        userReview.IdReviewer = Convert.ToInt64(aV.Value);
+                        break;
+                    case "IDREVIEWED":
+                        userReview.IdReviewed = Convert.ToInt64(aV.Value);
+                        break;
+                    case "CONTENT":
+                        userReview.Content = aV.Value.ToString();
+                        break;
+                    case "CREATEDATE":
+                        userReview.CreateDate = (DateTime)aV.Value;
+                        break;
+                    case "RATING":
+                        userReview.Rating = (int)aV.Value;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        ///<summary>
+        ///Maps properties from UserReviewDb object to EntityORM object
+        ///</summary>
+        public static EntityORM Map(UserReviewDb userReview, HashSet<string> attributes)
+        {
+            EntityORM entity = new EntityORM();
+
+            foreach (string attribute in attributes)
+            {
+                object value = null;        // attribute value
+
+
+                switch (attribute)
+                {
+                    case "IDREVIEWER":
+                        value = userReview.IdReviewer;
+                        break;
+                    case "IDREVIEWED":
+                        value = userReview.IdReviewed;
+                        break;
+                    case "CONTENT":
+                        value = userReview.Content;
+                        break;
+                    case "CREATEDATE":
+                        value = ToOracleDateFormat(userReview.CreateDate);
+                        break;
+                    case "RATING":
+                        value = userReview.Rating;
+                        break;
+                    default:
+                        break;
+                }
+
+                entity.attributeValue.Add(attribute, value);
+            }
+
+            return entity;
+        }
+        #endregion
+
+        #region Message/entity mapping
+        ///<summary>
+        ///Maps properties from EntityORM object to MessageDb object
+        ///</summary>
+        public static void Map(EntityORM entity, out MessageDb message)
+        {
+            message = new MessageDb();
+
+            foreach (KeyValuePair<string, object> aV in entity.attributeValue)
+            {
+                switch (aV.Key)  // entity attribute
+                {
+                    case "ID":
+                        message.Id = Convert.ToInt64(aV.Value);
+                        break;
+                    case "IDSENDER":
+                        message.IdSender = Convert.ToInt64(aV.Value);
+                        break;
+                    case "IDCHAT":
+                        message.IdChat = Convert.ToInt64(aV.Value);
+                        break;
+                    case "CONTENT":
+                        message.Content = aV.Value.ToString();
+                        break;
+                    case "CREATEDATE":
+                        message.CreateDate = (DateTime)aV.Value;
+                        break;
+                    case "ISREAD":
+                        message.IsRead = ((string)aV.Value == "y") ? true : false;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        ///<summary>
+        ///Maps properties from MessageDb object to EntityORM object
+        ///</summary>
+        public static EntityORM Map(MessageDb message, HashSet<string> attributes)
+        {
+            EntityORM entity = new EntityORM();
+
+            foreach (string attribute in attributes)
+            {
+                object value = null;        // attribute value
+
+                switch (attribute)
+                {
+                    case "IDSENDER":
+                        value = message.IdSender;
+                        break;
+                    case "IDCHAT":
+                        value = message.IdChat;
+                        break;
+                    case "CONTENT":
+                        value = message.Content;
+                        break;
+                    case "CREATEDATE":
+                        value = ToOracleDateFormat(message.CreateDate);
+                        break;
+                    case "ISREAD":
+                        value = (message.IsRead) ? "\'y\'" : "\'n\'";
+                        break;
+                    default:
+                        break;
+                }
+
+                entity.attributeValue.Add(attribute, value);
+            }
+
+            return entity;
+        }
+        #endregion
+        
+
+        #region Chat/entity mapping
+        ///<summary>
+        ///Maps properties from EntityORM object to ChatDb object
+        ///</summary>
+        public static void Map(EntityORM entity, out ChatDb chat)
+        {
+            chat = new ChatDb();
+
+            foreach (KeyValuePair<string, object> aV in entity.attributeValue)
+            {
+                switch (aV.Key)  // entity attribute
+                {
+                    case "ID":
+                        chat.Id = Convert.ToInt64(aV.Value);
+                        break;
+                    case "CHATNAME":
+                        chat.ChatName = aV.Value.ToString();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        ///<summary>
+        ///Maps properties from ChatDb object to EntityORM object
+        ///</summary>
+        public static EntityORM Map(ChatDb chat, HashSet<string> attributes)
+        {
+            EntityORM entity = new EntityORM();
+
+            foreach (string attribute in attributes)
+            {
+                object value = null;        // attribute value
+
+                switch (attribute)
+                {
+                    case "CHATNAME":
+                        value = $"\'{chat.ChatName}\'";
+                        break;
+                    default:
+                        break;
+                }
+
+                entity.attributeValue.Add(attribute, value);
+            }
+
+            return entity;
+        }
+        #endregion
+        
+
+
         #region Helping methods
 
         private static string ToOracleDateFormat(DateTime dateTime)
