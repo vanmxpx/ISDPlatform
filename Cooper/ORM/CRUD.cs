@@ -58,7 +58,7 @@ namespace Cooper.ORM
 
         public EntityORM Read(object attribute_value, string attribute_name, HashSet<string> attributes, string table)
         {
-            EntityORM entity = new EntityORM();
+            EntityORM entity = null;
 
             try
             {
@@ -70,10 +70,14 @@ namespace Cooper.ORM
                 OracleDataReader reader = command.ExecuteReader();
 
                 reader.Read();
-                foreach (string attribute in attributes)
+                if (reader.HasRows)
                 {
-                    object value = reader[attribute];
-                    entity.attributeValue.Add(attribute, value);
+                    entity = new EntityORM();
+                    foreach (string attribute in attributes)
+                    {
+                        object value = reader[attribute];
+                        entity.attributeValue.Add(attribute, value);
+                    }
                 }
 
                 reader.Close();
