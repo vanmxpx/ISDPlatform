@@ -50,7 +50,7 @@ namespace Cooper.ORM
             command.ExecuteNonQuery();
 
             if (getId)
-                result = command.Parameters["id"].Value.ToString();
+                result = command.Parameters["id"].Value;
             
             connection.Close();
 
