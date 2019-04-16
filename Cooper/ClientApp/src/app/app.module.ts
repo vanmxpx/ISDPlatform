@@ -21,7 +21,7 @@ import { MatInputModule, MatButtonModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
 import {trigger,transition, style, query,group,animateChild, animate, keyframes,} from '@angular/animations';
-import { GameComponent } from './default_game/game.component';
+import { GameComponent } from './game/game.component';
 
 import { GamesComponent } from './components/games/games.component';
 import { GameDetailComponent } from './components/game-detail/game-detail.component';
