@@ -5,7 +5,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { GameComponent } from './game/game.component';
+import { GameComponent } from './default_game/game.component';
 
 import { AuthGuard } from './guards/auth-guard';
 
