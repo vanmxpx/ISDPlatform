@@ -93,8 +93,19 @@ namespace Cooper
             Mapper.Initialize(cfg => {
                 cfg.CreateMap<UserDb, User>();
                 cfg.CreateMap<User, UserDb>();
+
                 cfg.CreateMap<GameDb, Game>();
                 cfg.CreateMap<Game, GameDb>();
+
+                cfg.CreateMap<ChatDb, Chat>();
+                cfg.CreateMap<Chat, ChatDb>();
+
+                cfg.CreateMap<MessageDb, Message>();
+                cfg.CreateMap<Message, MessageDb>();
+
+                cfg.CreateMap<UserReviewDb, UserReview>();
+                cfg.CreateMap<UserReview, UserReviewDb>();
+
             });
 
             app.UseSpa(spa =>
