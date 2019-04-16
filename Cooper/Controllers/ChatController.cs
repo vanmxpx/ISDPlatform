@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
+using Cooper.Repository;
+using AutoMapper;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,32 +14,65 @@ namespace Cooper.Controllers
     [Route("api/chats")]
     public class ChatController : ControllerBase
     {
+        ChatRepository chatRepository;
+
+        public ChatController()
+        {
+            chatRepository = new ChatRepository();
+        }
+
         [HttpGet]
-        public IEnumerable<Chat> GetAllUserChats(long userId)
+        public IEnumerable<Chat> GetAll()
         {
-            // MISSED DAO
-            return new List<Chat>();
+            return chatRepository.GetAll();
         }
-        
+
+        // GET api/<controller>/5
         [HttpGet("{id}")]
-        public Chat Get(long id)
+        [ProducesResponseType(200, Type = typeof(Chat))]
+        [ProducesResponseType(404)]
+        public IActionResult GetChatById(long id)
         {
-            // MISSED DAO
-            return new Chat();
-        }
-        
-        [HttpPost]
-        public IActionResult Post([FromBody]Chat chat)
-        {
-            // DAO MISSED
+            Chat chat = chatRepository.Get(id);
+            if (chat == null)
+            {
+                return NotFound();
+            }
+
             return Ok(chat);
         }
         
+        // POST api/<controller>
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]
+        public IActionResult Post([FromBody]Chat chat)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (chat.Id == 0)
+            {
+                long id = chatRepository.Create(chat);
+                chat.Id = id;
+
+                return Ok(chat);
+            }
+            else
+            {
+                chatRepository.Update(chat);
+
+                return Ok(chat);
+            }
+        }
+
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            // DAO MISSED
+            chatRepository.Delete(id);
             return Ok();
         }
     }
