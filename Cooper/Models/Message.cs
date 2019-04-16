@@ -18,7 +18,7 @@ namespace Cooper.Models
         #region Interop attributes
 
         public long IdChat { get; set; }
-        public long IdUser { get; set; }
+        public long IdSender { get; set; }
 
         #endregion
     }

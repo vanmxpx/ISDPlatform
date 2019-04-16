@@ -6,12 +6,12 @@ using Cooper.DAO.Models;
 using Cooper.ORM;
 using Cooper.DAO.Mapping;
 using NLog;
+using Oracle.ManagedDataAccess.Client;
 
 namespace Cooper.DAO
 {
-    public class GameDAO : IDAO<GameDb>
+    public class UserReviewDAO
     {
-
         private CRUD crud;
         Logger logger;
 
@@ -19,91 +19,79 @@ namespace Cooper.DAO
         private string idColumn;
         private HashSet<string> attributes;
         
-        public GameDAO()
+        public UserReviewDAO()
         {
             crud = new CRUD();
             logger = LogManager.GetLogger("CooperLoger");
 
-            table = "GAMES";
+            table = "USERSREVIEWS";
             idColumn = "ID";
             attributes = new HashSet<string>()
             {
-                "ID", "NAME", "DESCRIPTION", "GENRE", "LINK", "LOGOURL",
-                "COVERURL", "ISVERIFIED"
+                "ID", "IDREVIEWER", "IDREVIEWED", "CONTENT", "CREATEDATE", "RATING"
             };
         }
 
 
         #region Get methods
 
-        public GameDb Get(long id)
+        public UserReviewDb Get(long id)
         {
-            GameDb game = null;
+            UserReviewDb userReview = null;
 
             EntityORM entity = crud.Read(id, idColumn, attributes, table);
 
             if (entity != null)
-                EntityMapping.Map(entity, out game);
+                EntityMapping.Map(entity, out userReview);
 
-            return game;
+            return userReview;
         }
 
         /// <summary>
-        /// Return the GameDb object with interop properties
+        /// Return the UserReviewDb object with interop properties
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public GameDb GetExtended(long id)
+        public UserReviewDb GetExtended(long id)
         {
-            GameDb game = Get(id);
+            UserReviewDb userReview = Get(id);
 
-            //game.PlayersList = GetPlayersList(id);
-            
-            return game;
+            //userReview.PlayersList = GetPlayersList(id);
+
+            return userReview;
         }
-        
-        public IEnumerable<GameDb> GetAll()
+
+        public IEnumerable<UserReviewDb> GetAll()
         {
-            List<GameDb> games = new List<GameDb>();
+            List<UserReviewDb> userReviews = new List<UserReviewDb>();
 
             List<EntityORM> entities = (List<EntityORM>)crud.ReadAll(table, attributes);
 
-            foreach (EntityORM entity in entities)              // Mapping entities to games
+            foreach (EntityORM entity in entities)              // Mapping entities to userReviews
             {
-                EntityMapping.Map(entity, out GameDb game);
-                games.Add(game);
+                EntityMapping.Map(entity, out UserReviewDb userReview);
+                userReviews.Add(userReview);
             }
 
-            return games;
+            return userReviews;
         }
 
 
         #region Interop properties info reading
-
-        private List<long> GetPlayersList(long idGame) // TODO
-        {
-            List<long> playersList = new List<long>();
-
-            string sqlExpression = $"SELECT idUser from {table} WHERE ID = {idGame}";
-
-
-            return playersList;
-        }
-
+        // Here they will be
 
         #endregion
-
         #endregion
-        
-        public long Save(GameDb game)
+
+        public long Save(UserReviewDb userReview)
         {
-            EntityORM entity = EntityMapping.Map(game, attributes);
+            EntityORM entity = EntityMapping.Map(userReview, attributes);
 
             entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
 
-            long idGame = crud.Create(table, idColumn, entity);
+            long idUserReview = crud.Create(table, idColumn, entity);
 
-            return idGame;
+            return idUserReview;
         }
 
         public void Delete(long id)
@@ -116,26 +104,26 @@ namespace Cooper.DAO
             }
             else
             {
-                logger.Info($"Deleting game with id={id} was failed.");
+                logger.Info($"Deleting userReview with id={id} was failed.");
             }
 
         }
 
-        public void Update(GameDb game)
+        public void Update(UserReviewDb userReview)
         {
-            EntityORM entity = EntityMapping.Map(game, attributes);
+            EntityORM entity = EntityMapping.Map(userReview, attributes);
 
-            bool ifUpdated = crud.Update(game.Id, table, idColumn, entity);
+            bool ifUpdated = crud.Update(userReview.Id, table, idColumn, entity);
 
             entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
 
             if (ifUpdated)
             {
-                logger.Info($"Game with id={game.Id} was successfully updated.");
+                logger.Info($"Game with id={userReview.Id} was successfully updated.");
             }
             else
             {
-                logger.Info($"Updating game with id={game.Id} was failed.");
+                logger.Info($"Updating userReview with id={userReview.Id} was failed.");
             }
         }
 
