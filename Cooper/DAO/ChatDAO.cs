@@ -24,7 +24,7 @@ namespace Cooper.DAO
             crud = new CRUD();
             logger = LogManager.GetLogger("CooperLoger");
 
-            table = "USERSREVIEWS";
+            table = "CHATS";
             idColumn = "ID";
             attributes = new HashSet<string>()
             {
@@ -112,9 +112,9 @@ namespace Cooper.DAO
         {
             EntityORM entity = EntityMapping.Map(chat, attributes);
 
-            bool ifUpdated = crud.Update(chat.Id, table, idColumn, entity);
-
             entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+
+            bool ifUpdated = crud.Update(chat.Id, table, idColumn, entity);
 
             if (ifUpdated)
             {

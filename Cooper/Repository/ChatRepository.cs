@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cooper.Models;c
+using Cooper.Models;
 using Cooper.DAO;
 using Cooper.DAO.Models;
 using AutoMapper;
