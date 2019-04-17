@@ -61,7 +61,7 @@ const appRoutes : Routes = [
   providers: [FirstServiceService],
   bootstrap: [AppComponent,
   SignInComponent,
-SignUpComponent]
+  SignUpComponent]
 })
 export class AppModule { }
 export class PizzaPartyAppModule { }
