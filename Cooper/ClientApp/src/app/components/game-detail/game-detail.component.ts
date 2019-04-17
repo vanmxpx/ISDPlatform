@@ -1,18 +1,8 @@
 import { Component, OnInit, Input, Pipe, PipeTransform } from '@angular/core';
-import { Game } from '../../models/game';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { Game } from '../../models/game';
 import { GameService }  from '../../services/game.service';
-/*import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
-import { SafePipe } from '../safepipe';
-
-@Pipe({ name: 'safe' })
-export class SafePipe implements PipeTransform {
-  constructor(private sanitizer: DomSanitizer) { }
-  transform(url) {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
-  }
-}*/
 
 @Component({
   selector: 'app-game-detail',
