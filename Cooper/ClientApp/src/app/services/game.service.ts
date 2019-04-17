@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Game } from '../models/game';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+
+
 //import { MessageService } from './message.service';
 
 const httpOptions = {
@@ -18,14 +20,14 @@ export class GameService {
   private gamesUrl = 'api/games';  // URL to web api
 
   constructor(  
-    private http: HttpClient,
-    //private messageService: MessageService) { }
+    private http: HttpClient
+    ) 
+    { }
 
-  /** GET gamees from the server */
-  getGames (): Observable<Game[]> {
+  /** GET games from the server */
+  getGames(): Observable<Game[]> {
     return this.http.get<Game[]>(this.gamesUrl)
       .pipe(
-        tap(_ => this.log('fetched games')),
         catchError(this.handleError<Game[]>('getGames', []))
       );
   }
@@ -34,7 +36,6 @@ export class GameService {
   getGame(id: number): Observable<Game> {
     const url = `${this.gamesUrl}/${id}`;
     return this.http.get<Game>(url).pipe(
-      tap(_ => this.log(`fetched game id=${id}`)),
       catchError(this.handleError<Game>(`getGame id=${id}`))
     );
   }
@@ -42,7 +43,6 @@ export class GameService {
   /** PUT: update the game on the server */
   updateGame (game: Game): Observable<any> {
     return this.http.put(this.gamesUrl, game, httpOptions).pipe(
-      tap(_ => this.log(`updated game id=${game.id}`)),
       catchError(this.handleError<any>('updateGame'))
     );
   }
@@ -50,7 +50,6 @@ export class GameService {
   /** POST: add a new game to the server */
   addGame (game: Game): Observable<Game> {
     return this.http.post<Game>(this.gamesUrl, game, httpOptions).pipe(
-      tap((newGame: Game) => this.log(`added game w/ id=${newGame.id}`)),
       catchError(this.handleError<Game>('addGame'))
     );
   }
@@ -61,7 +60,6 @@ export class GameService {
     const url = `${this.gamesUrl}/${id}`;
 
     return this.http.delete<Game>(url, httpOptions).pipe(
-      tap(_ => this.log(`deleted game id=${id}`)),
       catchError(this.handleError<Game>('deleteGame'))
     );
   }
@@ -73,14 +71,8 @@ export class GameService {
       return of([]);
     }
     return this.http.get<Game[]>(`${this.gamesUrl}/?name=${term}`).pipe(
-      tap(_ => this.log(`found games matching "${term}"`)),
       catchError(this.handleError<Game[]>('searchGames', []))
     );
-  }
-
-  /** Log a GameService message with the MessageService */
-  private log(message: string) {
-    this.messageService.add(`GameService: ${message}`);
   }
 
     /**
@@ -94,9 +86,6 @@ export class GameService {
   
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
-  
-      // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
   
       // Let the app keep running by returning an empty result.
       return of(result as T);
