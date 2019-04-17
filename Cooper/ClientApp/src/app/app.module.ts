@@ -14,7 +14,6 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './guards/auth-guard';
 
 import { HttpClient } from 'selenium-webdriver/http';
-import { FirstServiceService } from './first-service.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule, MatButtonModule} from '@angular/material';
@@ -49,7 +48,7 @@ const appRoutes : Routes = [
     MatTableModule,
     MatButtonModule 
   ],
-  providers: [FirstServiceService],
+  providers: [AuthGuard],
   bootstrap: [AppComponent,
   SignInComponent,
 SignUpComponent]

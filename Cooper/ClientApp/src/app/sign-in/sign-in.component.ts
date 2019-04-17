@@ -17,7 +17,15 @@ export class SignInComponent {
 
   invalidLogin: boolean;
 
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient) {
+    this.CheckAuthentification();
+  }
+
+  CheckAuthentification(): void {
+    var Token = localStorage.getItem("JwtCooper");
+    if (Token != null)
+      this.router.navigate(['/home'])
+  }
 
   login(form: NgForm) {
     let credentials = JSON.stringify(form.value);
@@ -27,7 +35,7 @@ export class SignInComponent {
       })
     }).subscribe(response => {
       let token = (<any>response).token;
-      localStorage.setItem("jwt", token);
+      localStorage.setItem("JwtCooper", token);
       this.invalidLogin = false;
       this.router.navigate(["home"]);
       

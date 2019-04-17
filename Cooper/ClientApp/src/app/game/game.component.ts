@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 
+import {Observable} from "rxjs";
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -13,8 +15,7 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
   }
-
-
+  
   goBack(): void {
     this.location.back();
   }
