@@ -4,24 +4,19 @@ import { Routes, RouterModule } from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-
 import { AppComponent } from './app.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-
-import { AuthGuard } from './guards/auth-guard';
-
-import { HttpClient } from 'selenium-webdriver/http';
 import { FirstServiceService } from './first-service.service';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatInputModule, MatButtonModule} from '@angular/material';
+import { MatInputModule, MatButtonModule, MatCardModule, MatListModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
-import {trigger,transition, style, query,group,animateChild, animate, keyframes,} from '@angular/animations';
 import { GameComponent } from './game/game.component';
+import { AppSignComponentComponent } from './app-sign-component/app-sign-component.component';
+import { MyPageComponent } from './my-page/my-page.component';
 
 const appRoutes : Routes = [
   {path: '', redirectTo : '/signIn', pathMatch: 'full'},
@@ -37,6 +32,8 @@ const appRoutes : Routes = [
     SignUpComponent,
     HomeComponent,
     GameComponent,
+    AppSignComponentComponent,
+    MyPageComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +44,9 @@ const appRoutes : Routes = [
     MatInputModule,
     MatFormFieldModule,
     MatTableModule,
-    MatButtonModule 
+    MatButtonModule,
+    MatCardModule,
+    MatListModule
   ],
   providers: [FirstServiceService],
   bootstrap: [AppComponent,
