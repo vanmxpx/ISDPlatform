@@ -1,5 +1,6 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using System;
+using System.Data;
 using System.Data.Common;
 
 namespace Cooper.ORM
@@ -43,13 +44,14 @@ namespace Cooper.ORM
             object result = null;
 
             connection.Open();
-            
+
             OracleCommand command = new OracleCommand(query, connection);
+            command.Parameters.Add(new OracleParameter("id", OracleDbType.Decimal, ParameterDirection.ReturnValue));
             command.ExecuteNonQuery();
 
             if (getId)
-                result = command.Parameters[":id"].Value;
-
+                result = command.Parameters["id"].Value;
+            
             connection.Close();
 
             return result;

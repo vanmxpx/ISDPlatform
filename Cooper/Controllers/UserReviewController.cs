@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
+using Cooper.Repository;
+using AutoMapper;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,35 +15,66 @@ namespace Cooper.Controllers
     public class UserReviewController : ControllerBase
     {
         // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<string> GetReviewesForUser()     // all reviews for concrete user from others users
+        UserReviewRepository userReviewRepository;
+
+        public UserReviewController()
         {
-            return new string[] { "value1", "value2" };
+            userReviewRepository = new UserReviewRepository();
         }
 
         [HttpGet]
-        public IEnumerable<string> GetUserReviews()     // all user reviews about others users
+        public IEnumerable<UserReview> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            return userReviewRepository.GetAll();
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        [ProducesResponseType(200, Type = typeof(UserReview))]
+        [ProducesResponseType(404)]
+        public IActionResult GetUserReviewById(long id)
         {
-            return "value";
+            UserReview userReview = userReviewRepository.Get(id);
+            if (userReview == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(userReview);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]string value)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]
+        public IActionResult Post([FromBody]UserReview userReview)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (userReview.Id == 0)
+            {
+                long id = userReviewRepository.Create(userReview);
+                userReview.Id = id;
+
+                return Ok(userReview);
+            }
+            else
+            {
+                userReviewRepository.Update(userReview);
+
+                return Ok(userReview);
+            }
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(long id)
         {
+            userReviewRepository.Delete(id);
+            return Ok();
         }
     }
 }
