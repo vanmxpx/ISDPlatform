@@ -11,11 +11,8 @@ export class SignUpComponent implements OnInit {
   registerForm: FormGroup;
     loading = false;
     submitted = false;
-
-
   constructor(){
       
    }
-
   ngOnInit() {}
 }
