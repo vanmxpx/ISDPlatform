@@ -62,17 +62,17 @@ namespace Cooper.DAO
 
         public IEnumerable<ChatDb> GetAll()
         {
-            List<ChatDb> userReviews = new List<ChatDb>();
+            List<ChatDb> chats = new List<ChatDb>();
 
             List<EntityORM> entities = (List<EntityORM>)crud.ReadAll(table, attributes);
 
-            foreach (EntityORM entity in entities)              // Mapping entities to userReviews
+            foreach (EntityORM entity in entities)              // Mapping entities to chats
             {
                 EntityMapping.Map(entity, out ChatDb chat);
-                userReviews.Add(chat);
+                chats.Add(chat);
             }
 
-            return userReviews;
+            return chats;
         }
 
 

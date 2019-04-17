@@ -192,7 +192,7 @@ namespace Cooper.DAO.Mapping
                         value = (user.IsBanned) ? "\'y\'" : "\'n\'";
                         break;
                     case "ENDBANDATE":
-                        value = $"\'{ToOracleDateFormat(user.EndBanDate)}\'";
+                        value = $"\'{user.EndBanDate.ToString("dd-MMM-yyyy")}\'";
                         break;
                     case "PLATFORMLANGUAGE":
                         value = $"\'{user.PlatformLanguage}\'";
@@ -272,7 +272,7 @@ namespace Cooper.DAO.Mapping
                         value = $"\'userReview.Content\'";
                         break;
                     case "CREATEDATE":
-                        value = $"\'{ToOracleDateFormat(userReview.CreateDate)}\'";
+                        value = $"\'{userReview.CreateDate.ToString("dd-MMM-yyyy")}\'";
                         break;
                     case "RATING":
                         value = userReview.Rating;
@@ -347,7 +347,7 @@ namespace Cooper.DAO.Mapping
                         value = $"\'{message.Content}\'";
                         break;
                     case "CREATEDATE":
-                        value = $"\'{ToOracleDateFormat(message.CreateDate)}\'";
+                        value = $"\'{message.CreateDate.ToString("dd-MMM-yyyy")}\'";
                         break;
                     case "ISREAD":
                         value = (message.IsRead) ? "\'y\'" : "\'n\'";
@@ -413,63 +413,6 @@ namespace Cooper.DAO.Mapping
 
             return entity;
         }
-        #endregion
-        
-
-
-        #region Helping methods
-
-        private static string ToOracleDateFormat(DateTime dateTime)
-        {
-            string day = dateTime.Day.ToString();
-            string month = dateTime.Month.ToString();
-            string year = dateTime.Year.ToString();
-
-            switch (month)
-            {
-                case "1":
-                    month = "JAN";
-                    break;
-                case "2":
-                    month = "FEB";
-                    break;
-                case "3":
-                    month = "MAR";
-                    break;
-                case "4":
-                    month = "APR";
-                    break;
-                case "5":
-                    month = "MAN";
-                    break;
-                case "6":
-                    month = "JUN";
-                    break;
-                case "7":
-                    month = "JUL";
-                    break;
-                case "8":
-                    month = "AUG";
-                    break;
-                case "9":
-                    month = "SEP";
-                    break;
-                case "10":
-                    month = "OCT";
-                    break;
-                case "11":
-                    month = "NOV";
-                    break;
-                case "12":
-                    month = "DEC";
-                    break;
-            }
-
-            string oracleDateFormat = $"{day}-{month}-{year}";
-
-            return oracleDateFormat;
-        }
-
         #endregion
     }
 
