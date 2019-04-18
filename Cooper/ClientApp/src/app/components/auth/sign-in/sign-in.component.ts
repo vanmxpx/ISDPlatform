@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { MatInputModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {trigger,transition, style, query,group,animateChild, animate, keyframes, state,} from '@angular/animations';
-import { fader } from '../route-animation';
+import { fader } from '../../../route-animation';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from "@angular/router";
 import { NgForm } from '@angular/forms';
