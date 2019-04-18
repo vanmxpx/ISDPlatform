@@ -8,7 +8,7 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     var token = localStorage.getItem("JwtCooper");
 
-    if (token != null)
+    if (token)
     {
       return true;
     }
