@@ -23,7 +23,7 @@ export class SignInComponent {
 
   CheckAuthentification(): void {
     var Token = localStorage.getItem("JwtCooper");
-    if (Token != null)
+    if (Token)
       this.router.navigate(['/home'])
   }
 

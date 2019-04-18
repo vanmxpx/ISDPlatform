@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
-import { FormControl,NgForm, FormGroupDirective, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, NgForm, FormGroupDirective, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,14 +15,16 @@ export class SignUpComponent implements OnInit {
 
 
 
-  constructor(private router: Router){
+  constructor(private router: Router) {
     this.CheckAuthentification();
    }
 
   CheckAuthentification(): void {
-    var Token = localStorage.getItem("JwtCooper");
-    if (Token != null)
-      this.router.navigate(['/home'])
+    const Token: string = localStorage.getItem('JwtCooper');
+    if (Token)
+    {
+      this.router.navigate(['/home']);
+    }
   }
 
   ngOnInit() {}
