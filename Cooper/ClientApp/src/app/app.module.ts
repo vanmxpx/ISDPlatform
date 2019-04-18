@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignInComponent } from './components/auth/sign-in/sign-in.component';
 import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 
 import { AuthGuard } from './components/auth/guards/auth-guard';
@@ -36,7 +35,6 @@ const appRoutes : Routes = [
 
 @NgModule({
   declarations: [
-    NavMenuComponent,
     AppComponent,
     SignInComponent,
     SignUpComponent,
