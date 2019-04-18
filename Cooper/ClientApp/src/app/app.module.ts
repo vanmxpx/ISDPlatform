@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignInComponent } from './components/auth/sign-in/sign-in.component';
 import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './components/home/home.component';
 
 import { AuthGuard } from './components/auth/guards/auth-guard';
 
@@ -20,12 +20,12 @@ import { MatInputModule, MatButtonModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
 import {trigger,transition, style, query,group,animateChild, animate, keyframes,} from '@angular/animations';
-import { GameComponent } from './home/game/game.component';
+import { GameComponent } from './components/home/game/game.component';
 
 import { GamesComponent } from './components/games/games.component';
 import { GameDetailComponent } from './components/game-detail/game-detail.component';
 import { GameSearchComponent } from './components/game-search/game-search.component';
-import { SafePipe } from './components/safepipe';
+import { SafePipe } from './safe.pipe/safe.pipe';
 
 const appRoutes : Routes = [
   {path: '', redirectTo : '/signIn', pathMatch: 'full'},
