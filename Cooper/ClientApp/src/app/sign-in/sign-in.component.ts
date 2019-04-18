@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { MatInputModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {trigger,transition, style, query,group,animateChild, animate, keyframes, state,} from '@angular/animations';
+import {trigger, transition, style, query, group, animateChild, animate, keyframes, state} from '@angular/animations';
 import { fader } from '../route-animation';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -22,26 +22,27 @@ export class SignInComponent {
   }
 
   CheckAuthentification(): void {
-    var Token = localStorage.getItem("JwtCooper");
-    if (Token)
-      this.router.navigate(['/home'])
+    const Token: string = localStorage.getItem('JwtCooper');
+    if (Token) {
+      this.router.navigate(['/home']);
+    }
   }
 
   login(form: NgForm) {
-    let credentials = JSON.stringify(form.value);
-    this.http.post("/api/auth/login", credentials, {
+    const credentials = JSON.stringify(form.value);
+    this.http.post('/api/auth/login', credentials, {
       headers: new HttpHeaders({
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       })
     }).subscribe(response => {
-      let token = (<any>response).token;
-      localStorage.setItem("JwtCooper", token);
+      const token = (<any>response).token;
+      localStorage.setItem('JwtCooper', token);
       this.invalidLogin = false;
-      this.router.navigate(["home"]);
-      
+      this.router.navigate(['home']);
     }, err => {
       this.invalidLogin = true;
     });
   }
+
 ngOnInit() {}
 }

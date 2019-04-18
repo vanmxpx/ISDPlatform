@@ -21,8 +21,7 @@ export class SignUpComponent implements OnInit {
 
   CheckAuthentification(): void {
     const Token: string = localStorage.getItem('JwtCooper');
-    if (Token)
-    {
+    if (Token) {
       this.router.navigate(['/home']);
     }
   }
