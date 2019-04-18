@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { SignInComponent } from './components/auth/sign-in/sign-in.component';
 import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { GameComponent } from './home/game/game.component';
 import { GamesComponent } from './components/games/games.component';
