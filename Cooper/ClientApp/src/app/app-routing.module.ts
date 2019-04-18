@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SignInComponent } from './sign-in/sign-in.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
+import { SignInComponent } from './components/auth/sign-in/sign-in.component';
+import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { GameComponent } from './game/game.component';
+import { GameComponent } from './home/game/game.component';
 import { GamesComponent } from './components/games/games.component';
 import { GameDetailComponent }  from './components/game-detail/game-detail.component';
 
-import { AuthGuard } from './guards/auth-guard';
+import { AuthGuard } from './components/auth/guards/auth-guard';
 
 
 const routes: Routes = [

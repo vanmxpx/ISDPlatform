@@ -8,7 +8,7 @@ namespace Cooper.ORM
     public class DbConnect// : IDisposable
     {
 
-        private static string connectionString = $"User Id=SYSTEM;Password={Environment.GetEnvironmentVariable("Coop")};Data Source=localhost:1521/xe;";
+        private static string connectionString = $"User Id=SYSTEM;Password=QAZse4321;Data Source=localhost:1521/xe;";
 
         private static DbConnect instance;
 
