@@ -57,7 +57,7 @@ const appRoutes : Routes = [
     MatButtonModule 
   ],
   //providers: [FirstServiceService],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent,
   SignInComponent,
   SignUpComponent]
