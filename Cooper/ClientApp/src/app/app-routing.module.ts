@@ -15,11 +15,11 @@ const routes: Routes = [
   { path: '', redirectTo: '/signIn', pathMatch: 'full' },
   { path: 'signIn', component: SignInComponent, data: { animation: 'isSignIn' } },
   { path: 'signUp', component: SignUpComponent, data: { animation: 'isSignUp' } },
-  { path: 'home', component: HomeComponent },
-  { path: 'game', component: GameComponent },
-  { path: 'gamedetail/:id', component: GameDetailComponent },
-  { path: 'games', component: GamesComponent }
-
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'game', component: GameComponent, canActivate: [AuthGuard] },
+  { path: 'gamedetail/:id', component: GameDetailComponent, canActivate: [AuthGuard] },
+  { path: 'games', component: GamesComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: '/signIn' }       // while not found page is not implemented
 ];
 
 @NgModule({
