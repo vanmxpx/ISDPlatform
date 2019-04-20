@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { MatInputModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {trigger,transition, style, query,group,animateChild, animate, keyframes, state,} from '@angular/animations';
-import { fader } from '../route-animation';
+import { fader } from '../../../route-animation';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from "@angular/router";
 import { NgForm } from '@angular/forms';
@@ -17,7 +17,18 @@ export class SignInComponent {
 
   invalidLogin: boolean;
 
-  constructor(private router: Router, private http: HttpClient) { }
+
+  constructor(private router: Router, private http: HttpClient) {
+    this.CheckAuthentification();
+  }
+
+  CheckAuthentification(): void {
+
+    const Token: string = localStorage.getItem('JwtCooper');
+    if (Token) {
+      this.router.navigate(['/home']);
+    }
+  }
 
   login(form: NgForm) {
     let credentials = JSON.stringify(form.value);
@@ -27,7 +38,7 @@ export class SignInComponent {
       })
     }).subscribe(response => {
       let token = (<any>response).token;
-      localStorage.setItem("jwt", token);
+      localStorage.setItem("JwtCooper", token);
       this.invalidLogin = false;
       this.router.navigate(["/myPage"]);
       

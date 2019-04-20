@@ -5,18 +5,21 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SignInComponent } from './sign-in/sign-in.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { FirstServiceService } from './first-service.service';
+import { SignInComponent } from './components/auth/sign-in/sign-in.component';
+import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
+import { HomeComponent } from './components/home/home.component';
+import { AuthGuard } from './components/auth/guards/auth-guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule, MatButtonModule, MatCardModule, MatListModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
-import { GameComponent } from './game/game.component';
 import { AppSignComponentComponent } from './app-sign-component/app-sign-component.component';
 import { MyPageComponent } from './my-page/my-page.component';
+import { GameComponent } from './components/home/game/game.component';
+import { GamesComponent } from './components/games/games.component';
+import { GameDetailComponent } from './components/game-detail/game-detail.component';
+import { GameSearchComponent } from './components/game-search/game-search.component';
+import { SafePipe } from './safe.pipe/safe.pipe';
 
 const appRoutes : Routes = [
   {path: '', redirectTo : '/signIn', pathMatch: 'full'},
@@ -26,14 +29,17 @@ const appRoutes : Routes = [
 
 @NgModule({
   declarations: [
-    NavMenuComponent,
     AppComponent,
     SignInComponent,
     SignUpComponent,
     HomeComponent,
     GameComponent,
     AppSignComponentComponent,
-    MyPageComponent
+    MyPageComponent,
+    GamesComponent,
+    GameDetailComponent,
+    GameSearchComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,
@@ -48,10 +54,11 @@ const appRoutes : Routes = [
     MatCardModule,
     MatListModule
   ],
-  providers: [FirstServiceService],
+  //providers: [FirstServiceService],
+  providers: [AuthGuard],
   bootstrap: [AppComponent,
   SignInComponent,
-SignUpComponent]
+  SignUpComponent]
 })
 export class AppModule { }
 export class PizzaPartyAppModule { }

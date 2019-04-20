@@ -36,32 +36,50 @@ namespace Cooper.Controllers
         */
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public Game GetGameById(long id)
+        [ProducesResponseType(200, Type = typeof(Game))]
+        [ProducesResponseType(404)]
+        public IActionResult GetGameById(long id)
         {
-            return gameRepository.Get(id);
+            Game game = gameRepository.Get(id);
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(game);
         }
         
-        /*
-        [HttpGet("{name}")]
-        public Game GetGameByName(string name)
-        {
-
-            // MISSED DAO
-            return new Game();
-        }*/
-
         // POST api/<controller>
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]
         public IActionResult Post([FromBody]Game game)
         {
-            // MISSED DAO
-            return Ok(game);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (game.Id == 0)
+            {
+                long id = gameRepository.Create(game);
+                game.Id = id;
+
+                return Ok(game);
+            }
+            else
+            {
+                gameRepository.Update(game);
+
+                return Ok(game);
+            }
         }
         
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
+            gameRepository.Delete(id);
             return Ok();
         }
     }
