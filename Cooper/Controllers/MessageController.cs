@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
+using Cooper.Repository;
+using AutoMapper;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,34 +14,65 @@ namespace Cooper.Controllers
     [Route("api/chat/messages")]
     public class MessageController : ControllerBase
     {
-        // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<Message> GetAllChatMessages(long chatId)
+        MessageRepository messageRepository;
+
+        public MessageController()
         {
-            return new List<Message>();
+            messageRepository = new MessageRepository();
+        }
+
+        [HttpGet]
+        public IEnumerable<Message> GetAll()
+        {
+            return messageRepository.GetAll();
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public Message Get(long id)
+        [ProducesResponseType(200, Type = typeof(Message))]
+        [ProducesResponseType(404)]
+        public IActionResult GetMessageById(long id)
         {
-            return new Message();
-        }
+            Message message = messageRepository.Get(id);
+            if (message == null)
+            {
+                return NotFound();
+            }
 
+            return Ok(message);
+        }
 
         // POST api/<controller>
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]
         public IActionResult Post([FromBody]Message message)
         {
-            // DAO MISSED
-            return Ok(message);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (message.Id == 0)
+            {
+                long id = messageRepository.Create(message);
+                message.Id = id;
+
+                return Ok(message);
+            }
+            else
+            {
+                messageRepository.Update(message);
+
+                return Ok(message);
+            }
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            // DAO MISSED
+            messageRepository.Delete(id);
             return Ok();
         }
     }
