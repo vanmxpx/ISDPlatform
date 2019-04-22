@@ -13,7 +13,7 @@ namespace Cooper.Repository
 
         public StatisticsRepository()
         {
-            statisticsDAO = new MessageDAO();
+            statisticsDAO = new GameStatisticsDAO();
         }
 
         public IEnumerable<Statistics> GetAll()

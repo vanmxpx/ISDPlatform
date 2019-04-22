@@ -34,16 +34,16 @@ namespace Cooper.DAO
 
         #region Get methods
 
-        public MessageDb Get(long id)
+        public StatisticsDb Get(long id)
         {
-            MessageDb message = null;
+            StatisticsDb statistics = null;
 
             EntityORM entity = crud.Read(id, idColumn, attributes, table);
 
             if (entity != null)
-                EntityMapping.Map(entity, out message);
+                EntityMapping.Map(entity, out statistics);
 
-            return message;
+            return statistics;
         }
 
         /// <summary>

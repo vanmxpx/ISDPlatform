@@ -36,12 +36,12 @@ namespace Cooper.Repository
         public GameReview Get(long id)
         {
             GameReviewDb gameReview = gameReviewDAO.GetExtended(id);
-            UserReview gameReview_newTyped = null;
+            GameReview gameReview_newTyped = null;
 
             if (gameReview != null)
             {
                 gameReview_newTyped = Mapper.Map<UserReview>(gameReview);
-                //UserReview userReview_newTyped = UserReviewMap(userReview);
+                GameReview userReview_newTyped = GameReviewMap(gameReview);
             }
 
             return gameReview_newTyped;
@@ -75,7 +75,7 @@ namespace Cooper.Repository
 
             gameReview_newType.Id = gameReview.Id;
             gameReview_newType.Content = gameReview.Content;
-            gameReview_newType.CreateDate = gameReview.CreateDate;
+            gameReview_newType.Date = gameReview.Date;
             gameReview_newType.Rating = gameReview.Rating;
 
             #endregion
@@ -98,7 +98,7 @@ namespace Cooper.Repository
 
             gameReview_newType.Id = gameReview.Id;
             gameReview_newType.Content = gameReview.Content;
-            gameReview_newType.CreateDate = gameReview.CreateDate;
+            gameReview_newType.Date = gameReview.Date;
             gameReview_newType.Rating = gameReview.Rating;
 
             #endregion
