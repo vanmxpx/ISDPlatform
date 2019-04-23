@@ -1,4 +1,4 @@
-.Header{
+.header{
     background-color: rgba(86, 88, 92, 100);
     color: hsla(0,0%,100%,.7);
     font-size: 14px;
@@ -7,12 +7,12 @@
     align-items: center;
     display: flex;   
 }
-.Header-items{
+.header-items{
     align-items: center;
     color: rgba(80, 41, 41, 0.7);
     display: flex;
 }
-.MyNavigate{
+.my-navigate{
     color: hsla(0,0%,100%,.7);
     font-weight: 600;
     font-size: 14px;
@@ -20,7 +20,7 @@
 a:hover, a:focus{
     color: rgba(86, 88, 92, 100);
 }
-.HeaderLogo{
+.header-logo{
     align-items: center;
     width: 3%;
     height: 3%;
@@ -28,13 +28,13 @@ a:hover, a:focus{
     margin-right: 5px;
 }
 
-.example-card {
-    
+.example-card {   
     object-fit: cover;
     width: 230px;
     height: 280px;
     margin-top: 30px;
   }
+
   .game-card {   
     object-fit: cover;
     width: 100%;
@@ -42,12 +42,33 @@ a:hover, a:focus{
     margin-top: 30px;
   }
 
-  .gameList {
+  .message {
+      margin-bottom:10px;
+      width: auto;
+      max-width: 80%;
+  }
+
+  .message-text {
+     background-color: rgb(250,250,250)
+  }
+
+  .chat-card {   
+    object-fit: cover;
+    height: 250px;
+    margin-top: 30px;
+  }
+
+  .game-list {
       height: 210px;
       overflow-y: scroll;
   }
+  .chat-list{
+      height:250px;
+      overflow-y: scroll;
+      
+      }
 
-  .gameItem :hover {
+  .game-item :hover {
       background: rgb(230,230,230);
   }
 
@@ -55,17 +76,39 @@ a:hover, a:focus{
     background: rgba(230, 230, 230, 100);
     height: 230px;
   }
-.Info{
+.info{
     margin-top: 10px;
     width: 230px;
 }
 
-.InfoValue
+.info-value
 {
-    font-size: 18px;
-    
+    font-size: 18px;   
 }
 
-.ButtonEdit{
+.button-edit{
     width: 230px;
+}
+
+.common-chat{
+    position: absolute;
+    object-position: center;
+    float: bottom;
+    margin-top: 300px;
+    padding: 25px;
+    width: 1200px;
+    margin-top: 30px;
+    margin-left: 100px;
+}
+.input-chat{
+    display: unset!important;
+    margin-left: 30px;
+    width: 100px;
+    height: 40px;
+}
+.button-send{
+    height: 50px;
+    width: 50px;
+    object-position: right;
+    margin-left: 600px
 }

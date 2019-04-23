@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {fader, logoAnimation, joystickAnimation, panelAnimation} from '../route-animation';
+import {fader, logoAnimation, joystickAnimation, panelAnimation} from '../animations/route-animation';
 import {trigger,transition, style, query,group,animateChild, animate, keyframes, state} from '@angular/animations';
 
 @Component({

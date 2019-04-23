@@ -8,7 +8,7 @@ import { Game } from '../../models/game';
 import { GameService } from '../../services/game.service';
 
 @Component({
-  selector: 'app-game-search',
+  selector: 'cooper-game-search',
   templateUrl: './game-search.component.html',
   styleUrls: ['./game-search.component.css']
 })

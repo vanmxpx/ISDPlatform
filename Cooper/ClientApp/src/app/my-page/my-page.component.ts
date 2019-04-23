@@ -1,19 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatCard } from '@angular/material';
-
-export interface Game {
-  name: string;
-  logo: string;
-}
-
-export interface Comment {
-  name: string;
-  comment: string;
-  avatar: string;
-}
+import {Game, Comment, CommonChat} from '../models/my-page-models'
 
 @Component({
-  selector: 'app-my-page',
+  selector: 'cooper-my-page',
   templateUrl: './my-page.component.html',
   styleUrls: ['./my-page.component.css']
 })
@@ -79,8 +69,32 @@ comments: Comment[]=
   comment: 'You are TEST',
   avatar:'assets/imageKeeper/robot.png'
 }]
+
+commonMessages: CommonChat[]=[{
+  name: 'User1',
+  message: 'You are cool',
+  avatar:'assets/imageKeeper/robot.png'
+},
+{
+  name: 'User2',
+  message: 'You  not cool',
+  avatar:'assets/imageKeeper/robot.png'
+},
+{
+  name: 'User1',
+  message: 'You are robot',
+  avatar:'assets/imageKeeper/robot.png'
+},
+{
+  name: 'User1',
+  message: 'You are TEST',
+  avatar:'assets/imageKeeper/robot.png'
+}]
   constructor() { }
 
+  add(name: string, id: any): void {
+    this.commonMessages[id].message = name;
+  }
   ngOnInit() {
   }
 

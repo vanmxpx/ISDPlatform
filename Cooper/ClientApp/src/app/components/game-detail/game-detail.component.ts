@@ -5,7 +5,7 @@ import { Game } from '../../models/game';
 import { GameService }  from '../../services/game.service';
 
 @Component({
-  selector: 'app-game-detail',
+  selector: 'cooper-game-detail',
   templateUrl: './game-detail.component.html',
   styleUrls: ['./game-detail.component.css']
 })

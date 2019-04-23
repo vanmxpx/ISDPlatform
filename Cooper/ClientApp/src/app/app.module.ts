@@ -19,7 +19,7 @@ import { GameComponent } from './components/home/game/game.component';
 import { GamesComponent } from './components/games/games.component';
 import { GameDetailComponent } from './components/game-detail/game-detail.component';
 import { GameSearchComponent } from './components/game-search/game-search.component';
-import { SafePipe } from './safe.pipe/safe.pipe';
+import { SafePipe } from './pipes/safe.pipe';
 
 const appRoutes : Routes = [
   {path: '', redirectTo : '/signIn', pathMatch: 'full'},
@@ -54,7 +54,6 @@ const appRoutes : Routes = [
     MatCardModule,
     MatListModule
   ],
-  //providers: [FirstServiceService],
   providers: [AuthGuard],
   bootstrap: [AppComponent,
   SignInComponent,
