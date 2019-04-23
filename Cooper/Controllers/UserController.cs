@@ -79,24 +79,14 @@ namespace Cooper.Controllers
         [ProducesResponseType(201)]
         public IActionResult Post([FromBody]User user)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || user.Id == 0)
             {
                 return BadRequest(ModelState);
             }
+            
+            userRepository.Update(user);
 
-            if (user.Id == 0)
-            {
-                long id = userRepository.Create(user);
-                user.Id = id;
-
-                return Ok(user);
-            }
-            else
-            {
-                userRepository.Update(user);
-
-                return Ok(user);
-            }
+            return Ok(user);
         }
 
         // DELETE api/<controller>/5
