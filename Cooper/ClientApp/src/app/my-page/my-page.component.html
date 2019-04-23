@@ -1,0 +1,86 @@
+<header class="header" role="banner">
+    <img src="assets/imageKeeper/111.ico" class="header-logo">
+        <ul class="nav navbar-nav MyNavigate" routerLinkActive="active">
+            <li class="nav-item"><a class="my-navigate" routerLink="/myPage">My page</a></li>
+            <li class="nav-item"><a class="nav-link my-navigate" >Friends</a></li>
+            <li class="nav-item"><a class="nav-link my-navigate" >Chats</a></li>
+            <li class="nav-item"><a class="nav-link my-navigate" routerLink="/home">Games</a></li>
+        </ul>
+</header>
+<div>
+  <main>
+    <div class="col-md-2"></div>
+    <div class="col-md-2">
+        <mat-card class="example-card">                
+  <img mat-card-image src="assets/imageKeeper/robot.png" class="avatar">
+  <mat-card-title>MyNick</mat-card-title> 
+  </mat-card>
+  <mat-card-content class="info">
+    Name:
+  <p class="info-value">
+      Somebody Sombd
+  </p>
+  </mat-card-content>
+  <mat-card-content class="info">
+      E-mail:
+    <p class="info-value">
+        somebody@example.com
+    </p>
+    </mat-card-content>
+    <mat-card-content class="info">
+        Bio:
+      <p class="info-value">
+          I am just a man from nowhere. I like lorem ipsum and game of thrones
+      </p>
+      </mat-card-content>
+  <button mat-raised-button class="button-edit">Edit profile</button>
+    </div>
+    <div class="col-md-3"><mat-card class="game-card">
+      <mat-card-title>Games</mat-card-title>
+      <mat-card-content>
+          <mat-action-list class = "game-list">
+              <mat-list-item *ngFor="let game of games">
+                  <img mat-card-avatar src={{game.logo}}>
+                  <h3 matLine> {{game.name}} </h3>
+              </mat-list-item>
+            </mat-action-list>
+      </mat-card-content>
+    </mat-card></div>
+    <div class="col-md-3">
+      <mat-card class="game-card">
+        <mat-card-title>Comments</mat-card-title>
+        <mat-card-content>
+            <mat-list class = "game-list">
+                <mat-list-item *ngFor="let comment of comments">
+                    <img mat-card-avatar src={{comment.avatar}}>
+                    <h3 matLine> {{comment.name}} </h3>
+                    <p mat-line> {{comment.comment}} </p>
+                </mat-list-item>
+              </mat-list>
+        </mat-card-content></mat-card></div>
+    <div class="col-md-2"></div>
+    
+  </main>
+  
+</div>
+
+<div class="common-chat" class="col-md-5">
+    <div class="chat-card">
+            <mat-list class = "chat-list">
+                <mat-list-item *ngFor="let commonMessage of commonMessages" class = "message">
+                    <img matListAvatar src={{commonMessage.avatar}}>
+                  <mat-card matLine class="message-text" >                   
+                      <mat-card-title>{{commonMessage.name}}</mat-card-title>
+                      <mat-card-subtitle>{{commonMessage.message}}</mat-card-subtitle>
+                  </mat-card>
+                </mat-list-item>
+
+              </mat-list>
+      </div>
+  <mat-form-field class="input-chat">
+    <input matInput #myMessage/>
+  </mat-form-field>
+  <button mat-raised-button class="button-send" (click)="add(myMessage.value, 1); myMessage.value=''">
+      Send
+    </button>
+</div>

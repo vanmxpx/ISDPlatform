@@ -3,7 +3,7 @@ import { Game } from '../../models/game';
 import { GameService } from '../../services/game.service';
 
 @Component({
-  selector: 'app-games',
+  selector: 'cooper-games',
   templateUrl: './games.component.html',
   styleUrls: ['./games.component.css']
 })
