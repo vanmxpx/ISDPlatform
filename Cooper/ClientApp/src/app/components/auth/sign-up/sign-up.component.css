@@ -16,32 +16,32 @@ button{
     color: red;
   }
   
-  .signUpButton {
+  .sign-up-button {
     width:45%;
     align-self: center;
     padding: 1%;
     color: #fff;
   }
   
-  .textHelp {
+  .text-help {
     color: rgba(86, 88, 92, 100);
     margin-top: 5%;
     font-family: 'Comic Sans Ms'
   }
   
-  .socialsContainer {
+  .socials-container {
     display: inline-block;
     align-self: center;
   
     width: 45%;
   }
   
-  .socialIcon{
+  .social-icon{
     width: 25%;
     height: auto;
     
   }
-  .centralContentContainer {
+  .central-сontent-сontainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -51,7 +51,7 @@ button{
     margin: 0;
   }
   
-  .personalDataForm {
+  .personal-data-form {
     border: 1px solid rgb(168, 168, 168);
     border-radius: 3px;
     padding: 25px;
@@ -74,21 +74,21 @@ button{
     margin-left: -50%;
   }
   
-  .leftContainer {
+  .left-container {
     background-color: rgba(86, 88, 92, 100);
     min-height: 100vh;
     height: auto;
   }
   
-  .hyperText{
+  .hyper-text{
     font-family: 'Comic Sans Ms'
   }
-  .headText {
+  .head-text {
     color: rgba(86, 88, 92, 100);
     margin-bottom: 5%;
   }
   
-  .headContainer {
+  .head-container {
     min-height: 100vh;
     height: auto;
     margin: 0;
