@@ -4,7 +4,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-sign-up',
+  selector: 'cooper-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })
@@ -23,6 +23,5 @@ export class SignUpComponent implements OnInit {
       this.router.navigate(['/home']);
     }
   }
-
   ngOnInit() {}
 }

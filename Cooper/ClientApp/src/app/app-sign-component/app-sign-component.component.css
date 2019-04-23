@@ -5,43 +5,43 @@ button{
     font-family: 'Comic Sans Ms';
     font-size: 18px;
     border-radius: 3px;
-  }
-  
-  .errorField {
+}
+
+.errorField {
     color: red;
     border-color: red;
-  }
-  
-  .errorField::placeholder {
+}
+
+.errorField::placeholder {
     color: red;
-  }
-  
-  .sign-up-button {
+}
+
+.signUpButton {
     width:45%;
     align-self: center;
     padding: 1%;
     color: #fff;
-  }
-  
-  .text-help {
+}
+
+.textHelp {
     color: rgba(86, 88, 92, 100);
     margin-top: 5%;
     font-family: 'Comic Sans Ms'
-  }
-  
-  .socials-container {
+}
+
+.socialsContainer {
     display: inline-block;
     align-self: center;
-  
+
     width: 45%;
-  }
-  
-  .social-icon{
+}
+
+.socialIcon{
     width: 25%;
     height: auto;
     
-  }
-  .central-сontent-сontainer {
+}
+.centralContentContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -49,47 +49,47 @@ button{
     min-height: 100vh;
     height: auto;
     margin: 0;
-  }
-  
-  .personal-data-form {
+}
+
+.personalDataForm {
     border: 1px solid rgb(168, 168, 168);
     border-radius: 3px;
     padding: 25px;
-  }
-  
-  mat-form-field {
+}
+
+mat-form-field {
     width:100%;
     margin-top: 7px;
-  }
-  
-  .logo {
+}
+
+.logo {
     width:95%;
-    margin-top: 10%;
+    margin-top: 12%;
     display: block;
-  }
-  
-  .imageSign {
+}
+
+.imageSign {
     width:110%;
     display: block;
     margin-left: -50%;
-  }
-  
-  .left-container {
-    background-color: rgba(86, 88, 92, 100);
-    min-height: 100vh;
-    height: auto;
-  }
-  
-  .hyper-text{
+}
+
+.hyperText{
     font-family: 'Comic Sans Ms'
-  }
-  .head-text {
+}
+.headText {
     color: rgba(86, 88, 92, 100);
     margin-bottom: 5%;
-  }
-  
-  .head-container {
+}
+
+.headContainer {
     min-height: 100vh;
     height: auto;
     margin: 0;
+}
+
+.leftContainer {
+    background-color: rgba(86, 88, 92, 100);
+    min-height: 100vh;
+    height: auto;
   }

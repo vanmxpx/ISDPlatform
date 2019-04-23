@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
+  selector: 'cooper-home',
   templateUrl: './home.component.html',
   styleUrls: []
 })
