@@ -12,10 +12,18 @@ namespace Cooper.Controllers
     [Route("api/proxy")]
     public class ProxyController : Controller
     {
-        [Route("example")]
-        public Task GetPosts(int postId)
+        // TODO: Make it scoped
+
+        [Route("tanks")]
+        public Task Tanks()
         {
-            return this.ProxyAsync("https://www.google.com.ua");
+            return this.ProxyAsync("https://localhost:60001/");
+        }
+
+        [Route("islands")]
+        public Task Islands()
+        {
+            return this.ProxyAsync("https://localhost:60002/");
         }
 
     }
