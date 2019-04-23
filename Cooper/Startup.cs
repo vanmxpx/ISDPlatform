@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using AutoMapper;
 using Cooper.Models;
 using Cooper.DAO.Models;
+using Cooper.Configuration;
 
 [assembly: ApiController]
 namespace Cooper
@@ -35,24 +36,24 @@ namespace Cooper
 
             #region Adding Authentification
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)              // register JWT Authentification middleware
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    // tuning parameters for validating JWT
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.RequireHttpsMetadata = false;
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidateAudience = true,
+                            ValidateLifetime = true,                           
+                            ValidateIssuerSigningKey = true,
 
-                    ValidateIssuer = true,              // проверка издателя токена - истина если издатель токена действительно наш сервер
-                    ValidateAudience = true,            // проверка того, что получатель информации по токену верный (он есть в БД)
-                    ValidateLifetime = true,            // проверка того, что токен не истек по времени его жизни
-                    ValidateIssuerSigningKey = true,    // ключ подписи валидный (совпадает с ключом подписи сервера)
-
-                    // providing values for issuer, audience, signingKey (Need for a separate class)
-                    ValidIssuer = "http://localhost:50613/",      // издатель должен находится по этому адресу
-                    ValidAudience = "http://localhost:50613/",    // получатель должен находится по этому адресу
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))   // конфигурация ключа подписи
-                };
-            });
+                           
+                            ValidIssuer = AuthOptions.ISSUER,
+                            ValidAudience = AuthOptions.AUDIENCE,
+                            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                     
+                        };
+                    });
 
             #endregion
 
@@ -76,6 +77,8 @@ namespace Cooper
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
