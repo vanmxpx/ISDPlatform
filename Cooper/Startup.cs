@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Oracle.ManagedDataAccess;
-using Cooper.Controllers;
 using Microsoft.IdentityModel.Tokens;
+using Oracle.ManagedDataAccess;
+using AspNetCore.Proxy;
 using AutoMapper;
 using Cooper.Models;
 using Cooper.DAO.Models;
@@ -56,6 +56,8 @@ namespace Cooper
                     });
 
             #endregion
+
+            services.AddProxies();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
