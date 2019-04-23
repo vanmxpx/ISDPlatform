@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
@@ -21,7 +22,7 @@ namespace Cooper.Controllers
             userRepository = new UserRepository();
         }
         
-        [HttpGet]
+        [HttpGet, Authorize]
         public IEnumerable<User> GetAll()
         {
             return userRepository.GetAll();
