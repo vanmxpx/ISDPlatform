@@ -20,13 +20,31 @@ import { GamesComponent } from './components/games/games.component';
 import { GameDetailComponent } from './components/game-detail/game-detail.component';
 import { GameSearchComponent } from './components/game-search/game-search.component';
 import { SafePipe } from './pipes/safe.pipe';
+import { ReactiveFormsModule } from '@angular/forms';
+import { UserService } from './services/user.service';
+import {DynamiSocialLoginModule,AuthServiceConfig, GoogleLoginProvider,FacebookLoginProvider} from 'ng-dynami-social-login';
 
 const appRoutes : Routes = [
   {path: '', redirectTo : '/signIn', pathMatch: 'full'},
   {path: 'signIn', component: SignInComponent, data: { animation: 'isSignIn' }},
   {path: 'signUp', component: SignUpComponent, data: { animation: 'isSignUp' }}
 ]
-
+export function getAuthServiceConfigs() {
+  let config = new AuthServiceConfig(
+      [
+         {
+          id: FacebookLoginProvider.PROVIDER_ID,
+          provider: new FacebookLoginProvider("984923305039531")
+        },
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider("404859751108-vfr28h3l9dju1fovr0j4m99dn3flig22.apps.googleusercontent.com")
+        }
+         
+      ]
+  );
+  return config;
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,15 +64,24 @@ const appRoutes : Routes = [
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule, 
     MatInputModule,
     MatFormFieldModule,
     MatTableModule,
     MatButtonModule,
     MatCardModule,
-    MatListModule
+    MatListModule,
+    DynamiSocialLoginModule
   ],
-  providers: [AuthGuard],
+  providers: [
+    {
+    provide: AuthServiceConfig,
+    useFactory: getAuthServiceConfigs
+    }, 
+    AuthGuard, 
+    UserService
+],
   bootstrap: [AppComponent,
   SignInComponent,
   SignUpComponent]
