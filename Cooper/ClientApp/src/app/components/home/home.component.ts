@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'cooper-home',
   templateUrl: './home.component.html',
-  styleUrls: []
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
 

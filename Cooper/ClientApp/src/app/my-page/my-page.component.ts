@@ -5,7 +5,7 @@ import {Game, Comment, CommonChat} from '../models/my-page-models'
 @Component({
   selector: 'cooper-my-page',
   templateUrl: './my-page.component.html',
-  styleUrls: ['./my-page.component.css']
+  styleUrls: ['./my-page.component.scss']
 })
 export class MyPageComponent implements OnInit {
 

@@ -6,7 +6,7 @@ import { Router } from "@angular/router";
 @Component({
   selector: 'cooper-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css']
+  styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit {
   registerForm: FormGroup;

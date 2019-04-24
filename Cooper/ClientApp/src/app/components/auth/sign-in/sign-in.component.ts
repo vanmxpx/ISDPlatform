@@ -10,7 +10,7 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'cooper-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.css'],
+  styleUrls: ['./sign-in.component.scss'],
   animations: [fader]
 })
 export class SignInComponent {

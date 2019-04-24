@@ -10,7 +10,7 @@ import { GameService } from '../../services/game.service';
 @Component({
   selector: 'cooper-game-search',
   templateUrl: './game-search.component.html',
-  styleUrls: ['./game-search.component.css']
+  styleUrls: ['./game-search.component.scss']
 })
 export class GameSearchComponent implements OnInit {
 

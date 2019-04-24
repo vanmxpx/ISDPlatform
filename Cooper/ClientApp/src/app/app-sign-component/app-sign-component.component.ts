@@ -12,7 +12,7 @@ import {trigger,transition, style, query,group,animateChild, animate, keyframes,
    transition('void <=> *', animate(1000)),
  ]), panelAnimation],
   templateUrl: './app-sign-component.component.html',
-  styleUrls: ['./app-sign-component.component.css']
+  styleUrls: ['./app-sign-component.component.scss']
 })
 export class AppSignComponentComponent implements OnInit {
 
