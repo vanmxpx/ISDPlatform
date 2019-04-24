@@ -12,13 +12,14 @@ import { AppSignComponentComponent } from './app-sign-component/app-sign-compone
 import { MyPageComponent } from './my-page/my-page.component';
 
 const routes: Routes = [
-  {path: '**', redirectTo : 'auth/signIn', pathMatch: 'full'},
+  
   {path: '', redirectTo : 'auth', pathMatch: 'full'},
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'game', component: GameComponent, canActivate: [AuthGuard] },
   { path: 'gamedetail/:id', component: GameDetailComponent, canActivate: [AuthGuard] },
   { path: 'games', component: GamesComponent, canActivate: [AuthGuard] },
   { path: 'myPage', component: MyPageComponent, canActivate: [AuthGuard]},
+  {path: '**', redirectTo : 'auth/signIn', pathMatch: 'full'},
   { path: 'auth', component: AppSignComponentComponent,
     children: [
       {path: '', component: SignInComponent, outlet:'sub', data: { animation: 'isSignIn' }},

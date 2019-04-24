@@ -1,7 +1,7 @@
 <h1 class="head-text">Sign In</h1>
 
 <form class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-<div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div>
+
 
 <div class="personal-data-form">
 
@@ -12,7 +12,7 @@
   <mat-form-field>
     <input matInput placeholder="Enter your password" type="password" [(ngModel)]="password" name="Password" />
   </mat-form-field>
-
+  <label class="text-danger" *ngIf="invalidLogin">Invalid username or password.</label>
 </div>
 <br/>
 <button class="sign-in-button" type="submit">Sign in</button>
