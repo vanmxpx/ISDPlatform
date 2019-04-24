@@ -37,9 +37,9 @@ export class SignInComponent {
         "Content-Type": "application/json"
       })
     }).subscribe(response => {
-      // let token = (<any>response).token;
-      // localStorage.setItem("JwtCooper", token);
-      // this.invalidLogin = false;
+       let token = (<any>response).token;
+       localStorage.setItem("JwtCooper", token);
+       this.invalidLogin = false;
       this.router.navigate(["/myPage"]);
       
     }, err => {
