@@ -14,16 +14,24 @@ namespace Cooper.Controllers
     {
         // TODO: Make it scoped
 
-        [Route("tanks")]
+         [Route("tanks/{query}")]
         public Task Tanks()
         {
-            return this.ProxyAsync("https://localhost:60001/");
+            return this.ProxyAsync("http://localhost:60001/");
         }
 
-        [Route("islands")]
+        [Route("islands/{query}")]
         public Task Islands()
         {
-            return this.ProxyAsync("https://localhost:60002/");
+            return this.ProxyAsync("http://localhost:60002/");
+        }
+
+        [Route("example/{*query}")]
+        public Task Get()
+        {
+            string a = this.Request.Path.Value;
+            string b = this.Request.QueryString.Value;
+            return this.ProxyAsync($"https://www.google.com/{b}");
         }
 
     }
