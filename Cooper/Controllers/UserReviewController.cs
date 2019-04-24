@@ -22,6 +22,9 @@ namespace Cooper.Controllers
             userReviewRepository = new UserReviewRepository();
         }
 
+        // TODO: get all reviews for reviewed user method
+        // TODO: get all reviews for user reviewer method
+
         [HttpGet]
         public IEnumerable<UserReview> GetAll()
         {
