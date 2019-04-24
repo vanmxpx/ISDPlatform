@@ -12,26 +12,28 @@ namespace Cooper.Controllers
     [Route("api/proxy")]
     public class ProxyController : Controller
     {
-        // TODO: Make it scoped
-
-         [Route("tanks/{query}")]
+        [Route("tanks/{*query}")]
         public Task Tanks()
         {
-            return this.ProxyAsync("http://localhost:60001/");
+            string path = this.Request.Path.Value.Replace("/api/proxy/tanks/", "");
+            string query = this.Request.QueryString.Value;
+            return this.ProxyAsync($"http://localhost:60001/{path}{query}");
         }
 
-        [Route("islands/{query}")]
+        [Route("islands/{*query}")]
         public Task Islands()
         {
-            return this.ProxyAsync("http://localhost:60002/");
+            string path = this.Request.Path.Value.Replace("/api/proxy/islands/", "");
+            string query = this.Request.QueryString.Value;
+            return this.ProxyAsync($"http://localhost:60002/{path}{query}");
         }
 
         [Route("example/{*query}")]
-        public Task Get()
+        public Task Get(string name)
         {
-            string a = this.Request.Path.Value;
-            string b = this.Request.QueryString.Value;
-            return this.ProxyAsync($"https://www.google.com/{b}");
+            string path = this.Request.Path.Value.Replace("/api/proxy/example/", "");
+            string query = this.Request.QueryString.Value;
+            return this.ProxyAsync($"http://www.google.com/{path}{query}");
         }
 
     }
