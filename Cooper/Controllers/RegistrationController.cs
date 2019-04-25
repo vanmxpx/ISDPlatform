@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Cooper.Controllers
 {
@@ -26,7 +25,9 @@ namespace Cooper.Controllers
         [ProducesResponseType(201)]
         public IActionResult Post([FromBody]User user)
         {
-            if (!ModelState.IsValid || user.Id != 0)
+            bool nicknameExists = userRepository.IfNicknameExists(user.Nickname);       // validation that we don't create user with the same nickname
+
+            if (!ModelState.IsValid || user.Id != 0 || nicknameExists == true)
             {
                 return BadRequest(ModelState);
             }

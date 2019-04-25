@@ -22,7 +22,7 @@ namespace Cooper.Controllers
             userRepository = new UserRepository();
         }
         
-        [HttpGet, Authorize]
+        [HttpGet]
         public IEnumerable<User> GetAll()
         {
             return userRepository.GetAll();

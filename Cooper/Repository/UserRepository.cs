@@ -16,6 +16,16 @@ namespace Cooper.Repository
             userDAO = new UserDAO();
         }
 
+        
+        public bool IfNicknameExists(string nickname)
+        {
+            User user = GetByNickname(nickname);
+            
+            return (user == null) ? false : true;
+        }
+
+        #region Get Methods
+
         public IEnumerable<User> GetAll()
         {
             List<UserDb> users = (List<UserDb>)userDAO.GetAll();
@@ -37,7 +47,12 @@ namespace Cooper.Repository
         {
             UserDb user = userDAO.GetByNickname(nickname);
 
-            User user_newTyped = Mapper.Map<User>(user);
+            User user_newTyped = null;
+
+            if (user != null)
+            {
+                user_newTyped = Mapper.Map<User>(user);
+            }
 
             return user_newTyped;
         }
@@ -45,8 +60,13 @@ namespace Cooper.Repository
         public User GetByEmail(string email)
         {
             UserDb user = userDAO.GetByEmail(email);
+            
+            User user_newTyped = null;
 
-            User user_newTyped = Mapper.Map<User>(user);
+            if (user != null)
+            {
+                user_newTyped = Mapper.Map<User>(user);
+            }
 
             return user_newTyped;
         }
@@ -64,6 +84,8 @@ namespace Cooper.Repository
 
             return user_newTyped;
         }
+        #endregion
+
 
         public long Create(User user)
         {
