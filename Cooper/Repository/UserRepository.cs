@@ -141,8 +141,8 @@ namespace Cooper.Repository
             user_newType.Id = user.Id;
             user_newType.Name = user.Name;
             user_newType.Nickname = user.Nickname;
-            user_newType.Password = user.Password;
             user_newType.PhotoURL = user.PhotoURL;
+            user_newType.Email = user.Email;
             user_newType.IsVerified = user.IsVerified;
             user_newType.IsCreator = user.IsCreator;
             user_newType.IsBanned = user.IsBanned;
@@ -169,8 +169,8 @@ namespace Cooper.Repository
             user_newType.Id = user.Id;
             user_newType.Name = user.Name;
             user_newType.Nickname = user.Nickname;
-            user_newType.Password = user.Password;
             user_newType.PhotoURL = user.PhotoURL;
+            user_newType.Email = user.Email;
             user_newType.IsVerified = user.IsVerified;
             user_newType.IsCreator = user.IsCreator;
             user_newType.IsBanned = user.IsBanned;
