@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using Cooper.Models;
 using Cooper.DAO;
 using Cooper.DAO.Models;
-using AutoMapper;
+using Cooper.Repository.Mapping;
 
 namespace Cooper.Repository
 {
     public class UserReviewRepository
     {
         private UserReviewDAO userReviewDAO;
+        private ModelsMapper mapper;
 
         public UserReviewRepository()
         {
             userReviewDAO = new UserReviewDAO();
+            mapper = new ModelsMapper();
         }
 
         public IEnumerable<UserReview> GetAll()
@@ -24,8 +26,7 @@ namespace Cooper.Repository
 
             foreach (UserReviewDb userReview in userReviews)
             {
-                //UserReview userReview_newType = mapper.Map<UserReview>(userReview);
-                UserReview userReview_newType = UserReviewMap(userReview);
+                UserReview userReview_newType = mapper.Map(userReview);
 
                 userReviews_newType.Add(userReview_newType);
             }
@@ -40,8 +41,7 @@ namespace Cooper.Repository
 
             if (userReview != null)
             {
-                userReview_newTyped = Mapper.Map<UserReview>(userReview);
-                //UserReview userReview_newTyped = UserReviewMap(userReview);
+                userReview_newTyped = mapper.Map(userReview);
             }
 
             return userReview_newTyped;
@@ -49,14 +49,14 @@ namespace Cooper.Repository
 
         public long Create(UserReview userReview)
         {
-            UserReviewDb userReviewDb = UserReviewMap(userReview);
+            UserReviewDb userReviewDb = mapper.Map(userReview);
 
             return userReviewDAO.Save(userReviewDb);
         }
 
         public void Update(UserReview userReview)
         {
-            UserReviewDb userReviewDb = UserReviewMap(userReview);
+            UserReviewDb userReviewDb = mapper.Map(userReview);
 
             userReviewDAO.Update(userReviewDb);
         }
@@ -66,53 +66,5 @@ namespace Cooper.Repository
             userReviewDAO.Delete(id);
         }
 
-        #region Mapping
-        private UserReview UserReviewMap(UserReviewDb userReview)
-        {
-            UserReview userReview_newType = new UserReview();
-
-            #region Transfer main attributes
-
-            userReview_newType.Id = userReview.Id;
-            userReview_newType.Content = userReview.Content;
-            userReview_newType.CreateDate = userReview.CreateDate;
-            userReview_newType.Rating = userReview.Rating;
-
-            #endregion
-
-            #region Transfering interop attributes
-
-            userReview_newType.IdReviewer = new User() { Id = userReview.IdReviewer };
-            userReview_newType.IdReviewed = new User() { Id = userReview.IdReviewed };
-
-            #endregion
-
-            return userReview_newType;
-        }
-
-        private UserReviewDb UserReviewMap(UserReview userReview)
-        {
-            UserReviewDb userReview_newType = new UserReviewDb();
-
-            #region Transfer main attributes
-
-            userReview_newType.Id = userReview.Id;
-            userReview_newType.Content = userReview.Content;
-            userReview_newType.CreateDate = userReview.CreateDate;
-            userReview_newType.Rating = userReview.Rating;
-
-            #endregion
-
-            #region Transfering interop attributes
-            
-            userReview_newType.IdReviewer = userReview.IdReviewer.Id;
-            userReview_newType.IdReviewed = userReview.IdReviewed.Id;
-
-            #endregion
-
-            return userReview_newType;
-        }
-
-        #endregion
     }
 }

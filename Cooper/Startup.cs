@@ -10,7 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Oracle.ManagedDataAccess;
 using AspNetCore.Proxy;
-using AutoMapper;
 using Cooper.Models;
 using Cooper.DAO.Models;
 using Cooper.Configuration;
@@ -92,27 +91,7 @@ namespace Cooper
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
-
-
-            // Initializing mapper
-            Mapper.Initialize(cfg => {
-                cfg.CreateMap<UserDb, User>();
-                cfg.CreateMap<User, UserDb>();
-
-                cfg.CreateMap<GameDb, Game>();
-                cfg.CreateMap<Game, GameDb>();
-
-                cfg.CreateMap<ChatDb, Chat>();
-                cfg.CreateMap<Chat, ChatDb>();
-
-                cfg.CreateMap<MessageDb, Message>();
-                cfg.CreateMap<Message, MessageDb>();
-
-                cfg.CreateMap<UserReviewDb, UserReview>();
-                cfg.CreateMap<UserReview, UserReviewDb>();
-
-            });
-
+            
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
