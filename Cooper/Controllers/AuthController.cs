@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Cooper.Controllers.ViewModels;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,6 +15,12 @@ using Cooper.Configuration;
 
 namespace Cooper.Controllers
 {
+    public class UserLogin
+    {
+        public string Username { get; set; }          // can be nickname or email (later)
+        public string Password { get; set; }
+    }
+
     [Route("api/auth")]
     public class AuthController : ControllerBase
     {
