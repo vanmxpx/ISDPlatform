@@ -31,16 +31,16 @@ namespace Cooper.Controllers
         }
 
         [HttpPost, Route("login")]
-        public IActionResult Login([FromBody]UserLogin user_auth)
+        public IActionResult Login([FromBody]UserLogin user)
         {
-            if (user_auth == null)
+            if (user == null)
             {
                 return BadRequest("Invalid client request");
             }
 
-            User user = userRepository.GetByNickname(user_auth.Username);
+            bool authValid = userRepository.CheckCredentials(user.Username, user.Password);
 
-            if (user != null && user.Password == user_auth.Password)
+            if (authValid)
             {
 
                 var signinCredentials = new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256);

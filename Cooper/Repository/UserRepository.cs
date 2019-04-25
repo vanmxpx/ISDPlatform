@@ -16,13 +16,37 @@ namespace Cooper.Repository
             userDAO = new UserDAO();
         }
 
-        
+        #region Checking methods
+
         public bool IfNicknameExists(string nickname)
         {
-            User user = GetByNickname(nickname);
-            
-            return (user == null) ? false : true;
+            return userDAO.IfNicknameExists(nickname);
         }
+
+        public bool IfEmailExists(string email)             // needed for sending email
+        {
+            return userDAO.IfEmailExists(email);
+        }
+
+        public bool IfUserExists(long id)
+        {
+            return userDAO.IfUserExists(id);
+        }
+
+        public bool IfPasswordMatched(long id, string password)   // needed for changing password
+        {
+            return userDAO.IfPasswordCorrect(id, password);
+        }
+
+        public bool CheckCredentials(string nickname, string password)  // needed for authentification
+        {
+            return userDAO.CheckCredentials(nickname, password);
+        }
+
+        #endregion
+
+
+        #region Main methods
 
         #region Get Methods
 
@@ -85,8 +109,7 @@ namespace Cooper.Repository
             return user_newTyped;
         }
         #endregion
-
-
+        
         public long Create(User user)
         {
             UserDb userDb = UserMap(user);
@@ -105,7 +128,9 @@ namespace Cooper.Repository
         {
             userDAO.Delete(id);
         }
-        
+
+        #endregion
+
         #region Mapping
         private User UserMap(UserDb user)
         {
