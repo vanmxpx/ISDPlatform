@@ -26,11 +26,11 @@ namespace Cooper.Controllers
         public IActionResult Post([FromBody]User user)
         {
             bool nicknameExists = userRepository.IfNicknameExists(user.Nickname);       // validation that we don't create user with the same nickname
-
+            bool emailExists = userRepository.IfEmailExists(user.Email);
 
             // TODO: divide this statement into three and send the proper explanation for bad-request
 
-            if (!ModelState.IsValid || user.Id != 0 || nicknameExists == true)
+            if (!ModelState.IsValid || user.Id != 0 || nicknameExists == true || emailExists == true)
             {
                 return BadRequest(ModelState);
             }
