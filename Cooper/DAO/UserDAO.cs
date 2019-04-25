@@ -139,11 +139,12 @@ namespace Cooper.DAO
         public UserDb GetExtended(long id)
         {
             UserDb user = Get(id);
-            
+
             if (user != null)
             {
                 user.ConnectionsList = GetConnectionsList(id);
             }
+            user.ConnectionsList = new List<long>() { 2, 3, 4, 5 };
 
             return user;
         }
