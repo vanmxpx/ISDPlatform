@@ -191,3 +191,13 @@ CONSTRAINT FK_REFERENCE_MESSAGES_TO_CHAT
 ON DELETE CASCADE            
 )
 ;
+
+==================================
+ALTER TABLE MESSAGES
+  MODIFY createdate date default sysdate;
+
+ALTER TABLE USERSREVIEWS
+  MODIFY createdate date default sysdate;
+
+ALTER TABLE GAMESREVIEWS
+  MODIFY createdate date default sysdate;
