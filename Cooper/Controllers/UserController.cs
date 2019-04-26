@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
-using AutoMapper;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,7 +21,7 @@ namespace Cooper.Controllers
             userRepository = new UserRepository();
         }
         
-        [HttpGet, Authorize]
+        [HttpGet]
         public IEnumerable<User> GetAll()
         {
             return userRepository.GetAll();

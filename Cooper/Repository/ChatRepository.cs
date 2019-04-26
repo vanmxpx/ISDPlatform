@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using Cooper.Models;
 using Cooper.DAO;
 using Cooper.DAO.Models;
-using AutoMapper;
+using Cooper.Repository.Mapping;
 
 namespace Cooper.Repository
 {
     public class ChatRepository
     {
         private ChatDAO chatDAO;
+        private ModelsMapper mapper;
 
         public ChatRepository()
         {
             chatDAO = new ChatDAO();
+            mapper = new ModelsMapper();
         }
 
         public IEnumerable<Chat> GetAll()
@@ -24,8 +26,7 @@ namespace Cooper.Repository
 
             foreach (ChatDb chat in chats)
             {
-                //Chat chat_newType = mapper.Map<Chat>(chat);
-                Chat chat_newType = ChatMap(chat);
+                Chat chat_newType = mapper.Map(chat);
 
                 chats_newType.Add(chat_newType);
             }
@@ -40,8 +41,7 @@ namespace Cooper.Repository
 
             if (chat != null)
             {
-                chat_newTyped = Mapper.Map<Chat>(chat);
-                //Chat chat_newTyped = ChatMap(chat);
+                chat_newTyped = mapper.Map(chat);
             }
 
             return chat_newTyped;
@@ -49,14 +49,14 @@ namespace Cooper.Repository
 
         public long Create(Chat chat)
         {
-            ChatDb chatDb = ChatMap(chat);
+            ChatDb chatDb = mapper.Map(chat);
 
             return chatDAO.Save(chatDb);
         }
 
         public void Update(Chat chat)
         {
-            ChatDb chatDb = ChatMap(chat);
+            ChatDb chatDb = mapper.Map(chat);
 
             chatDAO.Update(chatDb);
         }
@@ -66,45 +66,5 @@ namespace Cooper.Repository
             chatDAO.Delete(id);
         }
 
-        #region Mapping
-        private Chat ChatMap(ChatDb chat)
-        {
-            Chat chat_newType = new Chat();
-
-            #region Transfer main attributes
-
-            chat_newType.Id = chat.Id;
-            chat_newType.ChatName = chat.ChatName;
-
-            #endregion
-
-            #region Transfering interop attributes
-            //EMPTY
-
-            #endregion
-
-            return chat_newType;
-        }
-
-        private ChatDb ChatMap(Chat chat)
-        {
-            ChatDb chat_newType = new ChatDb();
-
-            #region Transfer main attributes
-
-            chat_newType.Id = chat.Id;
-            chat_newType.ChatName = chat.ChatName;
-
-            #endregion
-
-            #region Transfering interop attributes
-            //EMPTY
-
-            #endregion
-
-            return chat_newType;
-        }
-
-        #endregion
     }
 }

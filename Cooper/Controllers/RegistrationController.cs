@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Cooper.Controllers
 {
@@ -26,7 +25,12 @@ namespace Cooper.Controllers
         [ProducesResponseType(201)]
         public IActionResult Post([FromBody]User user)
         {
-            if (!ModelState.IsValid || user.Id != 0)
+            bool nicknameExists = userRepository.IfNicknameExists(user.Nickname);       // validation that we don't create user with the same nickname
+            bool emailExists = userRepository.IfEmailExists(user.Email);
+
+            // TODO: divide this statement into three and send the proper explanation for bad-request
+
+            if (!ModelState.IsValid || user.Id != 0 || nicknameExists == true || emailExists == true)
             {
                 return BadRequest(ModelState);
             }
