@@ -192,7 +192,7 @@ ON DELETE CASCADE
 )
 ;
 
-==================================
+/*==================================*/
 ALTER TABLE MESSAGES
   MODIFY createdate date default sysdate;
 
