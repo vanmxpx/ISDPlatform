@@ -46,6 +46,51 @@ namespace Cooper.DAO
             };
         }
 
+        #region Checking methods
+
+        public bool IfNicknameExists(string nickname)
+        {
+            UserDb user = GetByNickname(nickname);
+
+            return (user == null) ? false : true;
+        }
+
+        public bool IfEmailExists(string email)
+        {
+            UserDb user = GetByEmail(email);
+
+            return (user == null) ? false : true;
+        }
+
+        public bool IfPasswordCorrect(long id, string password)
+        {
+            UserDb user = Get(id);
+
+            return user.Password == password;
+        }
+
+        public bool IfUserExists(long id)
+        {
+            UserDb user = Get(id);
+
+            return (user == null) ? false : true;
+        }
+
+        public bool CheckCredentials(string nickname, string password)
+        {
+            UserDb user = GetByNickname(nickname);
+
+            if (user == null || user.Password != password)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        #endregion
+
+        #region Main methods
+
         #region Get methods
 
         public UserDb Get(long id)
@@ -94,11 +139,12 @@ namespace Cooper.DAO
         public UserDb GetExtended(long id)
         {
             UserDb user = Get(id);
-            
+
             if (user != null)
             {
                 user.ConnectionsList = GetConnectionsList(id);
             }
+            user.ConnectionsList = new List<long>() { 2, 3, 4, 5 };
 
             return user;
         }
@@ -203,5 +249,7 @@ namespace Cooper.DAO
                 logger.Info($"Updating user with id={user.Id} was failed.");
             }
         }
+
+        #endregion
     }
 }
