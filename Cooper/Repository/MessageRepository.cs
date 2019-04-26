@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using Cooper.Models;
 using Cooper.DAO;
 using Cooper.DAO.Models;
-using AutoMapper;
+using Cooper.Repository.Mapping;
 
 namespace Cooper.Repository
 {
     public class MessageRepository
     {
         private MessageDAO messageDAO;
-
+        private ModelsMapper mapper;
         public MessageRepository()
         {
             messageDAO = new MessageDAO();
+            mapper = new ModelsMapper();
+
         }
 
         public IEnumerable<Message> GetAll()
@@ -24,8 +26,7 @@ namespace Cooper.Repository
 
             foreach (MessageDb message in messages)
             {
-                //Message message_newType = mapper.Map<Message>(message);
-                Message message_newType = MessageMap(message);
+                Message message_newType = mapper.Map(message);
 
                 messages_newType.Add(message_newType);
             }
@@ -40,8 +41,7 @@ namespace Cooper.Repository
 
             if (message != null)
             {
-                message_newTyped = Mapper.Map<Message>(message);
-                //Message message_newTyped = MessageMap(message);
+                message_newTyped = mapper.Map(message);
             }
 
             return message_newTyped;
@@ -49,14 +49,14 @@ namespace Cooper.Repository
 
         public long Create(Message message)
         {
-            MessageDb messageDb = MessageMap(message);
+            MessageDb messageDb = mapper.Map(message);
 
             return messageDAO.Save(messageDb);
         }
 
         public void Update(Message message)
         {
-            MessageDb messageDb = MessageMap(message);
+            MessageDb messageDb = mapper.Map(message);
 
             messageDAO.Update(messageDb);
         }
@@ -66,54 +66,5 @@ namespace Cooper.Repository
             messageDAO.Delete(id);
         }
 
-        #region Mapping
-        private Message MessageMap(MessageDb message)
-        {
-            Message message_newType = new Message();
-
-            #region Transfer main attributes
-
-            message_newType.Id = message.Id;
-            message_newType.Content = message.Content;
-            message_newType.CreateDate = message.CreateDate;
-            message_newType.IsRead = message.IsRead;
-
-            #endregion
-
-            #region Transfering interop attributes
-
-            message_newType.IdChat = new Chat() { Id = message.IdChat };
-            message_newType.IdSender = new User() { Id = message.IdSender };
-
-            #endregion
-
-            return message_newType;
-        }
-
-        private MessageDb MessageMap(Message message)
-        {
-            MessageDb message_newType = new MessageDb();
-
-            #region Transfer main attributes
-
-            message_newType.Id = message.Id;
-            message_newType.Content = message.Content;
-            message_newType.CreateDate = message.CreateDate;
-            message_newType.IsRead = message.IsRead;
-
-
-            #endregion
-
-            #region Transfering interop attributes
-
-            message_newType.IdChat = message.IdChat.Id;
-            message_newType.IdSender = message.IdSender.Id;
-
-            #endregion
-
-            return message_newType;
-        }
-
-        #endregion
     }
 }
