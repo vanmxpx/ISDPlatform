@@ -68,7 +68,7 @@ namespace Cooper.DAO
 
             List<EntityORM> entities = (List<EntityORM>)crud.ReadAll(table, attributes);
 
-            foreach (EntityORM entity in entities)              // Mapping entities to games
+            foreach (EntityORM entity in entities)              
             {
                 EntityMapping.Map(entity, out GameDb game);
                 games.Add(game);
@@ -80,8 +80,9 @@ namespace Cooper.DAO
 
         #region Interop properties info reading
 
-        private List<long> GetPlayersList(long idGame) // TODO
+        private List<long> GetPlayersList(long idGame) 
         {
+            // TODO
             List<long> playersList = new List<long>();
 
             string sqlExpression = $"SELECT idUser from {table} WHERE ID = {idGame}";
@@ -99,7 +100,8 @@ namespace Cooper.DAO
         {
             EntityORM entity = EntityMapping.Map(game, attributes);
 
-            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+            // Making sure that ID value is not touched.
+            entity.attributeValue.Remove("ID");
 
             long idGame = crud.Create(table, idColumn, entity);
 
@@ -125,7 +127,8 @@ namespace Cooper.DAO
         {
             EntityORM entity = EntityMapping.Map(game, attributes);
 
-            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+            // Making sure that ID value is not touched.
+            entity.attributeValue.Remove("ID");
 
             bool ifUpdated = crud.Update(game.Id, table, idColumn, entity);
 

@@ -6,7 +6,7 @@ using System.Data.Common;
 namespace Cooper.ORM
 {
 
-    public class DbConnect// : IDisposable
+    public class DbConnect
     {
 
         private static string connectionString = $"User Id=SYSTEM;Password={Environment.GetEnvironmentVariable("Coop")};Data Source=localhost:1521/xe;";

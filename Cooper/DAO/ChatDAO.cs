@@ -66,7 +66,7 @@ namespace Cooper.DAO
 
             List<EntityORM> entities = (List<EntityORM>)crud.ReadAll(table, attributes);
 
-            foreach (EntityORM entity in entities)              // Mapping entities to chats
+            foreach (EntityORM entity in entities)
             {
                 EntityMapping.Map(entity, out ChatDb chat);
                 chats.Add(chat);
@@ -80,13 +80,15 @@ namespace Cooper.DAO
         // Here they will be
 
         #endregion
+
         #endregion
 
         public long Save(ChatDb chat)
         {
             EntityORM entity = EntityMapping.Map(chat, attributes);
 
-            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+            // Making sure that ID value is not touched.
+            entity.attributeValue.Remove("ID");     
 
             long idChat = crud.Create(table, idColumn, entity);
 
