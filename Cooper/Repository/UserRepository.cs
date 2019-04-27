@@ -4,6 +4,8 @@ using Cooper.Models;
 using Cooper.DAO;   
 using Cooper.DAO.Models;
 using Cooper.Repository.Mapping;
+using Cooper.Controllers.ViewModels;
+
 
 namespace Cooper.Repository
 {
@@ -23,8 +25,8 @@ namespace Cooper.Repository
         {
             return userDAO.IfNicknameExists(nickname);
         }
-
-        public bool IfEmailExists(string email)             // needed for sending email
+        
+        public bool IfEmailExists(string email)
         {
             return userDAO.IfEmailExists(email);
         }
@@ -34,12 +36,12 @@ namespace Cooper.Repository
             return userDAO.IfUserExists(id);
         }
 
-        public bool IfPasswordMatched(long id, string password)   // needed for changing password
+        public bool IfPasswordMatched(long id, string password)
         {
             return userDAO.IfPasswordCorrect(id, password);
         }
 
-        public bool CheckCredentials(string nickname, string password)  // needed for authentification
+        public bool CheckCredentials(string nickname, string password)
         {
             return userDAO.CheckCredentials(nickname, password);
         }
@@ -59,7 +61,6 @@ namespace Cooper.Repository
 
             foreach (UserDb user in users)
             {
-                //User user_newType = mapper.Map<User>(user);
                 User user_newType = mapper.Map(user);
 
                 users_newType.Add(user_newType);
@@ -108,8 +109,26 @@ namespace Cooper.Repository
 
             return user_newTyped;
         }
+
         #endregion
         
+        /// <summary>
+        /// Creates a new user by traditional site registration procedure.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Id of created user</returns>
+        public long Create(UserRegistration user)
+        {
+            UserDb userDb = mapper.Map(user);
+
+            return userDAO.Save(userDb);
+        }
+
+        /// <summary>
+        /// Creates a new user With help of social media.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>If of created user</returns>
         public long Create(User user)
         {
             UserDb userDb = mapper.Map(user);

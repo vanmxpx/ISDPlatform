@@ -52,14 +52,14 @@ namespace Cooper.DAO
         {
             UserDb user = GetByNickname(nickname);
 
-            return (user == null) ? false : true;
+            return (user != null);
         }
 
         public bool IfEmailExists(string email)
         {
             UserDb user = GetByEmail(email);
 
-            return (user == null) ? false : true;
+            return (user != null);
         }
 
         public bool IfPasswordCorrect(long id, string password)
@@ -73,7 +73,7 @@ namespace Cooper.DAO
         {
             UserDb user = Get(id);
 
-            return (user == null) ? false : true;
+            return (user != null);
         }
 
         public bool CheckCredentials(string nickname, string password)
@@ -208,7 +208,8 @@ namespace Cooper.DAO
         {
             EntityORM entity = EntityMapping.Map(user, attributes);
 
-            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+            // Making sure that ID value is not touched.
+            entity.attributeValue.Remove("ID");
 
             long user_id = crud.Create(table, idColumn, entity);
 
@@ -236,7 +237,8 @@ namespace Cooper.DAO
         {
             EntityORM entity = EntityMapping.Map(user, attributes);
 
-            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+            // Making sure that ID value is not touched.
+            entity.attributeValue.Remove("ID"); 
 
             bool ifUpdated = crud.Update(user.Id, table, idColumn, entity);
 
