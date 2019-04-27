@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
-
+using Cooper.Controllers.ViewModels;
 
 namespace Cooper.Controllers
 {
@@ -23,22 +23,21 @@ namespace Cooper.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(201)]
-        public IActionResult Post([FromBody]User user)
+        public IActionResult Post([FromBody]UserRegistration user, string Password)
         {
-            bool nicknameExists = userRepository.IfNicknameExists(user.Nickname);       // validation that we don't create user with the same nickname
+            bool nicknameExists = userRepository.IfNicknameExists(user.Nickname);
             bool emailExists = userRepository.IfEmailExists(user.Email);
 
             // TODO: divide this statement into three and send the proper explanation for bad-request
 
-            if (!ModelState.IsValid || user.Id != 0 || nicknameExists == true || emailExists == true)
+            if (!ModelState.IsValid || nicknameExists == true || emailExists == true)
             {
                 return BadRequest(ModelState);
             }
 
             long id = userRepository.Create(user);
-            user.Id = id;
 
-            return Ok(user);
+            return Ok(id);
         }
     }
 }
