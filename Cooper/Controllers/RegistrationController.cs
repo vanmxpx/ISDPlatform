@@ -28,9 +28,9 @@ namespace Cooper.Controllers
             bool nicknameExists = userRepository.IfNicknameExists(user.Nickname);
             bool emailExists = userRepository.IfEmailExists(user.Email);
 
-            // TODO: divide this statement into three and send the proper explanation for bad-request
+            // TODO: divide this statement into three and send the proper explanation for bad-request.
 
-            if (!ModelState.IsValid || nicknameExists == true || emailExists == true)
+            if (!ModelState.IsValid || nicknameExists || emailExists)
             {
                 return BadRequest(ModelState);
             }
