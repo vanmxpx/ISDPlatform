@@ -80,13 +80,15 @@ namespace Cooper.DAO
         // Here they will be
 
         #endregion
+
         #endregion
 
         public long Save(MessageDb message)
         {
             EntityORM entity = EntityMapping.Map(message, attributes);
 
-            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+            // Making sure that ID value is not touched.
+            entity.attributeValue.Remove("ID");     
 
             long idMessage = crud.Create(table, idColumn, entity);
 
@@ -112,7 +114,8 @@ namespace Cooper.DAO
         {
             EntityORM entity = EntityMapping.Map(message, attributes);
 
-            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+            // Making sure that ID value is not touched
+            entity.attributeValue.Remove("ID");
             
             bool ifUpdated = crud.Update(message.Id, table, idColumn, entity);
 
