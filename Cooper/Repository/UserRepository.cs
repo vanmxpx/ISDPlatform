@@ -4,6 +4,8 @@ using Cooper.Models;
 using Cooper.DAO;   
 using Cooper.DAO.Models;
 using Cooper.Repository.Mapping;
+using Cooper.Controllers.ViewModels;
+
 
 namespace Cooper.Repository
 {
@@ -110,7 +112,14 @@ namespace Cooper.Repository
         }
         #endregion
         
-        public long Create(User user)
+        public long Create(UserRegistration user)
+        {
+            UserDb userDb = mapper.Map(user);
+
+            return userDAO.Save(userDb);
+        }
+
+        public long Create(User user)               // creation for Facebook/Google user
         {
             UserDb userDb = mapper.Map(user);
 
