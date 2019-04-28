@@ -21,22 +21,22 @@ namespace Cooper.Controllers
         }
 
         // GET: api/<controller>
-        [HttpGet]
+        [HttpGet("{id}")]
         public IEnumerable<Statistics> GetAllStatistics()
         {
             return statisticsRepository.GetAll();
         }
 
-        public IEnumerable<Statistics> GetAllStatisticsByUserId(long userId)    // get all game statistics for concrete user
+        public IEnumerable<Statistics> GetAllStatisticsByUserId(long Id)    // get all game statistics for concrete user
         {
-            return new List<Statistics>();
+            return statisticsRepository.GetStatisticsByUser(Id);
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
         public IEnumerable<Statistics> GetAllStatisticByGameId(long id)                    // get all game statistics for concreate game
         {
-            return new List<Statistics>();
+            return statisticsRepository.GetStatisticsByGame(id);
         }
 
         public Statistics GetStatisticsById(long id)

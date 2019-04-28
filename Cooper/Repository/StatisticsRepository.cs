@@ -41,10 +41,41 @@ namespace Cooper.Repository
             if (statistics != null)
             {
                 statistics_newTyped = Mapper.Map<Message>(statistics);
-                //Message message_newTyped = MessageMap(message);
             }
 
             return statistics_newTyped;
+        }
+
+        public IEnumerable<Statistics> GetStatisticsByUser(long userId)
+        {
+            List<StatisticsDb> allStatistics = statisticsDAO.GetAll();
+            List<Statistics> StatisticsByUser = new List<Statistics>();
+
+            foreach (StatisticsDb statistics in allStatistics)
+            {
+                if (statistics.IdUser == userId)
+                {
+                    StatisticsByUser.Add(StatisticsMap(statistics));
+                }
+            }
+
+            return StatisticsByUser;
+        }
+
+        public IEnumerable<Statistics> GetStatisticsByGame(long gameId)
+        {
+            List<StatisticsDb> allStatistics = statisticsDAO.GetAll();
+            List<Statistics> StatisticsByGame = new List<Statistics>();
+
+            foreach (StatisticsDb statistics in allStatistics)
+            {
+                if (statistics.IdGame == gameId)
+                {
+                    StatisticsByGame.Add(StatisticsMap(statistics));
+                }
+            }
+
+            return StatisticsByGame;
         }
 
         public long Create(Statistics statistics)

@@ -24,13 +24,44 @@ namespace Cooper.Repository
 
             foreach (GameReviewDb gameReview in gameReviews)
             {
-                //UserReview userReview_newType = mapper.Map<UserReview>(userReview);
                 GameReview gameReview_newType = GameReviewMap(gameReview);
 
                 gameReviews_newType.Add(gameReview_newType);
             }
 
             return gameReviews_newType;
+        }
+
+        public IEnumerable<GameReview> GetReviewsForGame(long gameId)
+        {
+            List<GameReviewDb> allReviews = (List<GameReviewDb>)gameReviewDAO.GetAll();
+            List<GameReview> reviewsForGame = new List<GameReview>();
+
+            foreach(GameReviewDb reviewForGame in allReviews)
+            {
+                if (reviewForGame.GameId == gameId)
+                {
+                    reviewsForGame.Add(GameReviewMap(reviewForGame));
+                }
+            }
+
+            return reviewsForGame;
+        }
+
+        public IEnumerable<GameReview> GetReviewsFromUser(long userId)
+        {
+            List<GameReviewDb> allReviews = (List<GameReviewDb>)gameReviewDAO.GetAll();
+            List<GameReview> reviewsFromUser = new List<GameReview>();
+
+            foreach (GameReviewDb reviewFromUser in allReviews)
+            {
+                if (reviewFromUser.ReviewerId == userId)
+                {
+                    reviewsFromUser.Add(GameReviewMap(reviewFromUser));
+                }
+            }
+
+            return reviewsFromUser;
         }
 
         public GameReview Get(long id)

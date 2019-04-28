@@ -21,16 +21,16 @@ namespace Cooper.Controllers
             gameReviewRepository = new GameReviewRepository();
         }
         // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<GameReview> GetReviewsForGame()      // get users reviews for game
+        [HttpGet("{id}")]
+        public IEnumerable<GameReview> GetReviewsForGame(long Id)      // get users reviews for game
         {
-            return new List<GameReview>();
+            return gameReviewRepository.GetReviewsForGame(Id);
         }
 
         [HttpGet]
-        public IEnumerable<GameReview> GetUserReviews()
+        public IEnumerable<GameReview> GetUserReviews(long userId)
         {
-            return new List<GameReview>();      // get reviews for games from concrete user
+            return gameReviewRepository.GetReviewsFromUser(userId);      // get reviews for games from concrete user
         }
 
 
