@@ -431,7 +431,7 @@ namespace Cooper.DAO.Mapping
                         GameReview.IdReviewer = Convert.ToInt64(aV.Value);
                         break;
                     case "IDGAME":
-                        GameReview.IdReviewed = Convert.ToInt64(aV.Value);
+                        GameReview.IdGame = Convert.ToInt64(aV.Value);
                         break;
                     case "CONTENT":
                         GameReview.Content = aV.Value.ToString();
@@ -463,7 +463,7 @@ namespace Cooper.DAO.Mapping
                         value = GameReview.IdReviewer;
                         break;
                     case "IDGAME":
-                        value = GameReview.IdReviewed;
+                        value = GameReview.IdGame;
                         break;
                     case "CONTENT":
                         value = $"\'GameReview.Content\'";
@@ -550,6 +550,7 @@ namespace Cooper.DAO.Mapping
 
                 entity.attributeValue.Add(attribute, value);
             }
+            return entity;
         }
         #endregion
     }

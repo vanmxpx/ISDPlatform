@@ -11,7 +11,7 @@ namespace Cooper.Models
         #region Main attributes
 
         public string Content { get; set; }
-        DateTime CreateDate { get; set; }
+        public DateTime CreateDate { get; set; }
         public int Rating { get; set; }
 
         #endregion

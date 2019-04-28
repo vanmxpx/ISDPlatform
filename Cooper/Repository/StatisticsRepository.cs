@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Cooper.Models;
 using Cooper.DAO;
 using Cooper.DAO.Models;
-using AutoMapper;
 
 namespace Cooper.Repository
 {
@@ -24,8 +23,7 @@ namespace Cooper.Repository
 
             foreach (StatisticsDb statistic in statistics)
             {
-                //Message message_newType = mapper.Map<Message>(message);
-                Statistics statistic_newType = MessageMap(statistic);
+                Statistics statistic_newType = StatisticsMap(statistic);
 
                 statistics_newType.Add(statistic_newType);
             }
@@ -40,7 +38,7 @@ namespace Cooper.Repository
 
             if (statistics != null)
             {
-                statistics_newTyped = Mapper.Map<Message>(statistics);
+                statistics_newTyped = StatisticsMap(statistics);
             }
 
             return statistics_newTyped;
@@ -48,7 +46,7 @@ namespace Cooper.Repository
 
         public IEnumerable<Statistics> GetStatisticsByUser(long userId)
         {
-            List<StatisticsDb> allStatistics = statisticsDAO.GetAll();
+            List<StatisticsDb> allStatistics = (List<StatisticsDb>)statisticsDAO.GetAll();
             List<Statistics> StatisticsByUser = new List<Statistics>();
 
             foreach (StatisticsDb statistics in allStatistics)
@@ -64,7 +62,7 @@ namespace Cooper.Repository
 
         public IEnumerable<Statistics> GetStatisticsByGame(long gameId)
         {
-            List<StatisticsDb> allStatistics = statisticsDAO.GetAll();
+            List<StatisticsDb> allStatistics = (List<StatisticsDb>)statisticsDAO.GetAll();
             List<Statistics> StatisticsByGame = new List<Statistics>();
 
             foreach (StatisticsDb statistics in allStatistics)
@@ -113,8 +111,8 @@ namespace Cooper.Repository
 
             #region Transfering interop attributes
 
-            statistics_newType.IdUser = new User() { Id = statistics.IdUser };
-            statistics_newType.IdGame = new Game() { Id = statistics.IdGame };
+            statistics_newType.User = new User() { Id = statistics.IdUser };
+            statistics_newType.Game = new Game() { Id = statistics.IdGame };
 
             #endregion
 
@@ -136,8 +134,8 @@ namespace Cooper.Repository
 
             #region Transfering interop attributes
 
-            statistics_newType.IdUser = statistics.IdUser;
-            statistics_newType.IdGame = statistics.IdGame;
+            statistics_newType.IdUser = statistics.User.Id;
+            statistics_newType.IdGame = statistics.Game.Id;
 
             #endregion
 
