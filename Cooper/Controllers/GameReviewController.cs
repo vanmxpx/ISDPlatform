@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
+using Cooper.Repository;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,17 +13,23 @@ namespace Cooper.Controllers
     [Route("api/game/reviews")]
     public class GameReviewController : ControllerBase
     {
-        // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<GameReview> GetReviewsForGame()      // get users reviews for game
+        GameReviewRepository gameReviewRepository;
+
+        public GameReviewController()
         {
-            return new List<GameReview>();
+            gameReviewRepository = new GameReviewRepository();
+        }
+        // GET: api/<controller>
+        [HttpGet("{id}")]
+        public IEnumerable<GameReview> GetReviewsForGame(long Id)      // get users reviews for game
+        {
+            return gameReviewRepository.GetReviewsForGame(Id);
         }
 
         [HttpGet]
-        public IEnumerable<GameReview> GetUserReviews()
+        public IEnumerable<GameReview> GetUserReviews(long userId)
         {
-            return new List<GameReview>();      // get reviews for games from concrete user
+            return gameReviewRepository.GetReviewsFromUser(userId);      // get reviews for games from concrete user
         }
 
 
@@ -30,21 +37,40 @@ namespace Cooper.Controllers
         [HttpGet("{id}")]
         public GameReview Get(long id)
         {
-            return new GameReview() { Id = 10, Content = "Bad game" };
+            return gameReviewRepository.Get(id);
         }
 
         // POST api/<controller>
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]
         public IActionResult Post([FromBody]GameReview gameReview)
         {
-            return Ok(new GameReview());
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (gameReview.Id == 0)
+            {
+                long id = gameReviewRepository.Create(gameReview);
+                gameReview.Id = id;
+
+                return Ok(gameReview);
+            }
+            else
+            {
+                gameReviewRepository.Update(gameReview);
+
+                return Ok(gameReview);
+            }
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            return BadRequest();
+            return gameReviewRepository.Delete(id);
         }
     }
 }
