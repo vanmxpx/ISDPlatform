@@ -10,15 +10,15 @@ namespace Cooper.Models
         #region Main attributes
 
         public decimal TimeSpent { get; set; }
-        public int RunsAmount { get; set; }
-        public int UserRecord { get; set; }
+        public long RunsAmount { get; set; }
+        public long UserRecord { get; set; }
 
         #endregion
 
         #region Interop attributes
 
-        public long IdUser { get; set; }
-        public long IdGame { get; set; }
+        public User User { get; set; }
+        public Game Game { get; set; }
 
         #endregion
     }

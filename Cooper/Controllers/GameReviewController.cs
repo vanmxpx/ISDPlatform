@@ -70,7 +70,8 @@ namespace Cooper.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            return gameReviewRepository.Delete(id);
+            gameReviewRepository.Delete(id);
+            return Ok();
         }
     }
 }

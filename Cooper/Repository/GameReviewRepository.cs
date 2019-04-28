@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Cooper.Models;
 using Cooper.DAO;
 using Cooper.DAO.Models;
-using AutoMapper;
 
 namespace Cooper.Repository
 {
@@ -39,7 +38,7 @@ namespace Cooper.Repository
 
             foreach(GameReviewDb reviewForGame in allReviews)
             {
-                if (reviewForGame.GameId == gameId)
+                if (reviewForGame.IdGame == gameId)
                 {
                     reviewsForGame.Add(GameReviewMap(reviewForGame));
                 }
@@ -55,7 +54,7 @@ namespace Cooper.Repository
 
             foreach (GameReviewDb reviewFromUser in allReviews)
             {
-                if (reviewFromUser.ReviewerId == userId)
+                if (reviewFromUser.IdReviewer == userId)
                 {
                     reviewsFromUser.Add(GameReviewMap(reviewFromUser));
                 }
@@ -71,7 +70,7 @@ namespace Cooper.Repository
 
             if (gameReview != null)
             {
-                gameReview_newTyped = Mapper.Map<UserReview>(gameReview);
+                gameReview_newTyped = GameReviewMap(gameReview);
                 GameReview userReview_newTyped = GameReviewMap(gameReview);
             }
 
@@ -106,15 +105,15 @@ namespace Cooper.Repository
 
             gameReview_newType.Id = gameReview.Id;
             gameReview_newType.Content = gameReview.Content;
-            gameReview_newType.Date = gameReview.Date;
+            gameReview_newType.CreateDate = gameReview.CreateDate;
             gameReview_newType.Rating = gameReview.Rating;
 
             #endregion
 
             #region Transfering interop attributes
 
-            gameReview_newType.IdReviewer = new User() { Id = gameReview.IdReviewer };
-            gameReview_newType.IdGame = new Game() { Id = gameReview.GameId };
+            gameReview_newType.Reviewer= new User() { Id = gameReview.IdReviewer };
+            gameReview_newType.Game = new Game() { Id = gameReview.IdGame };
 
             #endregion
 
@@ -129,14 +128,14 @@ namespace Cooper.Repository
 
             gameReview_newType.Id = gameReview.Id;
             gameReview_newType.Content = gameReview.Content;
-            gameReview_newType.Date = gameReview.Date;
+            gameReview_newType.CreateDate = gameReview.CreateDate;
             gameReview_newType.Rating = gameReview.Rating;
 
             #endregion
 
             #region Transfering interop attributes
 
-            gameReview_newType.IdReviewer = gameReview.IdReviewer.Id;
+            gameReview_newType.IdReviewer = gameReview.Reviewer.Id;
             gameReview_newType.IdGame = gameReview.Game.Id;
 
             #endregion
