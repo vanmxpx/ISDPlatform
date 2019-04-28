@@ -414,6 +414,144 @@ namespace Cooper.DAO.Mapping
             return entity;
         }
         #endregion
+
+        #region GameReview/entity mapping
+        public static void Map(EntityORM entity, out GameReviewDb GameReview)
+        {
+            GameReview = new GameReviewDb();
+
+            foreach (KeyValuePair<string, object> aV in entity.attributeValue)
+            {
+                switch (aV.Key)  // entity attribute
+                {
+                    case "ID":
+                        GameReview.Id = Convert.ToInt64(aV.Value);
+                        break;
+                    case "IDREVIEWER":
+                        GameReview.IdReviewer = Convert.ToInt64(aV.Value);
+                        break;
+                    case "IDGAME":
+                        GameReview.IdReviewed = Convert.ToInt64(aV.Value);
+                        break;
+                    case "CONTENT":
+                        GameReview.Content = aV.Value.ToString();
+                        break;
+                    case "CREATEDATE":
+                        GameReview.CreateDate = (DateTime)aV.Value;
+                        break;
+                    case "RATING":
+                        GameReview.Rating = (int)aV.Value;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        public static EntityORM Map(GameReviewDb GameReview, HashSet<string> attributes)
+        {
+            EntityORM entity = new EntityORM();
+
+            foreach (string attribute in attributes)
+            {
+                object value = null;        // attribute value
+
+
+                switch (attribute)
+                {
+                    case "IDREVIEWER":
+                        value = GameReview.IdReviewer;
+                        break;
+                    case "IDGAME":
+                        value = GameReview.IdReviewed;
+                        break;
+                    case "CONTENT":
+                        value = $"\'GameReview.Content\'";
+                        break;
+                    case "CREATEDATE":
+                        value = $"\'{GameReview.CreateDate.ToString("dd-MMM-yyyy")}\'";
+                        break;
+                    case "RATING":
+                        value = GameReview.Rating;
+                        break;
+                    default:
+                        break;
+                }
+
+                entity.attributeValue.Add(attribute, value);
+            }
+
+            return entity;
+        }
+        #endregion
+
+        #region Statistics/entity mapping
+        public static void Map(EntityORM entity, out StatisticsDb statistics)
+        {
+            statistics = new StatisticsDb();
+
+            foreach (KeyValuePair<string, object> aV in entity.attributeValue)
+            {
+                switch (aV.Key)  // entity attribute
+                {
+                    case "ID":
+                        statistics.Id = Convert.ToInt64(aV.Value);
+                        break;
+                    case "IDUSER":
+                        statistics.IdUser = Convert.ToInt64(aV.Value);
+                        break;
+                    case "IDGAME":
+                        statistics.IdGame = Convert.ToInt64(aV.Value);
+                        break;
+                    case "RUNSAMOUNT":
+                        statistics.RunsAmount = Convert.ToInt64(aV.Value);
+                        break;
+                    case "TIMESPENT":
+                        statistics.TimeSpent = (decimal)aV.Value;
+                        break;
+                    case "USERRECORD":
+                        statistics.UserRecord = Convert.ToInt64(aV.Value);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        public static EntityORM Map(StatisticsDb statistics, HashSet<string> attributes)
+        {
+            EntityORM entity = new EntityORM();
+
+            foreach (string attribute in attributes)
+            {
+                object value = null;
+
+
+                switch (attribute)
+                {
+                    case "IDUSER":
+                        value = statistics.IdUser;
+                        break;
+                    case "IDGAME":
+                        value = statistics.IdGame;
+                        break;
+                    case "RUNSAMOUNT":
+                        value = statistics.RunsAmount;
+                        break;
+                    case "TIMESPENT":
+                        value = statistics.TimeSpent;
+                        break;
+                    case "USERRECORD":
+                        value = statistics.UserRecord;
+                        break;
+                    default:
+                        break;
+                }
+
+                entity.attributeValue.Add(attribute, value);
+            }
+        }
+        #endregion
     }
 
 }
