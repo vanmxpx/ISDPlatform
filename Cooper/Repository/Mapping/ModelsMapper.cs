@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cooper.Models;
 using Cooper.DAO.Models;
-
+using Cooper.Controllers.ViewModels;
 namespace Cooper.Repository.Mapping
 {
     public class ModelsMapper
@@ -119,6 +119,18 @@ namespace Cooper.Repository.Mapping
 
             return user_newType;
         }
+
+        public UserDb Map(UserRegistration user)
+        {
+            UserDb user_newType = new UserDb();
+
+            user_newType.Email = user.Email;
+            user_newType.Nickname = user.Nickname;
+            user_newType.Password = user.Password;
+
+            return user_newType;
+        }
+
 
         #endregion
         

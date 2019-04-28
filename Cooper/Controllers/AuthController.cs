@@ -8,6 +8,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Cooper.Models;
+using Cooper.Controllers.ViewModels;
 using Cooper.Repository;
 using Cooper.Configuration;
 
@@ -15,11 +16,6 @@ using Cooper.Configuration;
 
 namespace Cooper.Controllers
 {
-    public class UserLogin
-    {
-        public string Username { get; set; }          // can be nickname or email (later)
-        public string Password { get; set; }
-    }
 
     [Route("api/auth")]
     public class AuthController : ControllerBase
@@ -31,7 +27,7 @@ namespace Cooper.Controllers
         }
 
         [HttpPost, Route("login")]
-        public IActionResult Login([FromBody]UserLogin user)
+        public IActionResult Login([FromBody]UserAuth user)
         {
             if (user == null)
             {

@@ -10,8 +10,8 @@ namespace Cooper.DAO.Models
         #region Main attributes
 
         public decimal TimeSpent { get; set; }
-        public int RunsAmount { get; set; }
-        public int UserRecord { get; set; }
+        public long RunsAmount { get; set; }
+        public long UserRecord { get; set; }
 
         #endregion
 

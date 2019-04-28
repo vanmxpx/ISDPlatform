@@ -33,8 +33,7 @@ namespace Cooper
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            #region Adding Authentification
-
+            // Adding authentification
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
@@ -53,8 +52,6 @@ namespace Cooper
                      
                         };
                     });
-
-            #endregion
 
             services.AddProxies();
 
