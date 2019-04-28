@@ -67,7 +67,7 @@ namespace Cooper.DAO
 
             List<EntityORM> entities = (List<EntityORM>)crud.ReadAll(table, attributes);
 
-            foreach (EntityORM entity in entities)              // Mapping entities to userReviews
+            foreach (EntityORM entity in entities) 
             {
                 EntityMapping.Map(entity, out UserReviewDb userReview);
                 userReviews.Add(userReview);
@@ -87,7 +87,8 @@ namespace Cooper.DAO
         {
             EntityORM entity = EntityMapping.Map(userReview, attributes);
 
-            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+            // Making sure that ID value is not touched.
+            entity.attributeValue.Remove("ID");
 
             long idUserReview = crud.Create(table, idColumn, entity);
 
@@ -113,7 +114,8 @@ namespace Cooper.DAO
         {
             EntityORM entity = EntityMapping.Map(userReview, attributes);
 
-            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+            // Making sure that ID value is not touched.
+            entity.attributeValue.Remove("ID"); 
 
             bool ifUpdated = crud.Update(userReview.Id, table, idColumn, entity);
 

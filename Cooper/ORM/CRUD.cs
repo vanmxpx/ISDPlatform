@@ -42,7 +42,7 @@ namespace Cooper.ORM
                 values = values.TrimEnd(',', ' ') + ')';
 
                 sqlExpression += $"{attributes} {values} returning {idColumn} into :id";
-                //sqlExpression = "INSERT INTO USERS ( NAME, NICKNAME, EMAIL, PASSWORD, PHOTOURL, ISVERIFIED, ISCREATOR, ISBANNED, ENDBANDATE, PLATFORMLANGUAGE, PLATFORMTHEME) VALUES(\'Test User\', \'test_user\', \'\', \'qwertynya\', \'photoURL\', \'n\', \'n\', \'n\', \'13-JAN-2000\', \'English\', \'Dark\') returning ID into :id";
+
                 Console.WriteLine($"{sqlExpression}");
                 #endregion
 
@@ -151,6 +151,7 @@ namespace Cooper.ORM
 
                 sqlExpression = sqlExpression.TrimEnd(' ', ',');
                 sqlExpression += $" WHERE {idColumn} = {id}";
+
                 #endregion
 
                 dbConnect.ExecuteNonQuery(sqlExpression);

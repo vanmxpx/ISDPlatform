@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
+using Cooper.Repository;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Cooper.Controllers
@@ -11,35 +12,61 @@ namespace Cooper.Controllers
     [Route("api/game/statistics")]
     public class GameStatisticsController : ControllerBase
     {
-        // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<Statistics> GetAllStatistics()
+        StatisticsRepository statisticsRepository;
+
+        public GameStatisticsController()
         {
-            return new List<Statistics>();
+            statisticsRepository = new StatisticsRepository();
         }
 
-        public IEnumerable<Statistics> GetAllStatisticsByUserId(long userId)    // get all game statistics for concrete user
+        // GET: api/<controller>
+        [HttpGet("{id}")]
+        public IEnumerable<Statistics> GetAllStatistics()
         {
-            return new List<Statistics>();
+            return statisticsRepository.GetAll();
+        }
+
+        public IEnumerable<Statistics> GetAllStatisticsByUserId(long Id)    // get all game statistics for concrete user
+        {
+            return statisticsRepository.GetStatisticsByUser(Id);
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
         public IEnumerable<Statistics> GetAllStatisticByGameId(long id)                    // get all game statistics for concreate game
         {
-            return new List<Statistics>();
+            return statisticsRepository.GetStatisticsByGame(id);
         }
 
         public Statistics GetStatisticsById(long id)
         {
-            return new Statistics();
+            return statisticsRepository.Get(id);
         }
         
         // POST api/<controller>
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]
         public IActionResult Post([FromBody]Statistics statistics)
         {
-            // DAO MISSED
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (statistics.Id == 0)
+            {
+                long id = statisticsRepository.Create(statistics);
+                statistics.Id = id;
+
+                return Ok(statistics);
+            }
+            else
+            {
+                statisticsRepository.Update(statistics);
+
+                return Ok(statistics);
+            }
             return Ok(statistics);
         }
         
@@ -47,7 +74,7 @@ namespace Cooper.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            // DAO MISSED
+            statisticsRepository.Delete(id);
             return Ok();
         }
     }
