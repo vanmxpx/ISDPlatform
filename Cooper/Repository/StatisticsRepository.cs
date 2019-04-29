@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using Cooper.Models;
 using Cooper.DAO;
 using Cooper.DAO.Models;
-using AutoMapper;
+using Cooper.Repository.Mapping;
 
 namespace Cooper.Repository
 {
     public class StatisticsRepository
     {
         private GameStatisticsDAO statisticsDAO;
+        private ModelsMapper mapper;
 
         public StatisticsRepository()
         {
             statisticsDAO = new GameStatisticsDAO();
+            mapper = new ModelsMapper();
         }
 
         public IEnumerable<Statistics> GetAll()
@@ -24,8 +26,7 @@ namespace Cooper.Repository
 
             foreach (StatisticsDb statistic in statistics)
             {
-                //Message message_newType = mapper.Map<Message>(message);
-                Statistics statistic_newType = MessageMap(statistic);
+                Statistics statistic_newType = mapper.Map(statistic);
 
                 statistics_newType.Add(statistic_newType);
             }
@@ -40,7 +41,7 @@ namespace Cooper.Repository
 
             if (statistics != null)
             {
-                statistics_newTyped = Mapper.Map<Message>(statistics);
+                statistics_newTyped = mapper.Map(statistics);
             }
 
             return statistics_newTyped;
@@ -55,7 +56,7 @@ namespace Cooper.Repository
             {
                 if (statistics.IdUser == userId)
                 {
-                    StatisticsByUser.Add(StatisticsMap(statistics));
+                    StatisticsByUser.Add(mapper.Map(statistics));
                 }
             }
 
@@ -71,7 +72,7 @@ namespace Cooper.Repository
             {
                 if (statistics.IdGame == gameId)
                 {
-                    StatisticsByGame.Add(StatisticsMap(statistics));
+                    StatisticsByGame.Add(mapper.Map(statistics));
                 }
             }
 
@@ -80,14 +81,14 @@ namespace Cooper.Repository
 
         public long Create(Statistics statistics)
         {
-            StatisticsDb statisticsDb = StatisticsMap(statistics);
+            StatisticsDb statisticsDb = mapper.Map(statistics);
 
             return statisticsDAO.Save(statisticsDb);
         }
 
         public void Update(Statistics statistics)
         {
-            StatisticsDb statisticsDb = StatisticsMap(statistics);
+            StatisticsDb statisticsDb = mapper.Map(statistics);
 
             statisticsDAO.Update(statisticsDb);
         }
@@ -96,54 +97,5 @@ namespace Cooper.Repository
         {
             statisticsDAO.Delete(id);
         }
-
-        #region Mapping
-        private Statistics StatisticsMap(StatisticsDb statistics)
-        {
-            Statistics statistics_newType = new Statistics();
-
-            #region Transfer main attributes
-
-            statistics_newType.Id = statistics.Id;
-            statistics_newType.TimeSpent = statistics.TimeSpent;
-            statistics_newType.RunsAmount = statistics.RunsAmount;
-            statistics_newType.UserRecord = statistics.UserRecord;
-
-            #endregion
-
-            #region Transfering interop attributes
-
-            statistics_newType.IdUser = new User() { Id = statistics.IdUser };
-            statistics_newType.IdGame = new Game() { Id = statistics.IdGame };
-
-            #endregion
-
-            return statistics_newType;
-        }
-
-        private StatisticsDb StatisticsMap(Statistics statistics)
-        {
-            StatisticsDb statistics_newType = new StatisticsDb();
-
-            #region Transfer main attributes
-
-            statistics_newType.Id = statistics.Id;
-            statistics_newType.TimeSpent = statistics.TimeSpent;
-            statistics_newType.RunsAmount = statistics.RunsAmount;
-            statistics_newType.UserRecord = statistics.UserRecord;
-
-            #endregion
-
-            #region Transfering interop attributes
-
-            statistics_newType.IdUser = statistics.IdUser;
-            statistics_newType.IdGame = statistics.IdGame;
-
-            #endregion
-
-            return statistics_newType;
-        }
-
-        #endregion
     }
 }
