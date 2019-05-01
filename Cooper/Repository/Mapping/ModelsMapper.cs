@@ -285,15 +285,15 @@ namespace Cooper.Repository.Mapping
 
             gameReview_newType.Id = gameReview.Id;
             gameReview_newType.Content = gameReview.Content;
-            gameReview_newType.Date = gameReview.Date;
+            gameReview_newType.CreateDate = gameReview.CreateDate;
             gameReview_newType.Rating = gameReview.Rating;
 
             #endregion
 
             #region Transfering interop attributes
 
-            gameReview_newType.IdReviewer = new User() { Id = gameReview.IdReviewer };
-            gameReview_newType.IdGame = new Game() { Id = gameReview.GameId };
+            gameReview_newType.Reviewer = new User() { Id = gameReview.IdReviewer };
+            gameReview_newType.Game = new Game() { Id = gameReview.IdGame };
 
             #endregion
 
@@ -308,14 +308,14 @@ namespace Cooper.Repository.Mapping
 
             gameReview_newType.Id = gameReview.Id;
             gameReview_newType.Content = gameReview.Content;
-            gameReview_newType.Date = gameReview.Date;
+            gameReview_newType.CreateDate = gameReview.CreateDate;
             gameReview_newType.Rating = gameReview.Rating;
 
             #endregion
 
             #region Transfering interop attributes
 
-            gameReview_newType.IdReviewer = gameReview.IdReviewer.Id;
+            gameReview_newType.IdReviewer = gameReview.Reviewer.Id;
             gameReview_newType.IdGame = gameReview.Game.Id;
 
             #endregion
@@ -326,7 +326,7 @@ namespace Cooper.Repository.Mapping
         #endregion
 
         #region Statistics Mapping
-        private Statistics Map(StatisticsDb statistics)
+        public Statistics Map(StatisticsDb statistics)
         {
             Statistics statistics_newType = new Statistics();
 
@@ -341,15 +341,15 @@ namespace Cooper.Repository.Mapping
 
             #region Transfering interop attributes
 
-            statistics_newType.IdUser = new User() { Id = statistics.IdUser };
-            statistics_newType.IdGame = new Game() { Id = statistics.IdGame };
+            statistics_newType.User = new User() { Id = statistics.IdUser };
+            statistics_newType.Game = new Game() { Id = statistics.IdGame };
 
             #endregion
 
             return statistics_newType;
         }
 
-        private StatisticsDb Map(Statistics statistics)
+        public StatisticsDb Map(Statistics statistics)
         {
             StatisticsDb statistics_newType = new StatisticsDb();
 
@@ -364,8 +364,8 @@ namespace Cooper.Repository.Mapping
 
             #region Transfering interop attributes
 
-            statistics_newType.IdUser = statistics.IdUser;
-            statistics_newType.IdGame = statistics.IdGame;
+            statistics_newType.IdUser = statistics.User.Id;
+            statistics_newType.IdGame = statistics.Game.Id;
 
             #endregion
 
