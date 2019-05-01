@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using Cooper.Models;
 using Cooper.DAO;
 using Cooper.DAO.Models;
+using Cooper.Repository.Mapping;
 
 namespace Cooper.Repository
 {
     public class GameReviewRepository
     {
         private GameReviewDAO gameReviewDAO;
+        private ModelsMapper mapper;
 
         public GameReviewRepository()
         {
             gameReviewDAO = new GameReviewDAO();
+            mapper = new ModelsMapper();
         }
 
         public IEnumerable<GameReview> GetAll()
@@ -23,7 +26,7 @@ namespace Cooper.Repository
 
             foreach (GameReviewDb gameReview in gameReviews)
             {
-                GameReview gameReview_newType = GameReviewMap(gameReview);
+                GameReview gameReview_newType = mapper.Map(gameReview);
 
                 gameReviews_newType.Add(gameReview_newType);
             }
@@ -40,7 +43,7 @@ namespace Cooper.Repository
             {
                 if (reviewForGame.IdGame == gameId)
                 {
-                    reviewsForGame.Add(GameReviewMap(reviewForGame));
+                    reviewsForGame.Add(mapper.Map(reviewForGame));
                 }
             }
 
@@ -56,7 +59,7 @@ namespace Cooper.Repository
             {
                 if (reviewFromUser.IdReviewer == userId)
                 {
-                    reviewsFromUser.Add(GameReviewMap(reviewFromUser));
+                    reviewsFromUser.Add(mapper.Map(reviewFromUser));
                 }
             }
 
@@ -70,8 +73,7 @@ namespace Cooper.Repository
 
             if (gameReview != null)
             {
-                gameReview_newTyped = GameReviewMap(gameReview);
-                GameReview userReview_newTyped = GameReviewMap(gameReview);
+                gameReview_newTyped = mapper.Map(gameReview);
             }
 
             return gameReview_newTyped;
@@ -79,14 +81,14 @@ namespace Cooper.Repository
 
         public long Create(GameReview gameReview)
         {
-            GameReviewDb gameReviewDb = GameReviewMap(gameReview);
+            GameReviewDb gameReviewDb = mapper.Map(gameReview);
 
             return gameReviewDAO.Save(gameReviewDb);
         }
 
         public void Update(GameReview gameReview)
         {
-            GameReviewDb gameReviewDb = GameReviewMap(gameReview);
+            GameReviewDb gameReviewDb = mapper.Map(gameReview);
 
             gameReviewDAO.Update(gameReviewDb);
         }
@@ -95,54 +97,5 @@ namespace Cooper.Repository
         {
             gameReviewDAO.Delete(id);
         }
-
-        #region Mapping
-        private GameReview GameReviewMap(GameReviewDb gameReview)
-        {
-            GameReview gameReview_newType = new GameReview();
-
-            #region Transfer main attributes
-
-            gameReview_newType.Id = gameReview.Id;
-            gameReview_newType.Content = gameReview.Content;
-            gameReview_newType.CreateDate = gameReview.CreateDate;
-            gameReview_newType.Rating = gameReview.Rating;
-
-            #endregion
-
-            #region Transfering interop attributes
-
-            gameReview_newType.Reviewer= new User() { Id = gameReview.IdReviewer };
-            gameReview_newType.Game = new Game() { Id = gameReview.IdGame };
-
-            #endregion
-
-            return gameReview_newType;
-        }
-
-        private GameReviewDb GameReviewMap(GameReview gameReview)
-        {
-            GameReviewDb gameReview_newType = new GameReviewDb();
-
-            #region Transfer main attributes
-
-            gameReview_newType.Id = gameReview.Id;
-            gameReview_newType.Content = gameReview.Content;
-            gameReview_newType.CreateDate = gameReview.CreateDate;
-            gameReview_newType.Rating = gameReview.Rating;
-
-            #endregion
-
-            #region Transfering interop attributes
-
-            gameReview_newType.IdReviewer = gameReview.Reviewer.Id;
-            gameReview_newType.IdGame = gameReview.Game.Id;
-
-            #endregion
-
-            return gameReview_newType;
-        }
-
-        #endregion
     }
 }
