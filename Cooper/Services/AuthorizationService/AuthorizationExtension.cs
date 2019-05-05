@@ -21,7 +21,7 @@ namespace Cooper.Services.Extensions
                         {
                             ValidateIssuer = true,
                             ValidateAudience = true,
-                            ValidateLifetime = true,
+                            ValidateLifetime = false,           // false - while development stage
                             ValidateIssuerSigningKey = true,
 
 
