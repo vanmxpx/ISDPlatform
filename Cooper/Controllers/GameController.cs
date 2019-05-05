@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
-
+using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Cooper.Controllers
@@ -21,11 +23,12 @@ namespace Cooper.Controllers
         }
 
         // GET: api/<controller>
-        [HttpGet]
+        [HttpGet, Authorize]
         public IEnumerable<Game> GetAll()
         {
             return gameRepository.GetAll();
         }
+
         /*
         [HttpGet("{genre}")]
         public IEnumerable<Game> GetGamesByGenre(string genre)
@@ -34,6 +37,7 @@ namespace Cooper.Controllers
             return new List<Game>();
         }
         */
+
         // GET api/<controller>/5
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(Game))]
@@ -53,8 +57,12 @@ namespace Cooper.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(201)]
-        public IActionResult Post([FromBody]Game game)
+        public IActionResult Post([FromBody]Game game, string Token)
         {
+
+            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+            var decodedToken = handler.ReadJwtToken(Token);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
