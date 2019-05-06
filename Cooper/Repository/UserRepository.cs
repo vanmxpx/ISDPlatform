@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 using Cooper.Models;
 using Cooper.DAO;   
@@ -52,7 +53,7 @@ namespace Cooper.Repository
         #region Main methods
 
         #region Get Methods
-
+        
         public IEnumerable<User> GetAll()
         {
             List<UserDb> users = (List<UserDb>)userDAO.GetAll();
@@ -96,6 +97,21 @@ namespace Cooper.Repository
 
             return user_newTyped;
         }
+
+        public User GetByJWToken(string token)
+        {
+            // TODO: Make service for getting nickname from token
+
+            string payload_encoded = token.Split('.')[1];
+            byte[] b = Convert.FromBase64String(payload_encoded);
+            string payload = ASCIIEncoding.ASCII.GetString(b);
+            string nickname = payload.Replace("\"", "").Replace("{", "").Split(',', ':')[1];
+
+
+            return GetByNickname(nickname);
+        }
+
+
 
         public User Get(long id)
         {

@@ -71,6 +71,21 @@ namespace Cooper.Controllers
 
             return Ok(user);
         }
+        
+        [HttpGet("token"), Authorize]
+        [ProducesResponseType(200, Type = typeof(User))]
+        [ProducesResponseType(404)]
+        public IActionResult GetUserByJWToken(string token)
+        {
+            User user = userRepository.GetByJWToken(token);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
+        }
 
         // POST api/<controller>
         [HttpPost]

@@ -41,9 +41,13 @@ namespace Cooper.Controllers
 
                 var signinCredentials = new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256);
 
+
+                var identity = GetIdentity(user.Username);
+
                 var jwt = new JwtSecurityToken(
                         issuer: AuthOptions.ISSUER,
                         audience: AuthOptions.AUDIENCE,
+                        claims: identity.Claims,
                         expires: DateTime.Now.AddMinutes(AuthOptions.LIFETIME),
                         signingCredentials: signinCredentials);
 
@@ -55,6 +59,20 @@ namespace Cooper.Controllers
             {
                 return Unauthorized();
             }
+        }
+
+        private ClaimsIdentity GetIdentity(string username)
+        {
+            var claims = new List<Claim>
+                {
+                    new Claim("username", username)
+                };
+
+            ClaimsIdentity claimsIdentity =
+            new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType);
+
+            return claimsIdentity;
         }
     }
 }
