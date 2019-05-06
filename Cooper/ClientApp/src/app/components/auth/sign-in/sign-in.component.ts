@@ -26,7 +26,7 @@ export class SignInComponent {
 
     const Token: string = localStorage.getItem('JwtCooper');
     if (Token) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/myPage']);
     }
   }
 
