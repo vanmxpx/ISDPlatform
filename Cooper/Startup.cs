@@ -13,6 +13,7 @@ using AspNetCore.Proxy;
 using Cooper.Models;
 using Cooper.DAO.Models;
 using Cooper.Configuration;
+using Cooper.Services.Extensions;
 
 [assembly: ApiController]
 namespace Cooper
@@ -32,26 +33,8 @@ namespace Cooper
         {
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            // Adding authentification
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options =>
-                    {
-                        options.RequireHttpsMetadata = false;
-                        options.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            ValidateIssuer = true,
-                            ValidateAudience = true,
-                            ValidateLifetime = true,                           
-                            ValidateIssuerSigningKey = true,
-
-                           
-                            ValidIssuer = AuthOptions.ISSUER,
-                            ValidAudience = AuthOptions.AUDIENCE,
-                            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                     
-                        };
-                    });
+            
+            services.AddJWTAuthorization();
 
             services.AddProxies();
 
