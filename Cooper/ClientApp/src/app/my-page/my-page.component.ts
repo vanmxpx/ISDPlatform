@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatCard } from '@angular/material';
 import {Game, Comment, CommonChat} from '../models/my-page-models'
+import { HttpClient} from '@angular/common/http';
+import { HubConnection, HubConnectionBuilder} from '@aspnet/signalr';
+import { identifierModuleUrl } from '@angular/compiler';
+
 
 @Component({
   selector: 'cooper-my-page',
@@ -90,12 +94,41 @@ commonMessages: CommonChat[]=[{
   message: 'You are TEST',
   avatar:'assets/imageKeeper/robot.png'
 }]
-  constructor() { }
+constructor(private httpClient: HttpClient){}
 
   add(name: string, id: any): void {
     this.commonMessages[id].message = name;
   }
+  private _hubConnection: HubConnection;
+  response : any;
+  message = '';
+  messages: string[] = [];
+  id: any;
+  
   ngOnInit() {
-  }
+    const Token: string = localStorage.getItem('JwtCooper');
+    this.id = Token
 
+    this.httpClient.get('/api/users/nickname/my')
+      .subscribe((response)=>{
+         this.response = response;
+
+         console.log(response);
+      })
+    this._hubConnection = new HubConnectionBuilder().withUrl("http:/:localhost:1874/notify").build();;
+    this._hubConnection
+    .start()
+    .then(() => console.log('Connection started!'))
+    .catch(err => console.log('Error while establishing connection :('));
+    this._hubConnection.on('sendToAll', (nick: string, receivedMessage: string) => {
+      const text = `${nick}: ${receivedMessage}`;
+      this.messages.push(text);
+    });
+  }
+  
+  sendMessage(): void {
+    this._hubConnection
+      .invoke('sendToAll', this.response, this.message)
+      .catch(err => console.error(err));
+  }
 }

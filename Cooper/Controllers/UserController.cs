@@ -58,10 +58,12 @@ namespace Cooper.Controllers
         }
 
         [HttpGet("nickname/{nickname}")]
+        [Authorize]
         [ProducesResponseType(200, Type = typeof(User))]
         [ProducesResponseType(404)]
         public IActionResult GetUserByNickname(string nickname)
         {
+            if (nickname == "my") nickname = User.Identity.Name;
             User user = userRepository.GetByNickname(nickname);
 
             if (user == null)

@@ -13,6 +13,7 @@ using AspNetCore.Proxy;
 using Cooper.Models;
 using Cooper.DAO.Models;
 using Cooper.Configuration;
+using AngularAspNetCoreSignalR;
 
 [assembly: ApiController]
 namespace Cooper
@@ -60,6 +61,17 @@ namespace Cooper
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+             {
+            builder
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithOrigins("https://localhost:18948");
+            }));
+
+            services.AddSignalR();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,6 +112,12 @@ namespace Cooper
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
+            });
+
+            app.UseCors("CorsPolicy");
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chat");
             });
         }
     }
