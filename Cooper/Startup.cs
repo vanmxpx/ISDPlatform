@@ -14,6 +14,8 @@ using Cooper.Models;
 using Cooper.DAO.Models;
 using Cooper.Configuration;
 using AngularAspNetCoreSignalR;
+using Cooper.Services;
+
 
 [assembly: ApiController]
 namespace Cooper
@@ -33,26 +35,8 @@ namespace Cooper
         {
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            // Adding authentification
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options =>
-                    {
-                        options.RequireHttpsMetadata = false;
-                        options.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            ValidateIssuer = true,
-                            ValidateAudience = true,
-                            ValidateLifetime = true,                           
-                            ValidateIssuerSigningKey = true,
-
-                           
-                            ValidIssuer = AuthOptions.ISSUER,
-                            ValidAudience = AuthOptions.AUDIENCE,
-                            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                     
-                        };
-                    });
+            
+            services.AddJWTAuthorization();
 
             services.AddProxies();
 
@@ -72,6 +56,8 @@ namespace Cooper
 
             services.AddSignalR();
 
+            
+            services.AddJWTHandler();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
