@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +23,7 @@ import { SafePipe } from './pipes/safe.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './services/user.service';
 import {DynamiSocialLoginModule,AuthServiceConfig, GoogleLoginProvider,FacebookLoginProvider} from 'ng-dynami-social-login';
+import { CooperInterceptor } from 'src/assets/cooper.interceptor';
 
 const appRoutes : Routes = [
   {path: '', redirectTo : '/signIn', pathMatch: 'full'},
@@ -78,6 +79,11 @@ export function getAuthServiceConfigs() {
     {
     provide: AuthServiceConfig,
     useFactory: getAuthServiceConfigs
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CooperInterceptor,
+      multi: true // give the possibility of various interceptors
     }, 
     AuthGuard, 
     UserService

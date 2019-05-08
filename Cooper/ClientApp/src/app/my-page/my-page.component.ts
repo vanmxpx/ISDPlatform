@@ -4,6 +4,7 @@ import {Game, Comment, CommonChat} from '../models/my-page-models'
 import { HttpClient} from '@angular/common/http';
 import { HubConnection, HubConnectionBuilder} from '@aspnet/signalr';
 import { identifierModuleUrl } from '@angular/compiler';
+import { UserService } from '../services/user.service';
 
 
 @Component({
@@ -107,15 +108,14 @@ constructor(private httpClient: HttpClient){}
   
   ngOnInit() {
     const Token: string = localStorage.getItem('JwtCooper');
-    this.id = Token
-
-    this.httpClient.get('/api/users/nickname/my')
+    this.id = Token;
+    this.httpClient.get("https://localhost:5001/api/users/nickname/my")
       .subscribe((response)=>{
          this.response = response;
-
+         console.log("response");
          console.log(response);
       })
-    this._hubConnection = new HubConnectionBuilder().withUrl("http:/:localhost:1874/notify").build();;
+    this._hubConnection = new HubConnectionBuilder().withUrl("https://localhost:5001/notify").build();;
     this._hubConnection
     .start()
     .then(() => console.log('Connection started!'))
