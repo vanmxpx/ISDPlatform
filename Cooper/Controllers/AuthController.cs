@@ -11,7 +11,7 @@ using Cooper.Models;
 using Cooper.Controllers.ViewModels;
 using Cooper.Repository;
 using Cooper.Configuration;
-
+using Cooper.Services;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Cooper.Controllers
@@ -21,13 +21,13 @@ namespace Cooper.Controllers
     public class AuthController : ControllerBase
     {
         private UserRepository userRepository;
-        public AuthController()
+        public AuthController(IJwtHandlerService jwtService)
         {
-            userRepository = new UserRepository();
+            userRepository = new UserRepository(jwtService);
         }
 
         [HttpPost, Route("login")]
-        public IActionResult Login([FromBody]UserAuth user)
+        public IActionResult Login([FromBody]Login user)
         {
             if (user == null)
             {

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
+using Cooper.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,9 +17,9 @@ namespace Cooper.Controllers
     {
         UserRepository userRepository;
 
-        public UserController()
+        public UserController(IJwtHandlerService jwtService)
         {
-            userRepository = new UserRepository();
+            userRepository = new UserRepository(jwtService);
         }
         
         [HttpGet]
