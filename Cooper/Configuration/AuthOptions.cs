@@ -9,7 +9,7 @@ namespace Cooper.Configuration
         // TODO: make constants environmental variable at least
 
         public const string ISSUER = "MyAuthServer";
-        public const string AUDIENCE = "http://localhost:5001";
+        public const string AUDIENCE = "https://localhost:5001";
         const string KEY = "mysupersecret_secretkey!123";
         public const int LIFETIME = 1;
 

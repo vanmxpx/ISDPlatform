@@ -1,13 +1,18 @@
-import { HttpClient, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export class CooperInterceptor implements HttpInterceptor{
     intercept (req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{       
-
-        if(localStorage.getItem("jwtCooper")){
+        console.log("ya tuta")
+            console.log(localStorage.getItem("JwtCooper"))
+            const authToken =localStorage.getItem("JwtCooper");
+        if(authToken){
             const cloneRequest = req.clone()
-            headers: req.headers.set ('Authorization', `Bearer ${localStorage.getItem("jwtCooper")}`)     
-            return next.handle(cloneRequest)  
+            const bearer = `Bearer ${authToken}`
+            console.log(bearer)
+            const authReq = req.clone({ setHeaders: { Authorization: bearer } });
+            console.log(authReq)
+            return next.handle(authReq)  
         }
         return next.handle(req)
     }
