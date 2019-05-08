@@ -6,7 +6,9 @@ using Cooper.DAO;
 using Cooper.DAO.Models;
 using Cooper.Repository.Mapping;
 using Cooper.Controllers.ViewModels;
-
+using Newtonsoft.Json.Linq;
+using System.Security.Claims;
+using Cooper.Services;
 
 namespace Cooper.Repository
 {
@@ -14,10 +16,15 @@ namespace Cooper.Repository
     {
         private UserDAO userDAO;
         private ModelsMapper mapper;
-        public UserRepository()
+
+        private readonly IJwtHandlerService jwtService;
+
+        public UserRepository(IJwtHandlerService jwtService)
         {
             userDAO = new UserDAO();
             mapper = new ModelsMapper();
+
+            this.jwtService = jwtService;
         }
 
         #region Checking methods
@@ -100,18 +107,10 @@ namespace Cooper.Repository
 
         public User GetByJWToken(string token)
         {
-            // TODO: Make service for getting nickname from token
-
-            string payload_encoded = token.Split('.')[1];
-            byte[] b = Convert.FromBase64String(payload_encoded);
-            string payload = ASCIIEncoding.ASCII.GetString(b);
-            string nickname = payload.Replace("\"", "").Replace("{", "").Split(',', ':')[1];
-
-
+            string nickname = jwtService.GetPayloadAttributeValue("username", token);
+            
             return GetByNickname(nickname);
         }
-
-
 
         public User Get(long id)
         {

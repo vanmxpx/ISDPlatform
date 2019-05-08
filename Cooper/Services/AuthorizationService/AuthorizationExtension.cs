@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Cooper.Configuration;
 
-namespace Cooper.Services.Extensions
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class AuthorizationExtension
     {
