@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
 using Cooper.Controllers.ViewModels;
+using Cooper.Services;
 
 namespace Cooper.Controllers
 {
@@ -15,9 +16,9 @@ namespace Cooper.Controllers
 
         UserRepository userRepository;
 
-        public RegistrationController()
+        public RegistrationController(IJwtHandlerService jwtHandler)
         {
-            userRepository = new UserRepository();
+            userRepository = new UserRepository(jwtHandler);
         }
 
         [HttpPost]

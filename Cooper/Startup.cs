@@ -13,7 +13,8 @@ using AspNetCore.Proxy;
 using Cooper.Models;
 using Cooper.DAO.Models;
 using Cooper.Configuration;
-using Cooper.Services.Extensions;
+using Cooper.Services;
+
 
 [assembly: ApiController]
 namespace Cooper
@@ -43,6 +44,9 @@ namespace Cooper
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            
+            services.AddJWTHandler();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
