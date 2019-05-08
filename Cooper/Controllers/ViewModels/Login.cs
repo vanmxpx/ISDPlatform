@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Cooper.Controllers.ViewModels
 {
-    public class UserAuth
+    public class Login
     {
         public string Username { get; set; }
         public string Password { get; set; }

@@ -67,7 +67,6 @@ namespace Cooper.Controllers
 
                 return Ok(statistics);
             }
-            return Ok(statistics);
         }
         
         // DELETE api/<controller>/5

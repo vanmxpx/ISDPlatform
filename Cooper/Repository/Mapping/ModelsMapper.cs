@@ -276,5 +276,102 @@ namespace Cooper.Repository.Mapping
 
         #endregion
 
+        #region Game Review Mapping
+        public GameReview Map(GameReviewDb gameReview)
+        {
+            GameReview gameReview_newType = new GameReview();
+
+            #region Transfer main attributes
+
+            gameReview_newType.Id = gameReview.Id;
+            gameReview_newType.Content = gameReview.Content;
+            gameReview_newType.CreateDate = gameReview.CreateDate;
+            gameReview_newType.Rating = gameReview.Rating;
+
+            #endregion
+
+            #region Transfering interop attributes
+
+            gameReview_newType.Reviewer = new User() { Id = gameReview.IdReviewer };
+            gameReview_newType.Game = new Game() { Id = gameReview.IdGame };
+
+            #endregion
+
+            return gameReview_newType;
+        }
+
+        public GameReviewDb Map(GameReview gameReview)
+        {
+            GameReviewDb gameReview_newType = new GameReviewDb();
+
+            #region Transfer main attributes
+
+            gameReview_newType.Id = gameReview.Id;
+            gameReview_newType.Content = gameReview.Content;
+            gameReview_newType.CreateDate = gameReview.CreateDate;
+            gameReview_newType.Rating = gameReview.Rating;
+
+            #endregion
+
+            #region Transfering interop attributes
+
+            gameReview_newType.IdReviewer = gameReview.Reviewer.Id;
+            gameReview_newType.IdGame = gameReview.Game.Id;
+
+            #endregion
+
+            return gameReview_newType;
+        }
+
+        #endregion
+
+        #region Statistics Mapping
+        public Statistics Map(StatisticsDb statistics)
+        {
+            Statistics statistics_newType = new Statistics();
+
+            #region Transfer main attributes
+
+            statistics_newType.Id = statistics.Id;
+            statistics_newType.TimeSpent = statistics.TimeSpent;
+            statistics_newType.RunsAmount = statistics.RunsAmount;
+            statistics_newType.UserRecord = statistics.UserRecord;
+
+            #endregion
+
+            #region Transfering interop attributes
+
+            statistics_newType.User = new User() { Id = statistics.IdUser };
+            statistics_newType.Game = new Game() { Id = statistics.IdGame };
+
+            #endregion
+
+            return statistics_newType;
+        }
+
+        public StatisticsDb Map(Statistics statistics)
+        {
+            StatisticsDb statistics_newType = new StatisticsDb();
+
+            #region Transfer main attributes
+
+            statistics_newType.Id = statistics.Id;
+            statistics_newType.TimeSpent = statistics.TimeSpent;
+            statistics_newType.RunsAmount = statistics.RunsAmount;
+            statistics_newType.UserRecord = statistics.UserRecord;
+
+            #endregion
+
+            #region Transfering interop attributes
+
+            statistics_newType.IdUser = statistics.User.Id;
+            statistics_newType.IdGame = statistics.Game.Id;
+
+            #endregion
+
+            return statistics_newType;
+        }
+
+        #endregion
     }
 }

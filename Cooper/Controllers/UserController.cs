@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
 using Microsoft.AspNetCore.Http;
+using Cooper.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,9 +18,9 @@ namespace Cooper.Controllers
     {
         UserRepository userRepository;
 
-        public UserController()
+        public UserController(IJwtHandlerService jwtService)
         {
-            userRepository = new UserRepository();
+            userRepository = new UserRepository(jwtService);
         }
         
         [HttpGet]
@@ -68,6 +69,21 @@ namespace Cooper.Controllers
 
             if (nickname == "my") nickname = User.Identity.Name;
             User user = userRepository.GetByNickname(nickname);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
+        }
+        
+        [HttpGet("token"), Authorize]
+        [ProducesResponseType(200, Type = typeof(User))]
+        [ProducesResponseType(404)]
+        public IActionResult GetUserByJWToken(string token)
+        {
+            User user = userRepository.GetByJWToken(token);
 
             if (user == null)
             {
