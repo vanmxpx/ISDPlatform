@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
+using Cooper.Configuration;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,9 +16,9 @@ namespace Cooper.Controllers
     {
         ChatRepository chatRepository;
 
-        public ChatController()
+        public ChatController(IConfigProvider configProvider)
         {
-            chatRepository = new ChatRepository();
+            chatRepository = new ChatRepository(configProvider);
         }
 
         [HttpGet]

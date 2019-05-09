@@ -4,6 +4,7 @@ using Cooper.Models;
 using Cooper.DAO;
 using Cooper.DAO.Models;
 using Cooper.Repository.Mapping;
+using Cooper.Configuration;
 
 namespace Cooper.Repository
 {
@@ -12,9 +13,9 @@ namespace Cooper.Repository
         private UserReviewDAO userReviewDAO;
         private ModelsMapper mapper;
 
-        public UserReviewRepository()
+        public UserReviewRepository(IConfigProvider configProvider)
         {
-            userReviewDAO = new UserReviewDAO();
+            userReviewDAO = new UserReviewDAO(configProvider);
             mapper = new ModelsMapper();
         }
 

@@ -4,6 +4,7 @@ using Cooper.Models;
 using Cooper.DAO;
 using Cooper.DAO.Models;
 using Cooper.Repository.Mapping;
+using Cooper.Configuration;
 
 namespace Cooper.Repository
 {
@@ -12,9 +13,9 @@ namespace Cooper.Repository
         private GameReviewDAO gameReviewDAO;
         private ModelsMapper mapper;
 
-        public GameReviewRepository()
+        public GameReviewRepository(IConfigProvider configProvider)
         {
-            gameReviewDAO = new GameReviewDAO();
+            gameReviewDAO = new GameReviewDAO(configProvider);
             mapper = new ModelsMapper();
         }
 
