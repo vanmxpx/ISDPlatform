@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Oracle.ManagedDataAccess.Client;
 using System.Data.Common;
 using NLog;
+using Cooper.Configuration;
+
 namespace Cooper.ORM
 {
     public class CRUD : ICRUD
@@ -13,9 +15,9 @@ namespace Cooper.ORM
         private OracleConnection Connection;
         private Logger logger;
 
-        public CRUD()
+        public CRUD(IConfigProvider configProvider)
         {
-            dbConnect = DbConnect.GetInstance();
+            dbConnect = new DbConnect(configProvider);
             Connection = dbConnect.GetConnection();
             logger = LogManager.GetLogger("CooperLoger");
         }

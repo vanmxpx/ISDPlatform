@@ -24,7 +24,7 @@ namespace Cooper.Controllers
 
         public AuthController(IJwtHandlerService jwtService, IConfigProvider configProvider)
         {
-            userRepository = new UserRepository(jwtService);
+            userRepository = new UserRepository(jwtService, configProvider);
 
             this.configProvider = configProvider;
         }
