@@ -20,9 +20,13 @@ namespace Cooper.Controllers
     public class AuthController : ControllerBase
     {
         private UserRepository userRepository;
-        public AuthController(IJwtHandlerService jwtService)
+        private readonly IConfigProvider configProvider;
+
+        public AuthController(IJwtHandlerService jwtService, IConfigProvider configProvider)
         {
             userRepository = new UserRepository(jwtService);
+
+            this.configProvider = configProvider;
         }
 
         [HttpPost, Route("login")]
@@ -37,7 +41,7 @@ namespace Cooper.Controllers
 
             if (authValid)
             {
-                string tokenString = new TokenFactory(login).GetTokenString();
+                string tokenString = new TokenFactory(login, configProvider).GetTokenString();
                 
                 return Ok(new { Token = tokenString });
             }
