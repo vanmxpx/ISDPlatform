@@ -10,11 +10,9 @@ namespace Cooper.ORM
     public class DbConnect
     {
 
-        private static string connectionString;
+        private string connectionString;
 
-        private static DbConnect instance;
-
-        private static OracleConnection connection;
+        private OracleConnection connection;
 
         private readonly IConfigProvider configProvider;
 
@@ -27,15 +25,7 @@ namespace Cooper.ORM
             connection = new OracleConnection(connectionString);
 
         }
-        
-        public OracleConnection GetConnection()
-        {
-            return connection;
-        }
 
-        ///<summary>
-        /// Executes query that doesn't need to return anything. Takes responsibility for managing pool of connections.
-        ///</summary>
         public object ExecuteNonQuery(string query, bool getId = false)
         {
             object result = null;
@@ -54,11 +44,16 @@ namespace Cooper.ORM
             return result;
         }
 
-        public static void CloseConnection()
+        public OracleConnection GetConnection()
+        {
+            return connection;
+        }
+
+        public void CloseConnection()
         {
             connection.Close();
         }
-        public static void OpenConnection()
+        public void OpenConnection()
         {
             connection.Open();
         }
