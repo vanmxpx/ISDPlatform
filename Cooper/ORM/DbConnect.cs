@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Data.Common;
+using Cooper.Configuration;
 
 namespace Cooper.ORM
 {
@@ -9,36 +10,22 @@ namespace Cooper.ORM
     public class DbConnect
     {
 
-        private static string connectionString = $"User Id=SYSTEM;Password={Environment.GetEnvironmentVariable("Coop")};Data Source=localhost:1521/xe;";
+        private string connectionString;
 
-        private static DbConnect instance;
+        private OracleConnection connection;
 
-        private static OracleConnection connection;
+        private readonly IConfigProvider configProvider;
 
-        private DbConnect()
+        public DbConnect(IConfigProvider configProvider)
         {
+            this.configProvider = configProvider;
+
+            connectionString = configProvider.ConnectionStrings.LocalDatabase;
+
             connection = new OracleConnection(connectionString);
+
         }
 
-        public static DbConnect GetInstance()
-        {
-            if (instance == null)
-            {
-                instance = new DbConnect();
-            }
-            return instance;
-        }
-
-        public OracleConnection GetConnection()
-        {
-            return connection;
-        }
-        
-
-
-        ///<summary>
-        /// Executes query that doesn't need to return anything. Takes responsibility for managing pool of connections.
-        ///</summary>
         public object ExecuteNonQuery(string query, bool getId = false)
         {
             object result = null;
@@ -57,11 +44,16 @@ namespace Cooper.ORM
             return result;
         }
 
-        public static void CloseConnection()
+        public OracleConnection GetConnection()
+        {
+            return connection;
+        }
+
+        public void CloseConnection()
         {
             connection.Close();
         }
-        public static void OpenConnection()
+        public void OpenConnection()
         {
             connection.Open();
         }

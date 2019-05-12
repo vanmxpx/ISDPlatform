@@ -6,6 +6,7 @@ using Cooper.Models;
 using Cooper.DAO;
 using Cooper.DAO.Models;
 using Cooper.Repository.Mapping;
+using Cooper.Configuration;
 
 namespace Cooper.Repository
 {
@@ -13,9 +14,9 @@ namespace Cooper.Repository
     {
         private GameDAO gameDAO;
         private ModelsMapper mapper;
-        public GameRepository()
+        public GameRepository(IConfigProvider configProvider)
         {
-            gameDAO = new GameDAO();
+            gameDAO = new GameDAO(configProvider);
             mapper = new ModelsMapper();
         }
         
