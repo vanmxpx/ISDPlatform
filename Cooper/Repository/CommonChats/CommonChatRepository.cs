@@ -16,7 +16,7 @@ namespace Cooper.Repository.CommonChats
                          e => clearCommonChats(),
                         null,
                         TimeSpan.Zero,
-                        TimeSpan.FromMinutes(1440));
+                        TimeSpan.FromDays(1));
         }  
 
         public void addMessage(CommonMessage message)

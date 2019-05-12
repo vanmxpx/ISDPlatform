@@ -8,6 +8,7 @@ using Cooper.ORM;
 using Cooper.DAO.Mapping;
 using NLog;
 using Oracle.ManagedDataAccess.Client;
+using Cooper.Configuration;
 
 namespace Cooper.DAO
 {
@@ -20,9 +21,9 @@ namespace Cooper.DAO
         private string idColumn;
         private HashSet<string> attributes;
 
-        public GameReviewDAO()
+        public GameReviewDAO(IConfigProvider configProvider)
         {
-            crud = new CRUD();
+            crud = new CRUD(configProvider);
             logger = LogManager.GetLogger("CooperLoger");
 
             table = "GAMESREVIEWS";

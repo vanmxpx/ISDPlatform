@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
+using Cooper.Configuration;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Cooper.Controllers
@@ -14,9 +15,9 @@ namespace Cooper.Controllers
     {
         StatisticsRepository statisticsRepository;
 
-        public GameStatisticsController()
+        public GameStatisticsController(IConfigProvider configProvider)
         {
-            statisticsRepository = new StatisticsRepository();
+            statisticsRepository = new StatisticsRepository(configProvider);
         }
 
         // GET: api/<controller>

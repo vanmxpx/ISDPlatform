@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.SignalR;
 using Cooper.Services;
 using cooper.SignalR;
 using Cooper.Repository.CommonChats;
+using System;
 
 [assembly: ApiController]
 namespace Cooper
@@ -46,7 +47,7 @@ namespace Cooper
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSingleton<ICommonChatRepository, CommonChatRepository>();
 
-            services.AddJWTAuthorization();
+
 
             services.AddProxies();
 
@@ -54,8 +55,13 @@ namespace Cooper
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
-            });           
-            services.AddJWTHandler();           
+            });
+
+            
+            services.AddJWTHandler();
+            services.AddConfigurationProvider(Configuration);
+            services.AddJWTAuthorization();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -5,18 +5,18 @@ using System.Threading.Tasks;
 using Oracle.ManagedDataAccess.Client;
 using System.Data.Common;
 using NLog;
+using Cooper.Configuration;
+
 namespace Cooper.ORM
 {
     public class CRUD : ICRUD
     {
         private DbConnect dbConnect;
-        private OracleConnection Connection;
         private Logger logger;
 
-        public CRUD()
+        public CRUD(IConfigProvider configProvider)
         {
-            dbConnect = DbConnect.GetInstance();
-            Connection = dbConnect.GetConnection();
+            dbConnect = new DbConnect(configProvider);
             logger = LogManager.GetLogger("CooperLoger");
         }
         
@@ -55,7 +55,7 @@ namespace Cooper.ORM
             }
             finally
             {
-                Connection.Close();
+                dbConnect.CloseConnection();
             }
 
             return insertId;
@@ -69,8 +69,8 @@ namespace Cooper.ORM
             {
                 string sqlExpression = $"SELECT * from {table} where {attribute_name} = {attribute_value}";
 
-                Connection.Open();
-                OracleCommand command = new OracleCommand(sqlExpression, Connection);
+                dbConnect.OpenConnection();
+                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
 
                 OracleDataReader reader = command.ExecuteReader();
 
@@ -93,7 +93,7 @@ namespace Cooper.ORM
             }
             finally
             {
-                Connection.Close();
+                dbConnect.CloseConnection();
             }
 
 
@@ -108,8 +108,8 @@ namespace Cooper.ORM
             {
                 string sqlExpression = $"SELECT * from {table}";
 
-                Connection.Open();
-                OracleCommand command = new OracleCommand(sqlExpression, Connection);
+                dbConnect.OpenConnection();
+                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
 
                 OracleDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -130,7 +130,7 @@ namespace Cooper.ORM
             }
             finally
             {
-                Connection.Close();
+                dbConnect.CloseConnection();
             }
 
             return entities;
@@ -163,7 +163,7 @@ namespace Cooper.ORM
             }
             finally
             {
-                Connection.Close();
+                dbConnect.CloseConnection();
             }
 
             return true;
@@ -184,7 +184,7 @@ namespace Cooper.ORM
             }
             finally
             {
-                Connection.Close();
+                dbConnect.CloseConnection();
             }
 
             return true;

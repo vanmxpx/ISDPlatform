@@ -4,6 +4,7 @@ using Cooper.Models;
 using Cooper.DAO;
 using Cooper.DAO.Models;
 using Cooper.Repository.Mapping;
+using Cooper.Configuration;
 
 namespace Cooper.Repository
 {
@@ -11,9 +12,9 @@ namespace Cooper.Repository
     {
         private MessageDAO messageDAO;
         private ModelsMapper mapper;
-        public MessageRepository()
+        public MessageRepository(IConfigProvider configProvider)
         {
-            messageDAO = new MessageDAO();
+            messageDAO = new MessageDAO(configProvider);
             mapper = new ModelsMapper();
 
         }
