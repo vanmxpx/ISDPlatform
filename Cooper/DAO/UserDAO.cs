@@ -7,6 +7,7 @@ using Cooper.ORM;
 using Cooper.DAO.Mapping;
 using NLog;
 using Oracle.ManagedDataAccess.Client;
+using Cooper.Configuration;
 
 namespace Cooper.DAO
 {
@@ -23,10 +24,10 @@ namespace Cooper.DAO
         private HashSet<string> attributes;
         private HashSet<string> unique_attributes;
 
-        public UserDAO()
+        public UserDAO(IConfigProvider configProvider)
         {
-            crud = new CRUD();
-            dbConnect = DbConnect.GetInstance();
+            crud = new CRUD(configProvider);
+            dbConnect = new DbConnect(configProvider);
             Connection = dbConnect.GetConnection();
             logger = LogManager.GetLogger("CooperLoger");
 
@@ -78,6 +79,7 @@ namespace Cooper.DAO
 
         public bool CheckCredentials(string nickname, string password)
         {
+            var all = GetAll();
             UserDb user = GetByNickname(nickname);
 
             if (user == null || user.Password != password)

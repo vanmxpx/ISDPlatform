@@ -7,6 +7,7 @@ using Cooper.Models;
 using Cooper.Repository;
 using Cooper.Controllers.ViewModels;
 using Cooper.Services;
+using Cooper.Configuration;
 
 namespace Cooper.Controllers
 {
@@ -16,9 +17,9 @@ namespace Cooper.Controllers
 
         UserRepository userRepository;
 
-        public RegistrationController(IJwtHandlerService jwtHandler)
+        public RegistrationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider)
         {
-            userRepository = new UserRepository(jwtHandler);
+            userRepository = new UserRepository(jwtHandler, configProvider);
         }
 
         [HttpPost]

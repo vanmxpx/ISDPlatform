@@ -8,6 +8,7 @@ using Cooper.Repository;
 using System.IdentityModel.Tokens.Jwt;
 using System.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
+using Cooper.Configuration;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Cooper.Controllers
@@ -17,9 +18,9 @@ namespace Cooper.Controllers
     {
         IRepository<Game> gameRepository;
 
-        public GameController()
+        public GameController(IConfigProvider configProvider)
         {
-            gameRepository = new GameRepository();
+            gameRepository = new GameRepository(configProvider);
         }
 
         // GET: api/<controller>

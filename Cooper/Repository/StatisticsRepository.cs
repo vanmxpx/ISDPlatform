@@ -4,6 +4,7 @@ using Cooper.Models;
 using Cooper.DAO;
 using Cooper.DAO.Models;
 using Cooper.Repository.Mapping;
+using Cooper.Configuration;
 
 namespace Cooper.Repository
 {
@@ -12,9 +13,9 @@ namespace Cooper.Repository
         private GameStatisticsDAO statisticsDAO;
         private ModelsMapper mapper;
 
-        public StatisticsRepository()
+        public StatisticsRepository(IConfigProvider configProvider)
         {
-            statisticsDAO = new GameStatisticsDAO();
+            statisticsDAO = new GameStatisticsDAO(configProvider);
             mapper = new ModelsMapper();
         }
 

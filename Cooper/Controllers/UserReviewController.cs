@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
+using Cooper.Configuration;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,9 +17,9 @@ namespace Cooper.Controllers
         // GET: api/<controller>
         UserReviewRepository userReviewRepository;
 
-        public UserReviewController()
+        public UserReviewController(IConfigProvider configProvider)
         {
-            userReviewRepository = new UserReviewRepository();
+            userReviewRepository = new UserReviewRepository(configProvider);
         }
 
         // TODO: get all reviews for reviewed user method

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using cooper.SignalR;
+using Cooper.Configuration;
 using Cooper.Extensions;
 using Cooper.Models;
 using Cooper.Repository;
@@ -22,10 +23,10 @@ namespace Cooper.Controllers
         private IHubContext<ChatHub, ITypedHubClient> _hubContext;
         private UserRepository userRepository;
         private ICommonChatRepository commonChatRepository;
-        public CommonMessageController(IHubContext<ChatHub, ITypedHubClient> hubContext, IJwtHandlerService jwtService, ICommonChatRepository commonChatRepository)
+        public CommonMessageController(IHubContext<ChatHub, ITypedHubClient> hubContext, IConfigProvider configProvider, IJwtHandlerService jwtService, ICommonChatRepository commonChatRepository)
         {
             _hubContext = hubContext;
-            userRepository = new UserRepository(jwtService);
+            userRepository = new UserRepository(jwtService, configProvider);
             this.commonChatRepository = commonChatRepository;
         }
 
