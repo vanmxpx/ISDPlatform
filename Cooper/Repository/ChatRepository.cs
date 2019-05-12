@@ -4,6 +4,7 @@ using Cooper.Models;
 using Cooper.DAO;
 using Cooper.DAO.Models;
 using Cooper.Repository.Mapping;
+using Cooper.Configuration;
 
 namespace Cooper.Repository
 {
@@ -12,9 +13,9 @@ namespace Cooper.Repository
         private ChatDAO chatDAO;
         private ModelsMapper mapper;
 
-        public ChatRepository()
+        public ChatRepository(IConfigProvider configProvider)
         {
-            chatDAO = new ChatDAO();
+            chatDAO = new ChatDAO(configProvider);
             mapper = new ModelsMapper();
         }
 

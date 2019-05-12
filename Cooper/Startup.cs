@@ -14,7 +14,7 @@ using Cooper.Models;
 using Cooper.DAO.Models;
 using Cooper.Configuration;
 using Cooper.Services;
-
+using System;
 
 [assembly: ApiController]
 namespace Cooper
@@ -35,7 +35,6 @@ namespace Cooper
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             
-            services.AddJWTAuthorization();
 
             services.AddProxies();
 
@@ -47,6 +46,9 @@ namespace Cooper
 
             
             services.AddJWTHandler();
+            services.AddConfigurationProvider(Configuration);
+
+            services.AddJWTAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

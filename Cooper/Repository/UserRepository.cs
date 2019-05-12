@@ -9,6 +9,7 @@ using Cooper.Controllers.ViewModels;
 using Newtonsoft.Json.Linq;
 using System.Security.Claims;
 using Cooper.Services;
+using Cooper.Configuration;
 
 namespace Cooper.Repository
 {
@@ -19,9 +20,9 @@ namespace Cooper.Repository
 
         private readonly IJwtHandlerService jwtService;
 
-        public UserRepository(IJwtHandlerService jwtService)
+        public UserRepository(IJwtHandlerService jwtService, IConfigProvider configProvider)
         {
-            userDAO = new UserDAO();
+            userDAO = new UserDAO(configProvider);
             mapper = new ModelsMapper();
 
             this.jwtService = jwtService;
