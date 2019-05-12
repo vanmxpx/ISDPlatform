@@ -8,6 +8,7 @@ using Cooper.Models;
 using Cooper.Repository;
 using Microsoft.AspNetCore.Http;
 using Cooper.Services;
+using Cooper.Extensions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -64,12 +65,13 @@ namespace Cooper.Controllers
         [ProducesResponseType(404)]
         public IActionResult GetUserByNickname(string nickname)
         {
-            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-            User user = userRepository.GetByJWToken(token);
 
-            if (nickname == "my") nickname = User.Identity.Name;
             User user = userRepository.GetByNickname(nickname);
 
+            if (nickname == "my")
+            {
+                return Ok(Request.GetAuthorizedUser(userRepository));
+            }
             if (user == null)
             {
                 return NotFound();

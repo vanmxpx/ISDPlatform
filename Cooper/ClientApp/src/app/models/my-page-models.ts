@@ -13,4 +13,5 @@ export interface Game {
     name: string;
     message: string;
     avatar: string;
+    date: any;
   }
