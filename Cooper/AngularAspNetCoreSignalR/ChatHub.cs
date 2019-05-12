@@ -1,12 +1,8 @@
 using Microsoft.AspNetCore.SignalR;
 
-namespace AngularAspNetCoreSignalR
+namespace cooper.SignalR
 {
-    public class ChatHub : Hub
+    public class ChatHub : Hub<ITypedHubClient>
     {
-        public void SendToAll(string name, string message)
-        {
-            Clients.All.SendAsync("sendToAll", name, message);
-        }
     }
 }

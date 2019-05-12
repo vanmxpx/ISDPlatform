@@ -16,14 +16,19 @@
     <PackageReference Include="AspNetCore.Proxy" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
     <PackageReference Include="NLog" Version="4.6.2" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.18.3" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Repository\NewFolder\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Repository\NewFolder\**" />
+    <EmbeddedResource Remove="Repository\NewFolder\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="Repository\NewFolder\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 

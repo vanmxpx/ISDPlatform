@@ -24,6 +24,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './services/user.service';
 import {DynamiSocialLoginModule,AuthServiceConfig, GoogleLoginProvider,FacebookLoginProvider} from 'ng-dynami-social-login';
 import { CooperInterceptor } from 'src/assets/cooper.interceptor';
+import { GrowlModule } from 'primeng/primeng';
+import {MatIconModule} from '@angular/material/icon';
+
 
 const appRoutes : Routes = [
   {path: '', redirectTo : '/signIn', pathMatch: 'full'},
@@ -73,7 +76,9 @@ export function getAuthServiceConfigs() {
     MatButtonModule,
     MatCardModule,
     MatListModule,
-    DynamiSocialLoginModule
+    DynamiSocialLoginModule,
+    GrowlModule,
+    MatIconModule
   ],
   providers: [
     {

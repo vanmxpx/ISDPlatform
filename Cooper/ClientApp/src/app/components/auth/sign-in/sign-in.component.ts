@@ -32,7 +32,7 @@ export class SignInComponent {
 
   login(form: NgForm) {
     let credentials = JSON.stringify(form.value);
-    this.http.post("/api/auth/login", credentials, {
+    this.http.post("/auth/login", credentials, {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })

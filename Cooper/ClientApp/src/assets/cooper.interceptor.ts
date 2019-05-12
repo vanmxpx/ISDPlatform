@@ -1,24 +1,21 @@
 import { HttpClient, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { environment } from '../environments/environment';
 
 export class CooperInterceptor implements HttpInterceptor{
-    intercept (req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{       
-        console.log("ya tuta")
-            console.log(localStorage.getItem("JwtCooper"))
+    intercept (req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{ 
+        var reqWithNewUrl;   
+        if(!req.url.startsWith(environment.BASE_URL)) reqWithNewUrl = req.clone({ url: environment.BASE_URL+req.url }) 
+        else reqWithNewUrl = req.clone()
+
             const authToken =localStorage.getItem("JwtCooper");
-        if(authToken){
-            
-            const cloneRequest = req.clone()
+        if(authToken){          
             const bearer = `Bearer ${authToken}`
-            console.log(bearer)
-            const authReq = req.clone({ setHeaders: { Authorization: bearer } });
-            const str =  Headers["Authorization"]
-            str.Replace("Bearer ", "")
-            console.log(authReq)
+            const authReq = reqWithNewUrl.clone({ setHeaders: { Authorization: bearer } });
             return next.handle(authReq)  
         }
-        return next.handle(req)
+        return next.handle(reqWithNewUrl)
     }
 
 }
