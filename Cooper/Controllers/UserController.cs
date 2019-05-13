@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
+using Microsoft.AspNetCore.Http;
 using Cooper.Services;
+using Cooper.Extensions;
 using Cooper.Configuration;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -59,13 +61,18 @@ namespace Cooper.Controllers
             return Ok(user);
         }
 
-        [HttpGet("nickname/{nickname}")]
+        [HttpGet("nickname/{nickname}"), Authorize]
         [ProducesResponseType(200, Type = typeof(User))]
         [ProducesResponseType(404)]
         public IActionResult GetUserByNickname(string nickname)
         {
+
             User user = userRepository.GetByNickname(nickname);
 
+            if (nickname == "my")
+            {
+                return Ok(Request.GetAuthorizedUser(userRepository));
+            }
             if (user == null)
             {
                 return NotFound();
