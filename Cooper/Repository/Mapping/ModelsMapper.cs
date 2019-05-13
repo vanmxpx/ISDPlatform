@@ -5,10 +5,13 @@ using System.Threading.Tasks;
 using Cooper.Models;
 using Cooper.DAO.Models;
 using Cooper.Controllers.ViewModels;
+using Cooper.DAO;
+using Cooper.Configuration;
 namespace Cooper.Repository.Mapping
 {
     public class ModelsMapper
     {
+
         #region Game Mapping
 
         public Game Map(GameDb game)
@@ -85,7 +88,15 @@ namespace Cooper.Repository.Mapping
             #endregion
 
             #region Transfering interop attributes
-            //EMPTY
+
+            user_newType.ConnectionsList = new List<UserConnection>();
+            if (user.ConnectionsList != null)
+            {
+                foreach (var connectionId in user.ConnectionsList)
+                {
+                    user_newType.ConnectionsList.Add(new UserConnection() { Id = connectionId });
+                }
+            }
 
             #endregion
 
@@ -111,12 +122,7 @@ namespace Cooper.Repository.Mapping
             user_newType.PlatformTheme = user.PlatformTheme;
 
             #endregion
-
-            #region Transfering interop attributes
-            //EMPTY
-
-            #endregion
-
+            
             return user_newType;
         }
 
@@ -133,7 +139,46 @@ namespace Cooper.Repository.Mapping
 
 
         #endregion
-        
+
+        #region UserConnection Mapping
+
+        public UserConnection Map(UserConnectionDb userConnection)
+        {
+            UserConnection userConnection_newType = new UserConnection();
+
+            #region Transfer main attributes
+
+            userConnection_newType.Id = userConnection.Id;
+            userConnection_newType.User1 = new User() { Id = userConnection.IdUser1 };
+            userConnection_newType.User2 = new User() { Id = userConnection.IdUser2 };
+            userConnection_newType.AreFriends = userConnection.AreFriends;
+            userConnection_newType.BlackListed = userConnection.BlackListed;
+
+            #endregion
+
+            return userConnection_newType;
+        }
+
+        public UserConnectionDb Map(UserConnection userConnection)
+        {
+            UserConnectionDb userConnection_newType = new UserConnectionDb();
+
+            #region Transfer main attributes
+
+            userConnection_newType.Id = userConnection.Id;
+            userConnection_newType.IdUser1 = userConnection.User1.Id;
+            userConnection_newType.IdUser2 = userConnection.User2.Id;
+            userConnection_newType.AreFriends = userConnection.AreFriends;
+            userConnection_newType.BlackListed = userConnection.BlackListed;
+
+
+            #endregion
+
+            return userConnection_newType;
+        }
+
+        #endregion
+
         #region Message Mapping
 
         public Message Map(MessageDb message)

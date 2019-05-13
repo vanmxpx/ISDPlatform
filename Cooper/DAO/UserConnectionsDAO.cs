@@ -8,6 +8,7 @@ using Cooper.DAO.Mapping;
 using NLog;
 using Oracle.ManagedDataAccess.Client;
 using Cooper.Configuration;
+using System.Data.Common;
 
 namespace Cooper.DAO
 {
@@ -45,25 +46,85 @@ namespace Cooper.DAO
             };
         }
 
-        public UserConnectionDb Get(long id)
+        public UserConnectionDb Get(long connectionId)
         {
+            UserConnectionDb userConnection = null;
+
             string attribute = "ID";
 
             //TODO: impelement getting process
-            UserConnectionDb userConnection = null;
+            EntityORM entity = crud.Read(connectionId, attribute, attributes, table);
+            
+            if (entity != null)
+            {
+                EntityMapping.Map(entity, out userConnection);
+            }
 
             return userConnection;
         }
 
-        public IEnumerable<long> GetConnectionListByUserId(long userId)
+        public IEnumerable<long> GetConnectionsListByUserId(long userId)
         {
-            string attribute = "ID";
+            string[] query_attributes = { "IDUSER1", "IDUSER2" };
 
-            IEnumerable<long> userConnection = null;
 
-            // TODO: GETTING USERS FROM DATABASE
+            #region Processing a query
 
-            return userConnection;
+            List<UserConnectionDb> userConnectionsDb = new List<UserConnectionDb>();
+
+            List<EntityORM> entities = new List<EntityORM>();
+
+            try
+            {
+                string sqlExpression = $"SELECT * from {table} where {query_attributes[0]} = {userId} UNION " +
+                    $"SELECT * from {table} where {query_attributes[1]} = {userId}";
+
+                dbConnect.OpenConnection();
+                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
+
+                OracleDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    EntityORM entity = new EntityORM();
+                    foreach (string attribute in attributes)
+                    {
+                        object value = reader[attribute];
+                        entity.attributeValue.Add(attribute, value);
+                    }
+
+                    entities.Add(entity);
+                }
+            }
+            catch (DbException ex)
+            {
+                logger.Info("Exception.Message: {0}", ex.Message);
+            }
+            finally
+            {
+                dbConnect.CloseConnection();
+            }
+
+            #endregion
+
+            #region Mapping entity
+
+            foreach (EntityORM entity in entities)
+            {
+                EntityMapping.Map(entity, out UserConnectionDb userConnection);
+                userConnectionsDb.Add(userConnection);
+            }
+            
+            #endregion
+
+
+            List<long> userConnections = new List<long>();
+
+            foreach (var connection in userConnectionsDb)
+            {
+                userConnections.Add(connection.Id);
+            }
+
+            return userConnections;
         }
 
         public long Save(UserConnectionDb userConnection)
