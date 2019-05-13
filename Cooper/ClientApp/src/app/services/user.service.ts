@@ -62,4 +62,5 @@ export class UserService {
   {
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then((userData)=>{this.user=userData;});
   }
+
 }

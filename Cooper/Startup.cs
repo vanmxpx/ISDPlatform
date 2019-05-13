@@ -13,7 +13,10 @@ using AspNetCore.Proxy;
 using Cooper.Models;
 using Cooper.DAO.Models;
 using Cooper.Configuration;
+using Microsoft.AspNetCore.SignalR;
 using Cooper.Services;
+using cooper.SignalR;
+using Cooper.Repository.CommonChats;
 using System;
 
 [assembly: ApiController]
@@ -32,9 +35,19 @@ namespace Cooper
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .WithOrigins("http://localhost:5001");
+            }));
 
+            services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            
+            services.AddSingleton<ICommonChatRepository, CommonChatRepository>();
+
+
 
             services.AddProxies();
 
@@ -47,8 +60,8 @@ namespace Cooper
             
             services.AddJWTHandler();
             services.AddConfigurationProvider(Configuration);
-
             services.AddJWTAuthorization();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,22 +77,28 @@ namespace Cooper
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             app.UseAuthentication();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
-            app.UseMvc(routes =>
+            app.UseCors("CorsPolicy");
+
+            app.UseSignalR(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                routes.MapHub<ChatHub>("/chatCommon");
             });
-            
+           
             app.UseSpa(spa =>
             {
+
+                app.UseMvc(routes =>
+                {
+                    routes.MapRoute(
+                        name: "default",
+                        template: "{controller}/{action=Index}/{id?}");
+                });
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
@@ -90,6 +109,7 @@ namespace Cooper
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
         }
     }
 }
