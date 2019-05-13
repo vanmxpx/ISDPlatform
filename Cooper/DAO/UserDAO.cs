@@ -24,7 +24,7 @@ namespace Cooper.DAO
         private HashSet<string> attributes;
         private HashSet<string> unique_attributes;
 
-        private UserConnectionsDAO userConnections;
+        private UserConnectionsDAO userConnectionDAO;
 
         public UserDAO(IConfigProvider configProvider)
         {
@@ -48,7 +48,7 @@ namespace Cooper.DAO
                 "ID", "NICKNAME", "EMAIL"
             };
 
-            userConnections = new UserConnectionsDAO(configProvider);
+            userConnectionDAO = new UserConnectionsDAO(configProvider);
         }
 
         #region Checking methods
@@ -148,7 +148,7 @@ namespace Cooper.DAO
 
             if (user != null)
             {
-                user.ConnectionsList = (List<long>)userConnections.GetConnectionListByUserId(user.Id);
+                user.ConnectionsList = (List<long>)userConnectionDAO.GetConnectionsListByUserId(user.Id);
             }
 
             return user;
