@@ -28,22 +28,13 @@ namespace Cooper.ORM
             {
                 #region Creating SQL expression text
 
-                string sqlExpression = $"INSERT INTO {table} ";
-                string attributes = "( ";
-                string values = "VALUES ( ";
+                string sqlExpression = String.Format("INSERT INTO {0} ({1}) VALUES ({2}) returning {3} into :id",
+                    table,
+                    String.Join(",", entity.attributeValue.Keys),
+                    String.Join(",", entity.attributeValue.Values),
+                    idColumn);
 
-                foreach (KeyValuePair<string, object> aV in entity.attributeValue)  // tuning command content
-                {
-                    attributes += $"{aV.Key}, ";
-                    values += $"{aV.Value}, ";
-                }
-
-                attributes = attributes.TrimEnd(',', ' ') + ')';
-                values = values.TrimEnd(',', ' ') + ')';
-
-                sqlExpression += $"{attributes} {values} returning {idColumn} into :id";
-
-                Console.WriteLine($"{sqlExpression}");
+                    Console.WriteLine($"{sqlExpression}");
                 #endregion
 
                 insertId = long.Parse(dbConnect.ExecuteNonQuery(sqlExpression, getId: true).ToString());
@@ -67,7 +58,7 @@ namespace Cooper.ORM
 
             try
             {
-                string sqlExpression = $"SELECT * from {table} where {attribute_name} = {attribute_value}";
+                string sqlExpression = $"SELECT * FROM {table} WHERE {attribute_name} = {attribute_value}";
 
                 dbConnect.OpenConnection();
                 OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
