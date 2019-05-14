@@ -18,5 +18,9 @@ This guide helps to configure Oracle DB for Cooper project.
 
 ## Adding an environment variable
 
-For specify a password in the connection string, we use environment variables. Now you can add a user environment variable to Windows with the name "Coop" and the password that you specified during installation Oracle Database 18c.
+For specify a password in the connection string, we use environment variables.
+
+1. Open the Start Search, type in "env", and choose "Edit the system environment variables".
+2. Click the "Environment Variables…" button.
+3. Now you can add a user environment variable to Windows with the name "Coop" and the password that you specified during installation Oracle Database 18c.
 <br/><br/>![New connection](https://github.com/vanmxpx/ISDPlatform/blob/feature/OracleDBTuningGuide/Documentation/Database/ScreenshotsForGuide/add_environment_variable.png)<br/>
