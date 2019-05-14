@@ -11,3 +11,8 @@ This guide helps to configure Oracle DB for Cooper project.
 **Note: In the password field enter the password that you specified during installation Oracle Database 18c.**
 <br/><br/>![Create connection](https://github.com/vanmxpx/ISDPlatform/blob/feature/OracleDBTuningGuide/Documentation/Database/ScreenshotsForGuide/create_connection.png)<br/>
 6. Click on the connect button at the bottom of the window.
+
+## Congratulations, you have created a database connection:)
+
+For specify a password in the connection string, we use environment variables. Now you can add a user environment variable to Windows with the name "Coop" and the password that you specified during installation Oracle Database 18c.
+<br/><br/>![New connection](https://github.com/vanmxpx/ISDPlatform/blob/feature/OracleDBTuningGuide/Documentation/Database/ScreenshotsForGuide/add_environment_variable.png)<br/>
