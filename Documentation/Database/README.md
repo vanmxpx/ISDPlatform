@@ -14,7 +14,17 @@ This guide helps to configure Oracle DB for Cooper project.
 <br/><br/>![Create connection](https://github.com/vanmxpx/ISDPlatform/blob/feature/OracleDBTuningGuide/Documentation/Database/ScreenshotsForGuide/create_connection.png)
 6. Click on the connect button at the bottom of the window.
 
-**Congratulations, you have created a database connection:)**
+**Congratulations, you have created the database connection:)**
+
+### Creating tables and adding data in these table
+
+1. Click on the "+" on the left of the newly created database connection.
+2. After connecting to the database you will have a worksheet. You must insert [this query](https://github.com/vanmxpx/ISDPlatform/blob/feature/OracleDBTuningGuide/Documentation/Database/Cooper.Sql) into this worksheet and press Cltr + Enter to run script.
+**Note: If you have a error *"The ORA-01858 error "a non-numeric character was located where a digit was expected."*, go to *Tools>Preferences* and enter "nls" in the search. After that, configure everything as in the screenshot below.**
+<br/><br/>![Change NLS](https://github.com/vanmxpx/ISDPlatform/blob/feature/OracleDBTuningGuide/Documentation/Database/ScreenshotsForGuide/change_nls.png)
+3. You have created the necessary tables, you are well done. But now you need to fill them with data. To do this, simply run [this query](https://github.com/vanmxpx/ISDPlatform/blob/feature/OracleDBTuningGuide/Documentation/Database/InsertBasicInfo.Sql).
+
+**Congratulations, you have created the tables and added some data to them:)**
 
 ### Adding an environment variable
 
