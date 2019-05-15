@@ -48,3 +48,7 @@ For specify a password in the connection string, we use environment variables.
 2. Click the "Environment Variables…" button.
 3. Now you can add a user environment variable to Windows with the name "Coop" and the password that you specified during installation Oracle Database 18c.
 <br/>![New connection](https://github.com/vanmxpx/ISDPlatform/blob/feature/OracleDBTuningGuide/Documentation/Database/ScreenshotsForGuide/add_environment_variable.png)
+
+## Run Cooper project
+
+Well done, you created the connection to the database, created tables and fill them with data and also added an environment variable for Cooper project. Now you can run the project.
