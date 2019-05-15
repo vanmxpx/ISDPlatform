@@ -201,3 +201,6 @@ ALTER TABLE USERSREVIEWS
 
 ALTER TABLE GAMESREVIEWS
   MODIFY createdate date default sysdate;
+
+  ALTER TABLE USERS
+  MODIFY endbandate date default sysdate;
