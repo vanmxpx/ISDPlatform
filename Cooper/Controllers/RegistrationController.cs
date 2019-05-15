@@ -16,10 +16,11 @@ namespace Cooper.Controllers
     {
 
         UserRepository userRepository;
-
-        public RegistrationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider)
+        ISmtpClient smtpClient;
+        public RegistrationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider, ISmtpClient smtpClient)
         {
             userRepository = new UserRepository(jwtHandler, configProvider);
+            this.smtpClient = smtpClient;
         }
 
         [HttpPost]
@@ -27,19 +28,27 @@ namespace Cooper.Controllers
         [ProducesResponseType(201)]
         public IActionResult Post([FromBody]UserRegistration user, string Password)
         {
-            bool nicknameExists = userRepository.IfNicknameExists(user.Nickname);
-            bool emailExists = userRepository.IfEmailExists(user.Email);
+            // TODO: send the proper explanation for bad-request.
 
-            // TODO: divide this statement into three and send the proper explanation for bad-request.
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (userRepository.IfNicknameExists(user.Nickname)) return BadRequest(ModelState);
+            if (userRepository.IfEmailExists(user.Email)) return BadRequest(ModelState);
 
-            if (!ModelState.IsValid || nicknameExists || emailExists)
-            {
-                return BadRequest(ModelState);
-            }
+            //this.smtpClient.SendMail()
+            //userRepository.Create(user)
 
-            long id = userRepository.Create(user);
+            var tmp = userRepository.GetAll();
+            return Ok();
+        }
+    }
 
-            return Ok(id);
+    public class ConfirmationController : Controller 
+    {
+        [Route("confirm")]
+        public IActionResult Confirm() {
+            //Request.QueryString["token"];
+
+            return Redirect("/Home/Index");
         }
     }
 }
