@@ -6,6 +6,7 @@ This guide helps to configure Oracle DB for Cooper project.
 
 1. Download [Oracle Database 18c](https://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html).
 2. Install Oracle Database 18c by [this video](https://www.youtube.com/watch?v=CrTo_XoDQwI).
+<br/>**Important: Enter the password "qQ1111qQ" when installing.**
 3. Download [SQL Developer](https://www.oracle.com/technetwork/developer-tools/sql-developer/downloads/index.html) and run it.
 4. Click on green "+" to create a new connection.
 <br/>![New connection](https://github.com/vanmxpx/ISDPlatform/blob/feature/OracleDBTuningGuide/Documentation/Database/ScreenshotsForGuide/new_connection.png)
@@ -40,15 +41,6 @@ DROP TABLE USERS;
 
 **Congratulations, you have created the tables and added some data to them:)**
 
-## Adding an environment variable
-
-For specify a password in the connection string, we use environment variables.
-
-1. Open the Start Search, type in "env", and choose "Edit the system environment variables".
-2. Click the "Environment Variables…" button.
-3. Now you can add a user environment variable to Windows with the name "Coop" and the password that you specified during installation Oracle Database 18c.
-<br/>![New connection](https://github.com/vanmxpx/ISDPlatform/blob/feature/OracleDBTuningGuide/Documentation/Database/ScreenshotsForGuide/add_environment_variable.png)
-
 ## Run Cooper project
 
-Well done, you created the connection to the database, created tables and fill them with data and also added an environment variable for Cooper project. Now you can run the project.
+Well done, you created the connection to the database, created tables and alse fill them with data for Cooper project. Now you can run the project.
