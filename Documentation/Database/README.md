@@ -21,7 +21,7 @@ This guide helps to configure Oracle DB for Cooper project.
 
 1. Click on the "+" on the left of the newly created database connection.
 2. After connecting to the database you will have a worksheet. You must insert [this query](https://github.com/vanmxpx/ISDPlatform/blob/feature/OracleDBTuningGuide/Documentation/Database/Cooper.Sql) into this worksheet and press Cltr + Enter to run script.
-<br/>**Note: If you have a error *"The ORA-01858 error "a non-numeric character was located where a digit was expected."*, go to *Tools>Preferences* and enter "nls" in the search. After that, configure everything as in the screenshot below.**
+<br/>**Note: If you have an error *"The ORA-01858 error "a non-numeric character was located where a digit was expected."*, go to *Tools>Preferences* and enter "nls" in the search. After that, configure everything as in the screenshot below.**
 <br/>![Change NLS](https://github.com/vanmxpx/ISDPlatform/blob/feature/OracleDBTuningGuide/Documentation/Database/ScreenshotsForGuide/change_nls.png)
 **After configuring the NLS, delete all tables with the query below and execute [this query](https://github.com/vanmxpx/ISDPlatform/blob/feature/OracleDBTuningGuide/Documentation/Database/Cooper.Sql) one more time.**
 ```sql
@@ -37,10 +37,10 @@ DROP TABLE MESSAGES;
 DROP TABLE CHATS;
 DROP TABLE USERS;
 ```
-3. You have created the necessary tables, you are well done. But now you need to fill them with data. To do this, simply run [this query](https://github.com/vanmxpx/ISDPlatform/blob/feature/OracleDBTuningGuide/Documentation/Database/InsertBasicInfo.Sql).
+3. Well done, you have created the necessary tables. But now you need to fill them with data. To do this, simply run [this query](https://github.com/vanmxpx/ISDPlatform/blob/feature/OracleDBTuningGuide/Documentation/Database/InsertBasicInfo.Sql).
 
 **Congratulations, you have created the tables and added some data to them:)**
 
 ## Run Cooper project
 
-Well done, you created the connection to the database, created tables and alse fill them with data for Cooper project. Now you can run the project.
+Well done, you created the connection to the database, created tables and also fill them with data for Cooper project. Now you can run the project.
