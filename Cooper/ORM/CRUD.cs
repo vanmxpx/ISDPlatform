@@ -91,6 +91,51 @@ namespace Cooper.ORM
             return entity;
         }
 
+        public IEnumerable<EntityORM> ReadSubset(object attribute_value, string attribute_name, HashSet<string> attributes, string table)
+        {
+            EntityORM entity = null;
+            List<EntityORM> entities = new List<EntityORM>();
+
+            try
+            {
+                string sqlExpression = $"SELECT * from {table} where {attribute_name} = {attribute_value}";
+
+                dbConnect.OpenConnection();
+                OracleCommand command = new OracleCommand(sqlExpression, Connection);
+
+                OracleDataReader reader = command.ExecuteReader();
+
+                //reader.Read();
+                while (reader.Read())
+                {
+                    if (reader.HasRows)
+                    {
+                        entity = new EntityORM();
+                        foreach (string attribute in attributes)
+                        {
+                            object value = reader[attribute];
+                            entity.attributeValue.Add(attribute, value);
+                        }
+                    }
+                    entities.Add(entity);
+                }
+
+                reader.Close();
+            }
+            catch (DbException ex)
+            {
+                logger.Info("Exception.Message: {0}", ex.Message);
+            }
+            finally
+            {
+                dbConnect.CloseConnection();
+            }
+
+
+            return entities;
+        }
+
+
         public IEnumerable<EntityORM> ReadAll(string table, HashSet<string> attributes)
         {
             List<EntityORM> entities = new List<EntityORM>();

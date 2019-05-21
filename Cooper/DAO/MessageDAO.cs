@@ -52,13 +52,19 @@ namespace Cooper.DAO
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public MessageDb GetExtended(long id)
+        public IEnumerable<MessageDb> GetExtended(long id)
         {
-            MessageDb message = Get(id);
+            List<MessageDb> messages = new List<MessageDb>();
 
-            //message.PlayersList = GetPlayersList(id);
+            List<EntityORM> entities = (List<EntityORM>)crud.ReadSubset(id, "IDCHAT", attributes, table);
 
-            return message;
+            foreach (EntityORM entity in entities)              // Mapping entities to messages
+            {
+                EntityMapping.Map(entity, out MessageDb message);
+                messages.Add(message);
+            }
+
+            return messages;
         }
 
         public IEnumerable<MessageDb> GetAll()
