@@ -154,5 +154,12 @@ sendMessage() {
         this.message = "";
       })  
     }
-}
+  }
+
+
+  exit(): void {
+    localStorage.removeItem('JwtCooper');
+    window.location.reload();
+  }
+
 }
