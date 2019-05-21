@@ -12,6 +12,8 @@ namespace Cooper.ORM
 
         EntityORM Read(object attribute_value, string attribute_name, HashSet<string> attributes, string table);
 
+        IEnumerable<EntityORM> ReadSubset(object attribute_value, string attribute_name, HashSet<string> attributes, string table);
+
         IEnumerable<EntityORM> ReadAll(string table, HashSet<string> attributes);
 
         bool Update(long id, string table, string idColumn, EntityORM attributeValue);

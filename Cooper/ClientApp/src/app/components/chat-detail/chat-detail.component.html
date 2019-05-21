@@ -1,0 +1,43 @@
+<div *ngIf="chat" style="text-align: center;">
+
+  <h2>{{chat.chatName | uppercase}} Chat</h2>
+  <div><span>id: </span>{{chat.id}}</div>
+  <div>
+    <label>name:
+      <input [(ngModel)]="chat.chatName" placeholder="name"/>
+    </label>
+  </div>
+  <button (click)="goBack()">go back</button>
+  <button (click)="save()">save</button>
+
+  <h3>Messages List</h3>
+  <div>
+    <mat-list>
+      <mat-list-item *ngFor="let message of chat.messagesList">
+        <!--<img matListAvatar src="..." alt="...">-->
+        <h3 matLine> {{message.idSender.id}} </h3>
+        <p matLine>
+          <span class="demo-2"> -- {{message.content}} </span>
+        </p>
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+<hr>
+
+<div>
+<textarea #messageContent placeholder="Enter your replic please" style="width: 50%;"></textarea>
+</div>
+<button (click)="send(messageContent.value); ">send</button>
+
+<br/><br/>
+<button (click)="add()">Add</button>
+<div>
+  <app-messages [mylistFromParent]="mylistFromParent">
+
+  </app-messages>
+</div>
+
+</div>
+
+

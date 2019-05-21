@@ -1,0 +1,10 @@
+{{mylistFromParent | json}}
+<div *ngIf="mylistFromParent">
+    <label>Message:
+      <input #content />
+    </label>&nbsp;
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button (click)="add({idSender: 7}, mylistFromParent[0], content.value); content.value=''">
+      add
+    </button>
+</div>

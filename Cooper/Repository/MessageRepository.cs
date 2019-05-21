@@ -37,7 +37,7 @@ namespace Cooper.Repository
 
         public Message Get(long id)
         {
-            MessageDb message = messageDAO.GetExtended(id);
+            MessageDb message = messageDAO.Get(id);
             Message message_newTyped = null;
 
             if (message != null)
@@ -48,6 +48,22 @@ namespace Cooper.Repository
             return message_newTyped;
         }
 
+        public IEnumerable<Message> GetSubset(long id)
+        {
+            List<MessageDb> messages = (List<MessageDb>)messageDAO.GetExtended(id);
+
+            List<Message> messages_newType = new List<Message>();
+
+            foreach (MessageDb message in messages)
+            {
+                //Message message_newType = mapper.Map<Message>(message);
+                Message message_newType = mapper.Map(message); //MessageMap(message);
+
+                messages_newType.Add(message_newType);
+            }
+
+            return messages_newType;
+        }
         public long Create(Message message)
         {
             MessageDb messageDb = mapper.Map(message);
