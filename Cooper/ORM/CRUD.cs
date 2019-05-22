@@ -101,7 +101,7 @@ namespace Cooper.ORM
                 string sqlExpression = $"SELECT * from {table} where {attribute_name} = {attribute_value}";
 
                 dbConnect.OpenConnection();
-                OracleCommand command = new OracleCommand(sqlExpression, Connection);
+                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
 
                 OracleDataReader reader = command.ExecuteReader();
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Cooper.Hubs {
     public interface IGroupChatClient
     {
-        Task ReceiveMessage(string receiver, Message message);
+        Task ReceivePersonalMessage(string receiver, Message message);
 
         Task ReceiveMessage(Message message);
     }

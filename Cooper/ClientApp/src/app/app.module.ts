@@ -64,7 +64,10 @@ export function getAuthServiceConfigs() {
     GamesComponent,
     GameDetailComponent,
     GameSearchComponent,
-    SafePipe
+    ChatsComponent,
+    ChatDetailComponent,
+    MessagesComponent,
+    SafePipe,
   ],
   imports: [
     BrowserModule,

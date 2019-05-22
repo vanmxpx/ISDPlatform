@@ -17,7 +17,7 @@ const httpOptions = {
 
 export class GameService {
 
-  private gamesUrl = 'api/games';  // URL to web api
+  private gamesUrl = '/games';  // URL to web api
 
   constructor(  
     private http: HttpClient

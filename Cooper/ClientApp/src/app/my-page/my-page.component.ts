@@ -117,13 +117,13 @@ constructor(private httpClient: HttpClient){}
     this.hubConnection.on('BroadcastMessage', (response: any) => {
       console.log(response)
       this.timeAgo(response.createDate)
-this.messages = this.messages.concat([{
-  name: response.author.nickname,
-  avatar: '',
-  message: response.content,
-  date: this.timeAgo(response.createDate)
-}])
-  })
+      this.messages = this.messages.concat([{
+        name: response.author.nickname,
+        avatar: '',
+        message: response.content,
+        date: this.timeAgo(response.createDate)
+      }])
+    })
 }
 
 timeAgo(createDate: number): string {
