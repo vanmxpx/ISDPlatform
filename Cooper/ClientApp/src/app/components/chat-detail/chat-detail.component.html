@@ -3,8 +3,9 @@
   <h2>{{chat.chatName | uppercase}} Chat</h2>
   <div><span>id: </span>{{chat.id}}</div>
   <div>
-    <label>name:
-      <input [(ngModel)]="chat.chatName" placeholder="name"/>
+    <label>
+      name:
+      <input [(ngModel)]="chat.chatName" placeholder="name" />
     </label>
   </div>
   <button (click)="goBack()">go back</button>
@@ -23,20 +24,29 @@
     </mat-list>
   </div>
 
-<hr>
+  <hr>
 
-<div>
+  <div>
 <textarea #messageContent placeholder="Enter your replic please" style="width: 50%;"></textarea>
-</div>
-<button (click)="send(messageContent.value); ">send</button>
+  </div>
+  <button (click)="send(messageContent.value); ">send</button>
 
-<br/><br/>
-<button (click)="add()">Add</button>
-<div>
-  <app-messages [mylistFromParent]="mylistFromParent">
+  <br /><br />
+  <!--<button (click)="add()">Add</button>
+  <div>
+    <app-messages [mylistFromParent]="mylistFromParent">
 
-  </app-messages>
-</div>
+    </app-messages>
+  </div>-->
+
+    <div class="new-message">
+      <mat-form-field class="input-chat">
+        <input matInput type="text" id="message" name="message" [(ngModel)]="message" placeholder="Enter your message..." />
+      </mat-form-field>
+      <button mat-icon-button class="button-send" type="text" (click)="send(message.value)" required>
+        <mat-icon>mail_outline</mat-icon>
+      </button>
+    </div>
 
 </div>
 
