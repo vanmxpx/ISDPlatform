@@ -39,14 +39,22 @@ namespace Cooper.Controllers
             if ((msg.Content == null) || (msg.Content == "")) return BadRequest();
 
             User user = Request.GetAuthorizedUser(userRepository);
-            int now = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            DateTime now = new DateTime();
+            Message message = new Message
+            {
+                Content = msg.Content,
+                CreateDate = now,
+                IsRead = false,
+                IdChat = msg.IdChat,
+                IdSender = user
+            };
             messageRepository.Create(msg);
-            _hubContext.Clients.Group(msg.IdChat.ChatName).ReceiveMessage(msg.IdSender.Nickname, msg); //.Clients.All.BroadcastMessage(message);
+            _hubContext.Clients.Group(msg.IdChat.ChatName).ReceiveMessage(message);
             
             return Ok();
         }
 
-        [HttpGet("{id}"), Authorize]
+        [HttpGet("{chatid}"), Authorize]
         [ProducesResponseType(200, Type = typeof(Message))]
         public IActionResult getChatMessages(long chatid)
         {

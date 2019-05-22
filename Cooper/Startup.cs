@@ -18,6 +18,7 @@ using Cooper.Services;
 using cooper.SignalR;
 using Cooper.Repository.CommonChats;
 using System;
+using Cooper.Hubs;
 
 [assembly: ApiController]
 namespace Cooper
@@ -35,13 +36,13 @@ namespace Cooper
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
-            {
-                builder
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .WithOrigins("http://localhost:5001");
-            }));
+            //services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            //{
+            //    builder
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader()
+            //        .WithOrigins("http://localhost:5001");
+            //}));
 
             services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -49,7 +50,7 @@ namespace Cooper
 
 
 
-            services.AddProxies();
+            //services.AddProxies();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -77,19 +78,24 @@ namespace Cooper
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
-            app.UseCors("CorsPolicy");
+            //app.UseCors("CorsPolicy");
 
             app.UseSignalR(routes =>
             {
                 routes.MapHub<ChatHub>("/chatCommon");
             });
-           
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<GroupChatHub>("/chatRoom");
+            });
+
             app.UseSpa(spa =>
             {
 
