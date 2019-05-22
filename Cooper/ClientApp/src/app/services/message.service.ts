@@ -14,7 +14,7 @@ const httpOptions = {
 
 export class MessageService {
 
-  private messagesUrl = 'api/chat/messages';  // URL to web api
+  private messagesUrl = '/chat/messages';  // URL to web api
 
   constructor(  
     private http: HttpClient
