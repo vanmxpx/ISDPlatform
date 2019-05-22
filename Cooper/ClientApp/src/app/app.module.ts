@@ -93,9 +93,7 @@ export function getAuthServiceConfigs() {
     AuthGuard, 
     UserService
 ],
-  bootstrap: [AppComponent,
-  SignInComponent,
-  SignUpComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
 export class PizzaPartyAppModule { }
