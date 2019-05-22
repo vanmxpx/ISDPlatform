@@ -99,7 +99,11 @@ export function getAuthServiceConfigs() {
     AuthGuard, 
     UserService
 ],
+<<<<<<< HEAD
   bootstrap: [ AppComponent ]
+=======
+  bootstrap: [AppComponent,]
+>>>>>>> `
 })
 export class AppModule { }
 export class PizzaPartyAppModule { }
