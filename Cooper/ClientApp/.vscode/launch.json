@@ -10,5 +10,6 @@
             "name": "Launch Chrome against localhost",
             "url": "https://localhost:8080"
         }
+
     ]
 }
