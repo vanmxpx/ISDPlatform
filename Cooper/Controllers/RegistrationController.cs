@@ -29,9 +29,12 @@ namespace Cooper.Controllers
         public IActionResult Post([FromBody]UserRegistration user, string Password)
         {
             // TODO: send the proper explanation for bad-request.
-            user.Email = SQLInjectionSecurity(ref user.Email);
-            user.Nickname = SQLInjectionSecurity(ref user.Nickname);
-            Password = SQLInjectionSecurity(ref Password);
+            if (user == null) return BadRequest(ModelState);
+            if (Password == null) return BadRequest(ModelState);
+
+            user.Email = SQLInjectionSecurity(user.Email);
+            user.Nickname = SQLInjectionSecurity(user.Nickname);
+            Password = SQLInjectionSecurity(Password);
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
             if (userRepository.IfNicknameExists(user.Nickname)) return BadRequest(ModelState);
@@ -44,11 +47,11 @@ namespace Cooper.Controllers
             verify.EndVerifyDate = DateTime.Now.AddDays(3);
 
             userRepository.Create(verify);
-            //this.smtpClient.SendMail(verify.Email, "Register confirmation", "", verify.Token);
+            this.smtpClient.SendMail(verify.Email, "Register confirmation", "", verify.Token);
             return Ok(userRepository.Create(user));
         }
 
-        private string SQLInjectionSecurity(ref string value)
+        private string SQLInjectionSecurity(string value)
         {
             return value.Replace("'", "").Replace("\"", "");
         }
@@ -58,7 +61,6 @@ namespace Cooper.Controllers
     {
         UserRepository userRepository;
         private readonly IConfigProvider configProvider;
-        private readonly IJwtHandlerService jwt;
 
         public ConfirmationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider, ISmtpClient smtpClient)
         {
@@ -76,7 +78,7 @@ namespace Cooper.Controllers
             userRepository.ConfirmEmail(token, email);
             userRepository.DeleteToken($"\'{token}\'");
                 
-            return Redirect("/myPage");
+            return Redirect("/auth");//TODO: Auth
         }
     }
 }
