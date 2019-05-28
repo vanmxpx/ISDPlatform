@@ -8,7 +8,6 @@ using Cooper.Repository;
 using Cooper.Controllers.ViewModels;
 using Cooper.Services;
 using Cooper.Configuration;
-using Cooper.Services.Authorization;
 
 namespace Cooper.Controllers
 {
@@ -29,14 +28,13 @@ namespace Cooper.Controllers
         public IActionResult Post([FromBody]UserRegistration user, string Password)
         {
             // TODO: send the proper explanation for bad-request.
-            if (user == null) return BadRequest(ModelState);
-            if (Password == null) return BadRequest(ModelState);
-
-            user.Email = SQLInjectionSecurity(user.Email);
-            user.Nickname = SQLInjectionSecurity(user.Nickname);
-            Password = SQLInjectionSecurity(Password);
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            user.Password = SQLInjectionSecurity(user.Password);
+            user.Nickname = SQLInjectionSecurity(user.Nickname);
+            user.Email = SQLInjectionSecurity(user.Email);
+
             if (userRepository.IfNicknameExists(user.Nickname)) return BadRequest(ModelState);
             if (userRepository.IfEmailExists(user.Email)) return BadRequest(ModelState);
 
@@ -53,6 +51,7 @@ namespace Cooper.Controllers
 
         private string SQLInjectionSecurity(string value)
         {
+            if (value == null) return null;
             return value.Replace("'", "").Replace("\"", "");
         }
     }
