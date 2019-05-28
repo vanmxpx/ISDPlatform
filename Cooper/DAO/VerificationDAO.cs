@@ -52,46 +52,40 @@ namespace Cooper.DAO
                 return verify; });
         }
 
-        public long Save(VerificationDb user)
+        public long Save(VerificationDb verify)
         {
-            return 111;
+            EntityORM entity = EntityMapping.Map(verify, attributes);
+
+            long verify_id = crud.Create(table, idColumn, entity);
+
+            logger.Info($"User with id = {verify_id} was created");
+
+            return verify_id;
         }
 
-        public void Delete(long id)
+        public void Delete(object id)
         {
             if (crud.Delete(id, table, idColumn)) 
             {
-                 logger.Info($"User with id={id} was successfully deleted from table {table}.");
+                 logger.Info($"Token with id={id} was successfully deleted from table {table}.");
             }
             else {
-                logger.Info($"Deleting user with id={id} was failed.");
+                logger.Info($"Deleting token with id={id} was failed.");
             }
         }
 
-        public VerificationDb Get(long id)
+        public VerificationDb Get(object id)
         {
-            string attribute = "ID";
+            VerificationDb verify = null;
+            EntityORM entity = crud.Read(id, "TOKEN", attributes, table);
 
-            return null;
+            if (entity != null)
+                EntityMapping.Map(entity, out verify);
+
+            return verify;
         }
-
-        public void Update(VerificationDb user)
-        {
-            /*EntityORM entity = EntityMapping.Map(user, attributes);
-
-            // Making sure that ID value is not touched.
-            entity.attributeValue.Remove("ID"); 
-
-            bool ifUpdated = crud.Update(user.Id, table, idColumn, entity);
-
-            if (ifUpdated)
-            {
-                logger.Info($"User with id={user.Id} was successfully updated.");
-            }
-            else
-            {
-                logger.Info($"Updating user with id={user.Id} was failed.");
-            }*/
+        public void Update(VerificationDb user) {
+            //TODO: update
         }
     }
 }
