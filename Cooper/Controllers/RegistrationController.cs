@@ -27,32 +27,32 @@ namespace Cooper.Controllers
         [ProducesResponseType(201)]
         public IActionResult Post([FromBody]UserRegistration user, string Password)
         {
+            IActionResult result;
             // TODO: send the proper explanation for bad-request.
+            user.Password = DbTools.SanitizeString(user.Password);
+            user.Nickname = DbTools.SanitizeString(user.Nickname);
+            user.Email = DbTools.SanitizeString(user.Email);
 
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid 
+                || userRepository.IfNicknameExists(user.Nickname) 
+                || userRepository.IfEmailExists(user.Email)) 
+            {
+                result = BadRequest(ModelState);
+            }
+            else 
+            {
+                var verify = new Verification();
+                verify.Email = user.Email;
+                verify.Token = Guid.NewGuid().ToString();
+                user.Email = verify.Token;
+                verify.EndVerifyDate = DateTime.Now.AddDays(3);
 
-            user.Password = SQLInjectionSecurity(user.Password);
-            user.Nickname = SQLInjectionSecurity(user.Nickname);
-            user.Email = SQLInjectionSecurity(user.Email);
+                userRepository.Create(verify);
+                this.smtpClient.SendMail(verify.Email, "Register confirmation", "", verify.Token);
+                result = Ok(userRepository.Create(user));
+            }
 
-            if (userRepository.IfNicknameExists(user.Nickname)) return BadRequest(ModelState);
-            if (userRepository.IfEmailExists(user.Email)) return BadRequest(ModelState);
-
-            var verify = new Verification();
-            verify.Email = user.Email;
-            verify.Token = Guid.NewGuid().ToString();
-            user.Email = verify.Token;
-            verify.EndVerifyDate = DateTime.Now.AddDays(3);
-
-            userRepository.Create(verify);
-            this.smtpClient.SendMail(verify.Email, "Register confirmation", "", verify.Token);
-            return Ok(userRepository.Create(user));
-        }
-
-        private string SQLInjectionSecurity(string value)
-        {
-            if (value == null) return null;
-            return value.Replace("'", "").Replace("\"", "");
+            return result;
         }
     }
 
@@ -69,15 +69,22 @@ namespace Cooper.Controllers
 
         [Route("confirm")]
         public IActionResult Confirm() {
+            IActionResult result;
             string token = Request.Query["token"];
             var email = userRepository.GetVerifyEmail($"\'{token}\'");
 
-            if (email == null) return Redirect("/auth");
-            
-            userRepository.ConfirmEmail(token, email);
-            userRepository.DeleteToken($"\'{token}\'");
+            if (email == null) {
+                result = Redirect("/auth");
+            } 
+            else 
+            {
+                userRepository.ConfirmEmail(token, email);
+                userRepository.DeleteToken($"\'{token}\'");
                 
-            return Redirect("/auth");//TODO: Auth
+                result = Redirect("/auth");//TODO: Auth
+            }
+            
+            return result;
         }
     }
 }

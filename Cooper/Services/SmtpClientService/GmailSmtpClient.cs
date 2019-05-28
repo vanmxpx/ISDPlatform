@@ -10,7 +10,7 @@ namespace Cooper.Services
 
         private string from = "cooper.noreply@gmail.com";
         private string password = "INSERT_PASSWORD_HERE";
-        private string url = "https://localhost:5001/confirm?token="; //TODO: get automatically server url
+        private string url = "https://cooper.serve.games/confirm?token=";
         
         public void SendMail(string to, string subject, string body, string token)
         {
