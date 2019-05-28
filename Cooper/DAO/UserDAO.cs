@@ -234,7 +234,11 @@ namespace Cooper.DAO
 
         }
 
-        public void Update(UserDb user, bool removePassword = false)
+        public void Update(UserDb user) {
+            Update(user, false);
+        }
+
+        public void Update(UserDb user, bool removePassword)
         {
             EntityORM entity = EntityMapping.Map(user, attributes);
 

@@ -51,7 +51,7 @@ namespace Cooper.Controllers
             return Ok(new { Token = tokenString });
         }
 
-        private string SQLInjectionSecurity(ref string value)
+        private string SQLInjectionSecurity(string value)
         {
             return value.Replace("'", "").Replace("\"", "");
         }
