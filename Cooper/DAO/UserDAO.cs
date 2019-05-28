@@ -79,7 +79,7 @@ namespace Cooper.DAO
 
         public bool CheckCredentials(string nickname, string password)
         {
-            var all = GetAll();
+            // var all = GetAll();
             UserDb user = GetByNickname(nickname);
 
             if (user == null || user.Password != password)
