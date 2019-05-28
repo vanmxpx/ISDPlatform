@@ -37,20 +37,23 @@ namespace Cooper.Controllers
                 return BadRequest("Invalid client request");
             }
 
+            login.Username = SQLInjectionSecurity(login.Username);
+            login.Password = SQLInjectionSecurity(login.Password);
+
             bool authValid = userRepository.CheckCredentials(login.Username, login.Password);
 
-            if (authValid)
-            {
-                string tokenString = new TokenFactory(login, configProvider).GetTokenString();
+            if (!authValid) return Unauthorized();
+            //TODO: Add error: please verify your account
+            if (!userRepository.CheckVerifyByNickname(login.Username)) return Unauthorized();
                 
-                return Ok(new { Token = tokenString });
-            }
-            else
-            {
-                return Unauthorized();
-            }
+            string tokenString = new TokenFactory(login, configProvider).GetTokenString();
+                
+            return Ok(new { Token = tokenString });
         }
 
-        
+        private string SQLInjectionSecurity(ref string value)
+        {
+            return value.Replace("'", "").Replace("\"", "");
+        }
     }
 }

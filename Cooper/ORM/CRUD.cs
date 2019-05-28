@@ -28,25 +28,21 @@ namespace Cooper.ORM
             {
                 #region Creating SQL expression text
 
-                string sqlExpression = $"INSERT INTO {table} ";
-                string attributes = "( ";
-                string values = "VALUES ( ";
+                string sqlExpression = String.Format("INSERT INTO {0} ({1}) VALUES ({2})",
+                    table,
+                    String.Join(",", entity.attributeValue.Keys),
+                    String.Join(",", entity.attributeValue.Values));
 
-                foreach (KeyValuePair<string, object> aV in entity.attributeValue)  // tuning command content
-                {
-                    attributes += $"{aV.Key}, ";
-                    values += $"{aV.Value}, ";
+                if (table == "TOKENS") {
+                    Console.WriteLine($"{sqlExpression}");
+                    dbConnect.ExecuteNonQuery(sqlExpression, getId: true);
                 }
-
-                attributes = attributes.TrimEnd(',', ' ') + ')';
-                values = values.TrimEnd(',', ' ') + ')';
-
-                sqlExpression += $"{attributes} {values} returning {idColumn} into :id";
-
-                Console.WriteLine($"{sqlExpression}");
+                else {
+                    sqlExpression += $" returning {idColumn} into :id";
+                    Console.WriteLine($"{sqlExpression}");
+                    insertId = long.Parse(dbConnect.ExecuteNonQuery(sqlExpression, getId: true).ToString());
+                }
                 #endregion
-
-                insertId = long.Parse(dbConnect.ExecuteNonQuery(sqlExpression, getId: true).ToString());
 
             }
             catch (DbException ex)
@@ -67,7 +63,7 @@ namespace Cooper.ORM
 
             try
             {
-                string sqlExpression = $"SELECT * from {table} where {attribute_name} = {attribute_value}";
+                string sqlExpression = $"SELECT * FROM {table} WHERE {attribute_name} = {attribute_value}";
 
                 dbConnect.OpenConnection();
                 OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
@@ -169,7 +165,7 @@ namespace Cooper.ORM
             return true;
         }
 
-        public bool Delete(long id, string table, string idColumn)
+        public bool Delete(object id, string table, string idColumn)
         {
             try
             {

@@ -37,7 +37,7 @@ namespace Cooper.DAO
 
         #region Get methods
 
-        public GameDb Get(long id)
+        public GameDb Get(object id)
         {
             GameDb game = null;
 
@@ -109,7 +109,7 @@ namespace Cooper.DAO
             return idGame;
         }
 
-        public void Delete(long id)
+        public void Delete(object id)
         {
             bool ifDeleted = crud.Delete(id, table, idColumn);
 
