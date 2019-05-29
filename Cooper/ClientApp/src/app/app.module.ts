@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +23,10 @@ import { SafePipe } from './pipes/safe.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './services/user.service';
 import {DynamiSocialLoginModule,AuthServiceConfig, GoogleLoginProvider,FacebookLoginProvider} from 'ng-dynami-social-login';
+import { CooperInterceptor } from 'src/assets/cooper.interceptor';
+import { GrowlModule } from 'primeng/primeng';
+import {MatIconModule} from '@angular/material/icon';
+
 
 const appRoutes : Routes = [
   {path: '', redirectTo : '/signIn', pathMatch: 'full'},
@@ -72,12 +76,19 @@ export function getAuthServiceConfigs() {
     MatButtonModule,
     MatCardModule,
     MatListModule,
-    DynamiSocialLoginModule
+    DynamiSocialLoginModule,
+    GrowlModule,
+    MatIconModule
   ],
   providers: [
     {
     provide: AuthServiceConfig,
     useFactory: getAuthServiceConfigs
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CooperInterceptor,
+      multi: true // give the possibility of various interceptors
     }, 
     AuthGuard, 
     UserService
@@ -89,3 +100,4 @@ export function getAuthServiceConfigs() {
 export class AppModule { }
 export class PizzaPartyAppModule { }
 export class InputOverviewExample {}
+
