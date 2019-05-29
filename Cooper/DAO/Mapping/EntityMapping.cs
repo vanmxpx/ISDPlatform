@@ -9,6 +9,52 @@ namespace Cooper.DAO.Mapping
 {
     public class EntityMapping
     {
+        public static void Map(EntityORM entity, out VerificationDb verify) {
+            verify = new VerificationDb();
+
+            foreach (KeyValuePair<string, object> aV in entity.attributeValue)
+            {
+                switch (aV.Key)  // entity attribute
+                {
+                    case "EMAIL":
+                        verify.Email = aV.Value.ToString();
+                        break;
+                    case "TOKEN":
+                        verify.Token = aV.Value.ToString();
+                        break;
+                    case "ENDVERIFYDATE":
+                        verify.EndVerifyDate = (DateTime)(aV.Value);
+                        break;
+                }
+            }
+        }
+
+        public static EntityORM Map(VerificationDb verify, HashSet<string> attributes) {
+            EntityORM entity = new EntityORM();
+
+            foreach (string attribute in attributes)
+            {
+                object value = null;
+
+                switch (attribute)
+                {
+                    case "EMAIL":
+                        value = $"\'{verify.Email}\'";
+                        break;
+                    case "TOKEN":
+                        value = $"\'{verify.Token}\'";
+                        break;
+                    case "ENDVERIFYDATE":
+                        value = $"TO_TIMESTAMP(\'{verify.EndVerifyDate}\', 'DD.MM.YYYY HH24:MI:SS')";
+                        break;
+                }
+
+                entity.attributeValue.Add(attribute, value);
+            }
+
+            return entity;
+        }
+        
 
         #region Game/entity mapping
 
@@ -192,7 +238,7 @@ namespace Cooper.DAO.Mapping
                         value = (user.IsBanned) ? "\'y\'" : "\'n\'";
                         break;
                     case "ENDBANDATE":
-                        value = $"\'{user.EndBanDate.ToString("dd-MMM-yyyy")}\'";
+                        value = $"TO_DATE(\'{user.EndBanDate}\', 'DD.MM.YYYY HH24:MI:SS')";
                         break;
                     case "PLATFORMLANGUAGE":
                         value = $"\'{user.PlatformLanguage}\'";

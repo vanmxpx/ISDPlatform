@@ -9,9 +9,9 @@ namespace Cooper.DAO
     public interface IDAO<Entity>
     {
         IEnumerable<Entity> GetAll();
-        Entity Get(long id);
+        Entity Get(object id);
         long Save(Entity entity);
-        void Delete(long id);
+        void Delete(object id);
         void Update(Entity entity);
     }
 }
