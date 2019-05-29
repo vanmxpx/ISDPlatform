@@ -16,6 +16,7 @@ namespace Cooper.Repository
     public class UserRepository : IRepository<User>
     {
         private UserDAO userDAO;
+        private VerificationDAO verifyDAO;
         private ModelsMapper mapper;
 
         private readonly IJwtHandlerService jwtService;
@@ -23,6 +24,7 @@ namespace Cooper.Repository
         public UserRepository(IJwtHandlerService jwtService, IConfigProvider configProvider)
         {
             userDAO = new UserDAO(configProvider);
+            verifyDAO = new VerificationDAO(configProvider);
             mapper = new ModelsMapper();
 
             this.jwtService = jwtService;
@@ -53,6 +55,16 @@ namespace Cooper.Repository
         public bool CheckCredentials(string nickname, string password)
         {
             return userDAO.CheckCredentials(nickname, password);
+        }
+
+        public bool CheckVerifyByNickname(string nickname)
+        {
+            return userDAO.GetByNickname(nickname).Email.Contains("@");
+        }
+
+        public string GetVerifyEmail(string token)
+        {
+            return verifyDAO.Get(token)?.Email;
         }
 
         #endregion
@@ -126,6 +138,14 @@ namespace Cooper.Repository
             return user_newTyped;
         }
 
+        public Login GetLogin(string email) {
+            Login login = new Login();
+            var user = userDAO.GetByEmail(email);
+            login.Username = user.Nickname;
+            login.Password = user.Password;
+
+            return login;
+        }
         #endregion
         
         /// <summary>
@@ -136,8 +156,18 @@ namespace Cooper.Repository
         public long Create(UserRegistration user)
         {
             UserDb userDb = mapper.Map(user);
+            //Set default values
+            userDb.PlatformLanguage = "English";
+            userDb.PlatformTheme = "Light";
 
             return userDAO.Save(userDb);
+        }
+
+        public long Create(Verification verify) 
+        {
+            VerificationDb verifydb = mapper.Map(verify);
+
+            return verifyDAO.Save(verifydb);
         }
 
         /// <summary>
@@ -156,12 +186,24 @@ namespace Cooper.Repository
         {
             UserDb userDb = mapper.Map(user);
 
-            userDAO.Update(userDb);
+            userDAO.Update(userDb, true);
+        }
+
+        public void ConfirmEmail(string token, string email)
+        {
+            var user = userDAO.GetByEmail(token);
+            user.Email = email;
+            userDAO.Update(user);
         }
 
         public void Delete(long id)
         {
             userDAO.Delete(id);
+        }
+
+        public void DeleteToken(string token)
+        {
+            verifyDAO.Delete(token);
         }
 
         #endregion

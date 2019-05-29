@@ -27,17 +27,14 @@ namespace Cooper.ORM
             try
             {
                 #region Creating SQL expression text
-
                 string sqlExpression = String.Format("INSERT INTO {0} ({1}) VALUES ({2}) returning {3} into :id",
                     table,
                     String.Join(",", entity.attributeValue.Keys),
                     String.Join(",", entity.attributeValue.Values),
                     idColumn);
 
-                    Console.WriteLine($"{sqlExpression}");
+                Console.WriteLine($"{sqlExpression}");
                 #endregion
-
-                insertId = long.Parse(dbConnect.ExecuteNonQuery(sqlExpression, getId: true).ToString());
 
             }
             catch (DbException ex)
@@ -160,7 +157,7 @@ namespace Cooper.ORM
             return true;
         }
 
-        public bool Delete(long id, string table, string idColumn)
+        public bool Delete(object id, string table, string idColumn)
         {
             try
             {
