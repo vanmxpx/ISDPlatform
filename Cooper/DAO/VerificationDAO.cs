@@ -80,7 +80,9 @@ namespace Cooper.DAO
             EntityORM entity = crud.Read(id, "TOKEN", attributes, table);
 
             if (entity != null)
+            {
                 EntityMapping.Map(entity, out verify);
+            }
 
             return verify;
         }
