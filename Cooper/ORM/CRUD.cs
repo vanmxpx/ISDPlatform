@@ -27,13 +27,21 @@ namespace Cooper.ORM
             try
             {
                 #region Creating SQL expression text
-                string sqlExpression = String.Format("INSERT INTO {0} ({1}) VALUES ({2}) returning {3} into :id",
+                string sqlExpression = String.Format("INSERT INTO {0} ({1}) VALUES ({2})",
                     table,
                     String.Join(",", entity.attributeValue.Keys),
-                    String.Join(",", entity.attributeValue.Values),
-                    idColumn);
+                    String.Join(",", entity.attributeValue.Values));
 
-                Console.WriteLine($"{sqlExpression}");
+                if (table == "TOKENS") 
+                {
+                    Console.WriteLine($"{sqlExpression}");
+                    dbConnect.ExecuteNonQuery(sqlExpression);
+                }
+                else {
+                    sqlExpression += $" returning {idColumn} into :id";
+                    Console.WriteLine($"{sqlExpression}");
+                    insertId = long.Parse(dbConnect.ExecuteNonQuery(sqlExpression, getId: true).ToString());
+                }
                 #endregion
 
             }
