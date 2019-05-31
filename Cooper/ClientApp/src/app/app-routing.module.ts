@@ -10,6 +10,8 @@ import { GameComponent } from './components/home/game/game.component';
 import { AuthGuard } from './components/auth/guards/auth-guard';
 import { AppSignComponentComponent } from './app-sign-component/app-sign-component.component';
 import { MyPageComponent } from './my-page/my-page.component';
+import { ChatsComponent } from './components/chats/chats.component';
+import { ChatDetailComponent }  from './components/chat-detail/chat-detail.component';
 
 const routes: Routes = [
   
@@ -25,6 +27,8 @@ const routes: Routes = [
       {path: '', component: SignInComponent, outlet:'sub', data: { animation: 'isSignIn' }},
       {path:'signUp',component:SignUpComponent, outlet:'sub', data: { animation: 'isSignUp' }},
       ]},
+  { path: 'chats', component: ChatsComponent, canActivate: [AuthGuard] },
+  { path: 'chatdetail/:id', component: ChatDetailComponent, canActivate: [AuthGuard] },      
 ];
 
 @NgModule({

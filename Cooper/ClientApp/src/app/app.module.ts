@@ -26,6 +26,9 @@ import {DynamiSocialLoginModule,AuthServiceConfig, GoogleLoginProvider,FacebookL
 import { CooperInterceptor } from 'src/assets/cooper.interceptor';
 import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
+import { ChatsComponent } from './components/chats/chats.component';
+import { ChatDetailComponent } from './components/chat-detail/chat-detail.component';
+import { MessagesComponent } from './components/messages/messages.component';
 
 
 const appRoutes : Routes = [
@@ -61,6 +64,9 @@ export function getAuthServiceConfigs() {
     GamesComponent,
     GameDetailComponent,
     GameSearchComponent,
+    ChatsComponent,
+    ChatDetailComponent,
+    MessagesComponent,
     SafePipe
   ],
   imports: [

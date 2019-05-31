@@ -1,0 +1,24 @@
+<h2>All chats</h2>
+
+<div>
+    <label>Chat name:
+      <input #chatName />
+    </label>
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button (click)="add(chatName.value); chatName.value=''">
+      add
+    </button>
+</div>
+
+<ul class="chats">
+  <li *ngFor="let chat of chats"> 
+    <!--<a routerLink="/groupchat/{{chat.id}}">-->
+    <!--<a routerLink="/conversation/{{chat.id}}">-->
+    <a routerLink="/chatdetail/{{chat.id}}">
+      <span class="badge">{{chat.id}}</span> {{chat.chatName}}
+    </a>
+      <button class="delete" title="delete chat"
+        (click)="delete(chat)">x
+      </button>
+    </li>
+  </ul>

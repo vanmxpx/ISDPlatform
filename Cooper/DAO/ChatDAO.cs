@@ -19,9 +19,11 @@ namespace Cooper.DAO
         private string table;
         private string idColumn;
         private HashSet<string> attributes;
+        private IConfigProvider configProvider;
 
         public ChatDAO(IConfigProvider configProvider)
         {
+            this.configProvider = configProvider;
             crud = new CRUD(configProvider);
             logger = LogManager.GetLogger("CooperLoger");
 
@@ -56,9 +58,30 @@ namespace Cooper.DAO
         {
             ChatDb chat = Get(id);
 
-            //chat.PlayersList = GetPlayersList(id);
+            chat.UsersList = GetUsersList(id);
+            chat.MessagesList = GetMessagesList(id);
 
             return chat;
+        }
+
+        private List<long> GetMessagesList(long id)
+        {
+            MessageDAO messageDAO = new MessageDAO(configProvider);
+            List<MessageDb> messageList = (List<MessageDb>)messageDAO.GetExtended(id);
+            List<long> messageIdList = new List<long>();
+
+            foreach (var message in messageList)
+            {
+                messageIdList.Add(message.Id);
+            }
+
+            return messageIdList;
+        }
+
+        private List<long> GetUsersList(long id)
+        {
+            //throw new NotImplementedException();
+            return null;
         }
 
         public IEnumerable<ChatDb> GetAll()
@@ -67,7 +90,7 @@ namespace Cooper.DAO
 
             List<EntityORM> entities = (List<EntityORM>)crud.ReadAll(table, attributes);
 
-            foreach (EntityORM entity in entities)
+            foreach (EntityORM entity in entities)              // Mapping entities to chats
             {
                 EntityMapping.Map(entity, out ChatDb chat);
                 chats.Add(chat);
@@ -81,15 +104,13 @@ namespace Cooper.DAO
         // Here they will be
 
         #endregion
-
         #endregion
 
         public long Save(ChatDb chat)
         {
             EntityORM entity = EntityMapping.Map(chat, attributes);
 
-            // Making sure that ID value is not touched.
-            entity.attributeValue.Remove("ID");     
+            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
 
             long idChat = crud.Create(table, idColumn, entity);
 
@@ -102,7 +123,7 @@ namespace Cooper.DAO
 
             if (ifDeleted)
             {
-                logger.Info($"Game with id={id} was successfully deleted from table {table}.");
+                logger.Info($"Chat with id={id} was successfully deleted from table {table}.");
             }
             else
             {
@@ -121,7 +142,7 @@ namespace Cooper.DAO
 
             if (ifUpdated)
             {
-                logger.Info($"Game with id={chat.Id} was successfully updated.");
+                logger.Info($"Chat with id={chat.Id} was successfully updated.");
             }
             else
             {

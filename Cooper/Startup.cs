@@ -89,7 +89,12 @@ namespace Cooper
             {
                 routes.MapHub<ChatHub>("/chatCommon");
             });
-           
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<GroupChatHub>("/chatRoom");
+            });
+
             app.UseSpa(spa =>
             {
                 app.UseMvc(routes =>

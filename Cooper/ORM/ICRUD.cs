@@ -8,9 +8,11 @@ namespace Cooper.ORM
     internal interface ICRUD
     {
         
-        long Create(string table, string idColumn, EntityORM attributeValue); //return column id or 0 for verification
+        long Create(string table, string idColumn, EntityORM attributeValue);
 
         EntityORM Read(object attribute_value, string attribute_name, HashSet<string> attributes, string table);
+
+        IEnumerable<EntityORM> ReadSubset(object attribute_value, string attribute_name, HashSet<string> attributes, string table);
 
         IEnumerable<EntityORM> ReadAll(string table, HashSet<string> attributes);
 
