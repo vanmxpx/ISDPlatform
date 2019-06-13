@@ -18,6 +18,7 @@ using Cooper.Services;
 using cooper.SignalR;
 using Cooper.Repository.CommonChats;
 using System;
+using Cooper.Hubs;
 
 [assembly: ApiController]
 namespace Cooper
