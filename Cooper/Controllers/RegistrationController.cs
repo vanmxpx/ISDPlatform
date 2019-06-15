@@ -14,12 +14,12 @@ namespace Cooper.Controllers
     [Route("api/registration")]
     public class RegistrationController : Controller
     {
-
         UserRepository userRepository;
-
-        public RegistrationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider)
+        ISmtpClient smtpClient;
+        public RegistrationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider, ISmtpClient smtpClient)
         {
             userRepository = new UserRepository(jwtHandler, configProvider);
+            this.smtpClient = smtpClient;
         }
 
         [HttpPost]
@@ -27,19 +27,64 @@ namespace Cooper.Controllers
         [ProducesResponseType(201)]
         public IActionResult Post([FromBody]UserRegistration user, string Password)
         {
-            bool nicknameExists = userRepository.IfNicknameExists(user.Nickname);
-            bool emailExists = userRepository.IfEmailExists(user.Email);
+            IActionResult result;
+            // TODO: send the proper explanation for bad-request.
+            user.Password = DbTools.SanitizeString(user.Password);
+            user.Nickname = DbTools.SanitizeString(user.Nickname);
+            user.Email = DbTools.SanitizeString(user.Email);
 
-            // TODO: divide this statement into three and send the proper explanation for bad-request.
-
-            if (!ModelState.IsValid || nicknameExists || emailExists)
+            if (!ModelState.IsValid 
+                || userRepository.IfNicknameExists(user.Nickname) 
+                || userRepository.IfEmailExists(user.Email)) 
             {
-                return BadRequest(ModelState);
+                result = BadRequest(ModelState);
+            }
+            else 
+            {
+                var verify = new Verification();
+                verify.Email = user.Email;
+                verify.Token = Guid.NewGuid().ToString();
+                user.Email = verify.Token;
+                verify.EndVerifyDate = DateTime.Now.AddDays(3);
+
+                userRepository.Create(verify);
+                this.smtpClient.SendMail(verify.Email, "Register confirmation", "", verify.Token);
+                result = Ok(userRepository.Create(user));
             }
 
-            long id = userRepository.Create(user);
+            return result;
+        }
+    }
 
-            return Ok(id);
+    public class ConfirmationController : Controller 
+    {
+        UserRepository userRepository;
+        private readonly IConfigProvider configProvider;
+
+        public ConfirmationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider, ISmtpClient smtpClient)
+        {
+            userRepository = new UserRepository(jwtHandler, configProvider);
+            this.configProvider = configProvider;
+        }
+
+        [Route("confirm")]
+        public IActionResult Confirm() {
+            IActionResult result;
+            string token = Request.Query["token"];
+            var email = userRepository.GetVerifyEmail($"\'{token}\'");
+
+            if (email == null) {
+                result = Redirect("/auth");
+            } 
+            else 
+            {
+                userRepository.ConfirmEmail(token, email);
+                userRepository.DeleteToken($"\'{token}\'");
+                
+                result = Redirect("/auth");//TODO: Auth
+            }
+            
+            return result;
         }
     }
 }

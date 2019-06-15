@@ -45,9 +45,8 @@ namespace Cooper
 
             services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddSingleton<ICommonChatRepository, CommonChatRepository>();
-
-
+            services.AddSingleton<ICommonChatRepository, CommonChatRepository>();      
+            services.AddTransient<ISmtpClient, GmailSmtpClient>();
 
             services.AddProxies();
 
@@ -67,6 +66,7 @@ namespace Cooper
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -92,7 +92,6 @@ namespace Cooper
            
             app.UseSpa(spa =>
             {
-
                 app.UseMvc(routes =>
                 {
                     routes.MapRoute(

@@ -12,6 +12,16 @@ namespace Cooper.Repository.Mapping
     public class ModelsMapper
     {
 
+        public VerificationDb Map(Verification verify) {
+            VerificationDb verify_newType = new VerificationDb();
+
+            verify_newType.Email = verify.Email;
+            verify_newType.EndVerifyDate = verify.EndVerifyDate;
+            verify_newType.Token = verify.Token;
+
+            return verify_newType;
+        }
+
         #region Game Mapping
 
         public Game Map(GameDb game)

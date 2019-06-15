@@ -8,7 +8,7 @@ namespace Cooper.ORM
     internal interface ICRUD
     {
         
-        long Create(string table, string idColumn, EntityORM attributeValue);
+        long Create(string table, string idColumn, EntityORM attributeValue); //return column id or 0 for verification
 
         EntityORM Read(object attribute_value, string attribute_name, HashSet<string> attributes, string table);
 
@@ -16,6 +16,6 @@ namespace Cooper.ORM
 
         bool Update(long id, string table, string idColumn, EntityORM attributeValue);
 
-        bool Delete(long id, string table, string idColumn);
+        bool Delete(object id, string table, string idColumn);
     }
 }
