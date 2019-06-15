@@ -32,7 +32,5 @@ namespace Cooper.Models
         public List<GameReview> GameReviewsList { get; set; }
         
         #endregion 
-
-        public string Token { get; set; }
     }
 }

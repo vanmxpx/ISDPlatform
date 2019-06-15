@@ -10,7 +10,7 @@ export class UserService {
 
   constructor(private fb: FormBuilder, private http: HttpClient,private socialAuthService: AuthService) { }
   public user: any;
-  readonly registrationUrl = '/api/registration';
+  readonly registrationUrl = '/registration';
 
 
   formModel = this.fb.group({

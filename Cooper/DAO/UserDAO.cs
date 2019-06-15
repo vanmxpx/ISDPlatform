@@ -99,7 +99,7 @@ namespace Cooper.DAO
 
         #region Get methods
 
-        public UserDb Get(long id)
+        public UserDb Get(object id)
         {
             string attribute = "ID";
 
@@ -223,7 +223,7 @@ namespace Cooper.DAO
             return user_id;
         }
 
-        public void Delete(long id)
+        public void Delete(object id)
         {
             bool ifDeleted = crud.Delete(id, table, idColumn);
 
@@ -238,12 +238,19 @@ namespace Cooper.DAO
 
         }
 
-        public void Update(UserDb user)
+        public void Update(UserDb user) {
+            Update(user, false);
+        }
+
+        public void Update(UserDb user, bool removePassword)
         {
             EntityORM entity = EntityMapping.Map(user, attributes);
 
             // Making sure that ID value is not touched.
-            entity.attributeValue.Remove("ID"); 
+            entity.attributeValue.Remove("ID");
+            if (removePassword) { //Remove password field
+                entity.attributeValue.Remove("PASSWORD");
+            } 
 
             bool ifUpdated = crud.Update(user.Id, table, idColumn, entity);
 

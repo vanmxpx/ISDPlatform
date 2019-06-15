@@ -32,25 +32,32 @@ namespace Cooper.Controllers
         [HttpPost, Route("login")]
         public IActionResult Login([FromBody]Login login)
         {
+            IActionResult result;
             if (login == null)
             {
-                return BadRequest("Invalid client request");
+                result = BadRequest("Invalid client request");
+            }
+            else 
+            {
+                login.Username = DbTools.SanitizeString(login.Username);
+                login.Password = DbTools.SanitizeString(login.Password);
+
+                bool authValid = userRepository.CheckCredentials(login.Username, login.Password);
+
+                //TODO: Add error: please verify your account
+                if (!authValid || !userRepository.CheckVerifyByNickname(login.Username)) 
+                { 
+                    result = Unauthorized(); 
+                }
+                else 
+                {
+                    string tokenString = new TokenFactory(login, configProvider).GetTokenString();
+                    
+                    result = Ok(new { Token = tokenString });
+                }
             }
 
-            bool authValid = userRepository.CheckCredentials(login.Username, login.Password);
-
-            if (authValid)
-            {
-                string tokenString = new TokenFactory(login, configProvider).GetTokenString();
-                
-                return Ok(new { Token = tokenString });
-            }
-            else
-            {
-                return Unauthorized();
-            }
+            return result;
         }
-
-        
     }
 }

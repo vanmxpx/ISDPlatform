@@ -28,6 +28,16 @@ a:hover, a:focus{
     margin-right: 5px;
 }
 
+.header-exit {
+  align-items: center;
+  position: center;
+  width: 2%;
+  height: 2%;
+  margin-left: 1090px;
+  margin-right: 0px;
+  cursor: pointer;
+}
+
 .example-card {   
     object-fit: cover;
     width: 230px;
