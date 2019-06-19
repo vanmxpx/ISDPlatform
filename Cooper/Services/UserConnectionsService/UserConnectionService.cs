@@ -26,5 +26,12 @@ namespace Cooper.Services
 
             return userConnection;
         }
+
+        public long GetUserId(string user_token)
+        {
+            User user = userRepository.GetByJWToken(user_token);
+
+            return user.Id;
+        }
     }
 }
