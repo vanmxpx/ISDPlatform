@@ -61,6 +61,8 @@ namespace Cooper
             services.AddConfigurationProvider(Configuration);
             services.AddJWTAuthorization();
 
+            services.AddUserConnectionService();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
