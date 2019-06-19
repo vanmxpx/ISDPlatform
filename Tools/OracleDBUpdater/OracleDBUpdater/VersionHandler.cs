@@ -1,0 +1,72 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+namespace OracleDBUpdater
+{
+    /// <summary> Class for convenient work with database versions. </summary>
+    public static class VersionHandler
+    {
+        /// <summary> Return version from file name. </summary>
+        public static bool TryGetVersionFromPath(string path, out double version)
+        {
+            version = -1;
+            try
+            {
+                path = path.Substring(path.LastIndexOf("_v") + 2);
+                path = path.Remove(path.LastIndexOf('.')).Replace('.', ',');
+                version = double.Parse(path);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary> Return last requiredVersion of database. </summary>
+        public static string GetVersionLastUpdateScript()
+        {
+            string[] fileNames = Directory.GetFiles(Configuration.GetVariable("UpdateFolder"));
+            string file = fileNames[fileNames.Length - 1].Substring(fileNames[fileNames.Length - 1].LastIndexOf("_v") + 2);
+            return file.Remove(file.LastIndexOf('.'));
+        }
+
+        /// <summary> Return current version of database. </summary>
+        public static bool TryGetCurrentDatabaseVersion(out double version)
+        {
+            version = -1;
+            try
+            {
+                version = double.Parse(MyDataBase.GetDB().ExecuteQueryWithAnswer("SELECT version FROM db_version"));
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary> Checks if this version is exist. </summary>
+        public static bool IsThereVersion(double requiredVersion)
+        {
+            return GetDatabaseVersions().Contains(requiredVersion);
+        }
+
+        /// <summary> Return all versions of database. </summary>
+        public static double[] GetDatabaseVersions()
+        {
+            string[] updateScriptNames = Program.GetUpdateScriptNames();
+            List<double> versions = new List<double>();
+            foreach (string updateScriptName in updateScriptNames)
+            {
+                if (TryGetVersionFromPath(updateScriptName, out double version))
+                {
+                    versions.Add(version);
+                }
+            }
+            return versions.ToArray();
+        }
+    }
+}
