@@ -3,69 +3,84 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Cooper.Models;
 using Cooper.Repository;
 using Cooper.Configuration;
+using Cooper.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Cooper.Controllers
 {
-    [Route("api/users/connection")]
+    [Route("api/subscription")]
     public class UserConnectionController : ControllerBase
     {
         UserConnectionRepository userConnectionRepository;
+        private readonly IUserConnectionService userConnectionService;
 
-        public UserConnectionController(IConfigProvider configProvider)
+        public UserConnectionController(IConfigProvider configProvider, IUserConnectionService userConnectionService)
         {
             userConnectionRepository = new UserConnectionRepository(configProvider);
+            this.userConnectionService = userConnectionService;
         }
         
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize]
         [ProducesResponseType(200, Type = typeof(UserConnection))]
         [ProducesResponseType(404)]
-        public IActionResult GetUserConnectionById(long id)
+        public IActionResult GetAllUserConnections(long userId)
         {
-            UserConnection userConnection = userConnectionRepository.Get(id);
-            if (userConnection == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(userConnection);
+            return Ok();
         }
-
-        // POST api/<controller>
-        [HttpPost("request")]
+        
+        [HttpPost("subscribe/{userId}"), Authorize]
         [ProducesResponseType(200)]
         [ProducesResponseType(201)]
-        public IActionResult Post([FromBody]UserConnection userConnection)
+        public IActionResult Subscribe(long userId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (userConnection.Id == 0)
-            {
-                long id = userConnectionRepository.Create(userConnection);
-                userConnection.Id = id;
+            string subscriberToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
-                return Ok(userConnection);
-            }
-            else
-            {
-                userConnectionRepository.Update(userConnection);
+            UserConnection userConnection = userConnectionService.CreateConnection(userId, subscriberToken);
 
-                return Ok(userConnection);
-            }
+            return Ok();
         }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
+        
+        [HttpPost("ban/{userId}"), Authorize]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]
+        public IActionResult Ban(long userId)
         {
-            userConnectionRepository.Delete(id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            string subscriberToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            return Ok();
+        }
+       
+        [HttpPost("unban/{userId}"), Authorize]
+        public IActionResult Unban(long userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            string subscriberToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            return Ok();
+        }
+        
+        [HttpDelete("{id}"), Authorize]
+        public IActionResult Unsubscribe(long id)
+        {
             return Ok();
         }
     }

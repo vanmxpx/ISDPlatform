@@ -1,7 +1,7 @@
 {
   "/game/tanks/*": {
     "target": "http://127.0.0.1:60001",
-    "secure": false,
+    "secure": true,
     "logLevel": "debug",
     "pathRewrite": {
       "^/game/tanks/": "/"
@@ -10,7 +10,7 @@
   },
   "/game/islands/*": {
     "target": "http://127.0.0.1:60002",
-    "secure": false,
+    "secure": true,
     "logLevel": "debug",
     "pathRewrite": {
       "^/game/islands/": "/"
@@ -19,13 +19,13 @@
   },
   "/game": {
     "target": "http://127.0.0.1:60002",
-    "secure": false,
+    "secure": true,
     "logLevel": "debug",
     "ws": "true"
   },
   "/api/game": {
     "target": "http://127.0.0.1:60002",
-    "secure": false,
+    "secure": true,
     "logLevel": "debug",
     "ws": "true"
   }

@@ -36,6 +36,11 @@ namespace Cooper.Repository
             return userConnection_newTyped;
         }
 
+        public long CreateSubscription(long userId, long subscriberId)
+        {
+            return 0;
+        }
+
         public long Create(UserConnection userConnection)
         {
             UserConnectionDb userConnectionDb = mapper.Map(userConnection);

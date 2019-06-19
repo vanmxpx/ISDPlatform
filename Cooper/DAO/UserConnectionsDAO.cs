@@ -45,8 +45,8 @@ namespace Cooper.DAO
                 "ID"
             };
         }
-
-        public UserConnectionDb Get(long connectionId)
+        
+        public UserConnectionDb Get(object connectionId)
         {
             UserConnectionDb userConnection = null;
 
@@ -141,7 +141,7 @@ namespace Cooper.DAO
             return userConnection_id;
         }
 
-        public void Delete(long id)
+        public void Delete(object id)
         {
             bool ifDeleted = crud.Delete(id, table, idColumn);
 
