@@ -7,6 +7,6 @@ namespace Cooper.Services
 {
     public interface IUserConnectionService
     {
-        UserConnection CreateConnection(long userId, string subscriberToken);
+        UserConnection CreateConnection(long userId, string subscriberToken, bool ban = false);
     }
 }
