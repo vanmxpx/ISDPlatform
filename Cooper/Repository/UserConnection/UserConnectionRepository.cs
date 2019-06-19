@@ -9,7 +9,7 @@ using Cooper.Repository.Mapping;
 using Cooper.Configuration;
 namespace Cooper.Repository
 {
-    public class UserConnectionRepository : IRepository<UserConnection>
+    public class UserConnectionRepository : IUserConnectionRepository
     {
         private UserConnectionsDAO userConnectionDAO;
         private ModelsMapper mapper;
@@ -20,11 +20,20 @@ namespace Cooper.Repository
             userConnectionDAO = new UserConnectionsDAO(configProvider);
             mapper = new ModelsMapper();
         }
-
-        #region Main methods
-        
-        public UserConnection Get(long id)
+                
+        public List<UserConnection> GetUserSubscribers(long userId)
         {
+            return new List<UserConnection>();
+        }
+
+        public List<UserConnection> GetUserBlacklist(long userId)
+        {
+            return new List<UserConnection>();
+        }
+
+        public List<UserConnection> GetUserSubscribtions(long userId)
+        {
+            /*
             UserConnectionDb userConnection = userConnectionDAO.Get(id);
             UserConnection userConnection_newTyped = null;
 
@@ -32,39 +41,29 @@ namespace Cooper.Repository
             {
                 userConnection_newTyped = mapper.Map(userConnection);
             }
-
-            return userConnection_newTyped;
+            */
+            return new List<UserConnection>();
         }
 
-        public long CreateSubscription(long userId, long subscriberId)
+        public bool CreateSubscription(UserConnection userConnection)
         {
-            return 0;
+            return false;
         }
 
-        public long Create(UserConnection userConnection)
+        public bool BanUser(UserConnection userConnection)
         {
-            UserConnectionDb userConnectionDb = mapper.Map(userConnection);
-
-            return userConnectionDAO.Save(userConnectionDb);
+            return false;
         }
 
-        public void Update(UserConnection userConnection)
+        public bool UnbanUser(UserConnection userConnection)
         {
-            UserConnectionDb userConnectionDb = mapper.Map(userConnection);
-
-            userConnectionDAO.Update(userConnectionDb);
+            return false;
         }
-
-        public void Delete(long id)
+        
+        public bool Delete(UserConnection userConnection)
         {
-            userConnectionDAO.Delete(id);
+            return false;
         }
-
-        public IEnumerable<UserConnection> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
+        
     }
 }
