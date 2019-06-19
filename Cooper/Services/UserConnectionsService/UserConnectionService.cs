@@ -16,13 +16,13 @@ namespace Cooper.Services
             userRepository = new UserRepository(jwtService, configProvider);
         }
 
-        public UserConnection CreateConnection(long userId, string subscriberToken)
+        public UserConnection CreateConnection(long userId, string subscriberToken, bool ban = false)
         {
             User user = new User() { Id = userId };
 
             User subscriber = userRepository.GetByJWToken(subscriberToken);
 
-            UserConnection userConnection = new UserConnection() { User1 = user, User2 = subscriber};
+            UserConnection userConnection = new UserConnection() { User1 = user, User2 = subscriber, BlackListed = ban};
 
             return userConnection;
         }

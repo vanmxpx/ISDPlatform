@@ -25,14 +25,30 @@ namespace Cooper.Controllers
             this.userConnectionService = userConnectionService;
         }
         
-        [HttpGet("{id}"), Authorize]
+        [HttpGet("blacklist"), Authorize]
         [ProducesResponseType(200, Type = typeof(UserConnection))]
         [ProducesResponseType(404)]
-        public IActionResult GetAllUserConnections(long userId)
+        public IActionResult GetUserBlackList(long userId)
         {
             return Ok();
         }
-        
+
+        [HttpGet("subscribers"), Authorize]
+        [ProducesResponseType(200, Type = typeof(UserConnection))]
+        [ProducesResponseType(404)]
+        public IActionResult GetUserSubscribersList(long userId)
+        {
+            return Ok();
+        }
+
+        [HttpGet("subscriptions"), Authorize]
+        [ProducesResponseType(200, Type = typeof(UserConnection))]
+        [ProducesResponseType(404)]
+        public IActionResult GetUserSubscribtionsList(long userId)
+        {
+            return Ok();
+        }
+
         [HttpPost("subscribe/{userId}"), Authorize]
         [ProducesResponseType(200)]
         [ProducesResponseType(201)]
@@ -62,6 +78,8 @@ namespace Cooper.Controllers
 
             string subscriberToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
+            UserConnection userConnection = userConnectionService.CreateConnection(userId, subscriberToken, ban: true);
+
             return Ok();
         }
        
@@ -74,6 +92,8 @@ namespace Cooper.Controllers
             }
 
             string subscriberToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            UserConnection userConnection = userConnectionService.CreateConnection(userId, subscriberToken, ban: false);
 
             return Ok();
         }
