@@ -8,11 +8,11 @@ using Cooper.DAO.Mapping;
 using NLog;
 using Oracle.ManagedDataAccess.Client;
 using Cooper.Configuration;
-using System.Data.Common;
+using Cooper.UserConnectionsTypes;
 
 namespace Cooper.DAO
 {
-    public class UserConnectionsDAO : IDAO<UserConnectionDb>
+    public class UserConnectionsDAO
     {
         private DbConnect dbConnect;
         private OracleConnection Connection;
@@ -45,89 +45,57 @@ namespace Cooper.DAO
                 "ID"
             };
         }
-        
-        public UserConnectionDb Get(object connectionId)
+        public List<UserConnectionsDb> Get(object userId, ConnectionType connectionType)
         {
-            UserConnectionDb userConnection = null;
+            switch(connectionType)
+            {
+                case ConnectionType.Subscribers:
+                    {
+                        break;
+                    }
+                case ConnectionType.Subscriptions:
+                    {
+                        break;
+                    }
+                default:
+                    break;                    
+            }
+            /*
+            UserConnectionsDb userConnection = null;
 
             string attribute = "ID";
 
             //TODO: impelement getting process
             EntityORM entity = crud.Read(connectionId, attribute, attributes, table);
-            
+
             if (entity != null)
             {
                 EntityMapping.Map(entity, out userConnection);
             }
 
-            return userConnection;
-        }
+            return userConnection;*/
 
-        public IEnumerable<long> GetConnectionsListByUserId(long userId)
+            return new List<UserConnectionsDb>();
+        }
+                
+        public List<UserConnectionsDb> GetUserBlacklist(object connectionId)
         {
-            string[] query_attributes = { "IDUSER1", "IDUSER2" };
+            UserConnectionsDb userConnection = null;
 
+            string attribute = "ID";
 
-            #region Processing a query
+            //TODO: impelement getting process
+            EntityORM entity = crud.Read(connectionId, attribute, attributes, table);
 
-            List<UserConnectionDb> userConnectionsDb = new List<UserConnectionDb>();
-
-            List<EntityORM> entities = new List<EntityORM>();
-
-            try
+            if (entity != null)
             {
-                string sqlExpression = $"SELECT * from {table} where {query_attributes[0]} = {userId} UNION " +
-                    $"SELECT * from {table} where {query_attributes[1]} = {userId}";
-
-                dbConnect.OpenConnection();
-                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
-
-                OracleDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    EntityORM entity = new EntityORM();
-                    foreach (string attribute in attributes)
-                    {
-                        object value = reader[attribute];
-                        entity.attributeValue.Add(attribute, value);
-                    }
-
-                    entities.Add(entity);
-                }
-            }
-            catch (DbException ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
+                EntityMapping.Map(entity, out userConnection);
             }
 
-            #endregion
-
-            #region Mapping entity
-
-            foreach (EntityORM entity in entities)
-            {
-                EntityMapping.Map(entity, out UserConnectionDb userConnection);
-                userConnectionsDb.Add(userConnection);
-            }
-            
-            #endregion
-
-
-            List<long> userConnections = new List<long>();
-
-            foreach (var connection in userConnectionsDb)
-            {
-                userConnections.Add(connection.Id);
-            }
-
-            return userConnections;
+            return new List<UserConnectionsDb>();
         }
-
-        public long Save(UserConnectionDb userConnection)
+        
+        public long Save(UserConnectionsDb userConnection)
         {
             EntityORM entity = EntityMapping.Map(userConnection, attributes);
 
@@ -141,8 +109,19 @@ namespace Cooper.DAO
             return userConnection_id;
         }
 
-        public void Delete(object id)
+        public bool BanUser(UserConnectionsDb userConnections)
         {
+            return false;
+        }
+
+        public bool UnbanUser(UserConnectionsDb userConnections)
+        {
+            return false;
+        }
+
+        public bool Delete(UserConnectionsDb userConnections)
+        {
+            /*
             bool ifDeleted = crud.Delete(id, table, idColumn);
 
             if (ifDeleted)
@@ -152,11 +131,12 @@ namespace Cooper.DAO
             else
             {
                 logger.Info($"Deleting userConnection with id={id} was failed.");
-            }
+            }*/
 
+            return false;
         }
 
-        public void Update(UserConnectionDb userConnection)
+        public void Update(UserConnectionsDb userConnection)
         {
             EntityORM entity = EntityMapping.Map(userConnection, attributes);
 
@@ -173,11 +153,6 @@ namespace Cooper.DAO
             {
                 logger.Info($"Updating userConnection with id={userConnection.Id} was failed.");
             }
-        }
-
-        public IEnumerable<UserConnectionDb> GetAll()
-        {
-            throw new NotImplementedException();
         }
 
     }

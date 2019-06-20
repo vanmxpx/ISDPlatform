@@ -22,7 +22,7 @@ namespace Cooper.Models
 
         #region Interop attributes
 
-        public List<UserConnection> ConnectionsList { get; set; }
+        public List<UserConnections> ConnectionsList { get; set; }
         public List<Game> GamesList { get; set; }
         public List<Chat> ChatsList { get; set; }
         public List<Message> MessagesList { get; set; }
