@@ -8,6 +8,7 @@ using Cooper.Models;
 using Cooper.Repository;
 using Cooper.Configuration;
 using Cooper.Services;
+using Cooper.Models.UserConnectionsEnumTypes;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -34,27 +35,27 @@ namespace Cooper.Controllers
 
             long userId = userConnectionService.GetUserId(userToken);
 
-            List<UserConnections> blackList = userConnectionsRepository.GetUserBlacklist(userId);
+            List<UserConnections> blackList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Blacklist);
 
             return Ok(blackList);
         }
 
-        [HttpGet("subscribers"), Authorize]
+        [HttpGet("subscribers/{userId}"), Authorize]
         [ProducesResponseType(200, Type = typeof(UserConnections))]
         [ProducesResponseType(404)]
         public IActionResult GetUserSubscribersList(long userId)
         {
-            List<UserConnections> subscribersList = userConnectionsRepository.GetUserSubscribers(userId);
+            List<UserConnections> subscribersList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Subscribers);
 
             return Ok(subscribersList);
         }
 
-        [HttpGet("subscriptions"), Authorize]
+        [HttpGet("subscriptions/{userId}"), Authorize]
         [ProducesResponseType(200, Type = typeof(UserConnections))]
         [ProducesResponseType(404)]
         public IActionResult GetUserSubscriptionsList(long userId)
         {
-            List<UserConnections> subscriptionsList = userConnectionsRepository.GetUserSubscriptions(userId);
+            List<UserConnections> subscriptionsList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Subscriptions);
 
             return Ok(subscriptionsList);
         }

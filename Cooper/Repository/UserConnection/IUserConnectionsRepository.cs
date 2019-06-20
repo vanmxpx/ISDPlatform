@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Cooper.Models;
+using Cooper.Models.UserConnectionsEnumTypes;
 
 namespace Cooper.Repository
 {
     public interface IUserConnectionsRepository
     {
-        List<UserConnections> GetUserSubscribers(long userId);
-        List<UserConnections> GetUserBlacklist(long userId);
-        List<UserConnections> GetUserSubscriptions(long userId);
+        List<UserConnections> GetSpecifiedTypeUsersList(long userId, ConnectionType specifiedType);
 
         bool CreateSubscription(UserConnections userConnection);
         bool BanUser(UserConnections userConnection);
