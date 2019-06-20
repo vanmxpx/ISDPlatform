@@ -7,7 +7,7 @@ using Cooper.DAO.Models;
 using Cooper.DAO;
 using Cooper.Repository.Mapping;
 using Cooper.Configuration;
-using Cooper.UserConnectionsTypes;
+using Cooper.Models.UserConnectionsEnumTypes;
 
 namespace Cooper.Repository
 {
@@ -22,27 +22,10 @@ namespace Cooper.Repository
             userConnectionsDAO = new UserConnectionsDAO(configProvider);
             mapper = new ModelsMapper();
         }
-                
-        public List<UserConnections> GetUserSubscribers(long userId)
+        public List<UserConnections> GetSpecifiedTypeUsersList(long userId, ConnectionType specifiedType)
         {
-            List<UserConnectionsDb> userConnections = userConnectionsDAO.Get(userId, ConnectionType.Subscribers);
-            List<UserConnections> userConnections_newTyped = null;
-
-            if (userConnections != null)
-            {
-                foreach(var userConnection in userConnections)
-                {
-                    userConnections_newTyped.Add(mapper.Map(userConnection));
-                }
-            }
-
-            return userConnections_newTyped;
-        }
-
-        public List<UserConnections> GetUserBlacklist(long userId)
-        {
-            List<UserConnectionsDb> userConnections = userConnectionsDAO.GetUserBlacklist(userId);
-            List<UserConnections> userConnections_newTyped = null;
+            List<UserConnectionsDb> userConnections = userConnectionsDAO.GetSpecifiedTypeUsersList(userId, specifiedType);
+            List<UserConnections> userConnections_newTyped = new List<UserConnections>();
 
             if (userConnections != null)
             {
@@ -54,23 +37,7 @@ namespace Cooper.Repository
 
             return userConnections_newTyped;
         }
-
-        public List<UserConnections> GetUserSubscriptions(long userId)
-        {
-            List<UserConnectionsDb> userConnections = userConnectionsDAO.Get(userId, ConnectionType.Subscriptions);
-            List<UserConnections> userConnections_newTyped = null;
-
-            if (userConnections != null)
-            {
-                foreach (var userConnection in userConnections)
-                {
-                    userConnections_newTyped.Add(mapper.Map(userConnection));
-                }
-            }
-
-            return userConnections_newTyped;
-        }
-
+        
         public bool CreateSubscription(UserConnections userConnections)
         {
             UserConnectionsDb userConnections_newType = mapper.Map(userConnections);
