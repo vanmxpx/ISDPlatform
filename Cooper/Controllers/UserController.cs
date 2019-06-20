@@ -84,8 +84,10 @@ namespace Cooper.Controllers
         [HttpGet("token"), Authorize]
         [ProducesResponseType(200, Type = typeof(User))]
         [ProducesResponseType(404)]
-        public IActionResult GetUserByJWToken(string token)
+        public IActionResult GetUserByJWToken()
         {
+            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
             User user = userRepository.GetByJWToken(token);
 
             if (user == null)
