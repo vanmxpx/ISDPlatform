@@ -148,7 +148,8 @@ namespace Cooper.DAO
 
             if (user != null)
             {
-                user.ConnectionsList = (List<long>)userConnectionDAO.GetConnectionsListByUserId(user.Id);
+                // TODO: remake userConnections system for user model
+                //user.ConnectionsList = (List<long>)userConnectionDAO.GetConnectionsListByUserId(user.Id);
             }
 
             return user;
