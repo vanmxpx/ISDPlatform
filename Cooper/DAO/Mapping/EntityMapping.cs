@@ -263,9 +263,9 @@ namespace Cooper.DAO.Mapping
         ///<summary>
         ///Maps properties from EntityORM object to UseConnectionrDb object
         ///</summary>
-        public static void Map(EntityORM entity, out UserConnectionDb userConnection)
+        public static void Map(EntityORM entity, out UserConnectionsDb userConnection)
         {
-            userConnection = new UserConnectionDb();
+            userConnection = new UserConnectionsDb();
 
             foreach (KeyValuePair<string, object> aV in entity.attributeValue)
             {
@@ -296,7 +296,7 @@ namespace Cooper.DAO.Mapping
         ///<summary>
         ///Maps properties from UserConnectionDb object to EntityORM object
         ///</summary>
-        public static EntityORM Map(UserConnectionDb userConnection, HashSet<string> attributes)
+        public static EntityORM Map(UserConnectionsDb userConnection, HashSet<string> attributes)
         {
             EntityORM entity = new EntityORM();
 

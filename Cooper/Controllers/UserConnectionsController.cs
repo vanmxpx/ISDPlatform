@@ -14,19 +14,19 @@ using Cooper.Services;
 namespace Cooper.Controllers
 {
     [Route("api/subscription")]
-    public class UserConnectionController : ControllerBase
+    public class UserConnectionsController : ControllerBase
     {
-        IUserConnectionRepository userConnectionRepository;
+        IUserConnectionsRepository userConnectionsRepository;
         private readonly IUserConnectionService userConnectionService;
 
-        public UserConnectionController(IConfigProvider configProvider, IUserConnectionService userConnectionService)
+        public UserConnectionsController(IConfigProvider configProvider, IUserConnectionService userConnectionService)
         {
-            userConnectionRepository = new UserConnectionRepository(configProvider);
+            userConnectionsRepository = new UserConnectionsRepository(configProvider);
             this.userConnectionService = userConnectionService;
         }
         
         [HttpGet("blacklist"), Authorize]
-        [ProducesResponseType(200, Type = typeof(UserConnection))]
+        [ProducesResponseType(200, Type = typeof(UserConnections))]
         [ProducesResponseType(404)]
         public IActionResult GetUserBlackList()
         {
@@ -34,27 +34,27 @@ namespace Cooper.Controllers
 
             long userId = userConnectionService.GetUserId(userToken);
 
-            List<UserConnection> blackList = userConnectionRepository.GetUserBlacklist(userId);
+            List<UserConnections> blackList = userConnectionsRepository.GetUserBlacklist(userId);
 
             return Ok(blackList);
         }
 
         [HttpGet("subscribers"), Authorize]
-        [ProducesResponseType(200, Type = typeof(UserConnection))]
+        [ProducesResponseType(200, Type = typeof(UserConnections))]
         [ProducesResponseType(404)]
         public IActionResult GetUserSubscribersList(long userId)
         {
-            List<UserConnection> subscribersList = userConnectionRepository.GetUserSubscribers(userId);
+            List<UserConnections> subscribersList = userConnectionsRepository.GetUserSubscribers(userId);
 
             return Ok(subscribersList);
         }
 
         [HttpGet("subscriptions"), Authorize]
-        [ProducesResponseType(200, Type = typeof(UserConnection))]
+        [ProducesResponseType(200, Type = typeof(UserConnections))]
         [ProducesResponseType(404)]
-        public IActionResult GetUserSubscribtionsList(long userId)
+        public IActionResult GetUserSubscriptionsList(long userId)
         {
-            List<UserConnection> subscriptionsList = userConnectionRepository.GetUserSubscribtions(userId);
+            List<UserConnections> subscriptionsList = userConnectionsRepository.GetUserSubscriptions(userId);
 
             return Ok(subscriptionsList);
         }
@@ -71,9 +71,9 @@ namespace Cooper.Controllers
 
             string subscriberToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
-            UserConnection userConnection = userConnectionService.CreateConnection(userId, subscriberToken);
+            UserConnections userConnection = userConnectionService.CreateConnection(userId, subscriberToken);
 
-            bool ifSubscribed = userConnectionRepository.CreateSubscription(userConnection);
+            bool ifSubscribed = userConnectionsRepository.CreateSubscription(userConnection);
                 
             return Ok(ifSubscribed);
         }
@@ -90,9 +90,9 @@ namespace Cooper.Controllers
 
             string subscriberToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
-            UserConnection userConnection = userConnectionService.CreateConnection(userId, subscriberToken, ban: true);
+            UserConnections userConnection = userConnectionService.CreateConnection(userId, subscriberToken, ban: true);
 
-            bool ifBanned = userConnectionRepository.BanUser(userConnection);
+            bool ifBanned = userConnectionsRepository.BanUser(userConnection);
             
             return Ok(ifBanned);
         }
@@ -107,9 +107,9 @@ namespace Cooper.Controllers
 
             string subscriberToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
-            UserConnection userConnection = userConnectionService.CreateConnection(userId, subscriberToken, ban: false);
+            UserConnections userConnection = userConnectionService.CreateConnection(userId, subscriberToken, ban: false);
 
-            bool ifUnbanned = userConnectionRepository.UnbanUser(userConnection);
+            bool ifUnbanned = userConnectionsRepository.UnbanUser(userConnection);
 
             return Ok(ifUnbanned);
         }
@@ -119,9 +119,9 @@ namespace Cooper.Controllers
         {
             string subscriberToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
-            UserConnection userConnection = userConnectionService.CreateConnection(userId, subscriberToken);
+            UserConnections userConnection = userConnectionService.CreateConnection(userId, subscriberToken);
 
-            bool ifUnsubscribed = userConnectionRepository.Delete(userConnection);
+            bool ifUnsubscribed = userConnectionsRepository.Delete(userConnection);
 
             return Ok(ifUnsubscribed);
         }
