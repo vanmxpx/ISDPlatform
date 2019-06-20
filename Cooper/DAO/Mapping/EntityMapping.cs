@@ -258,6 +258,78 @@ namespace Cooper.DAO.Mapping
 
         #endregion
 
+        #region UserConnection/entity mapping
+
+        ///<summary>
+        ///Maps properties from EntityORM object to UseConnectionrDb object
+        ///</summary>
+        public static void Map(EntityORM entity, out UserConnectionsDb userConnection)
+        {
+            userConnection = new UserConnectionsDb();
+
+            foreach (KeyValuePair<string, object> aV in entity.attributeValue)
+            {
+                switch (aV.Key)        // attribute
+                {
+                    case "ID":
+                        userConnection.Id = Convert.ToInt64(aV.Value);
+                        break;
+                    case "IDUSER1":
+                        userConnection.IdUser1 = Convert.ToInt64(aV.Value);
+                        break;
+                    case "IDUSER2":
+                        userConnection.IdUser2 = Convert.ToInt64(aV.Value);
+                        break;
+                    case "AREFRIENDS":
+                        userConnection.AreFriends = ((string)aV.Value == "y") ? true : false;
+                        break;
+                    case "BLACKLISTED":
+                        userConnection.BlackListed = ((string)aV.Value == "y") ? true : false;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+
+        ///<summary>
+        ///Maps properties from UserConnectionDb object to EntityORM object
+        ///</summary>
+        public static EntityORM Map(UserConnectionsDb userConnection, HashSet<string> attributes)
+        {
+            EntityORM entity = new EntityORM();
+
+            foreach (string attribute in attributes)
+            {
+                object value = null;    // attribute value
+
+                switch (attribute)
+                {
+                    case "AREFRIENDS":
+                        value = (userConnection.AreFriends) ? "\'y\'" : "\'n\'";
+                        break;
+                    case "BLACKLISTED":
+                        value = (userConnection.BlackListed) ? "\'y\'": "\'n\'";
+                        break;
+                    case "IDUSER1":
+                        value = $"\'{ userConnection.IdUser1}\'";
+                        break;
+                    case "IDUSER2":
+                        value = $"\'{userConnection.IdUser2}\'";
+                        break;
+                    default:
+                        break;
+                }
+
+                entity.attributeValue.Add(attribute, value);
+            }
+
+            return entity;
+        }
+
+        #endregion
+
         #region UserReview/entity mapping
         ///<summary>
         ///Maps properties from EntityORM object to UserReviewDb object

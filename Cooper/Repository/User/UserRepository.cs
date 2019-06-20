@@ -13,7 +13,7 @@ using Cooper.Configuration;
 
 namespace Cooper.Repository
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository : IRepository<User>, IUserRepository
     {
         private UserDAO userDAO;
         private VerificationDAO verifyDAO;
