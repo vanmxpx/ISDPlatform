@@ -122,9 +122,9 @@ namespace Cooper.DAO
         public bool Delete(UserConnectionsDb userConnections)
         {
             /*
-            bool ifDeleted = crud.Delete(id, table, idColumn);
+            bool isDeleted = crud.Delete(id, table, idColumn);
 
-            if (ifDeleted)
+            if (isDeleted)
             {
                 logger.Info($"User with id={id} was successfully deleted from table {table}.");
             }
@@ -143,9 +143,9 @@ namespace Cooper.DAO
             // Making sure that ID value is not touched.
             entity.attributeValue.Remove("ID");
 
-            bool ifUpdated = crud.Update(userConnection.Id, table, idColumn, entity);
+            bool isUpdated = crud.Update(userConnection.Id, table, idColumn, entity);
 
-            if (ifUpdated)
+            if (isUpdated)
             {
                 logger.Info($"User with id={userConnection.Id} was successfully updated.");
             }
