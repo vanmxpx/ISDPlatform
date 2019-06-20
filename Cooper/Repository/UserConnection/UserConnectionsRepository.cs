@@ -75,18 +75,18 @@ namespace Cooper.Repository
         {
             UserConnectionsDb userConnections_newType = mapper.Map(userConnections);
 
-            bool ifCreated = (userConnectionsDAO.Save(userConnections_newType) != 0);
+            bool isCreated = (userConnectionsDAO.Save(userConnections_newType) != 0);
 
-            return ifCreated;
+            return isCreated;
         }
 
         public bool BanUser(UserConnections userConnections)
         {
             UserConnectionsDb userConnections_newTyped = new UserConnectionsDb();
 
-            bool ifBanned = userConnectionsDAO.BanUser(userConnections_newTyped);
+            bool isBanned = userConnectionsDAO.BanUser(userConnections_newTyped);
 
-            return ifBanned;
+            return isBanned;
         }
 
         public bool UnbanUser(UserConnections userConnection)
@@ -94,18 +94,18 @@ namespace Cooper.Repository
 
             UserConnectionsDb userConnections_newTyped = new UserConnectionsDb();
 
-            bool ifUnbanned = userConnectionsDAO.UnbanUser(userConnections_newTyped);
+            bool isUnbanned = userConnectionsDAO.UnbanUser(userConnections_newTyped);
 
-            return ifUnbanned;
+            return isUnbanned;
         }
         
         public bool Delete(UserConnections userConnection)
         {
             UserConnectionsDb userConnections_newTyped = new UserConnectionsDb();
 
-            bool ifDeleted = userConnectionsDAO.Delete(userConnections_newTyped);
+            bool isDeleted = userConnectionsDAO.Delete(userConnections_newTyped);
 
-            return ifDeleted;
+            return isDeleted;
         }
         
     }

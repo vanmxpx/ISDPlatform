@@ -73,9 +73,9 @@ namespace Cooper.Controllers
 
             UserConnections userConnection = userConnectionService.CreateConnection(userId, subscriberToken);
 
-            bool ifSubscribed = userConnectionsRepository.CreateSubscription(userConnection);
+            bool isSubscribed = userConnectionsRepository.CreateSubscription(userConnection);
                 
-            return Ok(ifSubscribed);
+            return Ok(isSubscribed);
         }
         
         [HttpPost("ban/{userId}"), Authorize]
@@ -92,9 +92,9 @@ namespace Cooper.Controllers
 
             UserConnections userConnection = userConnectionService.CreateConnection(userId, subscriberToken, ban: true);
 
-            bool ifBanned = userConnectionsRepository.BanUser(userConnection);
+            bool isBanned = userConnectionsRepository.BanUser(userConnection);
             
-            return Ok(ifBanned);
+            return Ok(isBanned);
         }
        
         [HttpPost("unban/{userId}"), Authorize]
@@ -109,9 +109,9 @@ namespace Cooper.Controllers
 
             UserConnections userConnection = userConnectionService.CreateConnection(userId, subscriberToken, ban: false);
 
-            bool ifUnbanned = userConnectionsRepository.UnbanUser(userConnection);
+            bool isUnbanned = userConnectionsRepository.UnbanUser(userConnection);
 
-            return Ok(ifUnbanned);
+            return Ok(isUnbanned);
         }
         
         [HttpDelete("{id}"), Authorize]
@@ -121,9 +121,9 @@ namespace Cooper.Controllers
 
             UserConnections userConnection = userConnectionService.CreateConnection(userId, subscriberToken);
 
-            bool ifUnsubscribed = userConnectionsRepository.Delete(userConnection);
+            bool isUnsubscribed = userConnectionsRepository.Delete(userConnection);
 
-            return Ok(ifUnsubscribed);
+            return Ok(isUnsubscribed);
         }
     }
 }
