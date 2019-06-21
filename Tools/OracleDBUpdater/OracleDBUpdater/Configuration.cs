@@ -1,4 +1,4 @@
-﻿using OracleDBUpdater.Exceptions;
+﻿ using OracleDBUpdater.Exceptions;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -46,7 +46,7 @@ namespace OracleDBUpdater
 
             for (int i = 0; i < lines.Count; i++)
             {
-                if (lines[i].StartsWith($"{variableName}:"))
+                if (lines[i].StartsWith($"{variableName} "))
                 {
                     lines[i] = $"{variableName} {value}";
                     isModified = true;
