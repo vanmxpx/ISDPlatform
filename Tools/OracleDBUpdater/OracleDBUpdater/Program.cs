@@ -14,8 +14,9 @@ namespace OracleDBUpdater
         public static ConsoleColor TextColor { get; } = ConsoleColor.White;
 
         private static void Main()
-        {
-            // FOR TEST
+        {            
+            CheckConfigurationVariables();
+
             if (!MyDataBase.GetDB().IsExistringTable("db_version"))
             {
                 MyDataBase.GetDB().ExecuteQueryWithoutAnswer("CREATE TABLE db_versions (verions INT)");
@@ -26,53 +27,71 @@ namespace OracleDBUpdater
                 MyDataBase.GetDB().ExecuteQueryWithoutAnswer("UPDATE db_version SET version = 1.2505");
             }
 
-            if (string.IsNullOrEmpty(Configuration.GetVariable("ConnectionString")))
+            ShowMainMenu();
+        }
+
+        /// <summary> Check all configuration variables that will be needed the program for correctness. </summary>
+        private static void CheckConfigurationVariables()
+        {
+            CheckConnectionString();
+            CheckUpdateFolder();
+        }
+
+        /// <summary> Check connection string for correctness and require the user to enter the correct connection string if needed. </summary>
+        private static void CheckConnectionString()
+        {
+            string connectionString = Configuration.GetVariable("ConnectionString");
+
+            while (string.IsNullOrEmpty(connectionString) || !MyDataBase.GetDB().TestConnectionString(connectionString))
             {
+                ConsoleUtility.WriteLine("Connection string not set or entered incorrectly.", TextColor);
                 ConsoleUtility.WriteLine(">>>Enter connection string:", TextColor);
-                Configuration.SetVariable("ConnectionString", ConsoleUtility.ReadLine(TextColor));
-                ConsoleUtility.WriteLine($"You have entered the connection string, you can change it at any time in the file {Configuration.fileName}.", TextColor);
+                connectionString = ConsoleUtility.ReadLine(TextColor);
+                Console.WriteLine();
             }
 
-            if (string.IsNullOrEmpty(Configuration.GetVariable("UpdateFolder")))
+            Configuration.SetVariable("ConnectionString", connectionString);
+        }
+
+        /// <summary> Check update folder for correctness and require the user to enter the correct update folder if needed. </summary>
+        private static void CheckUpdateFolder()
+        {
+            string updateFolder = Configuration.GetVariable("UpdateFolder");
+
+            while (string.IsNullOrEmpty(updateFolder) || !Directory.Exists(updateFolder))
             {
+                ConsoleUtility.WriteLine("Update folder not set or entered incorrectly.", TextColor);
                 ConsoleUtility.WriteLine(">>>Enter the path to the folder in which the scripts for updating the database are stored:", TextColor);
-                Configuration.SetVariable("UpdateFolder", ConsoleUtility.ReadLine(TextColor));
-                ConsoleUtility.WriteLine($"You have entered the path, you can change it at any time in the file {Configuration.fileName}.", TextColor);
+                updateFolder = ConsoleUtility.ReadLine(TextColor);
+                Console.WriteLine();
             }
 
+            Configuration.SetVariable("UpdateFolder", updateFolder);
+        }
+
+        /// <summary> Show main menu. </summary>
+        private static void ShowMainMenu()
+        {
             while (true)
             {
-                try
+                if (VersionHandler.TryGetCurrentDatabaseVersion(out double version))
                 {
-                    if (VersionHandler.TryGetCurrentDatabaseVersion(out double version))
-                    {
-                        ConsoleUtility.Write(Environment.UserName, ConsoleColor.Yellow);
-                        ConsoleUtility.WriteLine("->v" + version, ConsoleColor.Blue);
-                        ConsoleUtility.Write("-> ", TextColor);
-                        string command = ConsoleUtility.ReadLine(TextColor);
+                    ConsoleUtility.Write(Environment.UserName, ConsoleColor.Yellow);
+                    ConsoleUtility.WriteLine("->v" + version, ConsoleColor.Blue);
+                    ConsoleUtility.Write("-> ", TextColor);
+                    string command = ConsoleUtility.ReadLine(TextColor);
 
-                        string[] args = command.Split(' ');
-                        if (CommandRegistry.ContainCommand(args[0])) CommandRegistry.ExecuteCommand(args[0], args);
-                        else ConsoleUtility.WriteLine("Unknown command.", ErrorColor);
+                    string[] args = command.Split(' ');
+                    if (CommandRegistry.ContainCommand(args[0])) CommandRegistry.ExecuteCommand(args[0], args);
+                    else ConsoleUtility.WriteLine("Unknown command.", ErrorColor);
 
-                        Console.WriteLine();
-                    }
-                    else
-                    {
-                        ConsoleUtility.WriteLine("Failed to get current database version.", Program.ErrorColor);
-                    }
+                    Console.WriteLine();
                 }
-                catch (InvalidOperationException)
+                else
                 {
-                    ConsoleUtility.WriteLine("ConnectionString is invalid.\n", ErrorColor);
-                }
-                catch (DirectoryNotFoundException)
-                {
-                    ConsoleUtility.WriteLine("UpdateFolder or Rollback is invalid.\n", ErrorColor);
-                }
-                catch (OracleException)
-                {
-                    ConsoleUtility.WriteLine("There was an attempt to execute an invalid script.\n", ErrorColor);
+                    ConsoleUtility.WriteLine("Failed to get current database version.", ErrorColor);
+                    Console.ReadKey();
+                    return;
                 }
             }
         }

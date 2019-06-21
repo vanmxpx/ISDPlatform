@@ -34,6 +34,29 @@ namespace OracleDBUpdater
             _command.Dispose();
         }
 
+        /// <summary> Check connection string for correctness. </summary>
+        /// <returns> Returns true if the connection string is valid. </returns>
+        public bool TestConnectionString(string connectionString)
+        {
+            if (string.IsNullOrEmpty(connectionString)) return false;
+
+            OracleConnection connection = null;
+            try
+            {
+                connection = new OracleConnection(connectionString);
+                connection.Open();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                connection?.Close();
+            }
+        }
+
         /// <summary> Execute query without answer. </summary>
         public void ExecuteQueryWithoutAnswer(string query)
         {
