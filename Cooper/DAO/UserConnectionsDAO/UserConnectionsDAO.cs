@@ -47,13 +47,14 @@ namespace Cooper.DAO
             };
         }
 
-        public List<UserConnectionsDb> GetSpecifiedTypeUsersList(object userId, ConnectionType connectionType)
+        public List<UserDb> GetSpecifiedTypeUsersList(object userId, ConnectionType connectionType)
         {
+            List<UserDb> users = new List<UserDb>();
             List<EntityORM> usersConnections;
-            List<UserConnectionsDb> usersConnections_newTyped = new List<UserConnectionsDb>();
 
             EntityORM whereAttributes = new EntityORM();
             string userAttribute = String.Empty;
+            string anotherUser = String.Empty;
             string banAttribute = "BLACKLISTED";
 
             switch (connectionType)
@@ -62,6 +63,8 @@ namespace Cooper.DAO
                     {
                         userAttribute = "IDUSER1";
                         whereAttributes.attributeValue.Add(userAttribute, userId);
+                        
+                        anotherUser = "IDUSER2";
 
                         break;
                     }
@@ -70,6 +73,7 @@ namespace Cooper.DAO
                         userAttribute = "IDUSER2";
                         whereAttributes.attributeValue.Add(userAttribute, userId);
 
+                        anotherUser = "IDUSER1";
                         break;
                     }
                 case ConnectionType.Blacklist:
@@ -78,7 +82,8 @@ namespace Cooper.DAO
 
                         whereAttributes.attributeValue.Add(userAttribute, userId);
                         whereAttributes.attributeValue.Add(banAttribute, "\'y\'");
-                            
+
+                        anotherUser = "IDUSER2";
                         break;
                     }
                 default:
@@ -86,17 +91,14 @@ namespace Cooper.DAO
             }
 
             usersConnections = Get(table, attributes, whereAttributes);
-
             foreach (var userConnections in usersConnections)
             {
-                UserConnectionsDb userConnections_newTyped = null;
+                UserDb user = new UserDb() {Id = Convert.ToInt64(userConnections.attributeValue[anotherUser]) };
 
-                EntityMapping.Map(userConnections, out userConnections_newTyped);
-
-                usersConnections_newTyped.Add(userConnections_newTyped);
+                users.Add(user);
             }
 
-            return usersConnections_newTyped;
+            return users;
         }
         
         public List<EntityORM> Get(string table, HashSet<string> attributes, EntityORM where_attributes)
