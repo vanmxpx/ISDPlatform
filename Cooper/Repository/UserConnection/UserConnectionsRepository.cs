@@ -22,20 +22,20 @@ namespace Cooper.Repository
             userConnectionsDAO = new UserConnectionsDAO(configProvider);
             mapper = new ModelsMapper();
         }
-        public List<UserConnections> GetSpecifiedTypeUsersList(long userId, ConnectionType specifiedType)
+        public List<User> GetSpecifiedTypeUsersList(long userId, ConnectionType specifiedType)
         {
-            List<UserConnectionsDb> userConnections = userConnectionsDAO.GetSpecifiedTypeUsersList(userId, specifiedType);
-            List<UserConnections> userConnections_newTyped = new List<UserConnections>();
+            List<UserDb> users = userConnectionsDAO.GetSpecifiedTypeUsersList(userId, specifiedType);
+            List<User> users_newTyped = new List<User>();
 
-            if (userConnections != null)
+            if (users != null)
             {
-                foreach (var userConnection in userConnections)
+                foreach (var user in users)
                 {
-                    userConnections_newTyped.Add(mapper.Map(userConnection));
+                    users_newTyped.Add(mapper.Map(user));
                 }
             }
 
-            return userConnections_newTyped;
+            return users_newTyped;
         }
         
         public bool CreateSubscription(UserConnections userConnections)

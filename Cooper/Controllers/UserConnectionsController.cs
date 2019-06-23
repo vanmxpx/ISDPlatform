@@ -35,7 +35,7 @@ namespace Cooper.Controllers
 
             long userId = userConnectionService.GetUserId(userToken);
 
-            List<UserConnections> blackList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Blacklist);
+            List<User> blackList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Blacklist);
 
             return Ok(blackList);
         }
@@ -45,7 +45,7 @@ namespace Cooper.Controllers
         [ProducesResponseType(404)]
         public IActionResult GetUserSubscribersList(long userId)
         {
-            List<UserConnections> subscribersList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Subscribers);
+            List<User> subscribersList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Subscribers);
 
             return Ok(subscribersList);
         }
@@ -55,7 +55,7 @@ namespace Cooper.Controllers
         [ProducesResponseType(404)]
         public IActionResult GetUserSubscriptionsList(long userId)
         {
-            List<UserConnections> subscriptionsList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Subscriptions);
+            List<User> subscriptionsList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Subscriptions);
 
             return Ok(subscriptionsList);
         }

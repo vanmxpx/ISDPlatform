@@ -9,7 +9,7 @@ namespace Cooper.Repository
 {
     public interface IUserConnectionsRepository
     {
-        List<UserConnections> GetSpecifiedTypeUsersList(long userId, ConnectionType specifiedType);
+        List<User> GetSpecifiedTypeUsersList(long userId, ConnectionType specifiedType);
 
         bool CreateSubscription(UserConnections userConnection);
         bool BanUser(UserConnections userConnection);
