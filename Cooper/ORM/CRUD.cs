@@ -26,6 +26,8 @@ namespace Cooper.ORM
 
             try
             {
+                dbConnect.OpenConnection();
+
                 #region Creating SQL expression text
                 string sqlExpression = String.Format("INSERT INTO {0} ({1}) VALUES ({2})",
                     table,

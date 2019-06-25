@@ -43,7 +43,7 @@ namespace Cooper.DAO
 
         public List<UserDb> GetSpecifiedTypeUsersList(object userId, ConnectionType connectionType)
         {
-            List<UserDb> usersList = new List<UserDb>();
+            List<UserDb> usersList = null;
 
             var where_attributes = new Dictionary<string, object>();
 
@@ -56,7 +56,8 @@ namespace Cooper.DAO
                     {
                         user1_attribute = "IDUSER1";
                         where_attributes.Add(user1_attribute, userId);
-                        
+                        where_attributes.Add("BLACKLISTED", "\'n\'");
+
                         user2_attribute = "IDUSER2";
 
                         break;
@@ -85,11 +86,16 @@ namespace Cooper.DAO
             
             List<EntityORM> userConnections = GetAll(table, attributes, where_attributes);
 
-            foreach (var usersConnection in userConnections)
+            if (userConnections != null)
             {
-                UserDb user = new UserDb() {Id = Convert.ToInt64(usersConnection.attributeValue[user2_attribute]) };
+                usersList = new List<UserDb>();
 
-                usersList.Add(user);
+                foreach (var usersConnection in userConnections)
+                {
+                    UserDb user = new UserDb() { Id = Convert.ToInt64(usersConnection.attributeValue[user2_attribute]) };
+
+                    usersList.Add(user);
+                }
             }
 
             return usersList;
@@ -97,19 +103,38 @@ namespace Cooper.DAO
 
         public bool CreateConnection(UsersConnectionDb usersConnection)
         {
-            bool isCreated = false;
-            UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
+            if (ConnectionExists(usersConnection))
+                return false;
 
-            if (ConnectionExists(symmetricConnection))
+            bool isCreated = false;
+
+            UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
+            var where_attributes = new Dictionary<string, object>()
             {
-                Dictionary<string, object> where_attributes = new Dictionary<string, object>()
+                { "IDUSER1", symmetricConnection.IdUser2 },
+                { "IDUSER2", symmetricConnection.IdUser1 }
+            };
+
+            
+            EntityORM entity = Get(table, attributes, where_attributes);
+            
+            if (entity != null)
+            {
+                if ((bool)entity.attributeValue["BLACKLISTED"])
+                {
+                    return isCreated;
+                }
+                
+                where_attributes = new Dictionary<string, object>()
                 {
                     { "IDUSER1", usersConnection.IdUser1 },
-                    { "IDUSER2", usersConnection.IdUser2 },
-                    { "AREFRIENDS", "\'y\'"}
+                    { "IDUSER2", usersConnection.IdUser2 }
                 };
 
+                symmetricConnection.AreFriends = true;
+
                 EntityORM symmetricConnection_newTyped = Mapping.EntityMapping.Map(symmetricConnection, attributes);
+
                 Update(table, attributes, where_attributes, symmetricConnection_newTyped);
 
                 usersConnection.AreFriends = true;
@@ -131,12 +156,12 @@ namespace Cooper.DAO
 
             EntityORM usersConnection_newTyped = Get(table, attributes, where_attributes);
 
-            return usersConnection_newTyped.attributeValue.Count != 0;
+            return usersConnection_newTyped != null;
         }
 
         public bool BanUser(UsersConnectionDb usersConnection)
         {
-            bool is_banned = false;
+            bool isBanned = false;
             bool isUnsubscribed = false;
             UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
 
@@ -149,25 +174,25 @@ namespace Cooper.DAO
 
             if (ConnectionExists(symmetricConnection))
             {
-                isUnsubscribed = Unsubscribe(usersConnection);
+                isUnsubscribed = Unsubscribe(symmetricConnection);
             }
 
             if (ConnectionExists(usersConnection))
             {
                 if (isUnsubscribed)
                 {
-                    where_attributes.Add("AREFRIEND", "\'n\'");
+                    usersConnection.AreFriends = false;
                 }
 
                 EntityORM usersConnection_newTyped = Mapping.EntityMapping.Map(usersConnection, attributes);
-                is_banned = Update(table, attributes, where_attributes, usersConnection_newTyped);
+                isBanned = Update(table, attributes, where_attributes, usersConnection_newTyped);
             }
             else
             {
-                is_banned = Save(usersConnection);
+                isBanned = Save(usersConnection);
             }
 
-            return is_banned;
+            return isBanned;
         }
 
         public bool UnbanUser(UsersConnectionDb usersConnection)
@@ -199,7 +224,7 @@ namespace Cooper.DAO
             {
                 where_attributes["IDUSER1"] = symmetricConnection.IdUser1;
                 where_attributes["IDUSER2"] = symmetricConnection.IdUser2;
-                where_attributes.Add("AREFRIENDS", "\'n\'");
+                symmetricConnection.AreFriends = false;
 
                 EntityORM symmetricConnection_newTyped = Mapping.EntityMapping.Map(symmetricConnection, attributes);
                 Update(table, attributes, where_attributes, symmetricConnection_newTyped);
@@ -228,9 +253,16 @@ namespace Cooper.DAO
             return isSaved;
         }
 
+        /// <summary>
+        /// Gets all the records which satisfy sql-expression with WHERE keyword. In the other way returns null.
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="attributes"></param>
+        /// <param name="where_attributes"></param>
+        /// <returns></returns>
         private List<EntityORM> GetAll(string table, HashSet<string> attributes, Dictionary<string, object> where_attributes)
         {
-            List<EntityORM> entities = new List<EntityORM>();
+            List<EntityORM> entities = null;
 
             try
             {
@@ -243,16 +275,22 @@ namespace Cooper.DAO
 
                 OracleDataReader reader = command.ExecuteReader();
 
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    EntityORM entity = new EntityORM();
-                    foreach (string attribute in attributes)
-                    {
-                        object value = reader[attribute];
-                        entity.attributeValue.Add(attribute, value);
-                    }
+                    entities = new List<EntityORM>();
 
-                    entities.Add(entity);
+                    do
+                    {
+                        EntityORM entity = new EntityORM();
+                        foreach (string attribute in attributes)
+                        {
+                            object value = reader[attribute];
+                            entity.attributeValue.Add(attribute, value);
+                        }
+
+                        entities.Add(entity);
+                    } while (reader.Read());
+
                 }
 
             }
@@ -268,9 +306,16 @@ namespace Cooper.DAO
             return entities;
         }
 
+        /// <summary>
+        ///  Gets the record which satisfy sql-expression with WHERE keyword. In the other way returns null.
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="attributes"></param>
+        /// <param name="where_attributes"></param>
+        /// <returns></returns>
         private EntityORM Get(string table, HashSet<string> attributes, Dictionary<string, object> where_attributes)
         {
-            EntityORM entity = new EntityORM();
+            EntityORM entity = null;
 
             try
             {
@@ -283,12 +328,15 @@ namespace Cooper.DAO
 
                 OracleDataReader reader = command.ExecuteReader();
 
-                reader.Read();
-
-                foreach (string attribute in attributes)
+                if (reader.Read())
                 {
-                    object value = reader[attribute];
-                    entity.attributeValue.Add(attribute, value);
+                    entity = new EntityORM();
+
+                    foreach (string attribute in attributes)
+                    {
+                        object value = reader[attribute];
+                        entity.attributeValue.Add(attribute, value);
+                    }
                 }
 
             }
