@@ -64,6 +64,7 @@ namespace Cooper.Repository
 
             return messages_newType;
         }
+        
         public long Create(Message message)
         {
             MessageDb messageDb = mapper.Map(message);
