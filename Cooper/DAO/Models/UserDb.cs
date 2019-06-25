@@ -24,10 +24,6 @@ namespace Cooper.DAO.Models
         #endregion
 
         #region Interop attributes
-        public List<long> Subscribers { get; set; }
-        public List<long> Subscriptions { get; set; }
-        public List<long> Blacklist { get; set; }
-
         
         public List<long> GamesList { get; set; }
         public List<long> ChatsList { get; set; }
