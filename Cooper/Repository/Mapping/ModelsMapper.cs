@@ -98,34 +98,7 @@ namespace Cooper.Repository.Mapping
             #endregion
 
             #region Transfering interop attributes
-
-            user_newType.Subscribers = new List<User>();
-            if (user.Subscribers != null)
-            {
-                foreach (var subscriberId in user.Subscribers)
-                {
-                    user_newType.Subscribers.Add(new User() { Id = subscriberId });
-                }
-            }
-
-            user_newType.Subscriptions = new List<User>();
-            if (user.Subscriptions != null)
-            {
-                foreach (var subscriptionId in user.Subscriptions)
-                {
-                    user_newType.Subscriptions.Add(new User() { Id = subscriptionId });
-                }
-            }
-
-            user_newType.BlackList = new List<User>();
-            if (user.Blacklist != null)
-            {
-                foreach (var blacklistedId in user.Blacklist)
-                {
-                    user_newType.BlackList.Add(new User() { Id = blacklistedId });
-                }
-            }
-
+            
 
             #endregion
 
