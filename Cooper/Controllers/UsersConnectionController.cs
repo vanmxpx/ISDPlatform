@@ -15,24 +15,24 @@ using Cooper.Models.UserConnectionsEnumTypes;
 namespace Cooper.Controllers
 {
     [Route("api/subscription")]
-    public class UserConnectionsController : ControllerBase
+    public class UsersConnectionController : ControllerBase
     {
-        IUserConnectionsRepository userConnectionsRepository;
-        private readonly IUserConnectionService userConnectionService;
+        IUsersConnectionRepository userConnectionsRepository;
+        private readonly IUsersConnectionService userConnectionService;
 
-        public UserConnectionsController(IConfigProvider configProvider, IUserConnectionService userConnectionService)
+        public UsersConnectionController(IConfigProvider configProvider, IUsersConnectionService userConnectionService)
         {
-            userConnectionsRepository = new UserConnectionsRepository(configProvider);
+            userConnectionsRepository = new UsersConnectionRepository(configProvider);
             this.userConnectionService = userConnectionService;
         }
         
         [HttpGet("blacklist"), Authorize]
-        [ProducesResponseType(200, Type = typeof(UserConnections))]
+        [ProducesResponseType(200, Type = typeof(UsersConnection))]
         [ProducesResponseType(404)]
         public IActionResult GetUserBlackList()
         {
             string userToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-
+            
             long userId = userConnectionService.GetUserId(userToken);
 
             List<User> blackList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Blacklist);
@@ -41,7 +41,7 @@ namespace Cooper.Controllers
         }
 
         [HttpGet("subscribers/{userId}"), Authorize]
-        [ProducesResponseType(200, Type = typeof(UserConnections))]
+        [ProducesResponseType(200, Type = typeof(UsersConnection))]
         [ProducesResponseType(404)]
         public IActionResult GetUserSubscribersList(long userId)
         {
@@ -51,7 +51,7 @@ namespace Cooper.Controllers
         }
 
         [HttpGet("subscriptions/{userId}"), Authorize]
-        [ProducesResponseType(200, Type = typeof(UserConnections))]
+        [ProducesResponseType(200, Type = typeof(UsersConnection))]
         [ProducesResponseType(404)]
         public IActionResult GetUserSubscriptionsList(long userId)
         {
@@ -72,45 +72,45 @@ namespace Cooper.Controllers
 
             string subscriberToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
-            UserConnections userConnection = userConnectionService.CreateConnection(userId, subscriberToken);
+            UsersConnection usersConnection = userConnectionService.CreateConnection(userId, subscriberToken);
 
-            bool isSubscribed = userConnectionsRepository.CreateSubscription(userConnection);
+            bool isSubscribed = userConnectionsRepository.CreateSubscription(usersConnection);
                 
             return Ok(isSubscribed);
         }
         
-        [HttpPost("ban/{userId}"), Authorize]
+        [HttpPost("ban/{bannedUserId}"), Authorize]
         [ProducesResponseType(200)]
         [ProducesResponseType(201)]
-        public IActionResult Ban(long userId)
+        public IActionResult Ban(long bannedUserId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            string subscriberToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            string userToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
-            UserConnections userConnection = userConnectionService.CreateConnection(userId, subscriberToken, ban: true);
+            UsersConnection usersConnection = userConnectionService.CreateConnection(userToken, bannedUserId, ban: true);
 
-            bool isBanned = userConnectionsRepository.BanUser(userConnection);
+            bool isBanned = userConnectionsRepository.BanUser(usersConnection);
             
             return Ok(isBanned);
         }
        
-        [HttpPost("unban/{userId}"), Authorize]
-        public IActionResult Unban(long userId)
+        [HttpPost("unban/{bannedUserId}"), Authorize]
+        public IActionResult Unban(long bannedUserId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            string subscriberToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            string userToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
-            UserConnections userConnection = userConnectionService.CreateConnection(userId, subscriberToken, ban: false);
+            UsersConnection usersConnection = userConnectionService.CreateConnection(userToken, bannedUserId, ban: false);
 
-            bool isUnbanned = userConnectionsRepository.UnbanUser(userConnection);
+            bool isUnbanned = userConnectionsRepository.UnbanUser(usersConnection);
 
             return Ok(isUnbanned);
         }
@@ -120,9 +120,9 @@ namespace Cooper.Controllers
         {
             string subscriberToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
-            UserConnections userConnection = userConnectionService.CreateConnection(userId, subscriberToken);
+            UsersConnection usersConnection = userConnectionService.CreateConnection(userId, subscriberToken);
 
-            bool isUnsubscribed = userConnectionsRepository.Delete(userConnection);
+            bool isUnsubscribed = userConnectionsRepository.Unsubscribe(usersConnection);
 
             return Ok(isUnsubscribed);
         }
