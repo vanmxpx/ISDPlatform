@@ -30,8 +30,6 @@ namespace Cooper.ORM
         {
             object result = null;
 
-            connection.Open();
-
             OracleCommand command = new OracleCommand(query, connection);
             command.Parameters.Add(new OracleParameter("id", OracleDbType.Decimal, ParameterDirection.ReturnValue));
             command.ExecuteNonQuery();
@@ -39,8 +37,6 @@ namespace Cooper.ORM
             if (getId)
                 result = command.Parameters["id"].Value;
             
-            connection.Close();
-
             return result;
         }
 
