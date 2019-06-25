@@ -7,14 +7,13 @@ using Cooper.Models.UserConnectionsEnumTypes;
 
 namespace Cooper.Repository
 {
-    public interface IUserConnectionsRepository
+    public interface IUsersConnectionRepository
     {
         List<User> GetSpecifiedTypeUsersList(long userId, ConnectionType specifiedType);
 
-        bool CreateSubscription(UserConnections userConnection);
-        bool BanUser(UserConnections userConnection);
-        bool UnbanUser(UserConnections userConnection);
-        
-        bool Delete(UserConnections userConnection);
+        bool CreateSubscription(UsersConnection usersConnection);
+        bool BanUser(UsersConnection usersConnection);
+        bool UnbanUser(UsersConnection usersConnection);
+        bool Unsubscribe(UsersConnection usersConnection);
     }
 }

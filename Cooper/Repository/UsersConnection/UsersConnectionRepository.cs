@@ -1,0 +1,79 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Cooper.Models;
+using Cooper.DAO.Models;
+using Cooper.DAO;
+using Cooper.Repository.Mapping;
+using Cooper.Configuration;
+using Cooper.Models.UserConnectionsEnumTypes;
+
+namespace Cooper.Repository
+{
+    public class UsersConnectionRepository : IUsersConnectionRepository
+    {
+        private IUsersConnectionDAO userConnectionsDAO;
+        private ModelsMapper mapper;
+        
+
+        public UsersConnectionRepository(IConfigProvider configProvider)
+        {
+            userConnectionsDAO = new UsersConnectionDAO(configProvider);
+            mapper = new ModelsMapper();
+        }
+        public List<User> GetSpecifiedTypeUsersList(long userId, ConnectionType specifiedType)
+        {
+            List<UserDb> users = userConnectionsDAO.GetSpecifiedTypeUsersList(userId, specifiedType);
+            List<User> users_newTyped = new List<User>();
+
+            if (users != null)
+            {
+                foreach (var user in users)
+                {
+                    users_newTyped.Add(mapper.Map(user));
+                }
+            }
+
+            return users_newTyped;
+        }
+        
+        public bool CreateSubscription(UsersConnection userConnections)
+        {
+            UsersConnectionDb userConnections_newType = mapper.Map(userConnections);
+
+            bool isCreated = (userConnectionsDAO.CreateSubscription(userConnections_newType) == true);
+
+            return isCreated;
+        }
+        
+        public bool Unsubscribe(UsersConnection usersConnection)
+        {
+            UsersConnectionDb usersConnection_newTyped = new UsersConnectionDb();
+
+            bool isUnsubscribed = userConnectionsDAO.Unsubscribe(usersConnection_newTyped);
+
+            return isUnsubscribed;
+        }
+
+        public bool BanUser(UsersConnection userConnections)
+        {
+            UsersConnectionDb usersConnection_newTyped = new UsersConnectionDb();
+
+            bool isBanned = userConnectionsDAO.BanUser(usersConnection_newTyped);
+
+            return isBanned;
+        }
+
+        public bool UnbanUser(UsersConnection usersConnection)
+        {
+
+            UsersConnectionDb usersConnection_newTyped = new UsersConnectionDb();
+
+            bool isUnbanned = userConnectionsDAO.UnbanUser(usersConnection_newTyped);
+
+            return isUnbanned;
+        }
+        
+    }
+}
