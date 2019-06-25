@@ -23,8 +23,7 @@ namespace Cooper.DAO
         private string idColumn;
         private HashSet<string> attributes;
         private HashSet<string> unique_attributes;
-
-        private UsersConnectionDAO userConnectionDAO;
+        
 
         public UserDAO(IConfigProvider configProvider)
         {
@@ -47,8 +46,6 @@ namespace Cooper.DAO
             {
                 "ID", "NICKNAME", "EMAIL"
             };
-
-            userConnectionDAO = new UsersConnectionDAO(configProvider);
         }
 
         #region Checking methods

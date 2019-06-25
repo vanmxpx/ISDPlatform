@@ -20,6 +20,7 @@ namespace Cooper.DAO
         private Logger logger;
 
         private ICRUD crud;
+        UserDAO userDAO;
 
         private string idColumn;
         private string table;
@@ -31,6 +32,8 @@ namespace Cooper.DAO
             dbConnect = new DbConnect(configProvider);
             Connection = dbConnect.GetConnection();
             logger = LogManager.GetLogger("CooperLoger");
+
+            userDAO = new UserDAO(configProvider);
 
             table = "USERSCONNECTIONS";
             idColumn = "ID";
@@ -92,7 +95,8 @@ namespace Cooper.DAO
 
                 foreach (var usersConnection in userConnections)
                 {
-                    UserDb user = new UserDb() { Id = Convert.ToInt64(usersConnection.attributeValue[user2_attribute]) };
+                    long relatedUserId = Convert.ToInt64(usersConnection.attributeValue[user2_attribute]);
+                    UserDb user = userDAO.Get(relatedUserId);
 
                     usersList.Add(user);
                 }
