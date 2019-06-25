@@ -56,7 +56,7 @@ namespace Cooper.DAO
         {
             EntityORM entity = EntityMapping.Map(verify, attributes);
 
-            long verify_id = crud.Create(table, idColumn, entity);
+            long verify_id = crud.Create(table, idColumn, entity, false);
 
             logger.Info($"User with id = {verify_id} was created");
 
