@@ -20,7 +20,7 @@ namespace Cooper.DAO
         private Logger logger;
 
         private ICRUD crud;
-        UserDAO userDAO;
+        IUserDAO userDAO;
 
         private string idColumn;
         private string table;

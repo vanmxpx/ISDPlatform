@@ -11,7 +11,7 @@ using Cooper.Configuration;
 
 namespace Cooper.DAO
 {
-    public class UserDAO : IDAO<UserDb>
+    public class UserDAO : IUserDAO
     {
         private DbConnect dbConnect;
         private OracleConnection Connection;
@@ -236,8 +236,9 @@ namespace Cooper.DAO
 
         }
 
-        public void Update(UserDb user) {
-            Update(user, false);
+        public void Update(UserDb user)
+        {
+            Update(user, removePassword: false);
         }
 
         public void Update(UserDb user, bool removePassword)
