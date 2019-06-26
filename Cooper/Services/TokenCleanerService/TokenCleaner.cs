@@ -42,8 +42,10 @@ namespace Cooper.Services
                 }
                 crud.Delete($"'{unverify.Token}'", tokens_table, "TOKEN");
             }
-            timer.Stop();
-            timer.Dispose();
+            if (timer != null) {
+                timer.Stop();
+                timer.Dispose();
+            }
             TryToStart();
         }
 
