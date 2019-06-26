@@ -32,7 +32,7 @@ namespace Cooper.Controllers
         [ProducesResponseType(404)]
         public IActionResult GetUserBlackList()
         {
-            string userToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            string userToken = Request.GetUserToken();
             
             long userId = userConnectionService.GetUserId(userToken);
 
@@ -71,7 +71,7 @@ namespace Cooper.Controllers
                 return BadRequest(ModelState);
             }
 
-            string subscriberToken = AuthExtensions.GetUserToken(Request);
+            string subscriberToken = Request.GetUserToken();
 
             UsersConnection usersConnection = userConnectionService.CreateConnection(userId, subscriberToken);
 
@@ -90,7 +90,7 @@ namespace Cooper.Controllers
                 return BadRequest(ModelState);
             }
 
-            string userToken = AuthExtensions.GetUserToken(Request);
+            string userToken = Request.GetUserToken();
 
             UsersConnection usersConnection = userConnectionService.CreateConnection(userToken, bannedUserId, ban: true);
 
@@ -107,7 +107,7 @@ namespace Cooper.Controllers
                 return BadRequest(ModelState);
             }
 
-            string userToken = AuthExtensions.GetUserToken(Request);
+            string userToken = Request.GetUserToken();
 
             UsersConnection usersConnection = userConnectionService.CreateConnection(userToken, bannedUserId, ban: false);
 
@@ -119,7 +119,7 @@ namespace Cooper.Controllers
         [HttpDelete("{id}"), Authorize]
         public IActionResult Unsubscribe(long userId)
         {
-            string subscriberToken = AuthExtensions.GetUserToken(Request);
+            string subscriberToken = Request.GetUserToken();
 
             UsersConnection usersConnection = userConnectionService.CreateConnection(userId, subscriberToken);
 
