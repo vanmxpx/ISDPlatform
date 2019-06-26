@@ -31,8 +31,12 @@ namespace OracleDBUpdater.Commands
         /// <returns> Returns the manual for the command, if any, else returns null. </returns>
         public static string Manual(string command)
         {
-            if (ContainCommand(command)) return manual[command];
-            else return null;
+            string result = null;
+            if (ContainCommand(command))
+            {
+                result = manual[command];
+            }
+            return result;
         }
     }
 }
