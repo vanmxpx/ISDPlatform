@@ -22,6 +22,7 @@ namespace Cooper.Services
         const string users_table = "USERS";
         private bool timerStart = false;
         private CRUD crud;
+        private Timer timer;
         public TokenCleaner(IConfigProvider configProvider) {
             crud = new CRUD(configProvider);
             RemoveOutdated();
@@ -41,6 +42,8 @@ namespace Cooper.Services
                 }
                 crud.Delete($"'{verify.Token}'", tokens_table, "TOKEN");
             }
+            timer.Stop();
+            timer.Dispose();
             TryToStart();
         }
 
@@ -52,7 +55,7 @@ namespace Cooper.Services
             if (!timerStart) {
                 string date = GetMinDate();
                 if (date != "") { 
-                    Timer timer = new Timer((int)((DateTime.Parse(date) - DateTime.Now).TotalMilliseconds));
+                    timer = new Timer((int)((DateTime.Parse(date) - DateTime.Now).TotalMilliseconds));
                     timer.Elapsed += ( sender, e ) => RemoveOutdated();
                     timer.Start();
                         
