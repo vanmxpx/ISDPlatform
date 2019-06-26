@@ -68,16 +68,19 @@ namespace Cooper.Controllers
         {
 
             User user = userRepository.GetByNickname(nickname);
+            var myUser = Request.GetAuthorizedUser(userRepository);
+            myUser.IsMy = true;
 
-            if (nickname == "my")
-            {
-                return Ok(Request.GetAuthorizedUser(userRepository));
+            if (nickname == myUser.Nickname || nickname == "my")
+            {                
+                return Ok(myUser);
             }
-            if (user == null)
+            
+            if (user == null )
             {
                 return NotFound();
             }
-
+            user.IsMy = false;
             return Ok(user);
         }
         

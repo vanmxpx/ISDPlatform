@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatCard } from '@angular/material';
-import {Game, Comment, CommonChat} from '../models/my-page-models'
+import {Game, Comment, CommonChat, ProfileList} from '../models/my-page-models'
 import { HttpClient} from '@angular/common/http';
 
 import { HubConnection, HubConnectionBuilder, HttpTransportType, LogLevel} from '@aspnet/signalr';
 import { Message } from 'primeng/api';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'cooper-my-page',
@@ -74,7 +75,13 @@ comments: Comment[]=
   avatar:'assets/imageKeeper/robot.png'
 }]
 
-constructor(private httpClient: HttpClient){}
+friends: ProfileList[] = [];
+friendsNumber: Number = 0;
+followings: ProfileList[] = [];
+followingsNumber: Number = 0;
+followers: ProfileList[] = [];
+followersNumber: Number = 0;
+constructor(private httpClient: HttpClient, private route: ActivatedRoute, private router: Router){}
 
   private hubConnection: HubConnection;
   response : any = {
@@ -87,9 +94,20 @@ constructor(private httpClient: HttpClient){}
   nick = '';
   msgs: Message[] = [];
   ngOnInit() {
-    this.httpClient.get("/users/nickname/my")
+    var nick = this.route.snapshot.paramMap.get("nickname");
+    console.log(nick);
+    this.httpClient.get("/users/nickname/"+nick)
       .subscribe((response)=>{
          this.response = response;
+      })  
+      this.httpClient.get("/users")
+      .subscribe((response: Array<ProfileList>)=>{
+        this.friends = response;
+        this.friendsNumber = response.length;
+        this.followers = response;
+        this.followersNumber = response.length;
+        this.followings = response;
+        this.followingsNumber = response.length;
       })  
       this.httpClient.get("/common")
       .subscribe( (response: Array<any>)  =>{
@@ -142,6 +160,14 @@ formatStringMinutes(number: number): string {
 formatStringHours(number: number): string {
   if(number == 1) return "an hour ago"
   else return number + " hours ago"
+}
+
+goToProfile(nickname: string){
+  this.router.navigate(["/myPage", nickname]);
+    this.httpClient.get("/users/nickname/"+nickname)
+      .subscribe((response)=>{
+         this.response = response;
+      })  
 }
 
 sendMessage() {
