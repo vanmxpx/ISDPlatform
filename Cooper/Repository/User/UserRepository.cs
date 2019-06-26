@@ -15,7 +15,7 @@ namespace Cooper.Repository
 {
     public class UserRepository : IRepository<User>, IUserRepository
     {
-        private UserDAO userDAO;
+        private IUserDAO userDAO;
         private VerificationDAO verifyDAO;
         private ModelsMapper mapper;
 
@@ -186,7 +186,7 @@ namespace Cooper.Repository
         {
             UserDb userDb = mapper.Map(user);
 
-            userDAO.Update(userDb, true);
+            userDAO.Update(userDb, removePassword: true);
         }
 
         public void ConfirmEmail(string token, string email)
