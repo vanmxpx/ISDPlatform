@@ -9,6 +9,7 @@ using Cooper.Repository;
 using Cooper.Configuration;
 using Cooper.Services;
 using Cooper.Models.UserConnectionsEnumTypes;
+using Cooper.Extensions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -70,7 +71,7 @@ namespace Cooper.Controllers
                 return BadRequest(ModelState);
             }
 
-            string subscriberToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            string subscriberToken = AuthExtensions.GetUserToken(Request);
 
             UsersConnection usersConnection = userConnectionService.CreateConnection(userId, subscriberToken);
 
@@ -89,7 +90,7 @@ namespace Cooper.Controllers
                 return BadRequest(ModelState);
             }
 
-            string userToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            string userToken = AuthExtensions.GetUserToken(Request);
 
             UsersConnection usersConnection = userConnectionService.CreateConnection(userToken, bannedUserId, ban: true);
 
@@ -106,7 +107,7 @@ namespace Cooper.Controllers
                 return BadRequest(ModelState);
             }
 
-            string userToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            string userToken = AuthExtensions.GetUserToken(Request);
 
             UsersConnection usersConnection = userConnectionService.CreateConnection(userToken, bannedUserId, ban: false);
 
@@ -118,7 +119,7 @@ namespace Cooper.Controllers
         [HttpDelete("{id}"), Authorize]
         public IActionResult Unsubscribe(long userId)
         {
-            string subscriberToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            string subscriberToken = AuthExtensions.GetUserToken(Request);
 
             UsersConnection usersConnection = userConnectionService.CreateConnection(userId, subscriberToken);
 

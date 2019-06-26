@@ -12,10 +12,17 @@ namespace Cooper.Extensions
     {
         public static User GetAuthorizedUser(this HttpRequest Request, UserRepository repository)
         {
-            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            var token = GetUserToken(Request);
             if (token == null) return null;
             User user = repository.GetByJWToken(token);
             return user;
+        }
+
+        public static string GetUserToken(this HttpRequest Request)
+        {
+            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            return token;
         }
     }
 }
