@@ -12,6 +12,7 @@ namespace Cooper.Models
         public string Nickname { get; set; }
         public string Email { get; set; }
         public string PhotoURL { get; set; }
+        public bool IsMy { get; set; }
         public bool IsVerified { get; set; }
         public bool IsCreator { get; set; }
         public bool IsBanned { get; set; }

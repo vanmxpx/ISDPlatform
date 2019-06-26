@@ -26,7 +26,7 @@ export class SignInComponent {
 
     const Token: string = localStorage.getItem('JwtCooper');
     if (Token) {
-      this.router.navigate(['/myPage']);
+      this.router.navigate(['/myPage', "my"]);
     }
   }
 
@@ -40,10 +40,10 @@ export class SignInComponent {
        let token = (<any>response).token;
        localStorage.setItem("JwtCooper", token);
        this.invalidLogin = false;
-      this.router.navigate(["/myPage"]);
+      this.router.navigate(["/myPage", "my"]);
       
     }, err => {
-      this.router.navigate(["/myPage"]);
+      this.router.navigate(["/myPage", "my"]);
       this.invalidLogin = true;
     });
   }
