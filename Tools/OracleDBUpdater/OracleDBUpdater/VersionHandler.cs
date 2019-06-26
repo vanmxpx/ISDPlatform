@@ -11,18 +11,19 @@ namespace OracleDBUpdater
         /// <summary> Return version from file name. </summary>
         public static bool TryGetVersionFromPath(string path, out double version)
         {
+            bool isGetted = false;
             version = -1;
+
             try
             {
                 path = path.Substring(path.LastIndexOf("_v") + 2);
                 path = path.Remove(path.LastIndexOf('.')).Replace('.', ',');
                 version = double.Parse(path);
-                return true;
+                isGetted = true;
             }
-            catch
-            {
-                return false;
-            }
+            catch { }
+
+            return isGetted;
         }
 
         /// <summary> Return last requiredVersion of database. </summary>
@@ -36,16 +37,17 @@ namespace OracleDBUpdater
         /// <summary> Return current version of database. </summary>
         public static bool TryGetCurrentDatabaseVersion(out double version)
         {
+            bool isGetted = false;
             version = -1;
+
             try
             {
                 version = double.Parse(MyDataBase.GetDB().ExecuteQueryWithAnswer("SELECT version FROM db_version"));
-                return true;
+                isGetted = true;
             }
-            catch
-            {
-                return false;
-            }
+            catch { }
+
+            return isGetted;
         }
 
         /// <summary> Checks if this version is exist. </summary>
@@ -59,6 +61,7 @@ namespace OracleDBUpdater
         {
             string[] updateScriptNames = Program.GetUpdateScriptNames();
             List<double> versions = new List<double>();
+
             foreach (string updateScriptName in updateScriptNames)
             {
                 if (TryGetVersionFromPath(updateScriptName, out double version))
@@ -66,6 +69,7 @@ namespace OracleDBUpdater
                     versions.Add(version);
                 }
             }
+
             return versions.ToArray();
         }
     }

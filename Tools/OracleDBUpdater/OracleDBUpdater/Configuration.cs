@@ -11,7 +11,7 @@ namespace OracleDBUpdater
         private static Dictionary<string, string> configurationVariables = new Dictionary<string, string>();
 
         /// <summary> Config file name. </summary>
-        public static readonly string fileName = "config.txt";
+        public static readonly string fileName = "config.json";
 
         static Configuration()
         {
@@ -27,8 +27,12 @@ namespace OracleDBUpdater
         /// <summary> Return variable value with name variableName. </summary>
         public static string GetVariable(string variableName)
         {
-            if (!ContainVariable(variableName)) return null;
-            else return configurationVariables[variableName];
+            string result = null;
+            if (ContainVariable(variableName))
+            {
+                result = configurationVariables[variableName]; ;
+            }
+            return result;
         }
 
         /// <summary> Set value for variable with name variableName</summary>

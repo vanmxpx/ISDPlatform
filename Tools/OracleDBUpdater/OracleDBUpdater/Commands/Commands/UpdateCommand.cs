@@ -1,7 +1,6 @@
 ﻿using ConsoleHelper;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace OracleDBUpdater.Commands
 {
@@ -19,8 +18,14 @@ namespace OracleDBUpdater.Commands
             {
                 if (double.TryParse(args[1], out double requiredVersion))
                 {
-                    if (VersionHandler.IsThereVersion(requiredVersion)) UpdateDatabase(requiredVersion);
-                    else ConsoleUtility.WriteLine($"Version {requiredVersion} is not found.", Program.ErrorColor);
+                    if (VersionHandler.IsThereVersion(requiredVersion))
+                    {
+                        UpdateDatabase(requiredVersion);
+                    }
+                    else
+                    {
+                        ConsoleUtility.WriteLine($"Version {requiredVersion} is not found.", Program.ErrorColor);
+                    }
                 }
                 else
                 {

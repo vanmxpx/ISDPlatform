@@ -17,6 +17,7 @@ namespace OracleDBUpdater
         {            
             CheckConfigurationVariables();
 
+            // IT'S FOR TESTS
             if (!MyDataBase.GetDB().IsExistringTable("db_version"))
             {
                 MyDataBase.GetDB().ExecuteQueryWithoutAnswer("CREATE TABLE db_versions (verions INT)");
@@ -82,8 +83,14 @@ namespace OracleDBUpdater
                     string command = ConsoleUtility.ReadLine(TextColor);
 
                     string[] args = command.Split(' ');
-                    if (CommandRegistry.ContainCommand(args[0])) CommandRegistry.ExecuteCommand(args[0], args);
-                    else ConsoleUtility.WriteLine("Unknown command.", ErrorColor);
+                    if (CommandRegistry.ContainCommand(args[0]))
+                    {
+                        CommandRegistry.ExecuteCommand(args[0], args);
+                    }
+                    else
+                    {
+                        ConsoleUtility.WriteLine("Unknown command.", ErrorColor);
+                    }
 
                     Console.WriteLine();
                 }
@@ -106,6 +113,7 @@ namespace OracleDBUpdater
         public static List<string> GetQueriesFromString(string str)
         {
             List<string> queries = new List<string>();
+
             while (str.Contains(';'))
             {
                 string query = str.Substring(0, str.IndexOf(';'));
@@ -114,7 +122,10 @@ namespace OracleDBUpdater
                 str = str.Remove(0, str.IndexOf(';') + 1);
             }
 
-            if (!str.Contains(';') && !string.IsNullOrEmpty(str)) queries.Add(str);
+            if (!str.Contains(';') && !string.IsNullOrEmpty(str))
+            {
+                queries.Add(str);
+            }
 
             return queries;
         }

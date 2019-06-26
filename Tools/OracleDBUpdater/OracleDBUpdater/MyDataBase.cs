@@ -15,7 +15,10 @@ namespace OracleDBUpdater
         /// <summary> Returns a database object. </summary>
         public static MyDataBase GetDB()
         {
-            if (_instance == null) _instance = new MyDataBase();
+            if (_instance == null)
+            {
+                _instance = new MyDataBase();
+            }
             return _instance;
         }
 
@@ -38,23 +41,21 @@ namespace OracleDBUpdater
         /// <returns> Returns true if the connection string is valid. </returns>
         public bool TestConnectionString(string connectionString)
         {
-            if (string.IsNullOrEmpty(connectionString)) return false;
-
+            bool isConnectionOpen = false;
             OracleConnection connection = null;
+
             try
             {
                 connection = new OracleConnection(connectionString);
                 connection.Open();
-                return true;
+                isConnectionOpen = true;
             }
             catch
             {
-                return false;
-            }
-            finally
-            {
                 connection?.Close();
             }
+
+            return isConnectionOpen;
         }
 
         /// <summary> Execute query without answer. </summary>
@@ -85,7 +86,7 @@ namespace OracleDBUpdater
                 {
                     string[] tempArr = query.Split(' ');
                     string sqlOperator = tempArr.Length > 0 ? tempArr[0].ToUpper() : null;
-                    string tableName = tempArr.Length >= 2 ? tempArr[2].ToUpper() : null;
+                    string tableName = tempArr.Length > 2 ? tempArr[2].ToUpper() : null;
                     // Contains true if the table was created in this sql script
                     bool isTableCreated = createdTableNames.Contains(tableName);
 
@@ -108,9 +109,15 @@ namespace OracleDBUpdater
                         // After executing query, add data to the desired lists.
                         if (!isTableCreated)
                         {
-                            if (!tableNames.Contains(tableName)) tableNames.Add(tableName);
+                            if (!tableNames.Contains(tableName))
+                            {
+                                tableNames.Add(tableName);
+                            }
                             string undoQuery = $"DROP TABLE {tableName}";
-                            if (!undoQueries.Contains(undoQuery)) undoQueries.Add(undoQuery);
+                            if (!undoQueries.Contains(undoQuery))
+                            {
+                                undoQueries.Add(undoQuery);
+                            }
                         }
                     }
                     else if (sqlOperator == "DROP")
@@ -140,9 +147,15 @@ namespace OracleDBUpdater
                         // After executing query, add data to the desired lists.
                         if (!isTableCreated)
                         {
-                            if (!tableNames.Contains(tableName)) tableNames.Add(tableName);
+                            if (!tableNames.Contains(tableName))
+                            {
+                                tableNames.Add(tableName);
+                            }
                             string undoQuery = $"DROP TABLE {tableName}";
-                            if (!undoQueries.Contains(undoQuery)) undoQueries.Add(undoQuery);
+                            if (!undoQueries.Contains(undoQuery))
+                            {
+                                undoQueries.Add(undoQuery);
+                            }
                         }
                     }
                     else if (sqlOperator == "DELETE")
@@ -157,9 +170,15 @@ namespace OracleDBUpdater
                         // After executing query, add data to the desired lists.
                         if (!isTableCreated)
                         {
-                            if (!tableNames.Contains(tableName)) tableNames.Add(tableName);
+                            if (!tableNames.Contains(tableName))
+                            {
+                                tableNames.Add(tableName);
+                            }
                             string undoQuery = $"DROP TABLE {tableName}";
-                            if (!undoQueries.Contains(undoQuery)) undoQueries.Add(undoQuery);
+                            if (!undoQueries.Contains(undoQuery))
+                            {
+                                undoQueries.Add(undoQuery);
+                            }
                         }
                     }
                     else
