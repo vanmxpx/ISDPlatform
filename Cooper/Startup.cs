@@ -45,7 +45,7 @@ namespace Cooper
 
             services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddSingleton<ICommonChatRepository, CommonChatRepository>();      
+            services.AddSingleton<ICommonChatRepository, CommonChatRepository>();
             services.AddTransient<ISmtpClient, GmailSmtpClient>();
 
             services.AddProxies();
@@ -62,7 +62,7 @@ namespace Cooper
             services.AddJWTAuthorization();
 
             services.AddUserConnectionService();
-
+            services.AddTokenCleanerService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

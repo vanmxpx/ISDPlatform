@@ -16,10 +16,12 @@ namespace Cooper.Controllers
     {
         UserRepository userRepository;
         ISmtpClient smtpClient;
-        public RegistrationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider, ISmtpClient smtpClient)
+        ITokenCleaner cleaner;
+        public RegistrationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider, ITokenCleaner cleaner, ISmtpClient smtpClient)
         {
             userRepository = new UserRepository(jwtHandler, configProvider);
             this.smtpClient = smtpClient;
+            this.cleaner = cleaner;
         }
 
         [HttpPost]
@@ -48,6 +50,7 @@ namespace Cooper.Controllers
                 verify.EndVerifyDate = DateTime.Now.AddDays(3);
 
                 userRepository.Create(verify);
+                cleaner.TryToStart();
                 this.smtpClient.SendMail(verify.Email, "Register confirmation", "", verify.Token);
                 result = Ok(userRepository.Create(user));
             }
