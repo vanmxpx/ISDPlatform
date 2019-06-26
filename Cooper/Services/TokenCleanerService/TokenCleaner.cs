@@ -29,18 +29,18 @@ namespace Cooper.Services
         }
 
         void RemoveOutdated() {
-            VerificationDb verify;
+            VerificationDb unverify;
             string now = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss");
             //Get all users that don't verify email
             var unverified = crud.ReadBellow($"TO_TIMESTAMP(\'{now}\', 'DD.MM.YYYY HH24:MI:SS')", "ENDVERIFYDATE", attributes, tokens_table);
             var allTokens = crud.ReadFieldValues("t.TOKEN", $"{users_table} u INNER JOIN {tokens_table} t ON u.EMAIL = t.TOKEN");
             foreach (var entity in unverified) {
-                EntityMapping.Map(entity, out verify);
+                EntityMapping.Map(entity, out unverify);
                 
-                if (allTokens.Contains(verify.Token)) {
-                    crud.Delete(verify.Token, users_table, "EMAIL");
+                if (allTokens.Contains(unverify.Token)) {
+                    crud.Delete(unverify.Token, users_table, "EMAIL");
                 }
-                crud.Delete($"'{verify.Token}'", tokens_table, "TOKEN");
+                crud.Delete($"'{unverify.Token}'", tokens_table, "TOKEN");
             }
             timer.Stop();
             timer.Dispose();
