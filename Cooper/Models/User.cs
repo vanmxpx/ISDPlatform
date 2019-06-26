@@ -21,8 +21,8 @@ namespace Cooper.Models
         #endregion 
 
         #region Interop attributes
-
-        public List<UserConnections> ConnectionsList { get; set; }
+        
+        
         public List<Game> GamesList { get; set; }
         public List<Chat> ChatsList { get; set; }
         public List<Message> MessagesList { get; set; }

@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Cooper.Models;
-using Cooper.Repository;
-using Cooper.Configuration;
 
-namespace Cooper.DAO.Models
+
+namespace Cooper.Models
 {
-    public class UserConnectionsDb : EntityDb
+    public class UsersConnection : Entity
     {
         #region Main attributes
 
@@ -19,8 +17,8 @@ namespace Cooper.DAO.Models
 
         #region Interop attributes
 
-        public long IdUser1 { get; set; }
-        public long IdUser2 { get; set; }
+        public User User1 { get; set; }
+        public User User2 { get; set; }
 
         #endregion
     }

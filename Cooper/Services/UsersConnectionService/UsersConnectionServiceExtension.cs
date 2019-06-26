@@ -8,15 +8,15 @@ using Cooper.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class UserConnectionServiceExtension
+    public static class UsersConnectionServiceExtension
     {
-        private static IUserConnectionService userConnectionService;
+        private static IUsersConnectionService userConnectionService;
         public static void AddUserConnectionService(this IServiceCollection services)
         {
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 
-            UserConnectionService userConnectionService = new UserConnectionService(serviceProvider.GetService<IJwtHandlerService>(), serviceProvider.GetService<IConfigProvider>());
-            services.AddSingleton<IUserConnectionService>(userConnectionService);
+            UsersConnectionService userConnectionService = new UsersConnectionService(serviceProvider.GetService<IJwtHandlerService>(), serviceProvider.GetService<IConfigProvider>());
+            services.AddSingleton<IUsersConnectionService>(userConnectionService);
         }
     }
 }

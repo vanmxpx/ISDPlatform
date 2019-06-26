@@ -98,15 +98,7 @@ namespace Cooper.Repository.Mapping
             #endregion
 
             #region Transfering interop attributes
-
-            user_newType.ConnectionsList = new List<UserConnections>();
-            if (user.ConnectionsList != null)
-            {
-                foreach (var connectionId in user.ConnectionsList)
-                {
-                    user_newType.ConnectionsList.Add(new UserConnections() { Id = connectionId });
-                }
-            }
+            
 
             #endregion
 
@@ -133,6 +125,7 @@ namespace Cooper.Repository.Mapping
 
             #endregion
             
+
             return user_newType;
         }
 
@@ -152,9 +145,9 @@ namespace Cooper.Repository.Mapping
 
         #region UserConnection Mapping
 
-        public UserConnections Map(UserConnectionsDb userConnection)
+        public UsersConnection Map(UsersConnectionDb userConnection)
         {
-            UserConnections userConnection_newType = new UserConnections();
+            UsersConnection userConnection_newType = new UsersConnection();
 
             #region Transfer main attributes
 
@@ -169,9 +162,9 @@ namespace Cooper.Repository.Mapping
             return userConnection_newType;
         }
 
-        public UserConnectionsDb Map(UserConnections userConnection)
+        public UsersConnectionDb Map(UsersConnection userConnection)
         {
-            UserConnectionsDb userConnection_newType = new UserConnectionsDb();
+            UsersConnectionDb userConnection_newType = new UsersConnectionDb();
 
             #region Transfer main attributes
 
