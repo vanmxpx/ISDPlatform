@@ -25,14 +25,11 @@ namespace Cooper.Repository
         public List<User> GetSpecifiedTypeUsersList(long userId, ConnectionType specifiedType)
         {
             List<UserDb> users = userConnectionsDAO.GetSpecifiedTypeUsersList(userId, specifiedType);
-            List<User> users_newTyped = new List<User>();
+            List<User> users_newTyped = null;
 
             if (users != null)
             {
-                foreach (var user in users)
-                {
-                    users_newTyped.Add(mapper.Map(user));
-                }
+                users_newTyped = users.Select(x => mapper.Map(x)).ToList();
             }
 
             return users_newTyped;
