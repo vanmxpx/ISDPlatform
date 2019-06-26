@@ -86,7 +86,7 @@ namespace Cooper.Controllers
         [ProducesResponseType(404)]
         public IActionResult GetUserByJWToken()
         {
-            User user = AuthExtensions.GetAuthorizedUser(Request, userRepository);
+            User user = Request.GetAuthorizedUser(userRepository);
 
             if (user == null)
             {
