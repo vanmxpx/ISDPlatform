@@ -12,9 +12,11 @@ namespace Cooper.ORM
 
         EntityORM Read(object attribute_value, string attribute_name, HashSet<string> attributes, string table); //Read unique field
 
-        IEnumerable<EntityORM> ReadAll(object attribute_value, string attribute_name, HashSet<string> attributes, string table); //Read entities by parameter
+        IEnumerable<EntityORM> ReadBellow(object attribute_value, string attribute_name, HashSet<string> attributes, string table); //Read entities bellow current attribute_value
 
         IEnumerable<EntityORM> ReadAll(string table, HashSet<string> attributes); //Read all entries in table
+
+        List<string> ReadFieldValues(string field, string table); //Read all entries of field
 
         bool Update(long id, string table, string idColumn, EntityORM attributeValue);
 

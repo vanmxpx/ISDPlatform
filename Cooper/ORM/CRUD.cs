@@ -96,12 +96,43 @@ namespace Cooper.ORM
             return entity;
         }
 
-        public IEnumerable<EntityORM> ReadAll(object attribute_value, string attribute_name, HashSet<string> attributes, string table) {
+        public List<string> ReadFieldValues(string field, string table)
+        {
+            List<string> fieldValues = new List<string>();
+            try
+            {
+                string sqlExpression = $"SELECT {field} FROM {table}";
+
+                dbConnect.OpenConnection();
+                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
+
+                OracleDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    fieldValues.Add(reader[field].ToString());
+                }
+
+                reader.Close();
+            }
+            catch (DbException ex)
+            {
+                logger.Info("Exception.Message: {0}", ex.Message);
+            }
+            finally
+            {
+                dbConnect.CloseConnection();
+            }
+
+            return fieldValues;
+        }
+
+        public IEnumerable<EntityORM> ReadBellow(object attribute_value, string attribute_name, HashSet<string> attributes, string table) {
             List<EntityORM> entities = new List<EntityORM>();
 
             try
             {
-                string sqlExpression = $"SELECT * from {table} WHERE {attribute_name} = {attribute_value}";
+                string sqlExpression = $"SELECT * FROM {table} WHERE {attribute_name} <= {attribute_value}";
 
                 dbConnect.OpenConnection();
                 OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
@@ -137,7 +168,7 @@ namespace Cooper.ORM
             
             try
             {
-                string sqlExpression = $"SELECT * from {table}";
+                string sqlExpression = $"SELECT * FROM {table}";
 
                 dbConnect.OpenConnection();
                 OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
