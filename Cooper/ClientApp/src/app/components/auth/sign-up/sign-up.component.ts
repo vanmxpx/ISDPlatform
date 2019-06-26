@@ -21,13 +21,13 @@ export class SignUpComponent implements OnInit {
   CheckAuthentification(): void {
     const Token: string = localStorage.getItem('JwtCooper');
     if (Token) {
-      this.router.navigate(['/myPage']);
+      this.router.navigate(['/myPage', "my"]);
     }
   }
   onSubmit() {
     this.service.register().subscribe(
       (res: any) => {
-        this.router.navigate(['/myPage']);
+        this.router.navigate(['/myPage', "my"]);
         },
       err => {
         console.log(err);
@@ -38,7 +38,7 @@ export class SignUpComponent implements OnInit {
  {
   this.service.registerFacebook().subscribe(
     (res: any) => {
-      this.router.navigate(['/myPage']);
+      this.router.navigate(['/myPage', "my"]);
       },
     err => {
       console.log(err);
