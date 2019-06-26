@@ -33,18 +33,19 @@ namespace Cooper.Services
             string now = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss");
             //Get all users that don't verify email
             var unverified = crud.ReadBellow($"TO_TIMESTAMP(\'{now}\', 'DD.MM.YYYY HH24:MI:SS')", "ENDVERIFYDATE", attributes, tokens_table);
-            var allTokens = crud.ReadFieldValues("t.TOKEN", $"{users_table} u INNER JOIN {tokens_table} t ON u.EMAIL = t.TOKEN");
+            var allTokens = crud.ReadFieldValues("TOKEN", $"{users_table} u INNER JOIN {tokens_table} t ON u.EMAIL = t.TOKEN");
             foreach (var entity in unverified) {
                 EntityMapping.Map(entity, out unverify);
                 
                 if (allTokens.Contains(unverify.Token)) {
-                    crud.Delete(unverify.Token, users_table, "EMAIL");
+                    crud.Delete($"'{unverify.Token}'", users_table, "EMAIL");
                 }
                 crud.Delete($"'{unverify.Token}'", tokens_table, "TOKEN");
             }
             if (timer != null) {
                 timer.Stop();
                 timer.Dispose();
+                timerStart = false;
             }
             TryToStart();
         }
@@ -60,8 +61,7 @@ namespace Cooper.Services
                     timer = new Timer((int)((DateTime.Parse(date) - DateTime.Now).TotalMilliseconds));
                     timer.Elapsed += ( sender, e ) => RemoveOutdated();
                     timer.Start();
-                        
-                    Console.WriteLine((int)((DateTime.Parse(date) - DateTime.Now).TotalMilliseconds));
+
                     timerStart = true;
                 }
             }
