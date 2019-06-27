@@ -204,6 +204,7 @@ namespace Cooper.ORM
         {
             try
             {
+                dbConnect.OpenConnection();
                 #region Forming SQL expression text
 
                 string sqlExpression = $"UPDATE {table} SET ";
@@ -237,6 +238,7 @@ namespace Cooper.ORM
         {
             try
             {
+                dbConnect.OpenConnection();
                 string sqlExpression = $"DELETE FROM {table} WHERE {idColumn} = {id}";
                 
                 dbConnect.ExecuteNonQuery(sqlExpression);
