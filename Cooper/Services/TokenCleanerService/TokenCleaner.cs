@@ -51,7 +51,9 @@ namespace Cooper.Services
         }
 
         string GetMinDate() {
-            return crud.ReadFieldValues("MIN(ENDVERIFYDATE)", tokens_table)[0];
+            var data = crud.ReadFieldValues("MIN(ENDVERIFYDATE)", tokens_table);
+            if (data.Count == 0) { return ""; }
+            else { return data[0]; }
         }
 
         public void TryToStart() {
