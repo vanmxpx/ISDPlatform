@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace OracleDBUpdater.Commands
+namespace OracleDBUpdater.Commands.ConsoleCommands
 {
-    static class CommandManual
+    static class ConsoleCommandManual
     {
         /// <summary> Register of commands and manuals for them. </summary>
         private static readonly Dictionary<string, string> manual;
 
-        static CommandManual()
+        static ConsoleCommandManual()
         {
             using (var stream = new MemoryStream(Properties.Resources.manual))
             {
