@@ -1,6 +1,6 @@
 ﻿using ConsoleHelper;
 using Oracle.ManagedDataAccess.Client;
-using OracleDBUpdater.Commands;
+using OracleDBUpdater.Commands.ConsoleCommands;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -83,9 +83,9 @@ namespace OracleDBUpdater
                     string command = ConsoleUtility.ReadLine(TextColor);
 
                     string[] args = command.Split(' ');
-                    if (CommandRegistry.ContainCommand(args[0]))
+                    if (ConsoleCommandRegistry.ContainCommand(args[0]))
                     {
-                        CommandRegistry.ExecuteCommand(args[0], args);
+                        ConsoleCommandRegistry.ExecuteCommand(args[0], args);
                     }
                     else
                     {
