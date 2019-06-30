@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { UserService } from '../../../services/user.service';
 import { MatInputModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {trigger,transition, style, query,group,animateChild, animate, keyframes, state,} from '@angular/animations';
@@ -13,17 +14,16 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./sign-in.component.css'],
   animations: [fader]
 })
-export class SignInComponent {
+export class SignInComponent implements OnInit {
 
   invalidLogin: boolean;
+  readonly authUrl = '/auth/login';
 
-
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(private router: Router, private http: HttpClient, private service: UserService) {
     this.CheckAuthentification();
   }
 
   CheckAuthentification(): void {
-
     const Token: string = localStorage.getItem('JwtCooper');
     if (Token) {
       this.router.navigate(['/myPage', "my"]);
@@ -32,20 +32,23 @@ export class SignInComponent {
 
   login(form: NgForm) {
     let credentials = JSON.stringify(form.value);
-    this.http.post("/auth/login", credentials, {
+    this.http.post(this.authUrl, credentials, {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })
     }).subscribe(response => {
-       let token = (<any>response).token;
-       localStorage.setItem("JwtCooper", token);
-       this.invalidLogin = false;
-      this.router.navigate(["/myPage", "my"]);
+      this.invalidLogin = false;
+      this.service.loginOK((<any>response).token, this.router);
       
     }, err => {
-      this.router.navigate(["/myPage", "my"]);
       this.invalidLogin = true;
+      this.service.BadLogin(this.router);
     });
   }
+
+  socialSignIn(platform) {
+    this.service.socialSignIn(platform);
+  }
+  
 ngOnInit() {}
 }

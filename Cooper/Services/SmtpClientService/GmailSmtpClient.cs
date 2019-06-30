@@ -1,3 +1,4 @@
+using Cooper.Configuration;
 using System;
 using System.Net;
 using System.Net.Mail;
@@ -8,9 +9,13 @@ namespace Cooper.Services
     {
         public string SmtpServerName {get;} = "smtp.gmail.com";
 
-        private string from = "cooper.noreply@gmail.com";
-        private string password = "INSERT_PASSWORD_HERE";
-        private string url = "https://cooper.serve.games/confirm?token=";
+        readonly string from;
+        readonly string password;
+        const string url = "https://cooper.serve.games/confirm?token=";
+        public GmailSmtpClient(IConfigProvider configProvider) {
+            from = configProvider.GmailProvider.From;
+            password = configProvider.GmailProvider.Password;
+        }
         
         public void SendMail(string to, string subject, string body, string token)
         {

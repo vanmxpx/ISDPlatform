@@ -21,18 +21,20 @@ namespace Cooper.Controllers
     {
         private UserRepository userRepository;
         private readonly IConfigProvider configProvider;
+        private readonly ISocialAuth socialAuth;
 
-        public AuthController(IJwtHandlerService jwtService, IConfigProvider configProvider)
+        public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider)
         {
             userRepository = new UserRepository(jwtService, configProvider);
 
             this.configProvider = configProvider;
+            this.socialAuth = socialAuth;
         }
 
         [HttpPost, Route("login")]
         public IActionResult Login([FromBody]Login login)
         {
-            IActionResult result;
+            IActionResult result = Unauthorized();
             if (login == null)
             {
                 result = BadRequest("Invalid client request");
@@ -40,20 +42,36 @@ namespace Cooper.Controllers
             else 
             {
                 login.Username = DbTools.SanitizeString(login.Username);
-                login.Password = DbTools.SanitizeString(login.Password);
 
-                bool authValid = userRepository.CheckCredentials(login.Username, login.Password);
-
-                //TODO: Add error: please verify your account
-                if (!authValid || !userRepository.CheckVerifyByNickname(login.Username)) 
-                { 
-                    result = Unauthorized(); 
-                }
-                else 
+                if (login.Provider == "facebook"
+                && this.socialAuth.IsFacebookAuth(login.Password, login.ID))
                 {
-                    string tokenString = new TokenFactory(login, configProvider).GetTokenString();
-                    
-                    result = Ok(new { Token = tokenString });
+                    if ((login.Username = userRepository.GetByEmail(login.Username)?.Nickname) != null) {
+                        result = Ok(new { Token = new TokenFactory(login, configProvider).GetTokenString() });
+                    }
+                    else {
+                        result = BadRequest("Auth");
+                    }
+                }
+                else if (login.Provider == "google"
+                && this.socialAuth.IsGoogleAuth(login.Password, login.Username)) {
+                    if ((login.Username = userRepository.GetByEmail(login.Username)?.Nickname) != null) {
+                        result = Ok(new { Token = new TokenFactory(login, configProvider).GetTokenString() });
+                    }
+                    else {
+                        result = BadRequest("Auth");
+                    }
+                }
+                else if (login.Provider == "") {
+                    login.Password = DbTools.SanitizeString(login.Password);
+
+                    bool authValid = userRepository.CheckCredentials(login.Username, login.Password);
+
+                    //TODO: Add error: please verify your account
+                    if (authValid && (userRepository.CheckVerifyByNickname(login.Username) || userRepository.CheckVerifyByEmail(login.Username))) 
+                    {
+                        result = Ok(new { Token = new TokenFactory(login, configProvider).GetTokenString() });
+                    }
                 }
             }
 
