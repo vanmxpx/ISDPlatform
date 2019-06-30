@@ -134,7 +134,7 @@ namespace Cooper.DAO
             
             if (entity != null)
             {
-                if ((string)entity.attributeValue["BLACKLISTED"] == "y")
+                if (DbTools.ProcessBoolean(entity.attributeValue["BLACKLISTED"]))
                 {
                     return isCreated;
                 }
