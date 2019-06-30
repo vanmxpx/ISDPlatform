@@ -45,7 +45,7 @@ namespace Cooper.DAO.Mapping
                         value = $"\'{verify.Token}\'";
                         break;
                     case "ENDVERIFYDATE":
-                        value = $"TO_TIMESTAMP(\'{verify.EndVerifyDate}\', 'DD.MM.YYYY HH24:MI:SS')";
+                        value = $"TO_TIMESTAMP(\'{verify.EndVerifyDate.ToString("dd.MM.yyyy HH:mm:ss")}\', 'DD.MM.YYYY HH24:MI:SS')";
                         break;
                 }
 
@@ -238,7 +238,7 @@ namespace Cooper.DAO.Mapping
                         value = (user.IsBanned) ? "\'y\'" : "\'n\'";
                         break;
                     case "ENDBANDATE":
-                        value = $"TO_DATE(\'{user.EndBanDate}\', 'DD.MM.YYYY HH24:MI:SS')";
+                        value = $"TO_DATE(\'{user.EndBanDate.ToString("dd.MM.yyyy HH:mm:ss")}\', 'DD.MM.YYYY HH24:MI:SS')";
                         break;
                     case "PLATFORMLANGUAGE":
                         value = $"\'{user.PlatformLanguage}\'";
