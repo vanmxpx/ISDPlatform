@@ -91,7 +91,7 @@ namespace Cooper.DAO.Mapping
                         game.CoverURL = aV.Value.ToString();
                         break;
                     case "ISVERIFIED":
-                        game.IsVerified = ((string)aV.Value == "y") ? true : false;
+                        game.IsVerified = DbTools.ProcessBoolean(aV.Value);
                         break;
                     default:
                         break;
@@ -176,13 +176,13 @@ namespace Cooper.DAO.Mapping
                         user.PhotoURL = aV.Value.ToString();
                         break;
                     case "ISVERIFIED":
-                        user.IsVerified = ((string)aV.Value == "y") ? true : false;
+                        user.IsVerified = DbTools.ProcessBoolean(aV.Value);
                         break;
                     case "ISCREATOR":
-                        user.IsCreator = ((string)aV.Value == "y") ? true : false;
+                        user.IsCreator = DbTools.ProcessBoolean(aV.Value);
                         break;
                     case "ISBANNED":
-                        user.IsBanned = ((string)aV.Value == "y") ? true : false;
+                        user.IsBanned = DbTools.ProcessBoolean(aV.Value);
                         break;
                     case "ENDBANDATE":
                         user.EndBanDate = (DateTime)aV.Value;
@@ -281,10 +281,10 @@ namespace Cooper.DAO.Mapping
                         userConnection.IdUser2 = Convert.ToInt64(aV.Value);
                         break;
                     case "AREFRIENDS":
-                        userConnection.AreFriends = ((string)aV.Value == "y") ? true : false;
+                        userConnection.AreFriends = DbTools.ProcessBoolean(aV.Value);
                         break;
                     case "BLACKLISTED":
-                        userConnection.BlackListed = ((string)aV.Value == "y") ? true : false;
+                        userConnection.BlackListed = DbTools.ProcessBoolean(aV.Value);
                         break;
                     default:
                         break;
@@ -434,7 +434,7 @@ namespace Cooper.DAO.Mapping
                         message.CreateDate = (DateTime)aV.Value;
                         break;
                     case "ISREAD":
-                        message.IsRead = ((string)aV.Value == "y") ? true : false;
+                        message.IsRead = DbTools.ProcessBoolean(aV.Value);
                         break;
                     default:
                         break;

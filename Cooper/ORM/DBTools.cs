@@ -14,5 +14,10 @@ namespace Cooper
             }
             return value.Replace("'", "").Replace("\"", "");
         }
+
+        public static bool ProcessBoolean(object value)
+        {
+            return (value.ToString() == "y") ? true : false;
+        }
     }
 }
