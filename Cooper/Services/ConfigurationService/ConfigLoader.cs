@@ -13,6 +13,8 @@ namespace Cooper.Configuration
             IConfigProvider configProvider = new ConfigProvider()
             {
                 ConnectionStrings = GetConfiguration<ConnectionStrings>(configuration, "ConnectionStrings"),
+                FacebookProvider = GetConfiguration<Provider>(configuration, "FacebookProvider"),
+                GmailProvider = GetConfiguration<Smtp>(configuration, "GmailProvider"),
                 JwtToken = GetConfiguration<JwtToken>(configuration, "JwtToken")
             };
 

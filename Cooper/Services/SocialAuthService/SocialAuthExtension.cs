@@ -8,14 +8,12 @@ using Cooper.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class TokenCleanerExtension
+    public static class SocialAuthExtension
     {
-        public static void AddTokenCleanerService(this IServiceCollection services)
+        public static void AddSocialAuthService(this IServiceCollection services)
         {
             IServiceProvider serviceProvider = services.BuildServiceProvider();
-
-            TokenCleaner tokenCleaner = new TokenCleaner(serviceProvider.GetService<IConfigProvider>());
-            services.AddSingleton<ITokenCleaner>(tokenCleaner);
+            services.AddTransient<ISocialAuth>(socialAuth => new SocialAuth(serviceProvider.GetService<IConfigProvider>()));
         }
     }
 }

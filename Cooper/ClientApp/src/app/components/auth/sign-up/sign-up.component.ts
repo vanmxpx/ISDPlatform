@@ -3,6 +3,7 @@ import { FormControl,NgForm, FormGroupDirective, FormBuilder, FormGroup, Validat
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from "@angular/router";
 import { UserService } from '../../../services/user.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-sign-up',
@@ -14,10 +15,11 @@ export class SignUpComponent implements OnInit {
     loading = false;
     submitted = false;
   
-  constructor(private router: Router,private service: UserService) {
+  constructor(private http: HttpClient, private router: Router,private service: UserService) {
     this.CheckAuthentification();
   }
   public user: any;
+  
   CheckAuthentification(): void {
     const Token: string = localStorage.getItem('JwtCooper');
     if (Token) {
@@ -34,17 +36,11 @@ export class SignUpComponent implements OnInit {
       }
     );
   }
- Flogin()
- {
-  this.service.registerFacebook().subscribe(
-    (res: any) => {
-      this.router.navigate(['/myPage', "my"]);
-      },
-    err => {
-      console.log(err);
-    }
-  );
-}
+
+  socialSignIn(platform) {
+    this.service.socialSignIn(platform);
+  }
+
  ngOnInit() { 
     this.service.formModel.reset();
   }
