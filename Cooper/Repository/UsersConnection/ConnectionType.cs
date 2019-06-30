@@ -9,6 +9,7 @@ namespace Cooper.Models.UserConnectionsEnumTypes
     {
         Subscribers,
         Blacklist,
-        Subscriptions
+        Subscriptions,
+        Friends
     }
 }
