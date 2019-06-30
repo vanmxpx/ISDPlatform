@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'game', component: GameComponent, canActivate: [AuthGuard] },
   { path: 'gamedetail/:id', component: GameDetailComponent, canActivate: [AuthGuard] },
   { path: 'games', component: GamesComponent, canActivate: [AuthGuard] },
-  { path: 'myPage', component: MyPageComponent, canActivate: [AuthGuard]},
+  { path: 'myPage/:nickname', component: MyPageComponent, canActivate: [AuthGuard]},
   {path: '**', redirectTo : 'auth/signIn', pathMatch: 'full'},
   { path: 'auth', component: AppSignComponentComponent,
     children: [

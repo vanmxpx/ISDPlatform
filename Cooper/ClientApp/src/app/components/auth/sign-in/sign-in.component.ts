@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'cooper-sign-in',
+  selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css'],
   animations: [fader]
@@ -26,7 +26,7 @@ export class SignInComponent {
 
     const Token: string = localStorage.getItem('JwtCooper');
     if (Token) {
-      this.router.navigate(['/myPage']);
+      this.router.navigate(['/myPage', "my"]);
     }
   }
 
@@ -40,10 +40,10 @@ export class SignInComponent {
        let token = (<any>response).token;
        localStorage.setItem("JwtCooper", token);
        this.invalidLogin = false;
-      this.router.navigate(["/myPage"]);
+      this.router.navigate(["/myPage", "my"]);
       
     }, err => {
-      this.router.navigate(["/myPage"]);
+      this.router.navigate(["/myPage", "my"]);
       this.invalidLogin = true;
     });
   }

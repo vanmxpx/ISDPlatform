@@ -15,3 +15,8 @@ export interface Game {
     avatar: string;
     date: any;
   }
+
+  export interface ProfileList {
+    Nickname: string;
+    PhotoURL: string;
+  }

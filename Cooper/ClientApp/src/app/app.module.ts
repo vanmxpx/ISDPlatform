@@ -10,7 +10,7 @@ import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
 import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from './components/auth/guards/auth-guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatInputModule, MatButtonModule, MatCardModule, MatListModule} from '@angular/material';
+import { MatInputModule, MatButtonModule, MatCardModule, MatListModule, MatTabsModule, MatBadgeModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
 import { AppSignComponentComponent } from './app-sign-component/app-sign-component.component';
@@ -78,7 +78,9 @@ export function getAuthServiceConfigs() {
     MatListModule,
     DynamiSocialLoginModule,
     GrowlModule,
-    MatIconModule
+    MatIconModule,
+    MatTabsModule,
+    MatBadgeModule
   ],
   providers: [
     {
@@ -93,9 +95,7 @@ export function getAuthServiceConfigs() {
     AuthGuard, 
     UserService
 ],
-  bootstrap: [AppComponent,
-  SignInComponent,
-  SignUpComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
 export class PizzaPartyAppModule { }
