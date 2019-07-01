@@ -42,12 +42,7 @@ namespace Cooper.Controllers
                 && !userRepository.IfEmailExists(user.Email)) 
             {
                 user.Password = DbTools.SanitizeString(user.Password);
-                if (user.Provider == "facebook"
-                && this.socialAuth.IsFacebookAuth(user.Password, user.Nickname)) {
-                    result = Ok(userRepository.Create(user));
-                }
-                else if (user.Provider == "google"
-                && this.socialAuth.IsGoogleAuth(user.Password, user.Email)) {
+                if (user.Provider != "" && this.socialAuth.getCheckAuth(user.Provider, user.Password, user.Nickname)) {
                     if (user.Password.Length > 300) {
                         user.Password = user.Password.Substring(0, 300);
                     }

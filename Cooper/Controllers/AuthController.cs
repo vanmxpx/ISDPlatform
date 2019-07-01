@@ -19,9 +19,9 @@ namespace Cooper.Controllers
     [Route("api/auth")]
     public class AuthController : ControllerBase
     {
-        private UserRepository userRepository;
-        private readonly IConfigProvider configProvider;
-        private readonly ISocialAuth socialAuth;
+        readonly UserRepository userRepository;
+        readonly IConfigProvider configProvider;
+        readonly ISocialAuth socialAuth;
 
         public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider)
         {
@@ -43,18 +43,8 @@ namespace Cooper.Controllers
             {
                 login.Username = DbTools.SanitizeString(login.Username);
 
-                if (login.Provider == "facebook"
-                && this.socialAuth.IsFacebookAuth(login.Password, login.ID))
+                if (login.Provider != "" && this.socialAuth.getCheckAuth(login.Provider, login.Password, login.ID))
                 {
-                    if ((login.Username = userRepository.GetByEmail(login.Username)?.Nickname) != null) {
-                        result = Ok(new { Token = new TokenFactory(login, configProvider).GetTokenString() });
-                    }
-                    else {
-                        result = BadRequest("Auth");
-                    }
-                }
-                else if (login.Provider == "google"
-                && this.socialAuth.IsGoogleAuth(login.Password, login.Username)) {
                     if ((login.Username = userRepository.GetByEmail(login.Username)?.Nickname) != null) {
                         result = Ok(new { Token = new TokenFactory(login, configProvider).GetTokenString() });
                     }
