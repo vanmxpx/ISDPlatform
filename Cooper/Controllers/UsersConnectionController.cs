@@ -15,7 +15,7 @@ using Cooper.Extensions;
 
 namespace Cooper.Controllers
 {
-    [Route("api/subscription")]
+    [Route("api/interaction")]
     public class UsersConnectionController : ControllerBase
     {
         IUsersConnectionRepository userConnectionsRepository;

@@ -17,6 +17,11 @@ namespace Cooper
 
         public static bool ProcessBoolean(object value)
         {
+            if (value == null)
+            {
+                return false;
+            }
+
             return (value.ToString() == "y") ? true : false;
         }
     }
