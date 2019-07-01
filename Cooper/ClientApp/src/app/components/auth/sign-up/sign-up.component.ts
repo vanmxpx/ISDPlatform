@@ -3,7 +3,6 @@ import { FormControl,NgForm, FormGroupDirective, FormBuilder, FormGroup, Validat
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from "@angular/router";
 import { UserService } from '../../../services/user.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,33 +14,19 @@ export class SignUpComponent implements OnInit {
     loading = false;
     submitted = false;
   
-  constructor(private http: HttpClient, private router: Router,private service: UserService) {
-    this.CheckAuthentification();
-  }
-  public user: any;
+  constructor(private service: UserService) {
+    this.service.CheckAuthentification();
+  }  
   
-  CheckAuthentification(): void {
-    const Token: string = localStorage.getItem('JwtCooper');
-    if (Token) {
-      this.router.navigate(['/myPage', "my"]);
-    }
-  }
   onSubmit() {
-    this.service.register().subscribe(
-      (res: any) => {
-        this.router.navigate(['/myPage', "my"]);
-        },
-      err => {
-        console.log(err);
-      }
-    );
+    this.service.register();
   }
 
   socialSignIn(platform) {
     this.service.socialSignIn(platform);
   }
 
- ngOnInit() { 
+  ngOnInit() { 
     this.service.formModel.reset();
   }
 }

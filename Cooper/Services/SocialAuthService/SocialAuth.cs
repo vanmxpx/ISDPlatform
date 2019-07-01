@@ -1,5 +1,6 @@
 using Cooper.Configuration;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -12,15 +13,25 @@ namespace Cooper.Services
     {
         readonly string FacebookAppID, FacebookSecretKey;
         readonly string getFacebookSecretKey;
+        delegate bool authorizerDelegate(string token, string id);
+        Dictionary<string, authorizerDelegate> CheckAuth = new Dictionary<string, authorizerDelegate>();
 
         public SocialAuth(IConfigProvider configProvider) {
             this.FacebookAppID = configProvider.FacebookProvider.AppID;
             this.FacebookSecretKey = configProvider.FacebookProvider.AppSecretKey;
 
             getFacebookSecretKey = $"https://graph.facebook.com/oauth/access_token?client_id={FacebookAppID}&client_secret={FacebookSecretKey}&grant_type=client_credentials";
+
+            CheckAuth.Add("facebook", IsFacebookAuth);
+            CheckAuth.Add("google", IsGoogleAuth);
         }
 
-        public bool IsFacebookAuth(string token, string user_id) {
+        public bool getCheckAuth(string provider, string token, string id)
+        {
+            return CheckAuth[provider](token, id);
+        }
+
+        private bool IsFacebookAuth(string token, string user_id) {
             string secretKey = GetFacebookSecretKey();
             string url = $"https://graph.facebook.com/debug_token?input_token={token}&access_token={secretKey}";
             var result = JObject.Parse(ParseURL(url));
@@ -28,7 +39,7 @@ namespace Cooper.Services
                 && (string)(result.SelectToken("data").SelectToken("user_id")) == user_id;
         }
 
-        public bool IsGoogleAuth(string idToken, string email) {
+        private bool IsGoogleAuth(string idToken, string email) {
             string url = $"https://oauth2.googleapis.com/tokeninfo?id_token={idToken}";
             var result = JObject.Parse(ParseURL(url));
             return (string)(result.SelectToken("error")) == null
