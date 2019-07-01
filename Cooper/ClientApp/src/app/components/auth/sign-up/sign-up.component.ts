@@ -14,38 +14,19 @@ export class SignUpComponent implements OnInit {
     loading = false;
     submitted = false;
   
-  constructor(private router: Router,private service: UserService) {
-    this.CheckAuthentification();
-  }
-  public user: any;
-  CheckAuthentification(): void {
-    const Token: string = localStorage.getItem('JwtCooper');
-    if (Token) {
-      this.router.navigate(['/myPage', "my"]);
-    }
-  }
+  constructor(private service: UserService) {
+    this.service.CheckAuthentification();
+  }  
+  
   onSubmit() {
-    this.service.register().subscribe(
-      (res: any) => {
-        this.router.navigate(['/myPage', "my"]);
-        },
-      err => {
-        console.log(err);
-      }
-    );
+    this.service.register();
   }
- Flogin()
- {
-  this.service.registerFacebook().subscribe(
-    (res: any) => {
-      this.router.navigate(['/myPage', "my"]);
-      },
-    err => {
-      console.log(err);
-    }
-  );
-}
- ngOnInit() { 
+
+  socialSignIn(platform) {
+    this.service.socialSignIn(platform);
+  }
+
+  ngOnInit() { 
     this.service.formModel.reset();
   }
 }
