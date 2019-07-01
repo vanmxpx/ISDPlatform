@@ -1,7 +1,6 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using OracleDBUpdater.Commands.SQLCommands;
 using System;
-using System.Collections.Generic;
 
 namespace OracleDBUpdater
 {

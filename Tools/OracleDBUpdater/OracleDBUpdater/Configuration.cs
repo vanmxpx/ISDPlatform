@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using ConsoleHelper;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -8,19 +10,28 @@ namespace OracleDBUpdater
     public static class Configuration
     {
         /// <summary> Dictionary of all configuration variables. </summary>
-        private static Dictionary<string, string> configurationVariables = new Dictionary<string, string>();
+        private static Dictionary<string, string> configurationVariables;
 
         /// <summary> Config file name. </summary>
         public static readonly string fileName = "config.json";
 
         static Configuration()
         {
-            if(File.Exists(fileName))
+            try
             {
-                using (var reader = new StreamReader(fileName))
+                if (File.Exists(fileName))
                 {
-                    configurationVariables = JsonConvert.DeserializeObject<Dictionary<string, string>>(reader.ReadToEnd());
+                    using (var reader = new StreamReader(fileName))
+                    {
+                        configurationVariables = JsonConvert.DeserializeObject<Dictionary<string, string>>(reader.ReadToEnd());
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                ConsoleUtility.WriteLine($"Failed to get configuration: {ex.Message}.", Program.ErrorColor);
+                // Initialize the variable with an empty collection in order to avoid NullReferenceException.
+                configurationVariables = new Dictionary<string, string>();
             }
         }
 
