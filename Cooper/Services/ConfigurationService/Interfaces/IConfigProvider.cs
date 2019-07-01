@@ -9,5 +9,7 @@ namespace Cooper.Configuration
     {
         IConnectionStrings ConnectionStrings { get; set; }
         IJwtToken JwtToken { get; set; }
+        IProvider FacebookProvider { get; set; }
+        ISmtp GmailProvider { get; set; }
     }
 }

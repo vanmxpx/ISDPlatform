@@ -5,6 +5,7 @@ import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DynamiSocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from 'ng-dynami-social-login';
 import { SignInComponent } from './components/auth/sign-in/sign-in.component';
 import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
 import { HomeComponent } from './components/home/home.component';
@@ -22,7 +23,6 @@ import { GameSearchComponent } from './components/game-search/game-search.compon
 import { SafePipe } from './pipes/safe.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './services/user.service';
-import {DynamiSocialLoginModule,AuthServiceConfig, GoogleLoginProvider,FacebookLoginProvider} from 'ng-dynami-social-login';
 import { CooperInterceptor } from 'src/assets/cooper.interceptor';
 import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
@@ -38,11 +38,11 @@ export function getAuthServiceConfigs() {
       [
          {
           id: FacebookLoginProvider.PROVIDER_ID,
-          provider: new FacebookLoginProvider("984923305039531")
+          provider: new FacebookLoginProvider("INSERT_FACEBOOK_APP_ID")
         },
         {
           id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider("404859751108-vfr28h3l9dju1fovr0j4m99dn3flig22.apps.googleusercontent.com")
+          provider: new GoogleLoginProvider("INSERT_GOOGLE_APP_ID")
         }
          
       ]
@@ -94,7 +94,7 @@ export function getAuthServiceConfigs() {
     }, 
     AuthGuard, 
     UserService
-],
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

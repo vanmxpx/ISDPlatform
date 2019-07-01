@@ -62,6 +62,12 @@ namespace Cooper.Repository
             return userDAO.GetByNickname(nickname).Email.Contains("@");
         }
 
+        public bool CheckVerifyByEmail(string email)
+        {
+            var result = userDAO.GetByEmail(email);
+            return (result != null)? result.Email.Contains("@") : false;
+        }
+
         public string GetVerifyEmail(string token)
         {
             return verifyDAO.Get(token)?.Email;

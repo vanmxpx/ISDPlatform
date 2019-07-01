@@ -8,14 +8,12 @@ using Cooper.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class TokenCleanerExtension
+    public static class SmtpClientExtension
     {
-        public static void AddTokenCleanerService(this IServiceCollection services)
+        public static void AddSmtpClientExtensionService(this IServiceCollection services)
         {
             IServiceProvider serviceProvider = services.BuildServiceProvider();
-
-            TokenCleaner tokenCleaner = new TokenCleaner(serviceProvider.GetService<IConfigProvider>());
-            services.AddSingleton<ITokenCleaner>(tokenCleaner);
+            services.AddTransient<ISmtpClient>(smtp => new GmailSmtpClient(serviceProvider.GetService<IConfigProvider>()));
         }
     }
 }
