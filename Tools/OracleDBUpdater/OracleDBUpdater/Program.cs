@@ -106,7 +106,19 @@ namespace OracleDBUpdater
         /// <summary> Return paths to update scripts. </summary>
         public static string[] GetUpdateScriptNames()
         {
-            return Directory.GetFiles(Configuration.GetVariable("UpdateFolder"));
+            string[] updateScriptNames;
+
+            try
+            {
+                updateScriptNames = Directory.GetFiles(Configuration.GetVariable("UpdateFolder"));
+            }
+            catch(Exception ex)
+            {
+                ConsoleUtility.WriteLine($"Failed to get update script names: {ex.Message}", ErrorColor);
+                updateScriptNames = new string[0];
+            }
+
+            return updateScriptNames;
         }
 
         /// <summary> Return queries from string. </summary>
@@ -114,17 +126,24 @@ namespace OracleDBUpdater
         {
             List<string> queries = new List<string>();
 
-            while (str.Contains(';'))
+            try
             {
-                string query = str.Substring(0, str.IndexOf(';'));
-                char[] escapeChars = new[] { '\n', '\a', '\r', '\t', '\f', '\v' };
-                queries.Add(new string(query.Where(c => !escapeChars.Contains(c)).ToArray()));
-                str = str.Remove(0, str.IndexOf(';') + 1);
-            }
+                while (str.Contains(';'))
+                {
+                    string query = str.Substring(0, str.IndexOf(';'));
+                    char[] escapeChars = new[] { '\n', '\a', '\r', '\t', '\f', '\v' };
+                    queries.Add(new string(query.Where(c => !escapeChars.Contains(c)).ToArray()));
+                    str = str.Remove(0, str.IndexOf(';') + 1);
+                }
 
-            if (!str.Contains(';') && !string.IsNullOrEmpty(str))
+                if (!str.Contains(';') && !string.IsNullOrEmpty(str))
+                {
+                    queries.Add(str);
+                }
+            }
+            catch (Exception ex)
             {
-                queries.Add(str);
+                ConsoleUtility.WriteLine($"Failed to get queries from string: {ex.Message}", ErrorColor);
             }
 
             return queries;

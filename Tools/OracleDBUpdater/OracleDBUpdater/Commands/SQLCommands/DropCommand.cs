@@ -1,4 +1,7 @@
-﻿namespace OracleDBUpdater.Commands.SQLCommands
+﻿using ConsoleHelper;
+using System;
+
+namespace OracleDBUpdater.Commands.SQLCommands
 {
     class DropCommand : ICommand
     {
@@ -13,22 +16,29 @@
 
         public void Execute()
         {
-            string[] tempArr = Query.Split(' ');
-            string tableName = tempArr.Length > 2 ? tempArr[2].ToUpper() : null;
-            // Contains true if the table was created in this sql script
-            bool isTableCreated = queryExecutor.ContainCreatedTableName(tableName);
+            try
+            {
+                string[] tempArr = Query.Split(' ');
+                string tableName = tempArr.Length > 2 ? tempArr[2].ToUpper() : null;
+                // Contains true if the table was created in this sql script
+                bool isTableCreated = queryExecutor.ContainCreatedTableName(tableName);
 
-            // Make a temporary table if it was not created.
-            if (!isTableCreated && !MyDataBase.GetDB().IsExistringTable("temp_" + tableName))
-            {
-                MyDataBase.GetDB().ExecuteQueryWithoutAnswer($"CREATE TABLE {"temp_" + tableName} AS SELECT * FROM {tableName}");
+                // Make a temporary table if it was not created.
+                if (!isTableCreated && !MyDataBase.GetDB().IsExistringTable("temp_" + tableName))
+                {
+                    MyDataBase.GetDB().ExecuteQueryWithoutAnswer($"CREATE TABLE {"temp_" + tableName} AS SELECT * FROM {tableName}");
+                }
+                // Drop an existing table
+                MyDataBase.GetDB().ExecuteQueryWithoutAnswer(Query);
+                // After executing query, add data to the desired lists.
+                if (!isTableCreated)
+                {
+                    if (!queryExecutor.ContainTableName(tableName)) queryExecutor.AddTableNames(tableName);
+                }
             }
-            // Drop an existing table
-            MyDataBase.GetDB().ExecuteQueryWithoutAnswer(Query);
-            // After executing query, add data to the desired lists.
-            if (!isTableCreated)
+            catch (Exception ex)
             {
-                if (!queryExecutor.ContainTableName(tableName)) queryExecutor.AddTableNames(tableName);
+                ConsoleUtility.WriteLine($"Failed to execute drop command ({Query}): {ex.Message}.", Program.ErrorColor);
             }
         }
     }

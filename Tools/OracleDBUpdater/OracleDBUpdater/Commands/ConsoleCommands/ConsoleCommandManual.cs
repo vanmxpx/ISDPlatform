@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using ConsoleHelper;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -11,12 +13,21 @@ namespace OracleDBUpdater.Commands.ConsoleCommands
 
         static ConsoleCommandManual()
         {
-            using (var stream = new MemoryStream(Properties.Resources.manual))
+            try
             {
-                using (var reader = new StreamReader(stream))
+                using (var stream = new MemoryStream(Properties.Resources.manual))
                 {
-                    manual = JsonConvert.DeserializeObject<Dictionary<string, string>>(reader.ReadToEnd());
+                    using (var reader = new StreamReader(stream))
+                    {
+                        manual = JsonConvert.DeserializeObject<Dictionary<string, string>>(reader.ReadToEnd());
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                ConsoleUtility.WriteLine($"Failed to get manual: {ex.Message}.", Program.ErrorColor);
+                // Initialize the variable with an empty collection in order to avoid NullReferenceException.
+                manual = new Dictionary<string, string>();
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleHelper;
+using System;
 using System.Collections.Generic;
 
 namespace OracleDBUpdater.Commands.SQLCommands
@@ -48,39 +49,53 @@ namespace OracleDBUpdater.Commands.SQLCommands
 
         public void Execute()
         {
-            foreach(ICommand command in commands)
+            try
             {
-                command.Execute();
-            }
+                foreach (ICommand command in commands)
+                {
+                    command.Execute();
+                }
 
-            // If all queries are successfully executed, then drop table with name that start with "_" (their names are stored in the "tableNames" list)
-            foreach (string tableName in tableNames)
+                // If all queries are successfully executed, then drop table with name that start with "_" (their names are stored in the "tableNames" list)
+                foreach (string tableName in tableNames)
+                {
+                    MyDataBase.GetDB().ExecuteQueryWithoutAnswer($"DROP TABLE {"temp_" + tableName}");
+                }
+            }
+            catch (Exception ex)
             {
-                MyDataBase.GetDB().ExecuteQueryWithoutAnswer($"DROP TABLE {"temp_" + tableName}");
+                ConsoleUtility.WriteLine($"Failed to execute: {ex.Message}.", Program.ErrorColor);
             }
         }
 
         public void Undo()
         {
-            // Execute undo queries.
-            foreach (string undoQuery in undoQueries)
+            try
             {
-                if (MyDataBase.GetDB().IsExistringTable(undoQuery.Split(' ')[2].ToUpper()))
+                // Execute undo queries.
+                foreach (string undoQuery in undoQueries)
                 {
-                    MyDataBase.GetDB().ExecuteQueryWithoutAnswer(undoQuery);
+                    if (MyDataBase.GetDB().IsExistringTable(undoQuery.Split(' ')[2].ToUpper()))
+                    {
+                        MyDataBase.GetDB().ExecuteQueryWithoutAnswer(undoQuery);
+                    }
+                }
+
+                // Rename tables with underscore.
+                foreach (string tableName in tableNames)
+                {
+                    MyDataBase.GetDB().ExecuteQueryWithoutAnswer($"ALTER TABLE {"temp_" + tableName} RENAME TO {tableName}");
+                }
+
+                // Drop created tables.
+                foreach (string tableName in createdTableNames)
+                {
+                    MyDataBase.GetDB().ExecuteQueryWithoutAnswer($"DROP TABLE {tableName}");
                 }
             }
-
-            // Rename tables with underscore.
-            foreach (string tableName in tableNames)
+            catch (Exception ex)
             {
-                MyDataBase.GetDB().ExecuteQueryWithoutAnswer($"ALTER TABLE {"temp_" + tableName} RENAME TO {tableName}");
-            }
-
-            // Drop created tables.
-            foreach (string tableName in createdTableNames)
-            {
-                MyDataBase.GetDB().ExecuteQueryWithoutAnswer($"DROP TABLE {tableName}");
+                ConsoleUtility.WriteLine($"Failed to undo: {ex.Message}.", Program.ErrorColor);
             }
         }
     }
