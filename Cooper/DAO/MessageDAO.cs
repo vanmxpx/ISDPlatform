@@ -39,10 +39,10 @@ namespace Cooper.DAO
         {
             MessageDb message = null;
 
-            EntityORM entity = crud.Read(id, idColumn, attributes, table);
+            var entity = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
 
-            if (entity != null)
-                EntityMapping.Map(entity, out message);
+            if (entity.Count != 0)
+                EntityMapping.Map(entity[0], out message);
 
             return message;
         }
@@ -65,7 +65,7 @@ namespace Cooper.DAO
         {
             List<MessageDb> messages = new List<MessageDb>();
 
-            List<EntityORM> entities = (List<EntityORM>)crud.ReadAll(table, attributes);
+            List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes);
 
             foreach (EntityORM entity in entities)              // Mapping entities to messages
             {

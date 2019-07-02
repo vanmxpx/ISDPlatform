@@ -39,10 +39,10 @@ namespace Cooper.DAO
         {
             ChatDb chat = null;
 
-            EntityORM entity = crud.Read(id, idColumn, attributes, table);
+            var entity = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
 
-            if (entity != null)
-                EntityMapping.Map(entity, out chat);
+            if (entity.Count != 0)
+                EntityMapping.Map(entity[0], out chat);
 
             return chat;
         }
@@ -65,7 +65,7 @@ namespace Cooper.DAO
         {
             List<ChatDb> chats = new List<ChatDb>();
 
-            List<EntityORM> entities = (List<EntityORM>)crud.ReadAll(table, attributes);
+            List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes);
 
             foreach (EntityORM entity in entities)
             {
