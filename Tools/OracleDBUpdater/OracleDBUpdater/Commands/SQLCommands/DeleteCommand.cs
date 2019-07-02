@@ -3,18 +3,11 @@ using System;
 
 namespace OracleDBUpdater.Commands.SQLCommands
 {
-    class DeleteCommand : ICommand
+    class DeleteCommand : BaseCommand
     {
-        public string Query { get; }
-        private QueryExecutor queryExecutor;
+        public DeleteCommand(string query, QueryExecutor queryExecutor) : base(query, queryExecutor) { }
 
-        public DeleteCommand(string query, QueryExecutor queryExecutor)
-        {
-            Query = query;
-            this.queryExecutor = queryExecutor;
-        }
-
-        public void Execute()
+        public override void Execute()
         {
             try
             {
