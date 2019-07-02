@@ -16,18 +16,6 @@ namespace OracleDBUpdater
         private static void Main()
         {            
             CheckConfigurationVariables();
-
-            // IT'S FOR TESTS
-            if (!MyDataBase.GetDB().IsExistringTable("db_version"))
-            {
-                MyDataBase.GetDB().ExecuteQueryWithoutAnswer("CREATE TABLE db_versions (verions INT)");
-                MyDataBase.GetDB().ExecuteQueryWithoutAnswer("INSERT INTO db_versions VALUES (1.2505)");
-            }
-            else
-            {
-                MyDataBase.GetDB().ExecuteQueryWithoutAnswer("UPDATE db_version SET version = 1.2505");
-            }
-
             ShowMainMenu();
         }
 
@@ -96,7 +84,7 @@ namespace OracleDBUpdater
                 }
                 else
                 {
-                    ConsoleUtility.WriteLine("Failed to get current database version.", ErrorColor);
+                    ConsoleUtility.WriteLine("Failed to get current database version. Check whether you have created a table that contains the current version of the database.", ErrorColor);
                     Console.ReadKey();
                     return;
                 }
