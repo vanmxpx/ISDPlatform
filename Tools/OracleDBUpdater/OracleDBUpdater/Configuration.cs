@@ -29,10 +29,10 @@ namespace OracleDBUpdater
             }
             catch (Exception ex)
             {
-                ConsoleUtility.WriteLine($"Failed to get configuration: {ex.Message}.", Program.ErrorColor);
-                // Initialize the variable with an empty collection in order to avoid NullReferenceException.
-                configurationVariables = new Dictionary<string, string>();
+                ConsoleUtility.WriteLine($"Failed to get configuration: {ex.Message}.", Program.ErrorColor);                
             }
+
+            if(configurationVariables == null) configurationVariables = new Dictionary<string, string>();
         }
 
         /// <summary> Return variable value with name variableName. </summary>

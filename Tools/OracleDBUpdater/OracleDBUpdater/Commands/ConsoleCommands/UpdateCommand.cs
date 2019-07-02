@@ -80,7 +80,7 @@ namespace OracleDBUpdater.Commands.ConsoleCommands
                             {
                                 if (VersionHandler.TryGetVersionFromPath(Path.GetFileName(updateScripts[i]), out double version))
                                 {
-                                    MyDataBase.GetDB().ExecuteQueryWithoutAnswer($"UPDATE db_version SET version = {version}");
+                                    MyDataBase.GetDB().ExecuteQueryWithoutAnswer($"UPDATE db_version SET version = {version.ToString().Replace(',', '.')}");
                                     ConsoleUtility.WriteLine($"Script {Path.GetFileName(updateScripts[i])} executed successfully.", Program.TextColor);
                                 }
                             }
