@@ -18,6 +18,9 @@ namespace Cooper.Services
             "ENDVERIFYDATE"
         };
 
+        readonly HashSet<string> token_attribute = new HashSet<string>() { "TOKEN" };
+        readonly HashSet<string> min_date = new HashSet<string>() { "MIN(ENDVERIFYDATE)" };
+
         const string tokens_table = "TOKENS";
         const string users_table = "USERS";
         private bool timerStart = false;
@@ -32,8 +35,8 @@ namespace Cooper.Services
             VerificationDb unverify;
             string now = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss");
             //Get all users that don't verify email
-            var unverified = crud.ReadBellow($"TO_TIMESTAMP(\'{now}\', 'DD.MM.YYYY HH24:MI:SS')", "ENDVERIFYDATE", attributes, tokens_table);
-            var allTokens = crud.ReadFieldValues("TOKEN", $"{users_table} u INNER JOIN {tokens_table} t ON u.EMAIL = t.TOKEN");
+            var unverified = crud.Read(tokens_table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest("ENDVERIFYDATE", DbTools.RequestOperator.Less, $"TO_TIMESTAMP(\'{now}\', 'DD.MM.YYYY HH24:MI:SS')") });
+            var allTokens = crud.Read($"{users_table} u INNER JOIN {tokens_table} t ON u.EMAIL = t.TOKEN", token_attribute).Select(item => item.attributeValue["TOKEN"]).ToList();
             foreach (var entity in unverified) {
                 EntityMapping.Map(entity, out unverify);
                 
@@ -51,9 +54,9 @@ namespace Cooper.Services
         }
 
         string GetMinDate() {
-            var data = crud.ReadFieldValues("MIN(ENDVERIFYDATE)", tokens_table);
+            var data = (List<EntityORM>)crud.Read(tokens_table, min_date);
             if (data.Count == 0) { return ""; }
-            else { return data[0]; }
+            else { return data[0].attributeValue["ENDVERIFYDATE"].ToString(); }
         }
 
         public void TryToStart() {
