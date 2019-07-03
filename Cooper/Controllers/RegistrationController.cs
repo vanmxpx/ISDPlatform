@@ -42,13 +42,13 @@ namespace Cooper.Controllers
                 && !userRepository.IfEmailExists(user.Email)) 
             {
                 user.Password = DbTools.SanitizeString(user.Password);
-                if (user.Provider != "" && this.socialAuth.getCheckAuth(user.Provider, user.Password, user.Nickname)) {
+                if (user.Provider != null && this.socialAuth.getCheckAuth(user.Provider, user.Password, user.Nickname)) {
                     if (user.Password.Length > 300) {
                         user.Password = user.Password.Substring(0, 300);
                     }
                     result = Ok(userRepository.Create(user));
                 }
-                else if (user.Provider == "") {
+                else if (user.Provider == null) {
                     var verify = new Verification();
                     verify.Email = user.Email;
                     verify.Token = Guid.NewGuid().ToString();

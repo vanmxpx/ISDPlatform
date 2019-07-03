@@ -43,7 +43,7 @@ namespace Cooper.Controllers
             {
                 login.Username = DbTools.SanitizeString(login.Username);
 
-                if (login.Provider != "" && this.socialAuth.getCheckAuth(login.Provider, login.Password, login.ID))
+                if (login.Provider != null && this.socialAuth.getCheckAuth(login.Provider, login.Password, login.ID))
                 {
                     if ((login.Username = userRepository.GetByEmail(login.Username)?.Nickname) != null) {
                         result = Ok(new { Token = new TokenFactory(login, configProvider).GetTokenString() });
@@ -52,7 +52,7 @@ namespace Cooper.Controllers
                         result = BadRequest("Auth");
                     }
                 }
-                else if (login.Provider == "") {
+                else if (login.Provider == null) {
                     login.Password = DbTools.SanitizeString(login.Password);
 
                     bool authValid = userRepository.CheckCredentials(login.Username, login.Password);
