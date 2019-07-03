@@ -69,9 +69,16 @@ namespace Cooper.ORM
                     where = " WHERE";
                     foreach (DbTools.WhereRequest request in whereRequests)
                     {
-                        where += String.Format(" {0} {1} {2},", request.variable_name, DbTools.GetOperatorString(request.request_operator), request.variable_value);
+                        where += String.Format(" {0} {1}{2} ", request.variable_name, DbTools.GetOperatorString(request.request_operator), request.variable_value);
+                        if (request.and_requests != null) {
+                            foreach (DbTools.WhereRequest and_request in request.and_requests) {
+                                where += String.Format("AND {0} {1}{2} ", request.variable_name, DbTools.GetOperatorString(request.request_operator), request.variable_value);
+                            }
+                        }
+                        where += "OR";
                     }
-                    where = where.Remove(where.Length - 1);
+                    //Remove last OR
+                    where = where.Remove(where.Length - 2);
                 }
                 string sqlExpression = String.Format("SELECT {0} FROM {1}{2}", 
                     (attributes == null)? string.Join(", ", attributes) : "*", 
