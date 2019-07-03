@@ -39,10 +39,11 @@ namespace Cooper.DAO
         {
             StatisticsDb statistics = null;
 
-            EntityORM entity = crud.Read(id, idColumn, attributes, table);
+            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
 
-            if (entity != null)
-                EntityMapping.Map(entity, out statistics);
+            if (entities.Any()) {
+                EntityMapping.Map(entities[0], out statistics);
+            }
 
             return statistics;
         }
@@ -63,7 +64,7 @@ namespace Cooper.DAO
         {
             List<StatisticsDb> statistics = new List<StatisticsDb>();
 
-            List<EntityORM> entities = (List<EntityORM>)crud.ReadAll(table, attributes);
+            List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes);
 
             foreach (EntityORM entity in entities)              // Mapping entities to messages
             {

@@ -47,7 +47,7 @@ namespace Cooper.DAO
 
         public IEnumerable<VerificationDb> GetAll()
         {   
-            return crud.ReadAll(table, attributes).Select(item => { 
+            return crud.Read(table, attributes).Select(item => { 
                 EntityMapping.Map(item, out VerificationDb verify); 
                 return verify; });
         }
@@ -77,11 +77,11 @@ namespace Cooper.DAO
         public VerificationDb Get(object id)
         {
             VerificationDb verify = null;
-            EntityORM entity = crud.Read(id, "TOKEN", attributes, table);
+            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
 
-            if (entity != null)
+            if (entities.Any())
             {
-                EntityMapping.Map(entity, out verify);
+                EntityMapping.Map(entities[0], out verify);
             }
 
             return verify;

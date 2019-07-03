@@ -59,82 +59,30 @@ namespace Cooper.ORM
             return insertId;
         }
 
-        public EntityORM Read(object attribute_value, string attribute_name, HashSet<string> attributes, string table)
-        {
-            EntityORM entity = null;
-
-            try
-            {
-                string sqlExpression = $"SELECT * FROM {table} WHERE {attribute_name} = {attribute_value}";
-
-                dbConnect.OpenConnection();
-                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
-
-                OracleDataReader reader = command.ExecuteReader();
-
-                reader.Read();
-                if (reader.HasRows)
-                {
-                    entity = new EntityORM();
-                    foreach (string attribute in attributes)
-                    {
-                        object value = reader[attribute];
-                        entity.attributeValue.Add(attribute, value);
-                    }
-                }
-
-                reader.Close();
-            }
-            catch (DbException ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
-            }
-
-
-            return entity;
-        }
-
-        public List<string> ReadFieldValues(string field, string table)
-        {
-            List<string> fieldValues = new List<string>();
-            try
-            {
-                string sqlExpression = $"SELECT {field} FROM {table}";
-
-                dbConnect.OpenConnection();
-                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
-
-                OracleDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    fieldValues.Add(reader[field].ToString());
-                }
-
-                reader.Close();
-            }
-            catch (DbException ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
-            }
-
-            return fieldValues;
-        }
-
-        public IEnumerable<EntityORM> ReadBellow(object attribute_value, string attribute_name, HashSet<string> attributes, string table) {
+        public IEnumerable<EntityORM> Read(string table, HashSet<string> attributes, DbTools.WhereRequest[] whereRequests = null)
+        {   
             List<EntityORM> entities = new List<EntityORM>();
-
             try
             {
-                string sqlExpression = $"SELECT * FROM {table} WHERE {attribute_name} <= {attribute_value}";
+                string where = "";
+                if (whereRequests != null) {
+                    where = " WHERE";
+                    foreach (DbTools.WhereRequest request in whereRequests)
+                    {
+                        where += String.Format(" {0} {1}{2} ", request.variable_name, DbTools.GetOperatorString(request.request_operator), request.variable_value);
+                        if (request.and_requests != null) {
+                            foreach (DbTools.WhereRequest and_request in request.and_requests) {
+                                where += String.Format("AND {0} {1}{2} ", request.variable_name, DbTools.GetOperatorString(request.request_operator), request.variable_value);
+                            }
+                        }
+                        where += "OR";
+                    }
+                    //Remove last OR
+                    where = where.Remove(where.Length - 2);
+                }
+                string sqlExpression = String.Format("SELECT {0} FROM {1}{2}", 
+                    (attributes == null)? string.Join(", ", attributes) : "*", 
+                    table, where);
 
                 dbConnect.OpenConnection();
                 OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
@@ -145,44 +93,8 @@ namespace Cooper.ORM
                     EntityORM entity = new EntityORM(); 
                     foreach (string attribute in attributes)
                     {
-                        object value = reader[attribute];
-                        entity.attributeValue.Add(attribute, value);
-                    }
-
-                    entities.Add(entity);
-                }
-            }
-            catch (DbException ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
-            }
-
-            return entities;
-        }
-
-        public IEnumerable<EntityORM> ReadAll(string table, HashSet<string> attributes)
-        {
-            List<EntityORM> entities = new List<EntityORM>();
-            
-            try
-            {
-                string sqlExpression = $"SELECT * FROM {table}";
-
-                dbConnect.OpenConnection();
-                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
-
-                OracleDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    EntityORM entity = new EntityORM(); 
-                    foreach (string attribute in attributes)
-                    {
-                        object value = reader[attribute];
-                        entity.attributeValue.Add(attribute, value);
+                        string attribute_variable = DbTools.GetVariableAttribute(attribute);
+                        entity.attributeValue.Add(attribute_variable, reader[attribute_variable]);
                     }
 
                     entities.Add(entity);
