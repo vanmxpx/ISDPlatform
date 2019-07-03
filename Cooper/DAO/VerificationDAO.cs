@@ -77,11 +77,11 @@ namespace Cooper.DAO
         public VerificationDb Get(object id)
         {
             VerificationDb verify = null;
-            var entity = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
+            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
 
-            if (entity.Count != 0)
+            if (entities.Any())
             {
-                EntityMapping.Map(entity[0], out verify);
+                EntityMapping.Map(entities[0], out verify);
             }
 
             return verify;

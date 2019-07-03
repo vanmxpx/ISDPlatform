@@ -7,17 +7,26 @@ namespace Cooper
 {
     public class DbTools
     {
-        private static string[] operators = new string[] { "=", ">=", "<=", ">", "<" };
+        private static string[] operators = new string[] { "=", ">=", "<=", ">", "<", "IS NULL", "IS NOT NULL" };
 
         public struct WhereRequest {
-            public string variable_name;
-            public RequestOperator request_operator;
+            public readonly string variable_name;
+            public readonly RequestOperator request_operator;
+            public readonly WhereRequest[] and_requests;
 
             public string variable_value;
-            public WhereRequest(string variable_name, RequestOperator request_operator, object variable_value) {
+            public WhereRequest(string variable_name, RequestOperator request_operator, object variable_value, WhereRequest[] and_requests = null) {
                 this.variable_name = variable_name;
                 this.request_operator = request_operator;
-                this.variable_value = variable_value.ToString();
+                if (request_operator != RequestOperator.NULL
+                && request_operator != RequestOperator.NOTNULL) {
+                    this.variable_value = " " + variable_value.ToString();
+                }
+                else 
+                {
+                    this.variable_value = "";
+                }
+                this.and_requests = and_requests;
             }
         }
         public static string GetOperatorString(RequestOperator request_operator) {
@@ -38,7 +47,9 @@ namespace Cooper
             MoreOrEqual = 1,
             LessOrEqual = 2,
             More = 3,
-            Less = 4
+            Less = 4,
+            NULL = 5,
+            NOTNULL = 6
         }
 
         public static string SanitizeString(string value)

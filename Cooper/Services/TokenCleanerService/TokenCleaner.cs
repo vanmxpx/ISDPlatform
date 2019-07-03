@@ -54,9 +54,13 @@ namespace Cooper.Services
         }
 
         string GetMinDate() {
-            var data = (List<EntityORM>)crud.Read(tokens_table, min_date);
-            if (data.Count == 0) { return ""; }
-            else { return data[0].attributeValue["ENDVERIFYDATE"].ToString(); }
+            string result = "";
+            List<EntityORM> data = (List<EntityORM>)crud.Read(tokens_table, min_date);
+            if (data.Any()) { 
+                result = data[0].attributeValue["ENDVERIFYDATE"].ToString();
+            }
+
+            return result;
         }
 
         public void TryToStart() {

@@ -40,10 +40,11 @@ namespace Cooper.DAO
         {
             UserReviewDb userReview = null;
 
-            var entity = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
+            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
 
-            if (entity.Count != 0)
-                EntityMapping.Map(entity[0], out userReview);
+            if (entities.Any()) {
+                EntityMapping.Map(entities[0], out userReview);
+            }
 
             return userReview;
         }

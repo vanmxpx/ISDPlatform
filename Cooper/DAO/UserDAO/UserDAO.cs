@@ -136,10 +136,11 @@ namespace Cooper.DAO
                 return user;
             }
 
-            var entity = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(attribute_name, DbTools.RequestOperator.Equal, attribute_value) }));
+            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(attribute_name, DbTools.RequestOperator.Equal, attribute_value) }));
 
-            if (entity.Count != 0)
-                EntityMapping.Map(entity[0], out user);
+            if (entities.Any()) {
+                EntityMapping.Map(entities[0], out user);
+            }
 
             return user;
         }
