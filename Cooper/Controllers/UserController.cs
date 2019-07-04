@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Cooper.Services;
 using Cooper.Extensions;
 using Cooper.Configuration;
+using NLog;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,11 +19,13 @@ namespace Cooper.Controllers
     [Route("api/users")]
     public class UserController : ControllerBase
     {
-        UserRepository userRepository;
+        private UserRepository userRepository;
+        private readonly ILogger logger;
 
-        public UserController(IJwtHandlerService jwtService, IConfigProvider configProvider)
+        public UserController(IJwtHandlerService jwtService, IConfigProvider configProvider, ILogger logger)
         {
-            userRepository = new UserRepository(jwtService, configProvider);
+            userRepository = new UserRepository(jwtService, configProvider, logger);
+            this.logger = logger;
         }
         
         [HttpGet]

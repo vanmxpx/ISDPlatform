@@ -11,6 +11,7 @@ using Cooper.Repository;
 using Cooper.Configuration;
 using Cooper.Services;
 using Cooper.Services.Authorization;
+using NLog;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Cooper.Controllers
@@ -19,16 +20,19 @@ namespace Cooper.Controllers
     [Route("api/auth")]
     public class AuthController : ControllerBase
     {
-        readonly UserRepository userRepository;
-        readonly IConfigProvider configProvider;
-        readonly ISocialAuth socialAuth;
+        private readonly UserRepository userRepository;
+        private readonly IConfigProvider configProvider;
+        private readonly ISocialAuth socialAuth;
+        private readonly ILogger logger;
 
-        public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider)
+        public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider,
+            ILogger logger)
         {
-            userRepository = new UserRepository(jwtService, configProvider);
+            userRepository = new UserRepository(jwtService, configProvider, logger);
 
             this.configProvider = configProvider;
             this.socialAuth = socialAuth;
+            this.logger = logger;
         }
 
         [HttpPost, Route("login")]

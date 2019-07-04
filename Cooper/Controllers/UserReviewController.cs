@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
 using Cooper.Configuration;
+using NLog;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,11 +16,15 @@ namespace Cooper.Controllers
     public class UserReviewController : ControllerBase
     {
         // GET: api/<controller>
-        UserReviewRepository userReviewRepository;
+        private UserReviewRepository userReviewRepository;
 
-        public UserReviewController(IConfigProvider configProvider)
+        private readonly ILogger logger;
+
+        public UserReviewController(IConfigProvider configProvider, ILogger logger)
         {
-            userReviewRepository = new UserReviewRepository(configProvider);
+            userReviewRepository = new UserReviewRepository(configProvider, logger);
+
+            this.logger = logger;
         }
 
         // TODO: get all reviews for reviewed user method

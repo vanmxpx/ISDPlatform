@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
 using Cooper.Configuration;
+using NLog;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,11 +15,14 @@ namespace Cooper.Controllers
     [Route("api/chats")]
     public class ChatController : ControllerBase
     {
-        ChatRepository chatRepository;
+        private readonly ILogger logger;
 
-        public ChatController(IConfigProvider configProvider)
+        private ChatRepository chatRepository;
+
+        public ChatController(IConfigProvider configProvider, ILogger logger)
         {
-            chatRepository = new ChatRepository(configProvider);
+            chatRepository = new ChatRepository(configProvider, logger);
+            this.logger = logger;
         }
 
         [HttpGet]

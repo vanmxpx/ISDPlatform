@@ -7,6 +7,7 @@ using Cooper.DAO;
 using Cooper.DAO.Models;
 using Cooper.Repository.Mapping;
 using Cooper.Configuration;
+using NLog;
 
 namespace Cooper.Repository
 {
@@ -14,10 +15,14 @@ namespace Cooper.Repository
     {
         private GameDAO gameDAO;
         private ModelsMapper mapper;
-        public GameRepository(IConfigProvider configProvider)
+        private readonly ILogger logger;
+
+        public GameRepository(IConfigProvider configProvider, ILogger logger)
         {
-            gameDAO = new GameDAO(configProvider);
+            gameDAO = new GameDAO(configProvider, logger);
             mapper = new ModelsMapper();
+
+            this.logger = logger;
         }
         
         public IEnumerable<Game> GetAll()

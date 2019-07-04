@@ -12,12 +12,12 @@ namespace Cooper.ORM
     public class CRUD : ICRUD
     {
         private DbConnect dbConnect;
-        private Logger logger;
+        private readonly ILogger logger;
 
-        public CRUD(IConfigProvider configProvider)
+        public CRUD(IConfigProvider configProvider, ILogger logger)
         {
             dbConnect = new DbConnect(configProvider);
-            logger = LogManager.GetLogger("CooperLoger");
+            this.logger = logger;
         }
         
         public long Create(string table, string idColumn, EntityORM entity, bool returning = true)

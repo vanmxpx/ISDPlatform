@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using NLog;
 
 namespace Cooper.Controllers
 {
@@ -23,11 +24,14 @@ namespace Cooper.Controllers
         private IHubContext<ChatHub, ITypedHubClient> _hubContext;
         private UserRepository userRepository;
         private ICommonChatRepository commonChatRepository;
-        public CommonMessageController(IHubContext<ChatHub, ITypedHubClient> hubContext, IConfigProvider configProvider, IJwtHandlerService jwtService, ICommonChatRepository commonChatRepository)
+        private readonly ILogger logger;
+        public CommonMessageController(IHubContext<ChatHub, ITypedHubClient> hubContext, IConfigProvider configProvider, IJwtHandlerService jwtService, 
+            ICommonChatRepository commonChatRepository, ILogger logger)
         {
             _hubContext = hubContext;
-            userRepository = new UserRepository(jwtService, configProvider);
+            userRepository = new UserRepository(jwtService, configProvider, logger);
             this.commonChatRepository = commonChatRepository;
+            this.logger = logger;
         }
 
         [HttpPost("send")]

@@ -15,16 +15,16 @@ namespace Cooper.DAO
     public class GameReviewDAO
     {
         private CRUD crud;
-        Logger logger;
+        private readonly ILogger logger;
 
         private string table;
         private string idColumn;
         private HashSet<string> attributes;
 
-        public GameReviewDAO(IConfigProvider configProvider)
+        public GameReviewDAO(IConfigProvider configProvider, ILogger logger)
         {
-            crud = new CRUD(configProvider);
-            logger = LogManager.GetLogger("CooperLoger");
+            crud = new CRUD(configProvider, logger);
+            this.logger = logger;
 
             table = "GAMESREVIEWS";
             idColumn = "ID";

@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using System.Security.Claims;
 using Cooper.Services;
 using Cooper.Configuration;
+using NLog;
 
 namespace Cooper.Repository
 {
@@ -18,15 +19,16 @@ namespace Cooper.Repository
         private IUserDAO userDAO;
         private VerificationDAO verifyDAO;
         private ModelsMapper mapper;
-
+        private readonly ILogger logger;
         private readonly IJwtHandlerService jwtService;
 
-        public UserRepository(IJwtHandlerService jwtService, IConfigProvider configProvider)
+        public UserRepository(IJwtHandlerService jwtService, IConfigProvider configProvider, ILogger logger)
         {
-            userDAO = new UserDAO(configProvider);
-            verifyDAO = new VerificationDAO(configProvider);
+            userDAO = new UserDAO(configProvider, logger);
+            verifyDAO = new VerificationDAO(configProvider, logger);
             mapper = new ModelsMapper();
 
+            this.logger = logger;
             this.jwtService = jwtService;
         }
 

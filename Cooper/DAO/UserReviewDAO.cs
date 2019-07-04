@@ -14,16 +14,16 @@ namespace Cooper.DAO
     public class UserReviewDAO
     {
         private CRUD crud;
-        Logger logger;
+        private readonly ILogger logger;
 
         private string table;
         private string idColumn;
         private HashSet<string> attributes;
         
-        public UserReviewDAO(IConfigProvider configProvider)
+        public UserReviewDAO(IConfigProvider configProvider, ILogger logger)
         {
-            crud = new CRUD(configProvider);
-            logger = LogManager.GetLogger("CooperLoger");
+            crud = new CRUD(configProvider, logger);
+            this.logger = logger;
 
             table = "USERSREVIEWS";
             idColumn = "ID";

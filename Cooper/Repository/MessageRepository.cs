@@ -5,6 +5,7 @@ using Cooper.DAO;
 using Cooper.DAO.Models;
 using Cooper.Repository.Mapping;
 using Cooper.Configuration;
+using NLog;
 
 namespace Cooper.Repository
 {
@@ -12,10 +13,14 @@ namespace Cooper.Repository
     {
         private MessageDAO messageDAO;
         private ModelsMapper mapper;
-        public MessageRepository(IConfigProvider configProvider)
+        private readonly ILogger logger;
+
+        public MessageRepository(IConfigProvider configProvider, ILogger logger)
         {
-            messageDAO = new MessageDAO(configProvider);
+            messageDAO = new MessageDAO(configProvider, logger);
             mapper = new ModelsMapper();
+
+            this.logger = logger;
 
         }
 

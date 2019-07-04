@@ -17,7 +17,7 @@ namespace Cooper.DAO
     {
         private DbConnect dbConnect;
         private OracleConnection Connection;
-        private Logger logger;
+        private readonly ILogger logger;
 
         private ICRUD crud;
         IUserDAO userDAO;
@@ -26,14 +26,14 @@ namespace Cooper.DAO
         private string table;
         private HashSet<string> attributes;
 
-        public UsersConnectionDAO(IConfigProvider configProvider)
+        public UsersConnectionDAO(IConfigProvider configProvider, ILogger logger)
         {
-            crud = new CRUD(configProvider);
+            crud = new CRUD(configProvider, logger);
             dbConnect = new DbConnect(configProvider);
             Connection = dbConnect.GetConnection();
-            logger = LogManager.GetLogger("CooperLoger");
+            this.logger = logger;
 
-            userDAO = new UserDAO(configProvider);
+            userDAO = new UserDAO(configProvider, logger);
 
             table = "USERSCONNECTIONS";
             idColumn = "ID";

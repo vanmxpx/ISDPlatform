@@ -15,7 +15,7 @@ namespace Cooper.DAO
     {
         private DbConnect dbConnect;
         private OracleConnection Connection;
-        private Logger logger;
+        private readonly ILogger logger;
 
         private CRUD crud;
 
@@ -24,12 +24,12 @@ namespace Cooper.DAO
         private HashSet<string> attributes;
         private HashSet<string> unique_attributes;
 
-        public VerificationDAO(IConfigProvider configProvider)
+        public VerificationDAO(IConfigProvider configProvider, ILogger logger)
         {
-            crud = new CRUD(configProvider);
+            crud = new CRUD(configProvider, logger);
             dbConnect = new DbConnect(configProvider);
             Connection = dbConnect.GetConnection();
-            logger = LogManager.GetLogger("CooperLoger");
+            this.logger = logger;
 
             table = "TOKENS";
             idColumn = "TOKEN";

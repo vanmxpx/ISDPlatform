@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Cooper.Models;
 using Cooper.Repository;
 using Cooper.Configuration;
+using NLog;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,11 +15,13 @@ namespace Cooper.Controllers
     [Route("api/game/reviews")]
     public class GameReviewController : ControllerBase
     {
-        GameReviewRepository gameReviewRepository;
+        private GameReviewRepository gameReviewRepository;
+        private readonly ILogger logger;
 
-        public GameReviewController(IConfigProvider configProvider)
+        public GameReviewController(IConfigProvider configProvider, ILogger logger)
         {
-            gameReviewRepository = new GameReviewRepository(configProvider);
+            gameReviewRepository = new GameReviewRepository(configProvider, logger);
+            this.logger = logger;
         }
         // GET: api/<controller>
         [HttpGet("{id}")]

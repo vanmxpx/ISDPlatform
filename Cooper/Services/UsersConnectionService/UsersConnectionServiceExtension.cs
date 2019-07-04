@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Cooper.Services;
 using Cooper.Configuration;
+using NLog;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -15,7 +16,11 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 
-            UsersConnectionService userConnectionService = new UsersConnectionService(serviceProvider.GetService<IJwtHandlerService>(), serviceProvider.GetService<IConfigProvider>());
+            UsersConnectionService userConnectionService = new UsersConnectionService(
+                serviceProvider.GetService<IJwtHandlerService>(), 
+                serviceProvider.GetService<IConfigProvider>(),
+                serviceProvider.GetService<ILogger>()
+                );
             services.AddSingleton<IUsersConnectionService>(userConnectionService);
         }
     }

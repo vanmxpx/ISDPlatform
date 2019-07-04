@@ -10,6 +10,7 @@ using Cooper.Configuration;
 using Cooper.Services;
 using Cooper.Models.UserConnectionsEnumTypes;
 using Cooper.Extensions;
+using NLog;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,13 +19,15 @@ namespace Cooper.Controllers
     [Route("api/interaction")]
     public class UsersConnectionController : ControllerBase
     {
-        IUsersConnectionRepository userConnectionsRepository;
+        private IUsersConnectionRepository userConnectionsRepository;
         private readonly IUsersConnectionService userConnectionService;
+        private readonly ILogger logger;
 
-        public UsersConnectionController(IConfigProvider configProvider, IUsersConnectionService userConnectionService)
+        public UsersConnectionController(IConfigProvider configProvider, IUsersConnectionService userConnectionService, ILogger logger)
         {
-            userConnectionsRepository = new UsersConnectionRepository(configProvider);
+            userConnectionsRepository = new UsersConnectionRepository(configProvider, logger);
             this.userConnectionService = userConnectionService;
+            this.logger = logger;
         }
         
         [HttpGet("blacklist"), Authorize]

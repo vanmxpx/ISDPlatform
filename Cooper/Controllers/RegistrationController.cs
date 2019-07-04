@@ -9,22 +9,28 @@ using Cooper.Repository;
 using Cooper.Controllers.ViewModels;
 using Cooper.Services;
 using Cooper.Configuration;
+using NLog;
 
 namespace Cooper.Controllers
 {
     [Route("api/registration")]
     public class RegistrationController : Controller
     {
-        UserRepository userRepository;
+        private UserRepository userRepository;
         private readonly ISmtpClient smtpClient;
         private readonly ITokenCleaner cleaner;
         private readonly ISocialAuth socialAuth;
-        public RegistrationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider, ISocialAuth socialAuth, ITokenCleaner cleaner, ISmtpClient smtpClient)
+        private readonly ILogger logger;
+
+        public RegistrationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider, ISocialAuth socialAuth, ITokenCleaner cleaner, 
+            ISmtpClient smtpClient, ILogger logger)
         {
-            userRepository = new UserRepository(jwtHandler, configProvider);
+            userRepository = new UserRepository(jwtHandler, configProvider, logger);
             this.smtpClient = smtpClient;
             this.cleaner = cleaner;
             this.socialAuth = socialAuth;
+            this.logger = logger;
+
         }
 
         [HttpPost]
@@ -68,13 +74,15 @@ namespace Cooper.Controllers
 
     public class ConfirmationController : Controller 
     {
-        UserRepository userRepository;
+        private UserRepository userRepository;
         private readonly IConfigProvider configProvider;
-
-        public ConfirmationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider, ISmtpClient smtpClient)
+        private readonly ILogger logger;
+        public ConfirmationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider, ISmtpClient smtpClient, 
+            ILogger logger)
         {
-            userRepository = new UserRepository(jwtHandler, configProvider);
+            userRepository = new UserRepository(jwtHandler, configProvider, logger);
             this.configProvider = configProvider;
+            this.logger = logger;
         }
 
         [Route("confirm")]

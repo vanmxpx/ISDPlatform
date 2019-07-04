@@ -8,6 +8,7 @@ using Cooper.DAO;
 using Cooper.Repository.Mapping;
 using Cooper.Configuration;
 using Cooper.Models.UserConnectionsEnumTypes;
+using NLog;
 
 namespace Cooper.Repository
 {
@@ -15,12 +16,13 @@ namespace Cooper.Repository
     {
         private IUsersConnectionDAO userConnectionsDAO;
         private ModelsMapper mapper;
-        
+        private readonly ILogger logger;
 
-        public UsersConnectionRepository(IConfigProvider configProvider)
+        public UsersConnectionRepository(IConfigProvider configProvider, ILogger logger)
         {
-            userConnectionsDAO = new UsersConnectionDAO(configProvider);
+            userConnectionsDAO = new UsersConnectionDAO(configProvider, logger);
             mapper = new ModelsMapper();
+            this.logger = logger;
         }
         public List<User> GetSpecifiedTypeUsersList(long userId, ConnectionType specifiedType)
         {

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using NLog;
 
 namespace Cooper.Services
 {
@@ -26,8 +27,8 @@ namespace Cooper.Services
         private bool timerStart = false;
         private CRUD crud;
         private Timer timer;
-        public TokenCleaner(IConfigProvider configProvider) {
-            crud = new CRUD(configProvider);
+        public TokenCleaner(IConfigProvider configProvider, ILogger logger) {
+            crud = new CRUD(configProvider, logger);
             RemoveOutdated();
         }
 

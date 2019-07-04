@@ -5,18 +5,21 @@ using Cooper.DAO;
 using Cooper.DAO.Models;
 using Cooper.Repository.Mapping;
 using Cooper.Configuration;
-
+using NLog;
 namespace Cooper.Repository
 {
     public class ChatRepository
     {
         private ChatDAO chatDAO;
         private ModelsMapper mapper;
+        private readonly ILogger logger;
 
-        public ChatRepository(IConfigProvider configProvider)
+        public ChatRepository(IConfigProvider configProvider, ILogger logger)
         {
-            chatDAO = new ChatDAO(configProvider);
+            chatDAO = new ChatDAO(configProvider, logger);
             mapper = new ModelsMapper();
+
+            this.logger = logger;
         }
 
         public IEnumerable<Chat> GetAll()

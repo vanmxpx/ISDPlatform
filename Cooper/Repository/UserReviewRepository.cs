@@ -5,6 +5,7 @@ using Cooper.DAO;
 using Cooper.DAO.Models;
 using Cooper.Repository.Mapping;
 using Cooper.Configuration;
+using NLog;
 
 namespace Cooper.Repository
 {
@@ -12,11 +13,14 @@ namespace Cooper.Repository
     {
         private UserReviewDAO userReviewDAO;
         private ModelsMapper mapper;
+        private readonly ILogger logger;
 
-        public UserReviewRepository(IConfigProvider configProvider)
+        public UserReviewRepository(IConfigProvider configProvider, ILogger logger)
         {
-            userReviewDAO = new UserReviewDAO(configProvider);
+            userReviewDAO = new UserReviewDAO(configProvider, logger);
             mapper = new ModelsMapper();
+
+            this.logger = logger;
         }
 
         public IEnumerable<UserReview> GetAll()

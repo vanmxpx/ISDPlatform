@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using Cooper.Configuration;
+using NLog;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Cooper.Controllers
@@ -16,11 +17,14 @@ namespace Cooper.Controllers
     [Route("api/games")]
     public class GameController : ControllerBase
     {
-        IRepository<Game> gameRepository;
+        private IRepository<Game> gameRepository;
 
-        public GameController(IConfigProvider configProvider)
+        private readonly ILogger logger;
+
+        public GameController(IConfigProvider configProvider, ILogger logger)
         {
-            gameRepository = new GameRepository(configProvider);
+            gameRepository = new GameRepository(configProvider, logger);
+            this.logger = logger;
         }
 
         // GET: api/<controller>

@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 using Cooper.Repository;
 using Cooper.Models;
 using Cooper.Configuration;
-
+using NLog;
 namespace Cooper.Services
 {
     public class UsersConnectionService : IUsersConnectionService
     {
         private readonly IUserRepository userRepository;
-        public UsersConnectionService(IJwtHandlerService jwtService, IConfigProvider configProvider)
+        public UsersConnectionService(IJwtHandlerService jwtService, IConfigProvider configProvider, ILogger logger)
         {
-            userRepository = new UserRepository(jwtService, configProvider);
+            userRepository = new UserRepository(jwtService, configProvider, logger);
         }
 
         public UsersConnection CreateConnection(long userId, string subscriberToken, bool ban = false)
