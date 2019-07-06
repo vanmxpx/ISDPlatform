@@ -1,6 +1,6 @@
 ﻿using Oracle.ManagedDataAccess.Client;
+using OracleDBUpdater.Commands.SQLCommands;
 using System;
-using System.Collections.Generic;
 
 namespace OracleDBUpdater
 {
@@ -73,12 +73,7 @@ namespace OracleDBUpdater
         /// <returns> Returns true if all queries succeeded. </returns>
         public bool ExecuteQueries(string[] queries)
         {
-            OpenConnection();
-
-            // Names of tables for which temporary tables are created with the same name that starts with an underscore
-            List<string> tableNames = new List<string>();
-            List<string> undoQueries = new List<string>();
-            List<string> createdTableNames = new List<string>();
+            QueryExecutor queryExecutor = new QueryExecutor();
 
             try
             {
@@ -86,100 +81,26 @@ namespace OracleDBUpdater
                 {
                     string[] tempArr = query.Split(' ');
                     string sqlOperator = tempArr.Length > 0 ? tempArr[0].ToUpper() : null;
-                    string tableName = tempArr.Length > 2 ? tempArr[2].ToUpper() : null;
-                    // Contains true if the table was created in this sql script
-                    bool isTableCreated = createdTableNames.Contains(tableName);
 
                     if (sqlOperator == "CREATE")
                     {
-                        // Create table
-                        ExecuteQueryWithoutAnswer(query);
-                        // After executing query, add data to the desired lists.
-                        createdTableNames.Add(tableName);
+                        queryExecutor.AddCommand(new CreateCommand(query, queryExecutor));
                     }
                     else if (sqlOperator == "ALTER")
                     {
-                        // Make a temporary table if it was not created.
-                        if (!isTableCreated && !IsExistringTable("temp_" + tableName))
-                        {
-                            ExecuteQueryWithoutAnswer($"CREATE TABLE {"temp_" + tableName} AS SELECT * FROM {tableName}");
-                        }
-                        // Alter an existing table
-                        ExecuteQueryWithoutAnswer(query);
-                        // After executing query, add data to the desired lists.
-                        if (!isTableCreated)
-                        {
-                            if (!tableNames.Contains(tableName))
-                            {
-                                tableNames.Add(tableName);
-                            }
-                            string undoQuery = $"DROP TABLE {tableName}";
-                            if (!undoQueries.Contains(undoQuery))
-                            {
-                                undoQueries.Add(undoQuery);
-                            }
-                        }
+                        queryExecutor.AddCommand(new AlterCommand(query, queryExecutor));
                     }
                     else if (sqlOperator == "DROP")
                     {
-                        // Make a temporary table if it was not created.
-                        if (!isTableCreated && !IsExistringTable("temp_" + tableName))
-                        {
-                            ExecuteQueryWithoutAnswer($"CREATE TABLE {"temp_" + tableName} AS SELECT * FROM {tableName}");
-                        }
-                        // Drop an existing table
-                        ExecuteQueryWithoutAnswer(query);
-                        // After executing query, add data to the desired lists.
-                        if (!isTableCreated)
-                        {
-                            if (!tableNames.Contains(tableName)) tableNames.Add(tableName);
-                        }
+                        queryExecutor.AddCommand(new DropCommand(query, queryExecutor));
                     }
                     else if (sqlOperator == "INSERT")
                     {
-                        // Make a temporary table if it was not created.
-                        if (!isTableCreated && !IsExistringTable("temp_" + tableName))
-                        {
-                            ExecuteQueryWithoutAnswer($"CREATE TABLE {"temp_" + tableName} AS SELECT * FROM {tableName}");
-                        }
-                        // Insert data to existing table
-                        ExecuteQueryWithoutAnswer(query);
-                        // After executing query, add data to the desired lists.
-                        if (!isTableCreated)
-                        {
-                            if (!tableNames.Contains(tableName))
-                            {
-                                tableNames.Add(tableName);
-                            }
-                            string undoQuery = $"DROP TABLE {tableName}";
-                            if (!undoQueries.Contains(undoQuery))
-                            {
-                                undoQueries.Add(undoQuery);
-                            }
-                        }
+                        queryExecutor.AddCommand(new InsertCommand(query, queryExecutor));
                     }
                     else if (sqlOperator == "DELETE")
                     {
-                        // Make a temporary table if it was not created.
-                        if (!isTableCreated && !IsExistringTable("temp_" + tableName))
-                        {
-                            ExecuteQueryWithoutAnswer($"CREATE TABLE {"temp_" + tableName} AS SELECT * FROM {tableName}");
-                        }
-                        // Delete data from existing table
-                        ExecuteQueryWithoutAnswer(query);
-                        // After executing query, add data to the desired lists.
-                        if (!isTableCreated)
-                        {
-                            if (!tableNames.Contains(tableName))
-                            {
-                                tableNames.Add(tableName);
-                            }
-                            string undoQuery = $"DROP TABLE {tableName}";
-                            if (!undoQueries.Contains(undoQuery))
-                            {
-                                undoQueries.Add(undoQuery);
-                            }
-                        }
+                        queryExecutor.AddCommand(new DeleteCommand(query, queryExecutor));
                     }
                     else
                     {
@@ -187,42 +108,14 @@ namespace OracleDBUpdater
                     }
                 }
 
-                // If all queries are successfully executed, then drop table with name that start with "_" (their names are stored in the "tableNames" list)
-                foreach (string tableName in tableNames)
-                {
-                    ExecuteQueryWithoutAnswer($"DROP TABLE {"temp_" + tableName}");
-                }
+                queryExecutor.Execute();
 
                 return true;
             }
             catch
             {
-                // Execute undo queries.
-                foreach (string undoQuery in undoQueries)
-                {
-                    if (IsExistringTable(undoQuery.Split(' ')[2].ToUpper()))
-                    {
-                        ExecuteQueryWithoutAnswer(undoQuery);
-                    }
-                }
-
-                // Rename tables with underscore.
-                foreach (string tableName in tableNames)
-                {
-                    ExecuteQueryWithoutAnswer($"ALTER TABLE {"temp_" + tableName} RENAME TO {tableName}");
-                }
-
-                // Drop created tables.
-                foreach (string tableName in createdTableNames)
-                {
-                    ExecuteQueryWithoutAnswer($"DROP TABLE {tableName}");
-                }
-
+                queryExecutor.Undo();
                 return false;
-            }
-            finally
-            {
-                CloseConnection();
             }
         }
 

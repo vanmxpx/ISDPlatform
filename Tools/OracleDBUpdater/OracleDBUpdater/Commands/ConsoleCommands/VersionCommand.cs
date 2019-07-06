@@ -1,6 +1,6 @@
 ﻿using ConsoleHelper;
 
-namespace OracleDBUpdater.Commands
+namespace OracleDBUpdater.Commands.ConsoleCommands
 {
     class VersionCommand : ICommand
     {
@@ -8,7 +8,7 @@ namespace OracleDBUpdater.Commands
         public string Name => "version";
 
         /// <summary> Returns the manual, if there is no manual for this command, it will return null. </summary>
-        public string Manual => CommandManual.Manual(Name);
+        public string Manual => ConsoleCommandManual.Manual(Name);
 
         public void Execute(string[] args)
         {

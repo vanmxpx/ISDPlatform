@@ -1,6 +1,6 @@
 ﻿using ConsoleHelper;
 using Oracle.ManagedDataAccess.Client;
-using OracleDBUpdater.Commands;
+using OracleDBUpdater.Commands.ConsoleCommands;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,18 +16,6 @@ namespace OracleDBUpdater
         private static void Main()
         {            
             CheckConfigurationVariables();
-
-            // IT'S FOR TESTS
-            if (!MyDataBase.GetDB().IsExistringTable("db_version"))
-            {
-                MyDataBase.GetDB().ExecuteQueryWithoutAnswer("CREATE TABLE db_versions (verions INT)");
-                MyDataBase.GetDB().ExecuteQueryWithoutAnswer("INSERT INTO db_versions VALUES (1.2505)");
-            }
-            else
-            {
-                MyDataBase.GetDB().ExecuteQueryWithoutAnswer("UPDATE db_version SET version = 1.2505");
-            }
-
             ShowMainMenu();
         }
 
@@ -83,9 +71,9 @@ namespace OracleDBUpdater
                     string command = ConsoleUtility.ReadLine(TextColor);
 
                     string[] args = command.Split(' ');
-                    if (CommandRegistry.ContainCommand(args[0]))
+                    if (ConsoleCommandRegistry.ContainCommand(args[0]))
                     {
-                        CommandRegistry.ExecuteCommand(args[0], args);
+                        ConsoleCommandRegistry.ExecuteCommand(args[0], args);
                     }
                     else
                     {
@@ -96,7 +84,7 @@ namespace OracleDBUpdater
                 }
                 else
                 {
-                    ConsoleUtility.WriteLine("Failed to get current database version.", ErrorColor);
+                    ConsoleUtility.WriteLine("Failed to get current database version. Check whether you have created a table that contains the current version of the database.", ErrorColor);
                     Console.ReadKey();
                     return;
                 }
@@ -106,7 +94,19 @@ namespace OracleDBUpdater
         /// <summary> Return paths to update scripts. </summary>
         public static string[] GetUpdateScriptNames()
         {
-            return Directory.GetFiles(Configuration.GetVariable("UpdateFolder"));
+            string[] updateScriptNames;
+
+            try
+            {
+                updateScriptNames = Directory.GetFiles(Configuration.GetVariable("UpdateFolder"));
+            }
+            catch(Exception ex)
+            {
+                ConsoleUtility.WriteLine($"Failed to get update script names: {ex.Message}", ErrorColor);
+                updateScriptNames = new string[0];
+            }
+
+            return updateScriptNames;
         }
 
         /// <summary> Return queries from string. </summary>
@@ -114,17 +114,24 @@ namespace OracleDBUpdater
         {
             List<string> queries = new List<string>();
 
-            while (str.Contains(';'))
+            try
             {
-                string query = str.Substring(0, str.IndexOf(';'));
-                char[] escapeChars = new[] { '\n', '\a', '\r', '\t', '\f', '\v' };
-                queries.Add(new string(query.Where(c => !escapeChars.Contains(c)).ToArray()));
-                str = str.Remove(0, str.IndexOf(';') + 1);
-            }
+                while (str.Contains(';'))
+                {
+                    string query = str.Substring(0, str.IndexOf(';'));
+                    char[] escapeChars = new[] { '\n', '\a', '\r', '\t', '\f', '\v' };
+                    queries.Add(new string(query.Where(c => !escapeChars.Contains(c)).ToArray()));
+                    str = str.Remove(0, str.IndexOf(';') + 1);
+                }
 
-            if (!str.Contains(';') && !string.IsNullOrEmpty(str))
+                if (!str.Contains(';') && !string.IsNullOrEmpty(str))
+                {
+                    queries.Add(str);
+                }
+            }
+            catch (Exception ex)
             {
-                queries.Add(str);
+                ConsoleUtility.WriteLine($"Failed to get queries from string: {ex.Message}", ErrorColor);
             }
 
             return queries;
