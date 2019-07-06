@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleHelper;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,9 +30,21 @@ namespace OracleDBUpdater
         /// <summary> Return last requiredVersion of database. </summary>
         public static string GetVersionLastUpdateScript()
         {
-            string[] fileNames = Directory.GetFiles(Configuration.GetVariable("UpdateFolder"));
-            string file = fileNames[fileNames.Length - 1].Substring(fileNames[fileNames.Length - 1].LastIndexOf("_v") + 2);
-            return file.Remove(file.LastIndexOf('.'));
+            string lastUpdateScript;
+
+            try
+            {
+                string[] fileNames = Directory.GetFiles(Configuration.GetVariable("UpdateFolder"));
+                string file = fileNames[fileNames.Length - 1].Substring(fileNames[fileNames.Length - 1].LastIndexOf("_v") + 2);
+                lastUpdateScript = file.Remove(file.LastIndexOf('.'));
+            }
+            catch (Exception ex)
+            {
+                ConsoleUtility.WriteLine($"Failed to get version last update script: {ex.Message}", Program.ErrorColor);
+                lastUpdateScript = "";
+            }
+
+            return lastUpdateScript;
         }
 
         /// <summary> Return current version of database. </summary>

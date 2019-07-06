@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace OracleDBUpdater.Commands
+namespace OracleDBUpdater.Commands.ConsoleCommands
 {
-    static class CommandRegistry
+    static class ConsoleCommandRegistry
     {
         /// <summary> Registry of all commands that can be called. </summary>
         private static readonly List<ICommand> commands = new List<ICommand>

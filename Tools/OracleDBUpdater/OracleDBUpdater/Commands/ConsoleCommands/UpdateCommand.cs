@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace OracleDBUpdater.Commands
+namespace OracleDBUpdater.Commands.ConsoleCommands
 {
     class UpdateCommand : ICommand
     {
@@ -10,7 +10,7 @@ namespace OracleDBUpdater.Commands
         public string Name => "update";
 
         /// <summary> Returns the manual, if there is no manual for this command, it will return null. </summary>
-        public string Manual => CommandManual.Manual(Name);
+        public string Manual => ConsoleCommandManual.Manual(Name);
 
         public void Execute(string[] args)
         {
@@ -80,7 +80,7 @@ namespace OracleDBUpdater.Commands
                             {
                                 if (VersionHandler.TryGetVersionFromPath(Path.GetFileName(updateScripts[i]), out double version))
                                 {
-                                    MyDataBase.GetDB().ExecuteQueryWithoutAnswer($"UPDATE db_version SET version = {version}");
+                                    MyDataBase.GetDB().ExecuteQueryWithoutAnswer($"UPDATE db_version SET version = {version.ToString().Replace(',', '.')}");
                                     ConsoleUtility.WriteLine($"Script {Path.GetFileName(updateScripts[i])} executed successfully.", Program.TextColor);
                                 }
                             }
