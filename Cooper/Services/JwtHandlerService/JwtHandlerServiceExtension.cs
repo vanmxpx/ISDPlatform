@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NLog;
 using Cooper.Services;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -10,7 +11,10 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static void AddJWTHandler(this IServiceCollection services)
         {
-            services.AddSingleton<IJwtHandlerService, JwtHandlerService>();
+            IServiceProvider serviceProvider = services.BuildServiceProvider();
+
+            IJwtHandlerService jwtHandler = new JwtHandlerService(serviceProvider.GetService<ILogger>());
+            services.AddSingleton<IJwtHandlerService>(jwtHandler);
         }
     }
 }
