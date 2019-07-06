@@ -5,11 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog;
 
 namespace Cooper.Services
 {
     public class JwtHandlerService : IJwtHandlerService
     {
+        private readonly ILogger logger;
+
+        public JwtHandlerService(ILogger logger)
+        {
+            this.logger = logger;
+        }
+
         /// <summary>
         /// Gets attrubute value from payload
         /// </summary>
@@ -30,11 +38,15 @@ namespace Cooper.Services
             }
             catch (JsonReaderException ex)
             {
-                // Logger must be here
+                logger.Info(ex);
             }
             catch (NullReferenceException ex)
             {
-                // Logger must be here
+                logger.Info(ex);
+            }
+            catch (Exception ex)
+            {
+                logger.Info(ex);
             }
 
             return value;
