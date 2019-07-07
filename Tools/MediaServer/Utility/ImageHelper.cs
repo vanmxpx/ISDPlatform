@@ -26,7 +26,7 @@ namespace Utility
             return imageMimeTypes[extension];
         }
 
-        public static bool IsImage(byte[] data)
+        public static bool IsImage(this byte[] data)
         {
             bool isImage;
 
@@ -46,7 +46,7 @@ namespace Utility
             return isImage;
         }
 
-        public static Image ToImage(byte[] data)
+        public static Image ToImage(this byte[] data)
         {
             Image img = null;
 
@@ -58,11 +58,22 @@ namespace Utility
             return img;
         }
 
+        public static byte[] ToByteArray(this Image image)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                image.Save(memoryStream, ImageFormat.Png);
+                return memoryStream.ToArray();
+            }
+        }
+
         public static Bitmap ResizeImage(this Image image, int width, int height)
         {
             Rectangle destRect = new Rectangle(0, 0, width, height);
             Bitmap destImage = new Bitmap(width, height);
+
             destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
             using (var graphics = Graphics.FromImage(destImage))
             {
                 graphics.CompositingMode = CompositingMode.SourceCopy;
@@ -77,6 +88,7 @@ namespace Utility
                     graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
                 }
             }
+
             return destImage;
         }
     }

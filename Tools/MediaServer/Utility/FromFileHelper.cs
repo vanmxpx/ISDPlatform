@@ -24,12 +24,12 @@ namespace Utility
 
         public static bool IsImage(this IFormFile file)
         {
-            return ImageHelper.IsImage(file.GetBytes());
+            return file.GetBytes().IsImage();
         }
 
         public static Image ToImage(this IFormFile file)
         {
-            return ImageHelper.ToImage(file.GetBytes());
+            return file.GetBytes().ToImage();
         }
     }
 }

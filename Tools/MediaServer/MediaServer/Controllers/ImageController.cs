@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using MediaServer.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Threading.Tasks;
 using Utility;
@@ -12,11 +11,13 @@ namespace MediaServer.Controllers
 {
     public class ImageController : Controller
     {
-        private IHostingEnvironment _appEnvironment;
+        private readonly IHostingEnvironment _appEnvironment;
+        private readonly IImageRepository _imageRepository;
 
-        public ImageController(IHostingEnvironment appEnvironment)
+        public ImageController(IHostingEnvironment appEnvironment, IImageRepository imageRepository)
         {
             _appEnvironment = appEnvironment;
+            _imageRepository = imageRepository;
         }
 
         public IActionResult Index()
@@ -24,7 +25,7 @@ namespace MediaServer.Controllers
             return View();
         }
 
-        public IActionResult Upload(IFormFile uploadedFile)
+        public async Task<IActionResult> Upload(IFormFile uploadedFile)
         {
             if (uploadedFile != null && uploadedFile.IsImage())
             {
@@ -42,25 +43,28 @@ namespace MediaServer.Controllers
                     image = image.ResizeImage((int)(width / height * 1000), 1000);
                 }
 
-                string path = _appEnvironment.WebRootPath + "/Images/" + uploadedFile.FileName;
-                image.Save(path);
+                await _imageRepository.AddImageAsync(image, uploadedFile.FileName);
             }
 
             return RedirectToAction("Index");
         }
 
-        public IActionResult Download(string fileName)
+        public async Task<IActionResult> Download(string fileName)
         {
             string path = _appEnvironment.WebRootPath + "/Images";
             string filePath = Path.Combine(path, fileName);
+            string defaultFilePath = Path.Combine(path, "default.png");
 
-            if (System.IO.File.Exists(filePath))
+            Image image = await _imageRepository.GetImageAsync(filePath);
+
+            if (image != null)
             {
                 return PhysicalFile(filePath, ImageHelper.GetImageContentType(filePath));
             }
-
-            string defaultFilePath = Path.Combine(path, "default.png");
-            return PhysicalFile(defaultFilePath, ImageHelper.GetImageContentType(defaultFilePath));
+            else
+            {
+                return PhysicalFile(defaultFilePath, ImageHelper.GetImageContentType(defaultFilePath));
+            }
         }
     }
 }
