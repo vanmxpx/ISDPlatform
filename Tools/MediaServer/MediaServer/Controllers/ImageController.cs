@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using System.Drawing;
 using System.IO;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Utility;
 
@@ -43,7 +45,7 @@ namespace MediaServer.Controllers
                     image = image.ResizeImage((int)(width / height * 1000), 1000);
                 }
 
-                await _imageRepository.AddImageAsync(image, uploadedFile.FileName);
+                await _imageRepository.AddImageAsync(image);
             }
 
             return RedirectToAction("Index");

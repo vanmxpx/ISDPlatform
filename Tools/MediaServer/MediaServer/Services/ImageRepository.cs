@@ -34,22 +34,24 @@ namespace MediaServer.Services
             return image;
         }
 
-        public async Task<bool> AddImageAsync(Image image, string fileName)
+        public async Task<string> AddImageAsync(Image image)
         {
             byte[] bytes = image.ToByteArray();
-            bool result;
+            string fileName = image.GetHash() + ".png";
 
-            try
+            if(!File.Exists(Path.Combine(imageFolderPath, fileName)))
             {
-                await File.WriteAllBytesAsync(Path.Combine(imageFolderPath, fileName), bytes);
-                result = true;
-            }
-            catch
-            {
-                result = false;
+                try
+                {
+                    await File.WriteAllBytesAsync(Path.Combine(imageFolderPath, fileName), bytes);
+                }
+                catch
+                {
+                    fileName = null;
+                }
             }
 
-            return result;
+            return fileName;
         }
     }
 }

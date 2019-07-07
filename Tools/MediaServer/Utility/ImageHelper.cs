@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.WebUtilities;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace Utility
 {
@@ -90,6 +92,16 @@ namespace Utility
             }
 
             return destImage;
+        }
+
+        public static string GetHash(this Image image)
+        {
+            using (SHA256 sha = SHA256.Create())
+            {
+                byte[] hash = sha.ComputeHash(image.ToByteArray());
+                string checksum = WebEncoders.Base64UrlEncode(hash);
+                return checksum;
+            }
         }
     }
 }
