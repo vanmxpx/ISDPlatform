@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
@@ -49,6 +50,7 @@ namespace MediaServer.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("Download")]
         public async Task<IActionResult> Download(string fileName)
         {
             string path = _appEnvironment.WebRootPath + "/Images";
