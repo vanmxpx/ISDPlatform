@@ -12,6 +12,7 @@ export class UserService {
   constructor(private fb: FormBuilder, private router: Router, private http: HttpClient, private socialAuthService: AuthService) { }
 
   public user: any;
+  readonly registrationUrl = '/registration';
   readonly authUrl = '/auth/login';
   readonly getProvider = {
     'google': GoogleLoginProvider.PROVIDER_ID,
