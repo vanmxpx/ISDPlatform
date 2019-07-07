@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Drawing;
 using System.IO;
 
 namespace Utility
@@ -24,6 +25,11 @@ namespace Utility
         public static bool IsImage(this IFormFile file)
         {
             return ImageHelper.IsImage(file.GetBytes());
+        }
+
+        public static Image ToImage(this IFormFile file)
+        {
+            return ImageHelper.ToImage(file.GetBytes());
         }
     }
 }

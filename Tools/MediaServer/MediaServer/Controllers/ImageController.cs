@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Threading.Tasks;
 using Utility;
@@ -21,15 +24,26 @@ namespace MediaServer.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Upload(IFormFile uploadedFile)
+        public IActionResult Upload(IFormFile uploadedFile)
         {
             if (uploadedFile != null && uploadedFile.IsImage())
             {
-                string path = _appEnvironment.WebRootPath + "/Images/" + uploadedFile.FileName;
-                using (var fileStream = new FileStream(path, FileMode.Create))
+                Image image = uploadedFile.ToImage();
+
+                float width = image.Width;
+                float height = image.Height;
+
+                if (width > height && width > 1000)
                 {
-                    await uploadedFile.CopyToAsync(fileStream);
+                    image = image.ResizeImage(1000, (int)(height / width * 1000));
                 }
+                else if (height > width && height > 1000)
+                {
+                    image = image.ResizeImage((int)(width / height * 1000), 1000);
+                }
+
+                string path = _appEnvironment.WebRootPath + "/Images/" + uploadedFile.FileName;
+                image.Save(path);
             }
 
             return RedirectToAction("Index");
