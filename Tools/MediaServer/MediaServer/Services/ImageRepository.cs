@@ -37,7 +37,7 @@ namespace MediaServer.Services
         public async Task<string> AddImageAsync(Image image)
         {
             byte[] bytes = image.ToByteArray();
-            string fileName = image.GetHash() + ".png";
+            string fileName = image.GetHash() + ".jpg";
 
             if(!File.Exists(Path.Combine(imageFolderPath, fileName)))
             {

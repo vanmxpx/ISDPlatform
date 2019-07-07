@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
 using System.Drawing;
 using System.IO;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Utility;
 
@@ -55,7 +53,7 @@ namespace MediaServer.Controllers
         {
             string path = _appEnvironment.WebRootPath + "/Images";
             string filePath = Path.Combine(path, fileName);
-            string defaultFilePath = Path.Combine(path, "default.png");
+            string defaultFilePath = Path.Combine(path, "default.jpg");
 
             Image image = await _imageRepository.GetImageAsync(filePath);
 
