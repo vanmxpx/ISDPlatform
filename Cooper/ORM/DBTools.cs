@@ -1,7 +1,5 @@
 using System;
-using System.Data;
-using System.Data.Common;
-using Cooper.Configuration;
+using System.Collections.Generic;
 
 namespace Cooper
 {
@@ -50,6 +48,32 @@ namespace Cooper
             Less = 4,
             NULL = 5,
             NOTNULL = 6
+        }
+
+        public static string createQuery(string table, HashSet<string> attributes, WhereRequest[] whereRequests = null)
+        {
+            string where = "";
+            if (whereRequests != null)
+            {
+                where = " WHERE";
+                foreach (WhereRequest request in whereRequests)
+                {
+                    where += String.Format(" {0} {1}{2} ", request.variable_name, GetOperatorString(request.request_operator), request.variable_value);
+                    if (request.and_requests != null)
+                    {
+                        foreach (WhereRequest and_request in request.and_requests)
+                        {
+                            where += String.Format("AND {0} {1}{2} ", and_request.variable_name, GetOperatorString(and_request.request_operator), and_request.variable_value);
+                        }
+                    }
+                    where += "OR";
+                }
+                //Remove last OR
+                where = where.Remove(where.Length - 2);
+            }
+            return String.Format("SELECT {0} FROM {1}{2}",
+                (attributes != null) ? string.Join(", ", attributes) : "*",
+                table, where);
         }
 
         public static string SanitizeString(string value)
