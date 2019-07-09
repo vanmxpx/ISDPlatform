@@ -1,6 +1,5 @@
 ﻿using MediaServer.Services;
 using NUnit.Framework;
-using System;
 using System.Drawing;
 using System.Threading.Tasks;
 using Utility;

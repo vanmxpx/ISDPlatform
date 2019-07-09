@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
@@ -13,11 +14,13 @@ namespace MediaServer.Controllers
     {
         private readonly IHostingEnvironment _appEnvironment;
         private readonly IImageRepository _imageRepository;
+        private readonly ILogger _logger;
 
-        public ImageController(IHostingEnvironment appEnvironment, IImageRepository imageRepository)
+        public ImageController(IHostingEnvironment appEnvironment, IImageRepository imageRepository, ILogger<ImageController> logger)
         {
             _appEnvironment = appEnvironment;
             _imageRepository = imageRepository;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -27,23 +30,35 @@ namespace MediaServer.Controllers
 
         public async Task<IActionResult> Upload(IFormFile uploadedFile)
         {
-            if (uploadedFile != null && uploadedFile.IsImage())
+            if (uploadedFile != null)
             {
-                Image image = uploadedFile.ToImage();
-
-                float width = image.Width;
-                float height = image.Height;
-
-                if (width > height && width > 1000)
+                if(uploadedFile.IsImage())
                 {
-                    image = image.ResizeImage(1000, (int)(height / width * 1000));
-                }
-                else if (height > width && height > 1000)
-                {
-                    image = image.ResizeImage((int)(width / height * 1000), 1000);
-                }
+                    Image image = uploadedFile.ToImage();
 
-                await _imageRepository.AddImageAsync(image);
+                    float width = image.Width;
+                    float height = image.Height;
+
+                    if (width > height && width > 1000)
+                    {
+                        image = image.ResizeImage(1000, (int)(height / width * 1000));
+                    }
+                    else if (height > width && height > 1000)
+                    {
+                        image = image.ResizeImage((int)(width / height * 1000), 1000);
+                    }
+
+                    await _imageRepository.AddImageAsync(image);
+                    _logger.LogInformation("Uploaded file has been successfully added. FileName: '{0}'.", uploadedFile.FileName);
+                }
+                else
+                {
+                    _logger.LogWarning("Uploaded file is not image. FileName: '{0}'. ContentType: '{1}'.", uploadedFile.FileName, uploadedFile.ContentType);
+                }
+            }
+            else
+            {
+                _logger.LogWarning("Uploaded file is null.");
             }
 
             return RedirectToAction("Index");
@@ -64,6 +79,7 @@ namespace MediaServer.Controllers
             }
             else
             {
+                _logger.LogWarning("Image '{0}' not found.", filePath);
                 return PhysicalFile(defaultFilePath, ImageHelper.GetImageContentType(defaultFilePath));
             }
         }

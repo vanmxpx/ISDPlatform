@@ -9,6 +9,13 @@ namespace Utility
 {
     public static class ImageHelper
     {
+        private static SHA256 sha;
+
+        static ImageHelper()
+        {
+            sha = SHA256.Create();
+        }
+
         public static Dictionary<string, string> GetImageMimeTypes()
         {
             return new Dictionary<string, string>
@@ -81,12 +88,9 @@ namespace Utility
 
         public static string GetHash(this Image image)
         {
-            using (SHA256 sha = SHA256.Create())
-            {
-                byte[] hash = sha.ComputeHash(image.ToByteArray());
-                string checksum = WebEncoders.Base64UrlEncode(hash);
-                return checksum;
-            }
+            byte[] hash = sha.ComputeHash(image.ToByteArray());
+            string checksum = WebEncoders.Base64UrlEncode(hash);
+            return checksum;
         }
     }
 }

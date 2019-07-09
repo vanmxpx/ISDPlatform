@@ -1,23 +1,19 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 
 namespace Utility.Tests
 {
     public class ImageHelperTests
     {
         [Test]
-        [TestCase(@"E:\Images\default.png")]
-        [TestCase(@"E:\Images\default.jpg")]
-        [TestCase(@"E:\Images\default.jpeg")]
-        public void GetImageContentTypeTest1(string path)
+        [TestCase(@"..\..\..\Resources\default.png", "image/png")]
+        [TestCase(@"..\..\..\Resources\default.jpg", "image/jpeg")]
+        [TestCase(@"..\..\..\Resources\default.jpeg", "image/jpeg")]
+        public void GetImageContentTypeTest1(string path, string expected)
         {
             string imageContentType = ImageHelper.GetImageContentType(path);
-            Dictionary<string, string> imageMimeTypes = ImageHelper.GetImageMimeTypes();
-            string extension = Path.GetExtension(path).ToLowerInvariant();
-            Assert.IsTrue(imageContentType == imageMimeTypes[extension]);
+            Assert.IsTrue(imageContentType == expected);
         }
 
         [Test]
@@ -33,13 +29,13 @@ namespace Utility.Tests
         [Test]
         [TestCase(null)]
         [TestCase(new byte[] { 1, 3, 3, 7 })]
-        public void IsImageTest1(byte[] data)
+        public void IsNotImageTest(byte[] data)
         {
             Assert.IsFalse(ImageHelper.IsImage(data));
         }
 
         [Test]
-        public void IsImageTest2()
+        public void IsImageTest()
         {
             byte[] data = Properties.Resources.TestImage;
             Assert.IsTrue(ImageHelper.IsImage(data));
@@ -63,7 +59,7 @@ namespace Utility.Tests
         [TestCase(128, 128)]
         [TestCase(512, 1024)]
         [TestCase(2048, 4)]
-        public void ResizeImageTest1(int width, int height)
+        public void ResizeImageTest(int width, int height)
         {
             byte[] data = Properties.Resources.TestImage;
             Image image = ImageHelper.ToImage(data);
@@ -74,7 +70,7 @@ namespace Utility.Tests
         [Test]
         [TestCase(-128, 128)]
         [TestCase(512, 0)]
-        public void ResizeImageTest2(int width, int height)
+        public void ResizeImageExceptionTest1(int width, int height)
         {
             byte[] data = Properties.Resources.TestImage;
             Image image = ImageHelper.ToImage(data);
@@ -87,14 +83,13 @@ namespace Utility.Tests
         [Test]
         [TestCase(128, 128)]
         [TestCase(512, 0)]
-        public void ResizeImageTest3(int width, int height)
+        public void ResizeImageExceptionTest2(int width, int height)
         {
             Image resizedImage = null;
 
             try
             {
                 resizedImage = ImageHelper.ResizeImage(null, width, height);
-
             }
             catch { }
 
@@ -102,11 +97,12 @@ namespace Utility.Tests
         }
 
         [Test]
-        public void GetHashCodeTest1()
+        public void GetHashCodeTest()
         {
             byte[] data = Properties.Resources.TestImage;
             Image image = ImageHelper.ToImage(data);
-            Assert.IsTrue(ImageHelper.GetHash(image) == ImageHelper.GetHash(image));
+            string hash = "JkOrCWhglSAZmJxfNxR7ym54cxrGRCi-twWcQvO8Ir8";
+            Assert.IsTrue(ImageHelper.GetHash(image) == hash);
         }
     }
 }
