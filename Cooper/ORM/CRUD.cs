@@ -19,7 +19,7 @@ namespace Cooper.ORM
             dbConnect = new DbConnect(configProvider);
             logger = LogManager.GetLogger("CooperLoger");
         }
-        
+
         public long Create(string table, string idColumn, EntityORM entity, bool returning = true)
         {
             long insertId = 0;
@@ -34,12 +34,13 @@ namespace Cooper.ORM
                     String.Join(",", entity.attributeValue.Keys),
                     String.Join(",", entity.attributeValue.Values));
 
-                if (returning) {
+                if (returning)
+                {
                     sqlExpression += $" returning {idColumn} into :id";
                     Console.WriteLine($"{sqlExpression}");
                     insertId = long.Parse(dbConnect.ExecuteNonQuery(sqlExpression, getId: true).ToString());
                 }
-                else 
+                else
                 {
                     Console.WriteLine($"{sqlExpression}");
                     dbConnect.ExecuteNonQuery(sqlExpression);
@@ -60,7 +61,7 @@ namespace Cooper.ORM
         }
 
         public IEnumerable<EntityORM> Read(string table, HashSet<string> attributes, DbTools.WhereRequest[] whereRequests = null)
-        {   
+        {
             List<EntityORM> entities = new List<EntityORM>();
             try
             {
@@ -72,11 +73,11 @@ namespace Cooper.ORM
                 OracleDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    EntityORM entity = new EntityORM(); 
+                    EntityORM entity = new EntityORM();
                     foreach (string attribute in attributes)
                     {
                         string attribute_variable = DbTools.GetVariableAttribute(attribute);
-                        entity.attributeValue.Add(attribute_variable, reader[attribute_variable]);
+                        entity.attributeValue.Add(attribute_variable, reader[attribute]);
                     }
 
                     entities.Add(entity);
@@ -134,7 +135,7 @@ namespace Cooper.ORM
             {
                 dbConnect.OpenConnection();
                 string sqlExpression = $"DELETE FROM {table} WHERE {idColumn} = {id}";
-                
+
                 dbConnect.ExecuteNonQuery(sqlExpression);
             }
             catch (DbException ex)
