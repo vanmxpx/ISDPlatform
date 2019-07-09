@@ -20,6 +20,11 @@ namespace DbToolsTest
                 this.where_request = where_request;
                 this.expected_result = expected_result;
             }
+
+            public override string ToString()
+            {
+                return this.expected_result;
+            }
         }
         static IEnumerable<Query> TestRequests
         {
