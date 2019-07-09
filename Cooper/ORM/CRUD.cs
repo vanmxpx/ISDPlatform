@@ -76,8 +76,7 @@ namespace Cooper.ORM
                     EntityORM entity = new EntityORM();
                     foreach (string attribute in attributes)
                     {
-                        string attribute_variable = DbTools.GetVariableAttribute(attribute);
-                        entity.attributeValue.Add(attribute_variable, reader[attribute]);
+                        entity.attributeValue.Add(DbTools.GetVariableAttribute(attribute), reader[attribute]);
                     }
 
                     entities.Add(entity);
