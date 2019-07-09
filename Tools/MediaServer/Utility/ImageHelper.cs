@@ -15,8 +15,7 @@ namespace Utility
             {
                 {".png", "image/png"},
                 {".jpg", "image/jpeg"},
-                {".jpeg", "image/jpeg"},
-                {".gif", "image/gif"}
+                {".jpeg", "image/jpeg"}
             };
         }
 
@@ -24,7 +23,7 @@ namespace Utility
         {
             Dictionary<string, string> imageMimeTypes = GetImageMimeTypes();
             string extension = Path.GetExtension(path).ToLowerInvariant();
-            return imageMimeTypes[extension];
+            return imageMimeTypes.ContainsKey(extension) ? imageMimeTypes[extension] : null;
         }
 
         public static bool IsImage(this byte[] data)
@@ -49,11 +48,18 @@ namespace Utility
 
         public static Image ToImage(this byte[] data)
         {
-            Image img = null;
+            Image img;
 
-            using (var imageReadStream = new MemoryStream(data))
+            try
             {
-                img = Image.FromStream(imageReadStream);
+                using (var imageReadStream = new MemoryStream(data))
+                {
+                    img = Image.FromStream(imageReadStream);
+                }
+            }
+            catch
+            {
+                img = null;
             }
 
             return img;
@@ -63,7 +69,7 @@ namespace Utility
         {
             using (var memoryStream = new MemoryStream())
             {
-                image.Save(memoryStream, ImageFormat.Png);
+                image.Save(memoryStream, ImageFormat.Jpeg);
                 return memoryStream.ToArray();
             }
         }
