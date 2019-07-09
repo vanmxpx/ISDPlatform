@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from '../../models/game';
 import { GameService } from '../../services/game.service';
+import {Router } from '@angular/router';
 
 @Component({
-  selector: 'cooper-games',
+  selector: 'app-cooper-games',
   templateUrl: './games.component.html',
   styleUrls: ['./games.component.css']
 })
 export class GamesComponent implements OnInit {
   games: Game[];
 
-  constructor(private gameService: GameService) { }
+  constructor(private gameService: GameService, private router: Router) { }
 
   ngOnInit() {
     this.getGames();
@@ -21,18 +22,7 @@ export class GamesComponent implements OnInit {
         .subscribe(games => this.games = games);
   }
 
-  add(name: string): void {
-    name = name.trim();
-    if (!name) { return; }
-    this.gameService.addGame({ name } as Game)
-      .subscribe(game => {
-        this.games.push(game);
-      });
+  private openGame(game: Game): void {
+    this.router.navigate([game.link]);
   }
-
-  delete(game: Game): void {
-    this.games = this.games.filter(h => h !== game);
-    this.gameService.deleteGame(game).subscribe();
-  }
-
 }

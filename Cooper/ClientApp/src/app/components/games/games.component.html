@@ -1,22 +1,21 @@
-<h2>All games</h2>
+<h1 align="center">All games</h1>
 
-<div>
-    <label>Game name:
-      <input #gameName />
-    </label>
-    <!-- (click) passes input value to add() and then clears the input -->
-    <button (click)="add(gameName.value); gameName.value=''">
-      add
-    </button>
+<div class="list-group games-list">
+    <div *ngFor="let game of games" class="list-group-item">
+        <div class="row">
+
+          <div class="col col-md-2 image-col">
+            <img class="game-image" src={{game.PhotoURL}} onerror="this.src='assets/imageKeeper/gamepad.jpeg'">
+            </div>
+            
+            <div class="col col-md-8">
+                <h2 class="mb-3 pb-3">{{game.name}}</h2>
+            </div>
+
+            <div class="col col-md-2 actions-col">
+                <button class="myButton" (click)="openGame(game)" type="button">Play</button>
+            </div>
+
+        </div> 
+    </div>
   </div>
-
-<ul class="games">
-  <li *ngFor="let game of games"> 
-    <a routerLink="/gamedetail/{{game.id}}"> 
-    <span class="badge">{{game.id}}</span> {{game.name}}
-    </a>
-    <button class="delete" title="delete game"
-      (click)="delete(game)">x
-    </button>
-  </li>
-</ul>

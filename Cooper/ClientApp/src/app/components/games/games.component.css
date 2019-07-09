@@ -1,74 +1,65 @@
-/* esComponent's private CSS styles */
-.games {
-    margin: 0 0 2em 0;
-    list-style-type: none;
-    padding: 0;
-    width: 15em;
+@import url('https://fonts.googleapis.com/css?family=Roboto:900');
+  
+  h1 {
+    font-family: 'Roboto', sans-serif;
+    color: #646464;
+    margin-top: 20px;
+    margin-left: 20px;
   }
-  .games li {
-    position: relative;
-    cursor: pointer;
-    background-color: #EEE;
-    margin: .5em;
-    padding: .3em 0;
-    height: 1.6em;
-    border-radius: 4px;
-    text-align: left;
+
+  h2 {    
+    font-family: 'Roboto', sans-serif;
+    color: #646464;
+    margin-top: 30px;
+    margin-left: 40px;
+  }
+
+  
+  .games-list {
+    padding: 40px 200px
+  }
+
+  .game-image {
+    width: 200px;
+    height: 200px;
   }
   
-  .games li:hover {
-    color: #607D8B;
-    background-color: #DDD;
-    left: .1em;
+  .image-col {
+    text-align:center;
+  }
+
+  .text-col {
+    text-align: center;
   }
   
-  .games a {
-    color: #888;
-    text-decoration: none;
-    position: relative;
-    display: block;
-    width: 250px;
+  .actions-col {
+    text-align: center;
+    margin: auto 0px;
   }
   
-  .games a:hover {
-    color:#607D8B;
-  }
-  
-  .games .badge {
+  .myButton {
+    margin-top: 70px;
+    box-shadow:inset 0px 0px 0px 0px #ffffff;
+    background-color:#ffffff;
+    border:1px solid #cecece;
     display: inline-block;
-    font-size: small;
-    color: white;
-    padding: 0.8em 0.7em 0 0.7em;
-    background-color: #607D8B;
-    line-height: 1em;
-    position: relative;
-    left: -1px;
-    top: -4px;
-    height: 1.8em;
-    min-width: 16px;
-    text-align: right;
-    margin-right: .8em;
-    border-radius: 4px 0 0 4px;
+    cursor:pointer;
+    color:#858585;
+    font-family: 'Roboto', sans-serif;
+    font-size:15px;
+    font-weight:bold;
+    padding:15px 20px;
+    text-decoration:none;
+    width: 10rem;
   }
-  
-  button {
-    background-color: #eee;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    cursor: hand;
-    font-family: Arial;
-  }
-  
-  button:hover {
-    background-color: #cfd8dc;
-  }
-  
-  button.delete {
-    position: relative;
-    left: 194px;
-    top: -32px;
-    background-color: gray !important;
+  .myButton:hover {
+    background-color:#858585;
+    border-color: #e0e0e0;
     color: white;
   }
+  .myButton:active {
+    position:relative;
+    top:1px;
+  }
+  
+  
