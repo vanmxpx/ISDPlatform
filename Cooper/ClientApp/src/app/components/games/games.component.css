@@ -1,63 +1,61 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:900');
-  
-  h1 {
-    font-family: 'Roboto', sans-serif;
-    color: #646464;
-    margin-top: 20px;
-    margin-left: 20px;
-  }
 
-  h2 {    
-    font-family: 'Roboto', sans-serif;
+.h1--color {
+  color: #646464;
+}
+
+  .col__h2 {    
     color: #646464;
     margin-top: 30px;
     margin-left: 40px;
   }
 
+  .text {
+    font-family: 'Roboto', sans-serif;
+  }
   
-  .games-list {
+  .games-list--padding {
     padding: 40px 200px
   }
 
-  .game-image {
+  .row__image-col--align {
+    text-align:center;
+  }
+
+  .image-col__game-image--size-squared {
     width: 200px;
     height: 200px;
   }
   
-  .image-col {
-    text-align:center;
-  }
-
-  .text-col {
-    text-align: center;
-  }
-  
-  .actions-col {
+  .row__action-col--align {
     text-align: center;
     margin: auto 0px;
   }
   
-  .myButton {
+  .action-col__button {
     margin-top: 70px;
-    box-shadow:inset 0px 0px 0px 0px #ffffff;
-    background-color:#ffffff;
-    border:1px solid #cecece;
-    display: inline-block;
-    cursor:pointer;
+    padding:15px 20px;
+
     color:#858585;
-    font-family: 'Roboto', sans-serif;
+    background-color:#ffffff;
+    border-color: #cecece;
+
     font-size:15px;
     font-weight:bold;
-    padding:15px 20px;
+    
+    border:1px solid;
+    display: inline-block;
+    cursor:pointer;
     text-decoration:none;
     width: 10rem;
   }
-  .myButton:hover {
+
+  .action-col__button:hover {
     background-color:#858585;
     border-color: #e0e0e0;
     color: white;
   }
-  .myButton:active {
+  .action-col__button:active {
     position:relative;
     top:1px;
   }
