@@ -1,17 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:900');
-
-.h1--color {
-  color: #646464;
-}
+  .h1--color {
+    color: #646464;
+  }
 
   .col__h2 {    
     color: #646464;
     margin-top: 30px;
     margin-left: 40px;
-  }
-
-  .text {
-    font-family: 'Roboto', sans-serif;
   }
   
   .games-list--padding {

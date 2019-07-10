@@ -1,4 +1,4 @@
-<h1 class="text h1--color" align="center">All games</h1>
+<h1 class="cooper-text h1--color" align="center">All games</h1>
 
 <div class="list-group games-list--padding">
     <div *ngFor="let game of games" class="list-group-item">
@@ -9,11 +9,11 @@
             </div>
             
             <div class="col col-md-8">
-                <h2 class="col__h2 text">{{game.name}}</h2>
+                <h2 class="col__h2 cooper-text">{{game.name}}</h2>
             </div>
 
             <div class="col col-md-2 row__action-col--align">
-                <button class="action-col__button text" (click)="openGame(game)" type="button">Play</button>
+                <button class="action-col__button cooper-text" (click)="openGame(game)" type="button">Play</button>
             </div>
 
         </div> 
