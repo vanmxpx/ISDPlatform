@@ -32,28 +32,45 @@ namespace MediaServer.Controllers
         {
             if (uploadedFile != null)
             {
-                if(uploadedFile.IsImage())
+                if (uploadedFile.Length < 10 * 1024 * 1024)
                 {
-                    Image image = uploadedFile.ToImage();
-
-                    float width = image.Width;
-                    float height = image.Height;
-
-                    if (width > height && width > 1000)
+                    if (uploadedFile.IsImage())
                     {
-                        image = image.ResizeImage(1000, (int)(height / width * 1000));
-                    }
-                    else if (height > width && height > 1000)
-                    {
-                        image = image.ResizeImage((int)(width / height * 1000), 1000);
-                    }
+                        Image image = uploadedFile.ToImage();
 
-                    await _imageRepository.AddImageAsync(image);
-                    _logger.LogInformation("Uploaded file has been successfully added. FileName: '{0}'.", uploadedFile.FileName);
+                        float width = image.Width;
+                        float height = image.Height;
+
+                        if (width > height && width > 1000)
+                        {
+                            image = image.ResizeImage(1000, (int)(height / width * 1000));
+                        }
+                        else if (height > width && height > 1000)
+                        {
+                            image = image.ResizeImage((int)(width / height * 1000), 1000);
+                        }
+                        else if (height == width && height > 1000)
+                        {
+                            image = image.ResizeImage(1000, 1000);
+                        }
+                        else
+                        {
+                            // We have to create a new bitmap, because using the image created from the input stream directly causes an error.
+                            image = new Bitmap(image);
+                        }
+
+                        await _imageRepository.AddImageAsync(image);
+
+                        _logger.LogInformation("Uploaded file has been successfully added. FileName: '{0}'.", uploadedFile.FileName);
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Uploaded file is not image. FileName: '{0}'. ContentType: '{1}'.", uploadedFile.FileName, uploadedFile.ContentType);
+                    }
                 }
                 else
                 {
-                    _logger.LogWarning("Uploaded file is not image. FileName: '{0}'. ContentType: '{1}'.", uploadedFile.FileName, uploadedFile.ContentType);
+                    _logger.LogWarning("Uploaded file weight is more than 1 MB. FileName: '{0}'. ContentType: '{1}'. ContentSize: '{2}'.", uploadedFile.FileName, uploadedFile.ContentType, (float)uploadedFile.Length / 1024 / 1024);
                 }
             }
             else
