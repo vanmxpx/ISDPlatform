@@ -17,9 +17,9 @@ namespace Utility.Tests
         }
 
         [Test]
-        [TestCase(@"E:\Images\default.gif")]
+        [TestCase(@"..\..\..\Resources\default.gif")]
         [TestCase(@"sdjfsjdfjsdjf")]
-        [TestCase(@"E:\Images\....////\\default.gif")]
+        [TestCase(@"321\Images\....////\\default.gif")]
         public void GetImageContentTypeTest2(string path)
         {
             string imageContentType = ImageHelper.GetImageContentType(path);
