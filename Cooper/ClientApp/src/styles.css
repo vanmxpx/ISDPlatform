@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:900');
 
 body{
+    font-family: 'Roboto', sans-serif;
     background-color: rgba(255, 255, 255, 255);
     min-height: 100vh;
     height: auto;
@@ -22,7 +23,3 @@ html{
     min-height: 100vh;
     height: auto;
 }
-
-.cooper-text {
-    font-family: 'Roboto', sans-serif;
-  }
