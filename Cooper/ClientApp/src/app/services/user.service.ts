@@ -19,7 +19,7 @@ export class UserService {
     'facebook': FacebookLoginProvider.PROVIDER_ID
   };
 
-  public CheckAuthentification(): void {
+  public checkAuthentification(): void {
     const Token: string = localStorage.getItem('JwtCooper');
     if (Token) {
       this.router.navigate(['/myPage', 'my']);

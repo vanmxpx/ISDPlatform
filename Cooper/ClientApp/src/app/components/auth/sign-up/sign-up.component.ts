@@ -20,6 +20,7 @@ export class SignUpComponent implements OnInit {
       this.registrationForm = this.formBuilder.group({
         Nickname: ['', Validators.required],
         Email: ['', [Validators.email, Validators.required]],
+
         Passwords: this.formBuilder.group({
           Password: ['', [Validators.required, Validators.minLength(4)]],
           ConfirmPassword: ['', Validators.required]
@@ -28,10 +29,10 @@ export class SignUpComponent implements OnInit {
   }
 
   constructor(private formBuilder: FormBuilder, private userService: UserService, private service: RegistrationService) {
-    this.userService.CheckAuthentification();
+    this.userService.checkAuthentification();
   }
 
-  onSubmit() {
+  private onSubmit() {
 
     const body = {
       Name: this.registrationForm.value.Nickname,
@@ -43,7 +44,7 @@ export class SignUpComponent implements OnInit {
     this.service.register(body);
   }
 
-  getEmailErrorMessage() {
+  private getEmailErrorMessage() {
 
     const fieldName = 'Email';
 
@@ -57,7 +58,7 @@ export class SignUpComponent implements OnInit {
   }
   }
 
-  getNicknameErrorMessage() {
+  private getNicknameErrorMessage() {
     const fieldName = 'Nickname';
 
     if (this.registrationForm.controls[fieldName].touched && this.registrationForm.controls[fieldName].hasError('required')) {
@@ -65,10 +66,10 @@ export class SignUpComponent implements OnInit {
     }
   }
 
-  getPasswordErrorMessage() {
+  private getPasswordErrorMessage() {
     const fieldName = 'Passwords.Password';
 
-    if (this.registrationForm.get[fieldName].touched) {
+    if (this.registrationForm.get(fieldName).touched) {
 
       if (this.registrationForm.get(fieldName).hasError('minlength')) {
       return 'Minimum 4 characters required!';
@@ -78,10 +79,10 @@ export class SignUpComponent implements OnInit {
   }
   }
 
-  getConfirmPasswordErrorMessage() {
+  private getConfirmPasswordErrorMessage() {
     const fieldName = 'Passwords.ConfirmPassword';
 
-    if (this.registrationForm.get[fieldName].touched) {
+    if (this.registrationForm.get(fieldName).touched) {
 
       if (this.registrationForm.get(fieldName).hasError('required')) {
       return this.emptyFieldWarning;
@@ -89,10 +90,9 @@ export class SignUpComponent implements OnInit {
       return 'Passwords are not the same.';
     }
   }
-
   }
 
-  comparePasswords(registrationForm: FormGroup) {
+  private comparePasswords(registrationForm: FormGroup) {
 
     const confirmPswrdCtrl = registrationForm.get('ConfirmPassword');
 
@@ -107,7 +107,7 @@ export class SignUpComponent implements OnInit {
     }
   }
 
-  socialSignIn(platform) {
+  private socialSignIn(platform) {
     this.userService.socialSignIn(platform);
   }
 }
