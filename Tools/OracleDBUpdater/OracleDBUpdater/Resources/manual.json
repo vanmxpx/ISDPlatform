@@ -1,7 +1,8 @@
 {
-	"update":"UPDATE IS \nTHE BEST \nCOMMAND\n",
+  "update": "UPDATE IS \nTHE BEST \nCOMMAND\n",
+  "github": "\"github update\" command can allow you to download last update scripts from GitHub repository.\n",
 	"version":"The \"version\" command displays the current version of the database. This command has no additional parameters.",
 	"versions":"The \"versions\" command displays all versions of the database. This command has no additional parameters.",
-	"help":"The \"help\" command is used to display the manual for each command.\n - help version\n - help update",
+	"help":"The \"help\" command is used to display the manual for each command.\n - help version\n - help update\n\n List of commands:\n",
 	"exit":"The \"exit\" command exits the application."
 }
