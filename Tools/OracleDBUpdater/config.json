@@ -1,0 +1,6 @@
+{
+  "DB_VERSION_TABLE": "DB_VERSION",
+  "DB_VERSION_FIELD": "VERSION",
+  "ConnectionString": "User Id=SYSTEM;Password=qQ1111qQ;Data Source=localhost:1521/xe;",
+  "GITHUB_PATH": "vanmxpx/ISDPlatform/contents/Documentation/Database/UpdateScripts"
+}
