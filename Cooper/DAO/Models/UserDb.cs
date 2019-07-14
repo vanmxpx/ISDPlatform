@@ -18,6 +18,7 @@ namespace Cooper.DAO.Models
         public bool IsCreator { get; set; }
         public bool IsBanned { get; set; }
         public DateTime EndBanDate { get; set; }
+        public string Description { get; set; }
         public string PlatformLanguage { get; set; }
         public string PlatformTheme { get; set; }
 

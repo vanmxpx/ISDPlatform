@@ -163,6 +163,7 @@ namespace Cooper.Repository
         {
             UserDb userDb = mapper.Map(user);
             //Set default values
+            userDb.Description = "I am just a man from nowhere. I like lorem ipsum and game of thrones.";
             userDb.PlatformLanguage = "English";
             userDb.PlatformTheme = "Light";
 

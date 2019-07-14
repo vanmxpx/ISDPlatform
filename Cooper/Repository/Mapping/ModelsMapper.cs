@@ -92,6 +92,7 @@ namespace Cooper.Repository.Mapping
             user_newType.IsCreator = user.IsCreator;
             user_newType.IsBanned = user.IsBanned;
             user_newType.EndBanDate = user.EndBanDate;
+            user_newType.Description = user.Description;
             user_newType.PlatformLanguage = user.PlatformLanguage;
             user_newType.PlatformTheme = user.PlatformTheme;
 
@@ -115,6 +116,7 @@ namespace Cooper.Repository.Mapping
             user_newType.Name = user.Name;
             user_newType.Nickname = user.Nickname;
             user_newType.PhotoURL = user.PhotoURL;
+            user_newType.Description = user.Description;
             user_newType.Email = user.Email;
             user_newType.IsVerified = user.IsVerified;
             user_newType.IsCreator = user.IsCreator;
