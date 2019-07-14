@@ -1,10 +1,8 @@
 using Cooper.Configuration;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Cooper.Services
@@ -16,7 +14,8 @@ namespace Cooper.Services
         delegate bool authorizerDelegate(string token, string id);
         Dictionary<string, authorizerDelegate> CheckAuth = new Dictionary<string, authorizerDelegate>();
 
-        public SocialAuth(IConfigProvider configProvider) {
+        public SocialAuth(IConfigProvider configProvider)
+        {
             this.FacebookAppID = configProvider.FacebookProvider.AppID;
             this.FacebookSecretKey = configProvider.FacebookProvider.AppSecretKey;
 
@@ -31,33 +30,54 @@ namespace Cooper.Services
             return CheckAuth[provider](token, id);
         }
 
-        private bool IsFacebookAuth(string token, string user_id) {
+        private bool IsFacebookAuth(string token, string user_id)
+        {
+            bool result = false;
             string secretKey = GetFacebookSecretKey();
             string url = $"https://graph.facebook.com/debug_token?input_token={token}&access_token={secretKey}";
-            var result = JObject.Parse(ParseURL(url));
-            return (bool)(result.SelectToken("data").SelectToken("is_valid")) 
-                && (string)(result.SelectToken("data").SelectToken("user_id")) == user_id;
+            try
+            {
+                var json_result = JObject.Parse(ParseURL(url));
+                result = ((bool)(json_result.SelectToken("data").SelectToken("is_valid"))
+                         && (string)(json_result.SelectToken("data").SelectToken("user_id")) == user_id);
+            }
+            catch { }
+
+            return result;
         }
 
-        private bool IsGoogleAuth(string idToken, string email) {
+        private bool IsGoogleAuth(string idToken, string email)
+        {
+            bool result = false;
             string url = $"https://oauth2.googleapis.com/tokeninfo?id_token={idToken}";
-            var result = JObject.Parse(ParseURL(url));
-            return (string)(result.SelectToken("error")) == null
-                && (bool)(result.SelectToken("email_verified"))
-                && (string)(result.SelectToken("email")) == email;
+            try
+            {
+                var json_result = JObject.Parse(ParseURL(url));
+                result = (string)(json_result.SelectToken("error")) == null
+                    && (bool)(json_result.SelectToken("email_verified"))
+                    && (string)(json_result.SelectToken("email")) == email;
+            }
+            catch { }
+
+            return result;
         }
 
-        private string GetFacebookSecretKey() {
+        private string GetFacebookSecretKey()
+        {
             return (string)(JObject.Parse(ParseURL(getFacebookSecretKey)).SelectToken("access_token"));
         }
 
-        private string ParseURL(string url) {
+        private string ParseURL(string url)
+        {
             string result = null;
-            try {
+            try
+            {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.UserAgent = @"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36";
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-                if (response.StatusCode == HttpStatusCode.OK) {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
                     Stream receiveStream = response.GetResponseStream();
                     StreamReader readStream = null;
 
@@ -74,7 +94,8 @@ namespace Cooper.Services
                     readStream.Close();
                     readStream.Dispose();
                 }
-            } catch { }
+            }
+            catch { }
 
             return result;
         }
