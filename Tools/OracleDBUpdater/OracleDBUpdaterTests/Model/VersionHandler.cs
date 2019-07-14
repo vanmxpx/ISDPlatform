@@ -38,6 +38,7 @@ namespace Tests
                 yield return new TestVersion("-1.2.0", false, new VersionHandler.Version(0, 0, 0));
                 yield return new TestVersion("0.1.12312123", true, new VersionHandler.Version(0, 1, 12312123));
                 yield return new TestVersion("11232132.11232132.12312123", true, new VersionHandler.Version(11232132, 11232132, 12312123));
+                yield return new TestVersion("", false, new VersionHandler.Version(0, 0, 0));
             }
         }
 
