@@ -25,19 +25,15 @@ namespace MediaServer.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpPost]
         [Route("upload")]
         public async Task<IActionResult> Upload()
         {
-            IFormFileCollection files = HttpContext.Request.Form.Files;
             IFormFile file = null;
+            IFormFileCollection files = HttpContext.Request.Form.Files;
 
-            if(files.Count != 0)
+            // We take only one file if the collection contains files.
+            if (files.Count != 0)
             {
                 file = HttpContext.Request.Form.Files[0];
             }
@@ -47,7 +43,7 @@ namespace MediaServer.Controllers
 
         private async Task<IActionResult> UploadImage(IFormFile uploadedFile)
         {
-            string errorMessage = null;
+            string errorMessage;
 
             if (uploadedFile != null)
             {
@@ -60,6 +56,7 @@ namespace MediaServer.Controllers
                         float width = image.Width;
                         float height = image.Height;
 
+                        // Resize the image if necessary.
                         if (width > height && width > 1000)
                         {
                             image = image.ResizeImage(1000, (int)(height / width * 1000));
