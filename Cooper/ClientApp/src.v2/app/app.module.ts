@@ -15,8 +15,11 @@ import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
 
 
-import { LoginLayoutComponent } from './layouts';
-import {LoginComponent} from './components';
+import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
+  PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
+  RegistrationLayoutComponent  } from './layouts';
+
+import {LoginComponent, RegistrationComponent} from './components';
 
 
 export function getAuthServiceConfigs() {
@@ -37,9 +40,18 @@ export function getAuthServiceConfigs() {
 }
 @NgModule({
   declarations: [
-  LoginLayoutComponent,
+    AppComponent,
+    LoginLayoutComponent,
+    RegistrationLayoutComponent,
+    GameLayoutComponent,
+    GamesLayoutComponent,
+    TopPanelLayoutComponent,
+    ProfileLayoutComponent,
+    PlatformLayoutComponent,
 
-  LoginComponent],
+  LoginComponent,
+  RegistrationComponent
+],
   imports: [
     BrowserModule,
     AppRoutingModule,
