@@ -38,7 +38,7 @@ namespace Cooper.DAO
             attributes = new HashSet<string>()
             {
                 "ID", "NAME", "NICKNAME", "EMAIL", "PASSWORD", "PHOTOURL",
-                "ISVERIFIED", "ISCREATOR", "ISBANNED", "ENDBANDATE",
+                "ISVERIFIED", "ISCREATOR", "ISBANNED", "ENDBANDATE", "DESCRIPTION",
                 "PLATFORMLANGUAGE", "PLATFORMTHEME"
             };
 

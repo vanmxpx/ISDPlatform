@@ -184,6 +184,9 @@ namespace Cooper.DAO.Mapping
                     case "ISBANNED":
                         user.IsBanned = DbTools.ProcessBoolean(aV.Value);
                         break;
+                    case "DESCRIPTION":
+                        user.Description = aV.Value.ToString();
+                        break;
                     case "ENDBANDATE":
                         user.EndBanDate = (DateTime)aV.Value;
                         break;
@@ -239,6 +242,9 @@ namespace Cooper.DAO.Mapping
                         break;
                     case "ENDBANDATE":
                         value = $"TO_DATE(\'{user.EndBanDate.ToString("dd.MM.yyyy HH:mm:ss")}\', 'DD.MM.YYYY HH24:MI:SS')";
+                        break;
+                    case "DESCRIPTION":
+                        value = $"'{user.Description}'";
                         break;
                     case "PLATFORMLANGUAGE":
                         value = $"\'{user.PlatformLanguage}\'";
