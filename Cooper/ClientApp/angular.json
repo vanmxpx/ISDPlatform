@@ -5,25 +5,25 @@
   "projects": {
     "Cooper": {
       "root": "",
-      "sourceRoot": "src",
+      "sourceRoot": "src.v2",
       "projectType": "application",
-      "prefix": "app",
+      "prefix": "coop",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "index": "src.v2/index.html",
+            "main": "src.v2/main.ts",
+            "polyfills": "src.v2/polyfills.ts",
+            "tsConfig": "src.v2/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src.v2/favicon.ico",
+              "src.v2/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src.v2/styles.css"
             ],
             "scripts": [],
             "es5BrowserSupport": true
@@ -32,8 +32,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "src.v2/environments/environment.ts",
+                  "with": "src.v2/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -75,17 +75,17 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "main": "src.v2/test.ts",
+            "polyfills": "src.v2/polyfills.ts",
+            "tsConfig": "src.v2/tsconfig.spec.json",
+            "karmaConfig": "src.v2/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src.v2/styles.css"
             ],
             "scripts": [],
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src.v2/favicon.ico",
+              "src.v2/assets"
             ]
           }
         },
@@ -93,8 +93,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
+              "src.v2/tsconfig.app.json",
+              "src.v2/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

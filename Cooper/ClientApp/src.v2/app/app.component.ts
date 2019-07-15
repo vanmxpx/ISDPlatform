@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 
 
 @Component({
-  selector: 'cooper-root',
+  selector: 'coop-root',
  templateUrl: './app.component.html',
  styleUrls: ['./app.component.css']
 })

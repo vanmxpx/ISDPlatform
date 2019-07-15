@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-games',
+  selector: 'coop-games-layout',
   templateUrl: './games.layout.html',
   styleUrls: ['./games.layout.css']
 })

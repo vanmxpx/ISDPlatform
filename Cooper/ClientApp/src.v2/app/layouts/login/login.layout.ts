@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-login',
+  selector: 'coop-login-layout',
   templateUrl: './login.layout.html',
   styleUrls: ['./login.layout.css']
 })

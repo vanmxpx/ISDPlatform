@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-registration',
+  selector: 'coop-registration-layout',
   templateUrl: './registration.layout.html',
   styleUrls: ['./registration.layout.css']
 })

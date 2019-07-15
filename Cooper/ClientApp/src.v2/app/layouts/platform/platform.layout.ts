@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-platform',
+  selector: 'coop-platform-layout',
   templateUrl: './platform.layout.html',
   styleUrls: ['./platform.layout.css']
 })

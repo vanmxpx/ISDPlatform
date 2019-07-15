@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-top-panel',
+  selector: 'coop-top-panel-layout',
   templateUrl: './top-panel.layout.html',
   styleUrls: ['./top-panel.layout.css']
 })
