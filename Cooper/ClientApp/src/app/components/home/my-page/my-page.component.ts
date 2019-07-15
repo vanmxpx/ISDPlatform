@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Game, Comment, CommonChat, ProfileList, Profile } from '../models/my-page-models';
-import { ListOfGamesService } from '../services/list-of-games.service';
-import { UsersCommentsService } from '../services/users-comments.service';
+import { Game, Comment, CommonChat, ProfileList, Profile } from '../../../models/my-page-models';
+import { ListOfGamesService } from '../../../services/list-of-games.service';
+import { UsersCommentsService } from '../../../services/users-comments.service';
 import { HubConnection, HubConnectionBuilder, HttpTransportType, LogLevel} from '@aspnet/signalr';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UsersFriendsService } from '../services/users-friends.service';
-import { CommonChatService } from '../services/common-chat.service';
-import { ConvertionService } from '../services/convertion.service';
-import { CommonChatData } from '../models/data-models/common-chats';
-import { ProfileService } from '../services/profile.service';
+import { UsersFriendsService } from '../../../services/users-friends.service';
+import { CommonChatService } from '../../../services/common-chat.service';
+import { ConvertionService } from '../../../services/convertion.service';
+import { CommonChatData } from '../../../models/data-models/common-chats';
+import { ProfileService } from '../../../services/profile.service';
 
 @Component({
   selector: 'cooper-my-page',

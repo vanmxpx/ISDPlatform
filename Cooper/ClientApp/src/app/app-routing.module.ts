@@ -9,17 +9,16 @@ import { AuthGuard } from './components/auth/guards/auth-guard';
 import { AppSignComponentComponent } from './app-sign-component/app-sign-component.component';
 import { MyPageComponent } from './my-page/my-page.component';
 
-const routes: Routes = [
-  
+const routes: Routes = [  
   {path: '', redirectTo : 'auth', pathMatch: 'full'},
   { path: 'gamedetail/:id', component: GameDetailComponent, canActivate: [AuthGuard] },
   { path: 'games', component: GamesComponent, canActivate: [AuthGuard] },
   { path: 'myPage/:nickname', component: MyPageComponent, canActivate: [AuthGuard]},
-  {path: '**', redirectTo : 'auth/signIn', pathMatch: 'full'},
+  { path: '**', redirectTo : 'auth/signIn', pathMatch: 'full'},
   { path: 'auth', component: AppSignComponentComponent,
     children: [
-      {path: '', component: SignInComponent, outlet:'sub', data: { animation: 'isSignIn' }},
-      {path:'signUp',component:SignUpComponent, outlet:'sub', data: { animation: 'isSignUp' }},
+      { path: '', component: SignInComponent, outlet:'sub', data: { animation: 'isSignIn' }},
+      { path:'signUp',component:SignUpComponent, outlet:'sub', data: { animation: 'isSignUp' }},
       ]},
 ];
 
