@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Oracle.ManagedDataAccess;
-using AspNetCore.Proxy;
 using Cooper.Models;
 using Cooper.DAO.Models;
 using Cooper.Configuration;
@@ -46,9 +45,6 @@ namespace Cooper
             services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSingleton<ICommonChatRepository, CommonChatRepository>();
-            services.AddTransient<ISmtpClient, GmailSmtpClient>();
-
-            services.AddProxies();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -61,8 +57,10 @@ namespace Cooper
             services.AddConfigurationProvider(Configuration);
             services.AddJWTAuthorization();
 
+            services.AddSmtpClientExtensionService();
             services.AddUserConnectionService();
             services.AddTokenCleanerService();
+            services.AddSocialAuthService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

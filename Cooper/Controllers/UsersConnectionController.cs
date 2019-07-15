@@ -15,7 +15,7 @@ using Cooper.Extensions;
 
 namespace Cooper.Controllers
 {
-    [Route("api/subscription")]
+    [Route("api/interaction")]
     public class UsersConnectionController : ControllerBase
     {
         IUsersConnectionRepository userConnectionsRepository;
@@ -61,6 +61,16 @@ namespace Cooper.Controllers
             return Ok(subscriptionsList);
         }
 
+        [HttpGet("friends/{userId}"), Authorize]
+        [ProducesResponseType(200, Type = typeof(UsersConnection))]
+        [ProducesResponseType(404)]
+        public IActionResult GetUserFriendsList(long userId)
+        {
+            List<User> friendsList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Friends);
+
+            return Ok(friendsList);
+        }
+
         [HttpPost("subscribe/{userId}"), Authorize]
         [ProducesResponseType(200)]
         [ProducesResponseType(201)]
@@ -75,8 +85,14 @@ namespace Cooper.Controllers
 
             UsersConnection usersConnection = userConnectionService.CreateConnection(userId, subscriberToken);
 
+            if (usersConnection.User1.Id == usersConnection.User2.Id)
+            {
+                return BadRequest();
+            }
+
+
             bool isSubscribed = userConnectionsRepository.CreateSubscription(usersConnection);
-                
+            
             return Ok(isSubscribed);
         }
         
@@ -93,6 +109,11 @@ namespace Cooper.Controllers
             string userToken = Request.GetUserToken();
 
             UsersConnection usersConnection = userConnectionService.CreateConnection(userToken, bannedUserId, ban: true);
+
+            if (usersConnection.User1.Id == usersConnection.User2.Id)
+            {
+                return BadRequest();
+            }
 
             bool isBanned = userConnectionsRepository.BanUser(usersConnection);
             
@@ -111,6 +132,11 @@ namespace Cooper.Controllers
 
             UsersConnection usersConnection = userConnectionService.CreateConnection(userToken, bannedUserId, ban: false);
 
+            if (usersConnection.User1.Id == usersConnection.User2.Id)
+            {
+                return BadRequest();
+            }
+
             bool isUnbanned = userConnectionsRepository.UnbanUser(usersConnection);
 
             return Ok(isUnbanned);
@@ -122,6 +148,11 @@ namespace Cooper.Controllers
             string subscriberToken = Request.GetUserToken();
 
             UsersConnection usersConnection = userConnectionService.CreateConnection(userId, subscriberToken);
+
+            if (usersConnection.User1.Id == usersConnection.User2.Id)
+            {
+                return BadRequest();
+            }
 
             bool isUnsubscribed = userConnectionsRepository.Unsubscribe(usersConnection);
 

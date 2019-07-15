@@ -199,6 +199,11 @@ CREATE TABLE TOKENS (
 )
 ;
 
+CREATE TABLE DB_VERSION (
+  VERSION VARCHAR(200)
+)
+;
+
 /*==================================*/
 ALTER TABLE MESSAGES
   MODIFY createdate date default sysdate;

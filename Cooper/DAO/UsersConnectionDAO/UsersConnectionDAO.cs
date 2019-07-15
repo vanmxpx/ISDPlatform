@@ -83,6 +83,16 @@ namespace Cooper.DAO
                         user2_attribute = "IDUSER1";
                         break;
                     }
+                case ConnectionType.Friends:
+                    {
+                        user1_attribute = "IDUSER1";
+
+                        where_attributes.Add(user1_attribute, userId);
+                        where_attributes.Add("AREFRIENDS", "\'y\'");
+
+                        user2_attribute = "IDUSER2";
+                        break;
+                    }
                 default:
                     break;                    
             }
@@ -115,8 +125,8 @@ namespace Cooper.DAO
             UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
             var where_attributes = new Dictionary<string, object>()
             {
-                { "IDUSER1", symmetricConnection.IdUser2 },
-                { "IDUSER2", symmetricConnection.IdUser1 }
+                { "IDUSER1", symmetricConnection.IdUser1 },
+                { "IDUSER2", symmetricConnection.IdUser2 }
             };
 
             
@@ -124,26 +134,23 @@ namespace Cooper.DAO
             
             if (entity != null)
             {
-                if ((bool)entity.attributeValue["BLACKLISTED"])
+                if (DbTools.ProcessBoolean(entity.attributeValue["BLACKLISTED"]))
                 {
                     return isCreated;
                 }
                 
-                where_attributes = new Dictionary<string, object>()
-                {
-                    { "IDUSER1", usersConnection.IdUser1 },
-                    { "IDUSER2", usersConnection.IdUser2 }
-                };
-
                 symmetricConnection.AreFriends = true;
 
                 EntityORM symmetricConnection_newTyped = Mapping.EntityMapping.Map(symmetricConnection, attributes);
+                
+                // Making sure that ID value is not touched.
+                symmetricConnection_newTyped.attributeValue.Remove("ID");
 
                 Update(table, attributes, where_attributes, symmetricConnection_newTyped);
 
                 usersConnection.AreFriends = true;
             }
-
+            
             isCreated = Save(usersConnection);
 
             return isCreated;
@@ -172,8 +179,7 @@ namespace Cooper.DAO
             var where_attributes = new Dictionary<string, object>()
             {
                 { "IDUSER1", usersConnection.IdUser1 },
-                { "IDUSER2", usersConnection.IdUser2 },
-                { "BLACKLISTED", usersConnection.BlackListed}
+                { "IDUSER2", usersConnection.IdUser2 }
             };
 
             if (ConnectionExists(symmetricConnection))
@@ -189,6 +195,10 @@ namespace Cooper.DAO
                 }
 
                 EntityORM usersConnection_newTyped = Mapping.EntityMapping.Map(usersConnection, attributes);
+
+                // Making sure that ID value is not touched.
+                usersConnection_newTyped.attributeValue.Remove("ID");
+
                 isBanned = Update(table, attributes, where_attributes, usersConnection_newTyped);
             }
             else
@@ -231,6 +241,10 @@ namespace Cooper.DAO
                 symmetricConnection.AreFriends = false;
 
                 EntityORM symmetricConnection_newTyped = Mapping.EntityMapping.Map(symmetricConnection, attributes);
+
+                // Making sure that ID value is not touched.
+                symmetricConnection_newTyped.attributeValue.Remove("ID");
+
                 Update(table, attributes, where_attributes, symmetricConnection_newTyped);
             }
 
@@ -386,6 +400,7 @@ namespace Cooper.DAO
 
         private bool Update(string table, HashSet<string> attributes, Dictionary<string, object> where_attributes, EntityORM entity)
         {
+
             bool isUpdated = false;
 
             try

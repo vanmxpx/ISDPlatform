@@ -80,13 +80,18 @@ namespace Cooper.DAO
 
         public bool CheckCredentials(string nickname, string password)
         {
-            var all = GetAll();
             UserDb user = GetByNickname(nickname);
 
             if (user == null || user.Password != password)
             {
-                return false;
+                user = GetByEmail(nickname);
+
+                if (user == null || user.Password != password)
+                {
+                    return false;
+                }
             }
+            
             return true;
         }
 
@@ -131,10 +136,11 @@ namespace Cooper.DAO
                 return user;
             }
 
-            EntityORM entity = crud.Read(attribute_value, attribute_name, attributes, table);
+            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(attribute_name, DbTools.RequestOperator.Equal, attribute_value) }));
 
-            if (entity != null)
-                EntityMapping.Map(entity, out user);
+            if (entities.Any()) {
+                EntityMapping.Map(entities[0], out user);
+            }
 
             return user;
         }
@@ -156,7 +162,7 @@ namespace Cooper.DAO
         {
             List<UserDb> users = new List<UserDb>();
 
-            List<EntityORM> entities = (List<EntityORM>)crud.ReadAll(table, attributes);
+            List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes);
 
             foreach (EntityORM entity in entities)              // Mapping entities to users
             {

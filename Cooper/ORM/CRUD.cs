@@ -19,7 +19,7 @@ namespace Cooper.ORM
             dbConnect = new DbConnect(configProvider);
             logger = LogManager.GetLogger("CooperLoger");
         }
-        
+
         public long Create(string table, string idColumn, EntityORM entity, bool returning = true)
         {
             long insertId = 0;
@@ -34,12 +34,13 @@ namespace Cooper.ORM
                     String.Join(",", entity.attributeValue.Keys),
                     String.Join(",", entity.attributeValue.Values));
 
-                if (returning) {
+                if (returning)
+                {
                     sqlExpression += $" returning {idColumn} into :id";
                     Console.WriteLine($"{sqlExpression}");
                     insertId = long.Parse(dbConnect.ExecuteNonQuery(sqlExpression, getId: true).ToString());
                 }
-                else 
+                else
                 {
                     Console.WriteLine($"{sqlExpression}");
                     dbConnect.ExecuteNonQuery(sqlExpression);
@@ -59,118 +60,12 @@ namespace Cooper.ORM
             return insertId;
         }
 
-        public EntityORM Read(object attribute_value, string attribute_name, HashSet<string> attributes, string table)
-        {
-            EntityORM entity = null;
-
-            try
-            {
-                string sqlExpression = $"SELECT * FROM {table} WHERE {attribute_name} = {attribute_value}";
-
-                dbConnect.OpenConnection();
-                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
-
-                OracleDataReader reader = command.ExecuteReader();
-
-                reader.Read();
-                if (reader.HasRows)
-                {
-                    entity = new EntityORM();
-                    foreach (string attribute in attributes)
-                    {
-                        object value = reader[attribute];
-                        entity.attributeValue.Add(attribute, value);
-                    }
-                }
-
-                reader.Close();
-            }
-            catch (DbException ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
-            }
-
-
-            return entity;
-        }
-
-        public List<string> ReadFieldValues(string field, string table)
-        {
-            List<string> fieldValues = new List<string>();
-            try
-            {
-                string sqlExpression = $"SELECT {field} FROM {table}";
-
-                dbConnect.OpenConnection();
-                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
-
-                OracleDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    fieldValues.Add(reader[field].ToString());
-                }
-
-                reader.Close();
-            }
-            catch (DbException ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
-            }
-
-            return fieldValues;
-        }
-
-        public IEnumerable<EntityORM> ReadBellow(object attribute_value, string attribute_name, HashSet<string> attributes, string table) {
-            List<EntityORM> entities = new List<EntityORM>();
-
-            try
-            {
-                string sqlExpression = $"SELECT * FROM {table} WHERE {attribute_name} <= {attribute_value}";
-
-                dbConnect.OpenConnection();
-                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
-
-                OracleDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    EntityORM entity = new EntityORM(); 
-                    foreach (string attribute in attributes)
-                    {
-                        object value = reader[attribute];
-                        entity.attributeValue.Add(attribute, value);
-                    }
-
-                    entities.Add(entity);
-                }
-            }
-            catch (DbException ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
-            }
-
-            return entities;
-        }
-
-        public IEnumerable<EntityORM> ReadAll(string table, HashSet<string> attributes)
+        public IEnumerable<EntityORM> Read(string table, HashSet<string> attributes, DbTools.WhereRequest[] whereRequests = null)
         {
             List<EntityORM> entities = new List<EntityORM>();
-            
             try
             {
-                string sqlExpression = $"SELECT * FROM {table}";
+                string sqlExpression = DbTools.createQuery(table, attributes, whereRequests);
 
                 dbConnect.OpenConnection();
                 OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
@@ -178,11 +73,10 @@ namespace Cooper.ORM
                 OracleDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    EntityORM entity = new EntityORM(); 
+                    EntityORM entity = new EntityORM();
                     foreach (string attribute in attributes)
                     {
-                        object value = reader[attribute];
-                        entity.attributeValue.Add(attribute, value);
+                        entity.attributeValue.Add(DbTools.GetVariableAttribute(attribute), reader[attribute]);
                     }
 
                     entities.Add(entity);
@@ -240,7 +134,7 @@ namespace Cooper.ORM
             {
                 dbConnect.OpenConnection();
                 string sqlExpression = $"DELETE FROM {table} WHERE {idColumn} = {id}";
-                
+
                 dbConnect.ExecuteNonQuery(sqlExpression);
             }
             catch (DbException ex)

@@ -1,0 +1,128 @@
+
+
+<div>
+
+  <main>
+    <div class="col-md-2"></div>
+
+    <div class="col-md-2" id="main-container">
+        <mat-card class="example-card">                
+  <img mat-card-image src="assets/imageKeeper/robot.png" class="avatar">
+  <mat-card-title>{{profile.nickname}}</mat-card-title> 
+  </mat-card>
+  <mat-card-content class="info">
+    Name:
+  <p class="info-value">
+      {{profile.name}}
+  </p>
+  </mat-card-content>
+  <mat-card-content class="info">
+      E-mail:
+    <p class="info-value">
+        {{profile.email}}
+    </p>
+    </mat-card-content>
+    <mat-card-content class="info">
+        Bio:
+      <p class="info-value">
+          I am just a man from nowhere. I like lorem ipsum and game of thrones
+      </p>
+      </mat-card-content>
+      <div *ngIf="this.profile.isMy" (click)="this.isButtonVisible = true">
+  <button mat-raised-button class="button-edit">Edit profile</button>
+</div>
+    </div>
+
+    <div class="col-md-3"><mat-card class="game-card">
+      <mat-card-title><mat-tab-group mat-stretch-tabs>
+        <mat-tab>  
+            <ng-template mat-tab-label>
+                <span matBadge="{{friendsNumber}}" matBadgeOverlap="false">Friends</span>
+              </ng-template>
+          <mat-card-content>
+          <mat-action-list class = "game-list">
+              <mat-list-item *ngFor="let friend of friends" (click)="goToProfile(friend.nickname)">
+                  <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{friend.PhotoURL}}>
+                  <h3 matLine> {{friend.nickname}} </h3>
+              </mat-list-item>
+            </mat-action-list>
+      </mat-card-content>
+     </mat-tab>
+        <mat-tab> 
+            <ng-template mat-tab-label>
+                <span matBadge="{{followingsNumber}}" matBadgeOverlap="false">Followings</span>
+              </ng-template>
+            <mat-card-content>
+                <mat-action-list class = "game-list">
+                    <mat-list-item *ngFor="let following of followings" (click)="goToProfile(following.nickname)">
+                        <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{following.PhotoURL}}>
+                        <h3 matLine> {{following.nickname}} </h3>
+                    </mat-list-item>
+                  </mat-action-list>
+            </mat-card-content>
+        </mat-tab>
+        <mat-tab >
+            <ng-template mat-tab-label>
+                <span matBadge="{{followersNumber}}" matBadgeOverlap="false">Followers</span>
+              </ng-template> 
+            <mat-card-content>
+                <mat-action-list class = "game-list">
+                    <mat-list-item *ngFor="let follower of followers" (click)="goToProfile(follower.nickname)">
+                        <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{follower.PhotoURL}}>
+                        <h3 matLine> {{follower.nickname}} </h3>
+                    </mat-list-item>
+                  </mat-action-list>
+            </mat-card-content>  
+        </mat-tab>
+      </mat-tab-group></mat-card-title>
+     
+    </mat-card>
+  </div>
+
+    <div class="col-md-3">
+      <mat-card class="game-card">
+        <mat-card-title>Games</mat-card-title>
+        <mat-card-content>
+            <mat-action-list class = "game-list">
+                <mat-list-item *ngFor="let game of games">
+                    <img mat-card-avatar src={{game.logo}}>
+                    <h3 matLine> {{game.name}} </h3>                   
+                </mat-list-item>
+              </mat-action-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-md-2"></div>
+
+  </main>
+</div>
+
+<div class="common-chat" class="col-md-5" (ngSubmit)="sendMessage()" >
+    <div class="chat-card">
+            <mat-list class = "chat-list" role="list" >
+                <mat-list-item role="listitem" *ngFor="let commonMessage of messages" class = "message">
+                    <img matListAvatar onError="this.src='assets/imageKeeper/robot.png'" src={{commonMessage.avatar}}>
+                  <mat-card class="message-text" >   
+                    <div class = "message-header">              
+                      <mat-card-title class = "sender">{{commonMessage.name}}</mat-card-title>
+                      <mat-card-subtitle class = "date">{{commonMessage.date}}</mat-card-subtitle>
+                    </div>    
+                      <mat-card-title class = "message-content">
+                        {{commonMessage.message}}
+                      </mat-card-title>
+                      
+                  </mat-card>
+                </mat-list-item>
+
+              </mat-list>
+      </div>
+      <div class="new-message">
+  <mat-form-field class="input-chat">
+    <input matInput type="text" id="message" name="message" [(ngModel)]="message" placeholder="Enter your message..."/>
+  </mat-form-field>
+    <button mat-icon-button class="button-send" type="text" (click) = "sendMessage()" required>
+      <mat-icon>mail_outline</mat-icon>
+    </button>
+  </div>
+</div>

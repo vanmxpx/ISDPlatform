@@ -41,10 +41,11 @@ namespace Cooper.DAO
         {
             GameReviewDb gameReview = null;
 
-            EntityORM entity = crud.Read(id, idColumn, attributes, table);
+            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
 
-            if (entity != null)
-                EntityMapping.Map(entity, out gameReview);
+            if (entities.Any()) {
+                EntityMapping.Map(entities[0], out gameReview);
+            }
 
             return gameReview;
         }
@@ -67,7 +68,7 @@ namespace Cooper.DAO
         {
             List<GameReviewDb> gameReviews = new List<GameReviewDb>();
 
-            List<EntityORM> entities = (List<EntityORM>)crud.ReadAll(table, attributes);
+            List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes);
 
             foreach (EntityORM entity in entities)              // Mapping entities to userReviews
             {

@@ -10,7 +10,6 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class TokenCleanerExtension
     {
-        private static ITokenCleaner userConnectionService;
         public static void AddTokenCleanerService(this IServiceCollection services)
         {
             IServiceProvider serviceProvider = services.BuildServiceProvider();
