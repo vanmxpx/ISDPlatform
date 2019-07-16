@@ -10,3 +10,5 @@ export {PlatformLayoutComponent} from './platform/platform.layout';
 export {ProfileLayoutComponent} from './profile/profile.layout';
 
 export {TopPanelLayoutComponent} from './top-panel/top-panel.layout';
+
+export {PageNotFoundLayoutComponent} from './page-not-found/page-not-found.layout';
