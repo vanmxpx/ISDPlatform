@@ -8,14 +8,14 @@ The media server was made to work with the Cooper platform. At the moment, the m
 - [Starter Guide](#starter-guide)
   - [Uploading](#uploading)
     - [Uploading images](#uploading-images)
-  - [Receiving](#receiving)
-    - [Receiving images](#receiving-images)
+  - [Getting](#getting)
+    - [Getting images](#getting-images)
 
 # Starter Guide
 
 ## Uploading
 The media server currently supports uploading these types of files:
-- [images](#uploading-images);
+- [images](#uploading-images)
 
 ### Uploading images
 The media server supports downloading these types of images: *.png, *.jpg, *.jpeg.<br/>
@@ -44,8 +44,7 @@ private byte[] GetBytes(IFormFile file)
 
 This method can be found in [this library](https://github.com/vanmxpx/ISDPlatform/tree/master/Tools/MediaServer/Utility), which is used by the media server.
 
-The media server, if the image is successfully added, will return a Json object with the image name. If the media server for some reason could not add an image (incorrect file format or too large size), then it will return the Json object with an error. To upload an image to a media server, you can use the following code.
-**ATTENTION: In my case the host is localhost:52879, in your case it may be different.**
+The media server, if the image is successfully added, will return a Json object with the image name. If the media server, for some reason, could not add an image (incorrect file format or too large size), then it will return the Json object with an error message. For uploading an image to the media server, you can use the following code:
 
 ```csharp 
 public async Task<string> AddImageAsync(IFormFile file)
@@ -82,16 +81,18 @@ public async Task<string> AddImageAsync(IFormFile file)
 }
 ```
 
-## Receiving
-The media server currently supports the receiving file types:
-- [images](#receiving-images);
-
-### Receiving images
-The media server supports receiving these types of images: *.jpg<br/>
-Image receive from server is performed using the following URL: hostName + /api/image/{filename}<br/>
 **ATTENTION: In my case the host is localhost:52879, in your case it may be different.**
 
-Before you just return the finished link in the format host + route + fileName. I advise you to check the success of this link, as this image may simply not be on the media server and it will return the code 404. For this, I recommend using the following code:
+## Getting
+The media server currently supports the receiving file types:
+- [images](#getting-images)
+
+### Getting images
+The media server supports getting these types of images: *.jpg<br/>
+Image get from server is performed using the following URL: hostName + /api/image/{filename}<br/>
+**WARNING: If the image is not found on the media server, it will return the code 404.**
+
+For getting an image from the media server, you can use the following code:
 
 ```csharp
 public async Task<string> GetImageAsync(string filename)
@@ -114,3 +115,5 @@ public async Task<string> GetImageAsync(string filename)
     }
 }
 ```
+
+**ATTENTION: In my case the host is localhost:52879, in your case it may be different.**
