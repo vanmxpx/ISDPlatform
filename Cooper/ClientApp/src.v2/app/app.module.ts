@@ -17,7 +17,7 @@ import {MatIconModule} from '@angular/material/icon';
 
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent  } from './layouts';
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent, EntryLayoutComponent  } from './layouts';
 
 import {LoginComponent, RegistrationComponent} from './components';
 
@@ -49,6 +49,7 @@ export function getAuthServiceConfigs() {
     ProfileLayoutComponent,
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
+    EntryLayoutComponent,
 
   LoginComponent,
   RegistrationComponent,
