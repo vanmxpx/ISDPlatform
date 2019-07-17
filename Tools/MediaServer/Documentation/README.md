@@ -1,7 +1,7 @@
 # Media Server
 -------------------------------
 
-The media server was made to work with the Cooper platform. At the moment, the media server supports uploading and receiving images.
+The media server was made to work with the Cooper platform. At the moment, the media server supports uploading and getting images.
 
 # Table of contents
 
