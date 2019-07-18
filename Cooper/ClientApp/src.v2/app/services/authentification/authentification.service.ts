@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'ng-dynami-social-login';
@@ -54,7 +53,7 @@ export class AuthentificationService {
   }
 
   private transferSocialDataToServer(userData: any) {
-    let body = this.bodyCreator(userData, true);
+    let body = this.createBody(userData, true);
 
     this.http.post(this.authUrl, body).subscribe(
       response => {
@@ -63,11 +62,11 @@ export class AuthentificationService {
       err => {
         if (err.error === 'Auth') {
           // Register
-          body = this.bodyCreator(userData, false);
+          body = this.createBody(userData, false);
           this.http.post(this.registrationUrl, body).subscribe(
             response => {
               // Try to login 1 time
-              body = this.bodyCreator(userData, true);
+              body = this.createBody(userData, true);
               this.http.post(this.authUrl, body).subscribe(
                 response => {
                   this.loginOK((response as any).token);
@@ -94,17 +93,17 @@ export class AuthentificationService {
     this.router.navigate(['/login', {failedLogin: true}]);
   }
 
-  bodyCreator(userData, login) {
-    let result;
-    if (login) {
-      result = {
+  createBody(userData, isAuth: boolean) {
+    let body;
+    if (isAuth) {
+      body = {
         Username: userData.email,
         ID: userData.id,
         Provider: userData.provider,
         Password: userData.token
       };
     } else {
-      result = {
+      body = {
         Name: userData.name,
         Email: userData.email,
         Nickname: userData.id,
@@ -114,6 +113,6 @@ export class AuthentificationService {
       };
     }
 
-    return result;
+    return body;
   }
 }
