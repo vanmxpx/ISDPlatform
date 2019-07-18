@@ -14,13 +14,13 @@ import { CooperInterceptor } from 'src/assets/cooper.interceptor';
 import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
 
-import {AuthGuard} from './guards';
+import {AuthGuard} from '@guards';
 
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent } from '@layouts/index';
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent } from '@layouts';
 
-import {LoginComponent, RegistrationComponent, PosterComponent} from '@components/index';
+import {LoginComponent, RegistrationComponent, PosterComponent} from '@components';
 
 
 export function getAuthServiceConfigs() {

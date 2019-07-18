@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
-import { AuthentificationService } from '@services/authentification/authentification.service';
+import { AuthentificationService } from '@services';
 import { MatInputModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {trigger, transition, style, query, group, animateChild, animate, keyframes, state} from '@angular/animations';

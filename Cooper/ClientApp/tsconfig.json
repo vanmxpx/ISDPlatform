@@ -19,14 +19,14 @@
       "dom"
     ],
     "paths": {
-    "@app*": ["src.v2/app/*"],
-    "@components*": ["src.v2/app/components/*"],
-    "@helpers*": ["src.v2/app/helpers/*"],
-    "@layouts*": ["src.v2/app/layouts/*"],
-    "@models*": ["src.v2/app/models/*"],
-    "@pipes*": ["src.v2/app/pipes/*"],
-    "@services*": ["src.v2/app/services/*"],
-    "@guards*": ["src.v2/app/guards/*"],
+    "@app": ["src.v2/app/"],
+    "@components": ["src.v2/app/components/"],
+    "@helpers": ["src.v2/app/helpers/"],
+    "@layouts": ["src.v2/app/layouts/"],
+    "@models": ["src.v2/app/models/"],
+    "@pipes": ["src.v2/app/pipes/"],
+    "@services": ["src.v2/app/services/"],
+    "@guards": ["src.v2/app/guards/"],
     }
   }
 }
