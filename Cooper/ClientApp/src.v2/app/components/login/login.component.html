@@ -1,3 +1,31 @@
-<p>
-  login works!
-</p>
+<h1 class="h1--color h1--positioning">Sign In</h1>
+
+<form class="form-signin" #loginForm="ngForm" (ngSubmit)="signInClicked(loginForm)">
+
+  <div class="personal-data-form">
+
+    <mat-form-field class="mat-form-field">
+      <input matInput type="email" [(ngModel)]="username" name="Username" placeholder="Enter your nickname" />
+    </mat-form-field>
+
+    <mat-form-field class="mat-form-field">
+      <input matInput type="password" [(ngModel)]="password" name="Password" placeholder="Enter your password"/>
+    </mat-form-field>
+    <mat-error *ngIf="invalidLogin">{{failedLoginMessage}}</mat-error>
+    
+  </div>
+  <br/>
+  <button class="button--colors button--sizes button--font" type="submit">Sign in</button>
+</form>
+
+<div class="text-help">
+  <p>
+    also you can <a routerLink="../registration" routerLinkActive="active">Sign up</a>
+    <br>or sign in by:
+  </p>
+</div>
+
+<div class="socials-container">
+  <img src="assets/imageKeeper/google-icon.png" class="social-icon" (click)="socialSignInClicked('google')" />
+  <img src="assets/imageKeeper/facebook-icon.png" class="social-icon" (click)="socialSignInClicked('facebook')" />
+</div>
