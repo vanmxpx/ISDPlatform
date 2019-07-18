@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -10,8 +10,10 @@ export class LoginComponent implements OnInit {
 
   failedLoginMessage = 'Invalid username or password.';
 
+  @Input() failedLogin: boolean;
   @Output() signIn = new EventEmitter<NgForm>();
   @Output() socialSignIn = new EventEmitter<string>();
+
   constructor() { }
 
   ngOnInit() {

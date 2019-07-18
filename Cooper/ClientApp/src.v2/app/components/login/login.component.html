@@ -11,7 +11,7 @@
     <mat-form-field class="mat-form-field">
       <input matInput type="password" [(ngModel)]="password" name="Password" placeholder="Enter your password"/>
     </mat-form-field>
-    <mat-error *ngIf="invalidLogin">{{failedLoginMessage}}</mat-error>
+    <mat-error *ngIf="failedLogin">{{failedLoginMessage}}</mat-error>
     
   </div>
   <br/>
