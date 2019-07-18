@@ -18,9 +18,9 @@ import {AuthGuard} from './guards';
 
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent   } from './layouts';
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent } from '@layouts/index';
 
-import {LoginComponent, RegistrationComponent, PosterComponent} from './components';
+import {LoginComponent, RegistrationComponent, PosterComponent} from '@components/index';
 
 
 export function getAuthServiceConfigs() {

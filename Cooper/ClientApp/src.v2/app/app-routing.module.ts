@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {AuthGuard} from './guards';
+import {AuthGuard} from '@guards/index';
 import {LoginLayoutComponent, RegistrationLayoutComponent, PlatformLayoutComponent,
-  PageNotFoundLayoutComponent, GameLayoutComponent, GamesLayoutComponent, ProfileLayoutComponent} from './layouts';
+  PageNotFoundLayoutComponent, GameLayoutComponent, GamesLayoutComponent, ProfileLayoutComponent} from '@layouts/index';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
