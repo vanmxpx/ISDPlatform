@@ -29,7 +29,7 @@ export class LoginLayoutComponent implements OnInit {
   }
 
   signIn(form: NgForm): void {
-    this.authService.login(JSON.stringify(form.value));
+    this.authService.signIn(JSON.stringify(form.value));
   }
 
   socialSignIn(platform: string): void {

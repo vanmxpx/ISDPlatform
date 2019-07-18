@@ -9,64 +9,68 @@ import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'ng-dyna
 })
 export class AuthentificationService {
 
-  readonly registrationUrl = '/registration';
-  readonly authUrl = '/auth/login';
-  readonly getProvider = {
-    'google': GoogleLoginProvider.PROVIDER_ID,
-    'facebook': FacebookLoginProvider.PROVIDER_ID
-  };
+  readonly registrationUrl;
+  readonly authUrl;
+  readonly socialProvider;
 
-  constructor(private router: Router, private http: HttpClient, private socialAuthService: AuthService) { }
+  constructor(private router: Router, private http: HttpClient, private socialAuthService: AuthService) {
+    this.registrationUrl = '/registration';
+    this.authUrl = '/auth/login';
+    this.socialProvider = {
+      'google': GoogleLoginProvider.PROVIDER_ID,
+      'facebook': FacebookLoginProvider.PROVIDER_ID
+    };
+   }
 
   public checkAuthentification(): void {
-    const Token: string = localStorage.getItem('JwtCooper');
-    if (Token) {
+    const token: string = localStorage.getItem('JwtCooper');
+    if (token) {
       this.router.navigate(['/platform/profile']);
     }
   }
 
-  public login(credentials) {
+  public signIn(credentials: string): void {
     this.http.post(this.authUrl, credentials, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }).subscribe(response => {
-      this.loginOK((<any>response).token);
+      this.loginOK((response as any).token);
         }, err => {
       this.BadLogin();
     });
   }
 
   public socialSignIn(socialPlatform: string) {
-    this.socialAuthService.signIn(this.getProvider[socialPlatform]).then(
+    this.socialAuthService.signIn(this.socialProvider[socialPlatform]).then(
       (userData) => {
-        if (socialPlatform == 'google') {
+        if (socialPlatform === 'google') {
           userData.id = userData.email;
           userData.token = userData.idToken;
         }
-        this.socialsignin(userData);
+        this.transferSocialDataToServer(userData);
       }
     );
   }
 
-  socialsignin(userData) {
-    var body = this.bodyCreator(userData, true);
+  private transferSocialDataToServer(userData: any) {
+    let body = this.bodyCreator(userData, true);
 
     this.http.post(this.authUrl, body).subscribe(
       response => {
-        this.loginOK((<any>response).token);
+        this.loginOK((response as any).token);
       },
       err => {
-        if (err.error == 'Auth') {
-          //Register
+        if (err.error === 'Auth') {
+          // Register
           body = this.bodyCreator(userData, false);
           this.http.post(this.registrationUrl, body).subscribe(
             response => {
-              //Try to login 1 time
+              // Try to login 1 time
               body = this.bodyCreator(userData, true);
               this.http.post(this.authUrl, body).subscribe(
                 response => {
-                  this.loginOK((<any>response).token);
+                  this.loginOK((response as any).token);
                 },
                 err => {
                   this.BadLogin();
@@ -74,28 +78,25 @@ export class AuthentificationService {
               );
             }
           );
-        }
-        else 
-        {
+        } else {
           this.BadLogin();
         }
       }
     );
   }
 
-  loginOK(token) {
+  loginOK(token: string): void {
     localStorage.setItem('JwtCooper', token);
     this.router.navigate(['/platform/profile']);
   }
 
-  public BadLogin() {
+  public BadLogin(): void {
     this.router.navigate(['/login', {failedLogin: true}]);
   }
 
   bodyCreator(userData, login) {
     let result;
-    if (login === true)
-    {
+    if (login) {
       result = {
         Username: userData.email,
         ID: userData.id,
