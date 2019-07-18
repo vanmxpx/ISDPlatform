@@ -25,7 +25,8 @@
     "@layouts*": ["src.v2/app/layouts/*"],
     "@models*": ["src.v2/app/models/*"],
     "@pipes*": ["src.v2/app/pipes/*"],
-    "@services*": ["src.v2/app/services/*"]
+    "@services*": ["src.v2/app/services/*"],
+    "@guards*": ["src.v2/app/guards/*"],
     }
   }
 }
