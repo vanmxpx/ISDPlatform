@@ -1,4 +1,5 @@
-﻿using MediaServer.Services;
+﻿using MediaServer.Models;
+using MediaServer.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using Utility;
 
 namespace MediaServer.Controllers
 {
+    [Route("api/image")]
     public class ImageController : Controller
     {
         private readonly IHostingEnvironment _appEnvironment;
@@ -23,13 +25,26 @@ namespace MediaServer.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        [HttpPost]
+        [Route("upload")]
+        public async Task<IActionResult> Upload()
         {
-            return View();
+            IFormFile file = null;
+            IFormFileCollection files = HttpContext.Request.Form.Files;
+
+            // We take only one file if the collection contains files.
+            if (files.Count != 0)
+            {
+                file = HttpContext.Request.Form.Files[0];
+            }
+
+            return await UploadImage(file);
         }
 
-        public async Task<IActionResult> Upload(IFormFile uploadedFile)
+        private async Task<IActionResult> UploadImage(IFormFile uploadedFile)
         {
+            string errorMessage;
+
             if (uploadedFile != null)
             {
                 if (uploadedFile.Length < 10 * 1024 * 1024)
@@ -41,6 +56,7 @@ namespace MediaServer.Controllers
                         float width = image.Width;
                         float height = image.Height;
 
+                        // Resize the image if necessary.
                         if (width > height && width > 1000)
                         {
                             image = image.ResizeImage(1000, (int)(height / width * 1000));
@@ -59,45 +75,51 @@ namespace MediaServer.Controllers
                             image = new Bitmap(image);
                         }
 
-                        await _imageRepository.AddImageAsync(image);
+                        string fileName = await _imageRepository.AddImageAsync(image);
 
                         _logger.LogInformation("Uploaded file has been successfully added. FileName: '{0}'.", uploadedFile.FileName);
+
+                        return Json(new ImageModel() { FileName = fileName });
                     }
                     else
                     {
-                        _logger.LogWarning("Uploaded file is not image. FileName: '{0}'. ContentType: '{1}'.", uploadedFile.FileName, uploadedFile.ContentType);
+                        errorMessage = string.Format("Uploaded file is not image. FileName: '{0}'. ContentType: '{1}'.", uploadedFile.FileName, uploadedFile.ContentType);
+                        _logger.LogWarning(errorMessage);
                     }
                 }
                 else
                 {
-                    _logger.LogWarning("Uploaded file weight is more than 1 MB. FileName: '{0}'. ContentType: '{1}'. ContentSize: '{2}'.", uploadedFile.FileName, uploadedFile.ContentType, (float)uploadedFile.Length / 1024 / 1024);
+                    errorMessage = string.Format("Uploaded file size is more than 1 MB. FileName: '{0}'. ContentType: '{1}'. ContentSize: '{2}'.", uploadedFile.FileName, uploadedFile.ContentType, (float)uploadedFile.Length / 1024 / 1024);
+                    _logger.LogWarning(errorMessage);
                 }
             }
             else
             {
-                _logger.LogWarning("Uploaded file is null.");
+                errorMessage = "Uploaded file is null.";
+                _logger.LogWarning(errorMessage);
             }
 
-            return RedirectToAction("Index");
+            return Json(new ErrorModel { ErrorMessage = errorMessage });
         }
 
-        [Route("Image")]
+        [HttpGet]
+        [Route("{filename}")]
         public async Task<IActionResult> Download(string fileName)
         {
             string path = _appEnvironment.WebRootPath + "/Images";
             string filePath = Path.Combine(path, fileName);
-            string defaultFilePath = Path.Combine(path, "default.jpg");
 
             Image image = await _imageRepository.GetImageAsync(filePath);
 
             if (image != null)
             {
+                _logger.LogInformation("Image '{0}' found.", filePath);
                 return PhysicalFile(filePath, ImageHelper.GetImageContentType(filePath));
             }
             else
             {
                 _logger.LogWarning("Image '{0}' not found.", filePath);
-                return PhysicalFile(defaultFilePath, ImageHelper.GetImageContentType(defaultFilePath));
+                return NotFound();
             }
         }
     }
