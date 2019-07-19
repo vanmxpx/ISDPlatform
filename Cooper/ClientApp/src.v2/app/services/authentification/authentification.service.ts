@@ -2,48 +2,52 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'ng-dynami-social-login';
+import { SocialNetwork} from '@enums';
+
+class LoginAttemptResponse {
+  token: string;
+}
+
+const registrationUrl = '/registration';
+const authUrl = '/auth/login';
+const socialProvider = {
+      'google': GoogleLoginProvider.PROVIDER_ID,
+      'facebook': FacebookLoginProvider.PROVIDER_ID
+    };
 
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class AuthentificationService {
 
-  readonly registrationUrl;
-  readonly authUrl;
-  readonly socialProvider;
-
   constructor(private router: Router, private http: HttpClient, private socialAuthService: AuthService) {
-    this.registrationUrl = '/registration';
-    this.authUrl = '/auth/login';
-    this.socialProvider = {
-      'google': GoogleLoginProvider.PROVIDER_ID,
-      'facebook': FacebookLoginProvider.PROVIDER_ID
-    };
    }
 
   public checkAuthentification(): void {
     const token: string = localStorage.getItem('JwtCooper');
     if (token) {
-      this.router.navigate(['/platform/profile']);
+      this.router.navigate(['/platform/home']);
     }
   }
 
   public signIn(credentials: string): void {
-    this.http.post(this.authUrl, credentials, {
+    this.http.post(authUrl, credentials, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }).subscribe(response => {
-      this.loginOK((response as any).token);
+      this.onPassedAuth((response as LoginAttemptResponse).token);
         }, err => {
-      this.BadLogin();
+      this.redirectToLoginPage();
     });
   }
 
-  public socialSignIn(socialPlatform: string) {
-    this.socialAuthService.signIn(this.socialProvider[socialPlatform]).then(
+  public socialSignIn(socialPlatform: SocialNetwork) {
+    this.socialAuthService.signIn(socialProvider[socialPlatform]).then(
       (userData) => {
-        if (socialPlatform === 'google') {
+        if (socialPlatform === SocialNetwork.Google) {
           userData.id = userData.email;
           userData.token = userData.idToken;
         }
@@ -55,41 +59,41 @@ export class AuthentificationService {
   private transferSocialDataToServer(userData: any) {
     let body = this.createBody(userData, true);
 
-    this.http.post(this.authUrl, body).subscribe(
+    this.http.post(authUrl, body).subscribe(
       response => {
-        this.loginOK((response as any).token);
+        this.onPassedAuth((response as LoginAttemptResponse).token);
       },
       err => {
         if (err.error === 'Auth') {
           // Register
           body = this.createBody(userData, false);
-          this.http.post(this.registrationUrl, body).subscribe(
+          this.http.post(registrationUrl, body).subscribe(
             response => {
               // Try to login 1 time
               body = this.createBody(userData, true);
-              this.http.post(this.authUrl, body).subscribe(
+              this.http.post(authUrl, body).subscribe(
                 response => {
-                  this.loginOK((response as any).token);
+                  this.onPassedAuth((response as LoginAttemptResponse).token);
                 },
                 err => {
-                  this.BadLogin();
+                  this.redirectToLoginPage();
                 }
               );
             }
           );
         } else {
-          this.BadLogin();
+          this.redirectToLoginPage();
         }
       }
     );
   }
 
-  loginOK(token: string): void {
+  onPassedAuth(token: string): void {
     localStorage.setItem('JwtCooper', token);
-    this.router.navigate(['/platform/profile']);
+    this.router.navigate(['/platform/home']);
   }
 
-  public BadLogin(): void {
+  public redirectToLoginPage(): void {
     this.router.navigate(['/login', {failedLogin: true}]);
   }
 

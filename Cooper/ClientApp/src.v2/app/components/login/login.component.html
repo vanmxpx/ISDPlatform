@@ -1,15 +1,15 @@
 <h1 class="h1--color h1--positioning">Sign In</h1>
 
-<form class="form-signin" #loginForm="ngForm" (ngSubmit)="signInClicked(loginForm)">
+<form class="form-signin" #loginForm="ngForm" (ngSubmit)="onSignInClicked(loginForm)">
 
   <div class="personal-data-form">
 
     <mat-form-field class="mat-form-field">
-      <input matInput type="email" [(ngModel)]="username" name="Username" placeholder="Enter your nickname" />
+      <input matInput type="email" [(ngModel)]="username" name="username" placeholder="Enter your nickname" />
     </mat-form-field>
 
     <mat-form-field class="mat-form-field">
-      <input matInput type="password" [(ngModel)]="password" name="Password" placeholder="Enter your password"/>
+      <input matInput type="password" [(ngModel)]="password" name="password" placeholder="Enter your password"/>
     </mat-form-field>
     <mat-error *ngIf="failedLogin">{{failedLoginMessage}}</mat-error>
     
@@ -26,6 +26,6 @@
 </div>
 
 <div class="socials-container">
-  <img src="assets/imageKeeper/google-icon.png" class="social-icon" (click)="socialSignInClicked('google')" />
-  <img src="assets/imageKeeper/facebook-icon.png" class="social-icon" (click)="socialSignInClicked('facebook')" />
+  <img src="assets/imageKeeper/google-icon.png" class="social-icon" (click)="onSocialSignInClicked(SocialNetwork.Google)" />
+  <img src="assets/imageKeeper/facebook-icon.png" class="social-icon" (click)="onSocialSignInClicked(SocialNetwork.Facebook)" />
 </div>

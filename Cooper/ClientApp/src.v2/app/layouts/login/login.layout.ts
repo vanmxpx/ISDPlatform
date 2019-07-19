@@ -6,6 +6,7 @@ import {trigger, transition, style, query, group, animateChild, animate, keyfram
 // import { fader } from '../../../animations/route-animation';
 import { NgForm } from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
+import {SocialNetwork} from '@enums';
 
 @Component({
   selector: 'coop-login-layout',
@@ -32,7 +33,7 @@ export class LoginLayoutComponent implements OnInit {
     this.authService.signIn(JSON.stringify(form.value));
   }
 
-  socialSignIn(platform: string): void {
+  socialSignIn(platform: SocialNetwork): void {
     this.authService.socialSignIn(platform);
   }
 

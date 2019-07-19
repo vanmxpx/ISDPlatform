@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import {SocialNetwork} from '@enums';
 
 @Component({
   selector: 'coop-login',
@@ -12,18 +13,18 @@ export class LoginComponent implements OnInit {
 
   @Input() failedLogin: boolean;
   @Output() signIn = new EventEmitter<NgForm>();
-  @Output() socialSignIn = new EventEmitter<string>();
+  @Output() socialSignIn = new EventEmitter<SocialNetwork>();
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  signInClicked(form: NgForm): void {
+  onSignInClicked(form: NgForm): void {
     this.signIn.emit(form);
   }
 
-  socialSignInClicked(socialNetwork: string): void {
+  onSocialSignInClicked(socialNetwork: SocialNetwork): void {
     this.socialSignIn.emit(socialNetwork);
   }
 }
