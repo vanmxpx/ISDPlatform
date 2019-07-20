@@ -1,0 +1,4 @@
+enum GameListTabs {
+    Cards,
+    List
+}

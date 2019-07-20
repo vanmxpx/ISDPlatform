@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { Game } from 'src.v2/app/models/game-model';
-import { GamesService } from 'src.v2/app/services/games.service';
-import { listAnimation } from 'src.v2/app/helpers/animation.helper';
+import { Game } from '@models';
+import { GamesService } from '@services';
+import { AnimationsHelper } from '@helpers';
 
 @Component({
   selector: 'coop-games-layout',
   templateUrl: './games.layout.html',
   styleUrls: ['./games.layout.css'],
   providers: [GamesService],
-  animations: listAnimation
+  animations: AnimationsHelper.listAnimation
 })
 
 export class GamesLayoutComponent implements OnInit {
 
   games: Game[];
   isLoading: boolean = true;
-  selectedTab: GameTabs = GameTabs.Cards;
-  GameTabs = GameTabs;
+  selectedTab: GameListTabs = GameListTabs.Cards;
+  GameTabs = GameListTabs;
 
   constructor(private gameService: GamesService) { }
 
@@ -31,12 +31,7 @@ export class GamesLayoutComponent implements OnInit {
   }
 
   public onTabChange(val: string) {
-    this.selectedTab = GameTabs[val];  
+    this.selectedTab = GameListTabs[val];  
   }
 
-}
-
-enum GameTabs {
-  Cards,
-  List
 }

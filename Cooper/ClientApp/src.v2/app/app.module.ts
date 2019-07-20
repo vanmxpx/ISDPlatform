@@ -15,17 +15,12 @@ import { CooperInterceptor } from 'src/assets/cooper.interceptor';
 import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-
-
-
+import {AuthGuard} from '@guards';
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent  } from './layouts';
-
-import {LoginComponent, RegistrationComponent} from './components';
-import { GameListComponent } from './components/game-list/game-list.component';
-import { GameListItemComponent } from './components/game-list-item/game-list-item.component';
-import { GameCardComponent } from './components/game-card/game-card.component';
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent } from '@layouts';
+import { LoginFormComponent, RegistrationFormComponent, PosterComponent, GameListItemComponent,
+         GameCardComponent} from '@components';
 
 
 export function getAuthServiceConfigs() {
@@ -55,12 +50,11 @@ export function getAuthServiceConfigs() {
     ProfileLayoutComponent,
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
-
-  LoginComponent,
-  RegistrationComponent,
-  GameListComponent,
-  GameListItemComponent,
-  GameCardComponent,
+    GameListItemComponent,
+    GameCardComponent,
+    LoginFormComponent,
+    RegistrationFormComponent,
+    PosterComponent,
 ],
   imports: [
     BrowserModule,
@@ -89,12 +83,14 @@ export function getAuthServiceConfigs() {
     {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs
-      },
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: CooperInterceptor,
-        multi: true // give the possibility of various interceptors
-      }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CooperInterceptor,
+      multi: true // give the possibility of various interceptors
+    },
+    AuthGuard
+
   ],
   bootstrap: [ AppComponent ]
 })

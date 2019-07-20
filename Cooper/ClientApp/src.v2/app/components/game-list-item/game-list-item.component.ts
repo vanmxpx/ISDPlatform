@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Game } from 'src.v2/app/models/game-model';
+import { Game } from '@models';
 
 @Component({
   selector: 'coop-game-list-item',
