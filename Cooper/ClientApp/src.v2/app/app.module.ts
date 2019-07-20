@@ -6,13 +6,16 @@ import {FormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { DynamiSocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from 'ng-dynami-social-login';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatInputModule, MatButtonModule, MatCardModule, MatListModule, MatTabsModule, MatBadgeModule} from '@angular/material';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatInputModule, MatButtonModule, MatCardModule, MatListModule, MatTabsModule, MatBadgeModule, MatGridListModule, MatRippleModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CooperInterceptor } from 'src/assets/cooper.interceptor';
 import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 
 
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
@@ -20,6 +23,9 @@ import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent  } from './layouts';
 
 import {LoginComponent, RegistrationComponent} from './components';
+import { GameListComponent } from './components/game-list/game-list.component';
+import { GameListItemComponent } from './components/game-list-item/game-list-item.component';
+import { GameCardComponent } from './components/game-card/game-card.component';
 
 
 export function getAuthServiceConfigs() {
@@ -52,6 +58,9 @@ export function getAuthServiceConfigs() {
 
   LoginComponent,
   RegistrationComponent,
+  GameListComponent,
+  GameListItemComponent,
+  GameCardComponent,
 ],
   imports: [
     BrowserModule,
@@ -70,7 +79,11 @@ export function getAuthServiceConfigs() {
     GrowlModule,
     MatIconModule,
     MatTabsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatGridListModule,
+    MatRippleModule,
+    MatProgressBarModule,
+    MatButtonToggleModule
   ],
   providers: [
     {

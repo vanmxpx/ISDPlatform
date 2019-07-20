@@ -1,0 +1,10 @@
+<mat-card class="game-card" mat-ripple>
+  <img class="game-image" mat-card-image onError="this.src='assets/imageKeeper/robot.png'" src={{game.logourl}}>
+  <mat-card-title class = "game-item-attr">{{game.name}}</mat-card-title>
+  <mat-card-subtitle class = "game-item-attr">{{game.genre}}</mat-card-subtitle>
+<mat-card-content class="description">
+  <p>
+   {{game.description}}
+  </p>
+</mat-card-content>
+</mat-card>
