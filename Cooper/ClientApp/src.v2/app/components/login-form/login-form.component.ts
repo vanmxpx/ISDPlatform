@@ -3,11 +3,11 @@ import { NgForm } from '@angular/forms';
 import {SocialNetwork} from '@enums';
 
 @Component({
-  selector: 'coop-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'coop-login-form',
+  templateUrl: './login-form.component.html',
+  styleUrls: ['./login-form.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginFormComponent implements OnInit {
 
   failedLoginMessage = 'Invalid username or password.';
 
