@@ -11,8 +11,8 @@ const routes: Routes = [
   {path: 'platform', component: PlatformLayoutComponent, canActivate: [AuthGuard],
    children:  [
     {path: 'games', component: GamesLayoutComponent},
-    {path: 'game:id', component: GameLayoutComponent},
-    {path: 'profile:nickname', component: ProfileLayoutComponent}
+    {path: 'game/:id', component: GameLayoutComponent},
+    {path: 'profile/:nickname', component: ProfileLayoutComponent}
   ]},
   {path: '**', component: PageNotFoundLayoutComponent}
 ];
