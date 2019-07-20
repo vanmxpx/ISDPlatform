@@ -25,11 +25,14 @@ export class AuthentificationService {
   constructor(private router: Router, private http: HttpClient, private socialAuthService: AuthService) {
    }
 
-  public checkAuthentification(): void {
+  public isAuthentificated(): boolean {
     const token: string = localStorage.getItem('JwtCooper');
+
     if (token) {
-      this.router.navigate(['/platform/home']);
+      return true;
     }
+
+    return false;
   }
 
   public signIn(credentials: string): void {

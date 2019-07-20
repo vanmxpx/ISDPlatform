@@ -5,7 +5,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {trigger, transition, style, query, group, animateChild, animate, keyframes, state} from '@angular/animations';
 // import { fader } from '../../../animations/route-animation';
 import { NgForm } from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SocialNetwork} from '@enums';
 
 @Component({
@@ -17,7 +17,7 @@ export class LoginLayoutComponent implements OnInit {
 
   failedLogin = false;
 
-  constructor(private authService: AuthentificationService, private route: ActivatedRoute) {
+  constructor(private authService: AuthentificationService, private route: ActivatedRoute, private router: Router) {
 
     this.route.params.subscribe(params => {
       console.log(params);
@@ -26,7 +26,9 @@ export class LoginLayoutComponent implements OnInit {
       }
     });
 
-    this.authService.checkAuthentification();
+    if (this.authService.isAuthentificated()) {
+      this.router.navigate(['/platform/home']);
+    }
   }
 
   signIn(form: NgForm): void {
