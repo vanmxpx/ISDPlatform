@@ -5,9 +5,13 @@
 
   .button--sizes {
     align-self: center;
-    width: 45%;
-    padding: 1%;
-    border-radius: 3px;
+    width: 200px;
+    padding: 16px;
+    border-radius: 4px;
+  }
+
+  .button--margin {
+    margin: 32px 16px 8px 16px;
   }
 
   .button--font {
@@ -15,12 +19,18 @@
     font-size: 18px;
   }
 
-  .h1--color {
-    color: #646464;
+  .div--font {
+    font-size: 28px;
+    font-weight: bold;
   }
-  
-  .h1--positioning {    
-    margin-bottom: 5%;
+
+  .div--positioning {
+    text-align: left;
+    margin-bottom: 16px;
+  }
+
+  .div--color {
+    color: #646464;
   }
   
   .mat-form-field {
@@ -46,8 +56,8 @@
     height: auto;    
   }
   
+
   .personal-data-form {
     border: 1px solid rgb(168, 168, 168);
-    border-radius: 3px;
-    padding: 25px;
+    border-radius: 8px;
   }
