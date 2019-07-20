@@ -20,6 +20,7 @@ import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent  } from './layouts';
 
 import {LoginComponent, RegistrationComponent} from './components';
+import { NavigationComponent } from './components/navigation/navigation.component';
 
 
 export function getAuthServiceConfigs() {
@@ -52,6 +53,7 @@ export function getAuthServiceConfigs() {
 
   LoginComponent,
   RegistrationComponent,
+  NavigationComponent,
 ],
   imports: [
     BrowserModule,

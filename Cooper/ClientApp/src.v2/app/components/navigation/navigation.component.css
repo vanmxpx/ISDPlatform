@@ -1,0 +1,47 @@
+.header {
+    background-color: rgba(86, 88, 92, 100);
+    color: hsla(0,0%,100%,.7);
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 5px;
+    align-items: center;
+    display: flex;
+    position: static;
+  }
+  
+  .header-items {
+    align-items: center;
+    color: rgba(80, 41, 41, 0.7);
+  }
+  
+  .my-navigate {
+    color: hsla(0,0%,100%,.7);
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  a:hover, a:focus {
+    color: rgba(86, 88, 92, 100);
+  }
+  
+  .header-logo {
+    align-items: center;
+    width: 3%;
+    height: 3%;
+    margin-left: 20px;
+    margin-right: 5px;
+  }
+  
+  .header-exit {
+    align-items: center;
+    position: center;
+    width: 2%;
+    height: 2%; 
+    margin-left: auto;
+    margin-right: 0px;
+    cursor: pointer;
+  }
+  
+  .navbar {
+    margin-bottom: 0;
+  }
