@@ -1,0 +1,35 @@
+<div align="center">
+
+  <form class="coop-form personal-data-form" #loginForm="ngForm" (ngSubmit)="onSignInClicked(loginForm)">
+
+
+    <div class="div--color div--positioning div--font">Sign In</div>
+
+    <mat-form-field class="mat-form-field">
+      <input matInput type="email" [(ngModel)]="username" name="username" placeholder="Enter your nickname" />
+    </mat-form-field>
+
+    <mat-form-field class="mat-form-field">
+      <input matInput type="password" [(ngModel)]="password" name="password" placeholder="Enter your password"/>
+    </mat-form-field>
+    <mat-error *ngIf="failedLogin">{{failedLoginMessage}}</mat-error>
+
+    <button class="button--colors button--sizes button--font button--margin" type="submit">Sign in</button>
+
+    <div class="text-help">
+        <p>
+          also you can <a routerLink="../registration" routerLinkActive="active">Sign up</a>
+          <br>or sign in by:
+        </p>
+      </div>
+      
+      <div class="socials-container">
+        <img src="assets/imageKeeper/google-icon.png" class="social-icon" (click)="onSocialSignInClicked(SocialNetwork.Google)" />
+        <img src="assets/imageKeeper/facebook-icon.png" class="social-icon" (click)="onSocialSignInClicked(SocialNetwork.Facebook)" />
+      </div>
+
+
+  </form>
+
+</div>
+

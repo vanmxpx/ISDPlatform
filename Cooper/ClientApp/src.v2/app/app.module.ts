@@ -14,12 +14,13 @@ import { CooperInterceptor } from 'src/assets/cooper.interceptor';
 import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
 
+import {AuthGuard} from '@guards';
 
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent  } from './layouts';
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent } from '@layouts';
 
-import {LoginComponent, RegistrationComponent} from './components';
+import {LoginFormComponent, RegistrationFormComponent, PosterComponent} from '@components';
 
 
 export function getAuthServiceConfigs() {
@@ -50,8 +51,9 @@ export function getAuthServiceConfigs() {
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
 
-  LoginComponent,
-  RegistrationComponent,
+  LoginFormComponent,
+  RegistrationFormComponent,
+  PosterComponent,
 ],
   imports: [
     BrowserModule,
@@ -76,12 +78,14 @@ export function getAuthServiceConfigs() {
     {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs
-      },
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: CooperInterceptor,
-        multi: true // give the possibility of various interceptors
-      }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CooperInterceptor,
+      multi: true // give the possibility of various interceptors
+    },
+    AuthGuard
+
   ],
   bootstrap: [ AppComponent ]
 })
