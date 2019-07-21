@@ -1,6 +1,9 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using OracleDBUpdater.Commands.SQLCommands;
 using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Linq;
 
 namespace OracleDBUpdater
 {
@@ -138,6 +141,59 @@ namespace OracleDBUpdater
             CloseConnection();
 
             return answer?.ToString();
+        }
+
+        public List<string> ReadQueryAnswer(string table, string[] skip_fields)
+        {
+            List<string> entities = new List<string>();
+            try
+            {
+                OpenConnection();
+                OracleCommand command = new OracleCommand($"SELECT * FROM {table}", _connection);
+
+                OracleDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    string names = "";
+                    string values = "";
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        string name = reader.GetName(i);
+                        if (skip_fields == null || !skip_fields.Contains(name))
+                        {
+                            names += $"{name},";
+                            TypeCode typeCode = Type.GetTypeCode(reader.GetFieldType(i));
+                            if (typeCode == TypeCode.String)
+                            {
+                                values += $"\'{reader.GetValue(i)}\',";
+                            }
+                            else if (typeCode == TypeCode.DateTime)
+                            {
+                                values += $"TO_TIMESTAMP(\'{Convert.ToDateTime(reader.GetValue(i)).ToString("dd.MM.yyyy HH:mm:ss")}\','DD.MM.YYYY HH24:MI:SS'),";
+                            }
+                            else
+                            {
+                                values += $"{reader.GetValue(i)},";
+                            }
+                        }
+                    }
+                    //Remove last symobl(',')
+                    names = names.Remove(names.Length - 1);
+                    values = values.Remove(values.Length - 1);
+
+                    entities.Add($"INSERT INTO {table} ({names}) VALUES ({values})");
+                }
+            }
+            catch (DbException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return entities;
         }
     }
 }
