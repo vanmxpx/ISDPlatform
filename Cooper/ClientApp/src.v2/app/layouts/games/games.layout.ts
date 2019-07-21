@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Game } from '@models';
 import { GamesService } from '@services';
 import { AnimationsHelper } from '@helpers';
+import { GameListTabs } from '@enums';
 
 @Component({
   selector: 'coop-games-layout',

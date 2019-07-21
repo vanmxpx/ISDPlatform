@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Game } from '../models/game-model';
+import { Game } from '@models';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({

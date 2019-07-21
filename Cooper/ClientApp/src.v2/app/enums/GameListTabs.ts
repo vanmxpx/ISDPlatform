@@ -1,4 +1,4 @@
-enum GameListTabs {
+export enum GameListTabs {
     Cards,
     List
 }
