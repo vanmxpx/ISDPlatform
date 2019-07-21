@@ -61,7 +61,12 @@ namespace OracleDBUpdater.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {}.
+        ///   Looks up a localized string similar to {
+        ///  &quot;DB_VERSION_TABLE&quot;: &quot;DB_VERSION&quot;,
+        ///  &quot;DB_VERSION_FIELD&quot;: &quot;VERSION&quot;,
+        ///  &quot;ConnectionString&quot;: &quot;User Id=SYSTEM;Password=qQ1111qQ;Data Source=localhost:1521/xe;&quot;,
+        ///  &quot;GITHUB_PATH&quot;: &quot;vanmxpx/ISDPlatform/contents/Documentation/Database/UpdateScripts&quot;
+        ///}.
         /// </summary>
         internal static string config {
             get {
@@ -72,10 +77,11 @@ namespace OracleDBUpdater.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {
         ///  &quot;update&quot;: &quot;UPDATE IS \nTHE BEST \nCOMMAND\n&quot;,
+        ///  &quot;import&quot;: &quot;import [TABLE_NAME]&quot;,
+        ///  &quot;export&quot;: &quot;export [TABLE_NAME] [SkipField1,SkipField2]&quot;,
         ///  &quot;github&quot;: &quot;\&quot;github update\&quot; command can allow you to download last update scripts from GitHub repository.\n&quot;,
-        ///	&quot;version&quot;:&quot;The \&quot;version\&quot; command displays the current version of the database. This command has no additional parameters.&quot;,
-        ///	&quot;versions&quot;:&quot;The \&quot;versions\&quot; command displays all versions of the database. This command has no additional parameters.&quot;,
-        ///	&quot;help&quot;:&quot;The \&quot;help\&quot; command is used to display the manual for each command.\n - help version\ [rest of string was truncated]&quot;;.
+        ///  &quot;version&quot;: &quot;The \&quot;version\&quot; command displays the current version of the database. This command has no additional parameters.&quot;,
+        ///  &quot;versions&quot;: &quot;The \&quot;versions\&quot; command displays all versions of the database. This command has no additional parameters [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string manual {
             get {

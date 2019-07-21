@@ -43,7 +43,20 @@ namespace OracleDBUpdater.Commands.SQLCommands
 
         public bool ContainCreatedTableName(string createdTableName)
         {
-            return createdTableNames.Contains(createdTableName);
+            bool result = true;
+            if (!createdTableNames.Contains(createdTableName))
+            {
+                try
+                {
+                    MyDataBase.GetDB().ExecuteQueryWithoutAnswer($"SELECT * FROM {createdTableName}");
+                }
+                catch
+                {
+                    result = false;
+                }
+            }
+
+            return result;
         }
 
         public string Execute()
