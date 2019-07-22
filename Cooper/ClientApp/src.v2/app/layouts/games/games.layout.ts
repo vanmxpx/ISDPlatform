@@ -25,10 +25,13 @@ export class GamesLayoutComponent implements OnInit {
     this.fetchData();  
   }
 
- async fetchData() {   
-    const response = await this.gameService.getData();
-    this.isLoading = false;
-    this.games=response;
+  fetchData() {   
+   this.gameService.getData()
+    .subscribe((games: Game[]) => { 
+      this.games = games;
+      this.isLoading = false;
+    },
+    err => this.isLoading = false)
   }
 
   public onTabChange(val: string) {

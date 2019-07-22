@@ -7,7 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { DynamiSocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from 'ng-dynami-social-login';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import { MatInputModule, MatButtonModule, MatCardModule, MatListModule, MatTabsModule, MatBadgeModule, MatGridListModule, MatRippleModule} from '@angular/material';
+import { MatInputModule, MatButtonModule, MatCardModule, MatListModule, MatTabsModule,
+  MatBadgeModule, MatGridListModule, MatRippleModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
