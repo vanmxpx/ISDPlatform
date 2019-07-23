@@ -19,109 +19,109 @@ export class GamesService {
   mockedGames: Game[] = [
     {
       name: 'tanks',
-      logourl: 'assets/imageKeeper/WebTanks.png',
+      logoUrl: 'assets/imageKeeper/WebTanks.png',
       description:'The Biggest War EverThe Biggest War EveThe Biggest War EveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War Eve EveThe Biggest War EveThe Biggest War EveThe Biggest War EveThe Biggest War Eve',
       genre: 'War'
     },
     {
       name: 'fortnite',
-      logourl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
+      logoUrl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
       description:'The Biggest War Ever',
       genre: 'War'
     }, 
     {
       name: 'Mafia 2',
-      logourl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
+      logoUrl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
       description:'The Biggest War Ever',
       genre: 'War'
     },
     {
       name: 'tanks',
-      logourl: 'assets/imageKeeper/WebTanks.png',
+      logoUrl: 'assets/imageKeeper/WebTanks.png',
       description:'The Biggest War EverThe Biggest War EveThe Biggest War EveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War Eve EveThe Biggest War EveThe Biggest War EveThe Biggest War EveThe Biggest War Eve',
       genre: 'War'
     },
     {
       name: 'fortnite',
-      logourl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
+      logoUrl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
       description:'The Biggest War Ever',
       genre: 'War'
     }, 
     {
       name: 'Mafia 2',
-      logourl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
+      logoUrl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
       description:'The Biggest War Ever',
       genre: 'War'
     },
     {
       name: 'tanks',
-      logourl: 'assets/imageKeeper/WebTanks.png',
+      logoUrl: 'assets/imageKeeper/WebTanks.png',
       description:'The Biggest War EverThe Biggest War EveThe Biggest War EveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War Eve EveThe Biggest War EveThe Biggest War EveThe Biggest War EveThe Biggest War Eve',
       genre: 'War'
     },
     {
       name: 'fortnite',
-      logourl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
+      logoUrl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
       description:'The Biggest War Ever',
       genre: 'War'
     }, 
     {
       name: 'Mafia 2',
-      logourl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
+      logoUrl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
       description:'The Biggest War Ever',
       genre: 'War'
     },
     {
       name: 'tanks',
-      logourl: 'assets/imageKeeper/WebTanks.png',
+      logoUrl: 'assets/imageKeeper/WebTanks.png',
       description:'The Biggest War EverThe Biggest War EveThe Biggest War EveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War Eve EveThe Biggest War EveThe Biggest War EveThe Biggest War EveThe Biggest War Eve',
       genre: 'War'
     },
     {
       name: 'fortnite',
-      logourl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
+      logoUrl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
       description:'The Biggest War Ever',
       genre: 'War'
     }, 
     {
       name: 'Mafia 2',
-      logourl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
+      logoUrl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
       description:'The Biggest War Ever',
       genre: 'War'
     },
     {
       name: 'fortnite',
-      logourl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
+      logoUrl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
       description:'The Biggest War Ever',
       genre: 'War'
     }, 
     {
       name: 'Mafia 2',
-      logourl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
+      logoUrl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
       description:'The Biggest War Ever',
       genre: 'War'
     },
     {
       name: 'tanks',
-      logourl: 'assets/imageKeeper/WebTanks.png',
+      logoUrl: 'assets/imageKeeper/WebTanks.png',
       description:'The Biggest War EverThe Biggest War EveThe Biggest War EveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War Eve EveThe Biggest War EveThe Biggest War EveThe Biggest War EveThe Biggest War Eve',
       genre: 'War'
     },
     {
       name: 'fortnite',
-      logourl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
+      logoUrl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
       description:'The Biggest War Ever',
       genre: 'War'
     }, 
     {
       name: 'Mafia 2',
-      logourl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
+      logoUrl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
       description:'The Biggest War Ever',
       genre: 'War'
     },
     {
       name: 'tanks',
-      logourl: 'assets/imageKeeper/WebTanks.png',
+      logoUrl: 'assets/imageKeeper/WebTanks.png',
       description:'The Biggest War EverThe Biggest War EveThe Biggest War EveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War Eve EveThe Biggest War EveThe Biggest War EveThe Biggest War EveThe Biggest War Eve',
       genre: 'War'
     }
