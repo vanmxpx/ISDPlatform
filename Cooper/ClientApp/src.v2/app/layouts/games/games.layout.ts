@@ -7,7 +7,7 @@ import { GameListTabs } from '@enums';
 @Component({
   selector: 'coop-games-layout',
   templateUrl: './games.layout.html',
-  styleUrls: ['./games.layout.css'],
+  styleUrls: ['./games.layout.scss'],
   providers: [GamesService],
   animations: AnimationsHelper.listAnimation
 })

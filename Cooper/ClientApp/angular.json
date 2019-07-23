@@ -132,5 +132,10 @@
       }
     }
   },
-  "defaultProject": "Cooper"
+  "defaultProject": "Cooper",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
