@@ -44,17 +44,10 @@
       </div>
         
       <div class="col-md-3">
-            <mat-card class="game-card">
-              <mat-card-title>Games</mat-card-title>
-              <mat-card-content>
-                  <mat-action-list class = "game-list">
-                      <mat-list-item *ngFor="let game of games">
-                          <img mat-card-avatar src={{game.logourl}}>
-                          <h3 matLine> {{game.name}} </h3>                   
-                      </mat-list-item>
-                    </mat-action-list>
-              </mat-card-content>
-            </mat-card>
+        <coop-games-list
+        [games]="games"
+        ></coop-games-list>
+            
       </div>
 
       <div class="col-md-1"></div>
