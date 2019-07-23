@@ -1,3 +1,117 @@
-<p>
-  profile works!
-</p>
+
+<div>
+  <main>
+      <div class="col-md-1"></div>
+
+      <div class="col-md-2" id="main-container">
+          <mat-card class="example-card">                
+            <img mat-card-image src="{{profile.photoURL}}" onError="this.src='assets/imageKeeper/robot.png'" class="avatar">
+            <mat-card-title>{{profile.nickname}}</mat-card-title> 
+          </mat-card>
+          
+          <mat-card-content class="info">
+            Name:
+            <p class="info-value">{{profile.name}} </p>
+          </mat-card-content>
+          
+          <mat-card-content class="info"> 
+            E-mail:
+            <p class="info-value">{{profile.email}}</p>
+          </mat-card-content>
+          
+          <mat-card-content class="info">
+          Bio:
+          <p class="info-value">
+            {{profile.description}}
+          </p>
+          </mat-card-content>
+
+          <div *ngIf="this.isSessionProfile" (click)="this.isButtonVisible = true">
+              <button mat-raised-button class="button-edit">Edit profile</button>
+          </div>
+
+      </div>
+
+      <div class="col-md-5">
+          <mat-card class="game-card">
+            <mat-card-title>
+              <mat-tab-group mat-stretch-tabs>
+                <mat-tab>  
+                  <ng-template mat-tab-label>
+                    <span matBadge="{{friendsAmount}}" matBadgeOverlap="false">Friends</span>
+                  </ng-template>
+                  <mat-card-content>
+                    <mat-action-list class = "game-list">
+                      <mat-list-item *ngFor="let friend of friends" (click)="goToProfile(friend.nickname)">
+                          <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{friend.photoURL}}>
+                          <h3 matLine> {{friend.nickname}} </h3>
+                      </mat-list-item>
+                    </mat-action-list>
+                  </mat-card-content>
+                  </mat-tab>
+            
+                  <mat-tab>
+                      <ng-template mat-tab-label>
+                        <span matBadge="{{subscribersAmount}}" matBadgeOverlap="false">Subscribers</span>
+                      </ng-template> 
+                      <mat-card-content>
+                        <mat-action-list class = "game-list">
+                            <mat-list-item *ngFor="let subscriber of subscribers" (click)="goToProfile(subscriber.nickname)">
+                                <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{subscriber.photoURL}}>
+                                <h3 matLine> {{subscriber.nickname}} </h3>
+                            </mat-list-item>
+                          </mat-action-list>
+                      </mat-card-content>  
+                  </mat-tab>
+
+                <mat-tab> 
+                  <ng-template mat-tab-label>
+                    <span matBadge="{{subscriptionsAmount}}" matBadgeOverlap="false">Subscriptions</span>
+                  </ng-template>
+                  <mat-card-content>
+                    <mat-action-list class = "game-list">
+                        <mat-list-item *ngFor="let subscription of subscriptions" (click)="goToProfile(subscription.nickname)">
+                            <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{subscription.photoURL}}>
+                            <h3 matLine> {{subscription.nickname}} </h3>
+                        </mat-list-item>
+                      </mat-action-list>
+                  </mat-card-content>
+                </mat-tab>
+                
+              </mat-tab-group>
+            </mat-card-title>
+          </mat-card>
+        </div>
+        
+        <div class="col-md-3">
+            <mat-card class="game-card">
+              <mat-card-title>Games</mat-card-title>
+              <mat-card-content>
+                  <mat-action-list class = "game-list">
+                      <mat-list-item *ngFor="let game of games">
+                          <img mat-card-avatar src={{game.logourl}}>
+                          <h3 matLine> {{game.name}} </h3>                   
+                      </mat-list-item>
+                    </mat-action-list>
+              </mat-card-content>
+            </mat-card>
+        </div>
+
+        <div class="col-md-1"></div>
+  </main>
+</div>
+
+
+<!--<div>
+
+  <main>
+    
+    
+
+    
+
+  </main>
+</div>
+
+</div>
+-->
