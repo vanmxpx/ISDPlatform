@@ -1,10 +1,10 @@
 <div class="col-md-2 col-xs-1" ></div>
 <div class="col-md-8 col-xs-10" >
-  <div class="coop-games-layout">
+  <div class="coop-games">
     <mat-progress-bar mode="query" *ngIf="this.isLoading"></mat-progress-bar>
-    <div class="coop-games-layout__games-header">
+    <div class="coop-games__games-header">
       <h1>Games</h1>
-      <mat-button-toggle-group #group="matButtonToggleGroup" class="coop-games-layout__button-toggle" [value]="selectedTab" (change)="onTabChange(group.value)">
+      <mat-button-toggle-group #group="matButtonToggleGroup" class="coop-games__button-toggle" [value]="selectedTab" (change)="onTabChange(group.value)">
         <mat-button-toggle value="Cards">
           <mat-icon>dashboard</mat-icon>
         </mat-button-toggle>
@@ -13,14 +13,14 @@
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
-    <mat-grid-list cols="3" class="coop-games-layout__grid-list" @list *ngIf="this.selectedTab == GameTabs.Cards">
-      <mat-grid-tile *ngFor="let game of games" class="coop-games-layout__game-list" @item>
-        <coop-game-card [game]="game" class="coop-games-layout__game-list-item"></coop-game-card>
+    <mat-grid-list cols="3" class="coop-games__grid-list" @list *ngIf="this.selectedTab == GameTabs.Cards">
+      <mat-grid-tile *ngFor="let game of games" class="coop-games__game-list" @item>
+        <coop-game-card [game]="game" class="coop-games__game-list-item"></coop-game-card>
       </mat-grid-tile>
     </mat-grid-list>
     <mat-action-list *ngIf="this.selectedTab == GameTabs.List" @list>
       <mat-list-item *ngFor="let game of games" @item>
-          <coop-game-list-item class="coop-games-layout__game-row" [game]="game"></coop-game-list-item>  
+          <coop-game-list-item class="coop-games__game-row" [game]="game"></coop-game-list-item>  
       </mat-list-item>
     </mat-action-list>
   </div>
