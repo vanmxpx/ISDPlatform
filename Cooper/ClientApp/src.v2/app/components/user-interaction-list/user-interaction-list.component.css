@@ -1,0 +1,11 @@
+  .user-interaction-card {   
+    object-fit: cover;
+    width: 100%;
+    height: 280px;
+    margin-top: 30px;
+  }
+  
+  .user-interaction-list {
+    height: 210px;
+    overflow-y: scroll;
+}

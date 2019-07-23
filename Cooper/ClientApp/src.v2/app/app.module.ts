@@ -20,7 +20,7 @@ import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent } from '@layouts';
 
-import {LoginFormComponent, RegistrationFormComponent, PosterComponent} from '@components';
+import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserInteractionListComponent} from '@components';
 
 
 export function getAuthServiceConfigs() {
@@ -54,6 +54,7 @@ export function getAuthServiceConfigs() {
   LoginFormComponent,
   RegistrationFormComponent,
   PosterComponent,
+  UserInteractionListComponent,
 ],
   imports: [
     BrowserModule,

@@ -1,4 +1,3 @@
-
 <div>
   <main>
       <div class="col-md-1"></div>
@@ -33,57 +32,18 @@
       </div>
 
       <div class="col-md-5">
-          <mat-card class="game-card">
-            <mat-card-title>
-              <mat-tab-group mat-stretch-tabs>
-                <mat-tab>  
-                  <ng-template mat-tab-label>
-                    <span matBadge="{{friendsAmount}}" matBadgeOverlap="false">Friends</span>
-                  </ng-template>
-                  <mat-card-content>
-                    <mat-action-list class = "game-list">
-                      <mat-list-item *ngFor="let friend of friends" (click)="goToProfile(friend.nickname)">
-                          <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{friend.photoURL}}>
-                          <h3 matLine> {{friend.nickname}} </h3>
-                      </mat-list-item>
-                    </mat-action-list>
-                  </mat-card-content>
-                  </mat-tab>
-            
-                  <mat-tab>
-                      <ng-template mat-tab-label>
-                        <span matBadge="{{subscribersAmount}}" matBadgeOverlap="false">Subscribers</span>
-                      </ng-template> 
-                      <mat-card-content>
-                        <mat-action-list class = "game-list">
-                            <mat-list-item *ngFor="let subscriber of subscribers" (click)="goToProfile(subscriber.nickname)">
-                                <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{subscriber.photoURL}}>
-                                <h3 matLine> {{subscriber.nickname}} </h3>
-                            </mat-list-item>
-                          </mat-action-list>
-                      </mat-card-content>  
-                  </mat-tab>
-
-                <mat-tab> 
-                  <ng-template mat-tab-label>
-                    <span matBadge="{{subscriptionsAmount}}" matBadgeOverlap="false">Subscriptions</span>
-                  </ng-template>
-                  <mat-card-content>
-                    <mat-action-list class = "game-list">
-                        <mat-list-item *ngFor="let subscription of subscriptions" (click)="goToProfile(subscription.nickname)">
-                            <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{subscription.photoURL}}>
-                            <h3 matLine> {{subscription.nickname}} </h3>
-                        </mat-list-item>
-                      </mat-action-list>
-                  </mat-card-content>
-                </mat-tab>
-                
-              </mat-tab-group>
-            </mat-card-title>
-          </mat-card>
-        </div>
+          <coop-user-interaction-list
+          [friends] = "friends"
+          [subscribers] = "subscribers"
+          [subscriptions] = "subscriptions"
+          [friendsAmount] = "friendsAmount"
+          [subscribersAmount] = "subscribersAmount"
+          [subscriptionsAmount] = "subscriptionsAmount" 
+          (userChosen) = "goToProfile($event)"
+          ></coop-user-interaction-list>
+      </div>
         
-        <div class="col-md-3">
+      <div class="col-md-3">
             <mat-card class="game-card">
               <mat-card-title>Games</mat-card-title>
               <mat-card-content>
@@ -95,23 +55,8 @@
                     </mat-action-list>
               </mat-card-content>
             </mat-card>
-        </div>
+      </div>
 
-        <div class="col-md-1"></div>
+      <div class="col-md-1"></div>
   </main>
 </div>
-
-
-<!--<div>
-
-  <main>
-    
-    
-
-    
-
-  </main>
-</div>
-
-</div>
--->
