@@ -1,11 +1,22 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Drawing;
+using System.Text;
 
 namespace Utility.Tests
 {
     public class ImageHelperTests
     {
+        private byte[] dataImage;
+
+        [SetUp]
+        public void Init()
+        {
+            string base64image = Properties.Resources.TestImage;
+            dataImage = Convert.FromBase64String(base64image);
+        }
+
+
         [Test]
         [TestCase(@"..\..\..\Resources\default.png", "image/png")]
         [TestCase(@"..\..\..\Resources\default.jpg", "image/jpeg")]
@@ -37,8 +48,7 @@ namespace Utility.Tests
         [Test]
         public void IsImageTest()
         {
-            byte[] data = Properties.Resources.TestImage;
-            Assert.IsTrue(ImageHelper.IsImage(data));
+            Assert.IsTrue(ImageHelper.IsImage(dataImage));
         }
 
         [Test]
@@ -51,8 +61,7 @@ namespace Utility.Tests
         [Test]
         public void ToImageTest2()
         {
-            byte[] data = Properties.Resources.TestImage;
-            Assert.IsTrue(ImageHelper.ToImage(data) != null);
+            Assert.IsTrue(ImageHelper.ToImage(dataImage) != null);
         }
 
         [Test]
@@ -61,8 +70,7 @@ namespace Utility.Tests
         [TestCase(2048, 4)]
         public void ResizeImageTest(int width, int height)
         {
-            byte[] data = Properties.Resources.TestImage;
-            Image image = ImageHelper.ToImage(data);
+            Image image = ImageHelper.ToImage(dataImage);
             Image resizedImage = ImageHelper.ResizeImage(image, width, height);
             Assert.IsTrue(resizedImage.Width == width && resizedImage.Height == height);
         }
@@ -72,8 +80,7 @@ namespace Utility.Tests
         [TestCase(512, 0)]
         public void ResizeImageExceptionTest1(int width, int height)
         {
-            byte[] data = Properties.Resources.TestImage;
-            Image image = ImageHelper.ToImage(data);
+            Image image = ImageHelper.ToImage(dataImage);
             Assert.Throws<ArgumentException>(() =>
             {
                 Image resizedImage = ImageHelper.ResizeImage(image, width, height);
@@ -98,10 +105,10 @@ namespace Utility.Tests
 
         [Test]
         public void GetHashCodeTest()
-        {
-            byte[] data = Properties.Resources.TestImage;
-            Image image = ImageHelper.ToImage(data);
+        {        
+            Image image = ImageHelper.ToImage(dataImage);
             string hash = "JkOrCWhglSAZmJxfNxR7ym54cxrGRCi-twWcQvO8Ir8";
+            string testHash = ImageHelper.GetHash(image);
             Assert.IsTrue(ImageHelper.GetHash(image) == hash);
         }
     }
