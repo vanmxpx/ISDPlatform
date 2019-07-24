@@ -72,9 +72,8 @@ namespace Utility
                     img = Image.FromStream(imageReadStream);
                 }
             }
-            catch (Exception EXXXXXXXXXXxxxx)
+            catch
             {
-                var error = EXXXXXXXXXXxxxx.Message;
                 img = null;
             }
 
