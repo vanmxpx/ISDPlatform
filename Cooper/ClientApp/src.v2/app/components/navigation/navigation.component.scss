@@ -1,0 +1,18 @@
+@import "../../constants.scss";
+
+.coop-navigation{
+	.my-navigate {
+		color: $top-panel-color;
+		font-weight: 600;
+		font-size: 14px;
+	}
+	a {
+		&:hover {
+			color: $top-panel-hover-color;
+		}
+		&:focus {
+			color: $top-panel-hover-color;
+		}
+	}
+}
+

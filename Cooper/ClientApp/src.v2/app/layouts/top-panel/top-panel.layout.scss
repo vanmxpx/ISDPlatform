@@ -1,8 +1,8 @@
-@import "../../constants.less";
+@import "../../constants.scss";
 
 .top-panel {
-	background-color: @top-panel-background-color;
-	color: @top-panel-color;
+	background-color: $top-panel-background-color;
+	color: $top-panel-color;
 	font-size: 14px;
 	line-height: 1.5;
 	padding: 3px;
@@ -16,19 +16,19 @@
 }
 .header-items {
 	align-items: center;
-	color: @top-panel-items-color;
+	color: $top-panel-items-color;
 }
 .my-navigate {
-	color: @top-panel-color;
+	color: $top-panel-color;
 	font-weight: 600;
 	font-size: 14px;
 }
 a {
 	&:hover {
-		color: @top-panel-hover-color;
+		color: $top-panel-hover-color;
 	}
 	&:focus {
-		color: @top-panel-hover-color;
+		color: $top-panel-hover-color;
 	}
 }
 .top-panel-logo {
