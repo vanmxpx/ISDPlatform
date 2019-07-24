@@ -1,19 +1,62 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {User} from '@models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
 
-  constructor() { }
+  private sessionProfile: User;
 
-    GetSessionUserNickname(): string {
+  constructor(private httpClient: HttpClient) {
+      this.fetchSessionProfileData();
+   }
 
-    const token = localStorage.getItem('JwtCooper');
-    const payload = atob(token.split('.')[1]);
-
-    const nickname = JSON.parse(payload).username;
-
-    return nickname;
+  async fetchSessionProfileData() {
+    this.sessionProfile = await this.getSessionUserData();
   }
+
+  async getSessionUserData(): Promise<User> {
+    const response = await this.httpClient.get<User>('/users/token').toPromise();
+    return response;
+  }
+
+  GetSessionUserNickname(): string {
+
+    return this.sessionProfile.nickname;
+  }
+
+
+  public IsSessionProfile(profile: User): boolean {
+    return this.sessionProfile.id === profile.id &&
+    this.sessionProfile.nickname === profile.nickname &&
+    this.sessionProfile.name === profile.name &&
+    this.sessionProfile.email === profile.email &&
+    this.sessionProfile.description === profile.description;
+  }
+
+  isEqual(objA, objB) {
+    // Create arrays of property names
+    const aProps = Object.getOwnPropertyNames(objA);
+    const bProps = Object.getOwnPropertyNames(objB);
+    // If count of properties is different,
+    // objects are not equivalent
+    if (aProps.length !== bProps.length) {
+        return false;
+    }
+    for(let i = 0; i < aProps.length; i++) {
+
+         const propName = aProps[i];
+          // If values of same property are not equal,
+          // objects are not equivalent
+         if (objA[propName] !== objB[propName]) {
+             return false;
+         }
+    }
+    // If we made it this far, objects
+    // are considered equivalent
+
+    return true;
+    }
 }

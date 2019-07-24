@@ -15,9 +15,5 @@ export class UserService {
     return response;
   }
 
-  async getUserByToken(): Promise<User> {
-    const response = await this.httpClient.get<User>('/users/token').toPromise();
-    return response;
-  }
 
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService, GamesService, UsersInteractionService } from '@services';
+import { UserService, GamesService, UsersInteractionService, SessionService } from '@services';
 import { User, Game} from '@models';
 
 @Component({
@@ -19,13 +19,13 @@ export class ProfileLayoutComponent implements OnInit {
   subscriptionsAmount = 0;
   subscribersAmount = 0;
   profile: User;
-  sessionProfile: User;
   isSessionProfile = false;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private gameDummyService: GamesService,
               private usersInteractionService: UsersInteractionService,
-              private userService: UserService) {}
+              private userService: UserService,
+              private sessionService: SessionService) {}
 
     ngOnInit() {
       this.updateProfile();
@@ -34,7 +34,6 @@ export class ProfileLayoutComponent implements OnInit {
     updateProfile() {
       const nickname = this.route.snapshot.paramMap.get('nickname');
       this.fetchProfileData(nickname);
-      this.fetchSessionProfileData();
 
       this.getAllGames();
     }
@@ -68,10 +67,10 @@ export class ProfileLayoutComponent implements OnInit {
       } else {
         this.subscriptionsAmount = 0;
       }
-    }
 
-    async fetchSessionProfileData() {
-      this.sessionProfile = await this.userService.getUserByToken();
+
+      this.isSessionProfile = this.sessionService.IsSessionProfile(this.profile);
+
     }
 
     // Dummy method
@@ -85,18 +84,7 @@ export class ProfileLayoutComponent implements OnInit {
     }
 
     updateSessionUserInfo(updatedUser: User) {
-      const eq = this.compareUsers(updatedUser);
 
-      if (!eq) {
-        // Update user logic
-      }
-    }
-
-    compareUsers(updatedUser: User) {
-      return updatedUser.name === this.sessionProfile.name &&
-      updatedUser.nickname === this.sessionProfile.nickname &&
-      updatedUser.id === this.sessionProfile.id &&
-      updatedUser.email === this.sessionProfile.email &&
-      updatedUser.description === this.sessionProfile.description;
+      // add update user logic
     }
 }

@@ -3,10 +3,17 @@
       <div class="col-md-1"></div>
 
       <div class="col-md-2" id="main-container">
+          
           <coop-my-profile
+          *ngIf = "isSessionProfile"
           [profile] = "profile"
           (userUpdated) = "updateSessionUserInfo($event)"
           ></coop-my-profile>
+
+          <coop-foreign-profile
+          *ngIf = "!isSessionProfile"
+          [profile] = "profile"
+          ></coop-foreign-profile>
 
       </div>
 
