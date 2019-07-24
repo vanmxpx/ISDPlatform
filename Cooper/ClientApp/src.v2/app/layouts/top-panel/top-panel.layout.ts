@@ -8,12 +8,12 @@ import { Component, OnInit } from '@angular/core';
 export class TopPanelLayoutComponent implements OnInit {
   navigationItems = [
     {label: 'Home', link: '#'},
-    {label: 'Games', link: './games'}, 
+    {label: 'Games', link: '/platform/games'}, 
     {label: 'Chats', link: '#'}, 
-    {label: 'My profile', link: './profile'},  
+    {label: 'My profile', link: '#'},  
     {label: 'Forum', link: '#'},
     {label: 'Vacancies', link: '#'} 
-  ]
+  ];
 
   constructor() { }
 
