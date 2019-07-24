@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {CoopNavBarItem} from "../../models/coop-navbar-item";
+import {CoopNavBarItem} from "@models";
 
 @Component({
   selector: 'coop-navigation',
@@ -8,7 +8,7 @@ import {CoopNavBarItem} from "../../models/coop-navbar-item";
 })
 export class NavigationComponent implements OnInit {
 
-@Input() items: CoopNavBarItem[]
+  @Input() items: CoopNavBarItem[]
 
   constructor() { }
 
