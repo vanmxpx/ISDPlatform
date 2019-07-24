@@ -1,14 +1,5 @@
       <ul class="coop-navigation nav navbar-nav">
-        <li class="nav-item">
-          <a class="my-navigate" href="#">My Page</a>
-        </li>
-        <li class="nav-item">
-          <a class="my-navigate" href="#">Friends</a>
-        </li>
-        <li class="nav-item">
-          <a class="my-navigate" href="#">Chats</a>
-        </li>
-        <li class="nav-item">
-          <a class="my-navigate" href="#">Games</a>
+        <li *ngFor="let item of items" class="nav-item">
+          <a class="my-navigate" href="{{item.link}}">{{item.label}}</a>
         </li>
       </ul>
