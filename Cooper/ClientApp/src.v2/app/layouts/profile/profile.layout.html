@@ -3,27 +3,9 @@
       <div class="col-md-1"></div>
 
       <div class="col-md-2" id="main-container">
-          <mat-card class="example-card">                
-            <img mat-card-image src="{{profile.photoURL}}" onError="this.src='assets/imageKeeper/robot.png'" class="avatar">
-            <mat-card-title>{{profile.nickname}}</mat-card-title> 
-          </mat-card>
-          
-          <mat-card-content class="info">
-            Name:
-            <p class="info-value">{{profile.name}} </p>
-          </mat-card-content>
-          
-          <mat-card-content class="info"> 
-            E-mail:
-            <p class="info-value">{{profile.email}}</p>
-          </mat-card-content>
-          
-          <mat-card-content class="info">
-          Bio:
-          <p class="info-value">
-            {{profile.description}}
-          </p>
-          </mat-card-content>
+          <coop-foreign-profile
+          [profile] = "profile"
+          ></coop-foreign-profile>
 
           <div *ngIf="this.isSessionProfile" (click)="this.isButtonVisible = true">
               <button mat-raised-button class="button-edit">Edit profile</button>

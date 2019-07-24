@@ -1,0 +1,21 @@
+<mat-card class="example-card">                
+  <img mat-card-image src="{{profile.photoURL}}" onError="this.src='assets/imageKeeper/robot.png'" class="avatar">
+  <mat-card-title>{{profile.nickname}}</mat-card-title> 
+</mat-card>
+
+<mat-card-content class="info">
+  Name:
+  <p class="info-value">{{profile.name}} </p>
+</mat-card-content>
+
+<mat-card-content class="info"> 
+  E-mail:
+  <p class="info-value">{{profile.email}}</p>
+</mat-card-content>
+
+<mat-card-content class="info">
+Bio:
+<p class="info-value">
+  {{profile.description}}
+</p>
+</mat-card-content>
