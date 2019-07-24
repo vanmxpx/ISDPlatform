@@ -25,10 +25,11 @@ export class ProfileLayoutComponent implements OnInit {
               private gameDummyService: GamesService,
               private usersInteractionService: UsersInteractionService,
               private userService: UserService,
-              private sessionService: SessionService) {}
+              private sessionService: SessionService) {
+      this.updateProfile();
+              }
 
     ngOnInit() {
-      this.updateProfile();
     }
 
     updateProfile() {
@@ -70,7 +71,6 @@ export class ProfileLayoutComponent implements OnInit {
 
 
       this.isSessionProfile = this.sessionService.IsSessionProfile(this.profile);
-
     }
 
     // Dummy method
