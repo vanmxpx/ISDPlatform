@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -71,8 +72,9 @@ namespace Utility
                     img = Image.FromStream(imageReadStream);
                 }
             }
-            catch
+            catch (Exception EXXXXXXXXXXxxxx)
             {
+                var error = EXXXXXXXXXXxxxx.Message;
                 img = null;
             }
 
