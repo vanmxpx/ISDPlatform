@@ -9,3 +9,5 @@ export {UserInteractionListComponent} from './user-interaction-list/user-interac
 export {GamesListComponent} from './games-list/games-list.component';
 
 export {ForeignProfileComponent} from './foreign-profile/foreign-profile.component';
+
+export {MyProfileComponent} from './my-profile/my-profile.component';

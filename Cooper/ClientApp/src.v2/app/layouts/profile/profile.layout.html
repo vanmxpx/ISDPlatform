@@ -3,13 +3,10 @@
       <div class="col-md-1"></div>
 
       <div class="col-md-2" id="main-container">
-          <coop-foreign-profile
+          <coop-my-profile
           [profile] = "profile"
-          ></coop-foreign-profile>
-
-          <div *ngIf="this.isSessionProfile" (click)="this.isButtonVisible = true">
-              <button mat-raised-button class="button-edit">Edit profile</button>
-          </div>
+          (userUpdated) = "updateSessionUserInfo($event)"
+          ></coop-my-profile>
 
       </div>
 

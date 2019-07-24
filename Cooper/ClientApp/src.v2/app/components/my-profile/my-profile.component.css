@@ -1,0 +1,26 @@
+.example-card {   
+    object-fit: cover;
+    width: 230px;
+    height: auto;
+    margin-top: 30px;
+  }
+
+.info{
+    margin-top: 10px;
+    width: 230px;
+}
+
+.info-value
+{
+    font-size: 18px;   
+}
+
+
+.button--width{
+    width: 230px;
+}
+
+
+.input-field--width {
+    width: 230px;
+}

@@ -84,23 +84,19 @@ export class ProfileLayoutComponent implements OnInit {
       this.updateProfile();
     }
 
-    /*
-    goToProfile(nickname: string) {
-      this.router.navigate(['/profile', nickname]);
-      this.fetchProfile(nickname);
+    updateSessionUserInfo(updatedUser: User) {
+      const eq = this.compareUsers(updatedUser);
+
+      if (!eq) {
+        // Update user logic
+      }
     }
 
-    async fetchData(nickname: string) {
-      this.games = this.gameService.getData();
-      this.comments = this.usersCommentService.getData();
-      this.friends = await this.usersFriendsService.getFriends();
-      this.subscribers = await this.usersFriendsService.getFollowers();
-      this.subscriptions = await this.usersFriendsService.getFollowings();
-      this.friendsNumber = this.friends.length;
-      this.followersNumber = this.subscribers.length;
-      this.followingsNumber = this.subscriptions.length;
-      this.fetchProfile(nickname);
+    compareUsers(updatedUser: User) {
+      return updatedUser.name === this.sessionProfile.name &&
+      updatedUser.nickname === this.sessionProfile.nickname &&
+      updatedUser.id === this.sessionProfile.id &&
+      updatedUser.email === this.sessionProfile.email &&
+      updatedUser.description === this.sessionProfile.description;
     }
-
-    */
 }
