@@ -20,8 +20,9 @@ import {AuthGuard} from '@guards';
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent } from '@layouts';
+
 import { LoginFormComponent, RegistrationFormComponent, PosterComponent, GameListItemComponent,
-         GameCardComponent} from '@components';
+         GameCardComponent, NavigationComponent} from '@components';
 
 
 export function getAuthServiceConfigs() {
@@ -51,11 +52,13 @@ export function getAuthServiceConfigs() {
     ProfileLayoutComponent,
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
+
     GameListItemComponent,
     GameCardComponent,
     LoginFormComponent,
     RegistrationFormComponent,
     PosterComponent,
+    NavigationComponent
 ],
   imports: [
     BrowserModule,
