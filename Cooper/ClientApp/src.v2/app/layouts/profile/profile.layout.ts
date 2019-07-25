@@ -15,9 +15,11 @@ export class ProfileLayoutComponent implements OnInit {
   friends: User[] = [];
   subscriptions: User[] = [];
   subscribers: User[] = [];
+
   friendsAmount = 0;
   subscriptionsAmount = 0;
   subscribersAmount = 0;
+
   profile: User;
   isSessionProfile = false;
 
@@ -26,10 +28,10 @@ export class ProfileLayoutComponent implements OnInit {
               private usersInteractionService: UsersInteractionService,
               private userService: UserService,
               private sessionService: SessionService) {
-      this.updateProfile();
               }
 
     ngOnInit() {
+      this.updateProfile();
     }
 
     updateProfile() {
@@ -37,11 +39,6 @@ export class ProfileLayoutComponent implements OnInit {
       this.fetchProfileData(nickname);
 
       this.getAllGames();
-    }
-
-    exit() {
-      localStorage.removeItem('JwtCooper');
-      window.location.reload();
     }
 
     async fetchProfileData(nickname: string) {

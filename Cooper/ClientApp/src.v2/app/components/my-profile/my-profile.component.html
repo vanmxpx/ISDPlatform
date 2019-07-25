@@ -1,58 +1,60 @@
-<mat-card class="example-card">                
+<div>
+  <mat-card class="avatar-card">                
 
-  <img mat-card-image src="{{profile.photoURL}}" onError="this.src='assets/imageKeeper/robot.png'" class="avatar">
-  
-  <mat-card-title>{{profile.nickname}}</mat-card-title> 
+    <img mat-card-image src="{{profile.photoURL}}" onError="this.src='assets/imageKeeper/robot.png'" class="avatar-img">
+    
+    <mat-card-title>{{profile.nickname}}</mat-card-title> 
 
-</mat-card>
+  </mat-card>
 
-<mat-card-content class="info">
-  
-  <div *ngIf="!editMode">
-    <h5>Name:</h5>
-    <p class="info-value" >{{profile.name}} </p>
+  <mat-card-content class="info-card">
+    
+    <div *ngIf="!editMode">
+      <h5>Name:</h5>
+      <p class="info-card__field" >{{profile.name}} </p>
+    </div>
+
+    <p *ngIf="editMode">
+      <mat-form-field class="input-field--width">
+        <input matInput class="info-card__field" value ="{{profile.name}}" id="name" placeholder="Name"/>
+      </mat-form-field>
+    </p>
+
+  </mat-card-content>
+
+  <mat-card-content class="info-card"> 
+    <div *ngIf="!editMode">
+      <h5>E-mail:</h5>
+      <p class="info-card__field" >{{profile.email}}</p>
+    </div>
+
+    <p *ngIf="editMode">
+      <mat-form-field class="input-field--width">
+        <input matInput class="info-card__field" value ="{{profile.email}}" id="email" placeholder="E-mail"/>
+      </mat-form-field>
+    </p>
+
+  </mat-card-content>
+
+  <mat-card-content class="info-card">
+    <div *ngIf="!editMode">
+      <h5>Bio:</h5>
+    <p class="info-card__field" *ngIf="!editMode">{{profile.description}}</p>
+    </div>
+
+    <p *ngIf="editMode">
+      <mat-form-field class="input-field--width">
+        <textarea matInput class="info-card__field" value ="{{profile.description}}" id="description" placeholder="Bio"></textarea>
+      </mat-form-field>
+    </p>
+
+  </mat-card-content>
+
+  <div *ngIf="!editMode" (click)="onEditButtonClicked()">
+      <button mat-raised-button class="button--width">Edit profile</button>
   </div>
 
-  <p *ngIf="editMode">
-    <mat-form-field class="input-field--width">
-      <input matInput class="info-value" value ="{{profile.name}}" id="name" placeholder="Name"/>
-    </mat-form-field>
-  </p>
-
-</mat-card-content>
-
-<mat-card-content class="info"> 
-  <div *ngIf="!editMode">
-    <h5>E-mail:</h5>
-    <p class="info-value" >{{profile.email}}</p>
+  <div *ngIf="editMode" (click)="onSaveButtonClicked()">
+      <button mat-raised-button class="button--width">Save profile</button>
   </div>
-
-  <p *ngIf="editMode">
-    <mat-form-field class="input-field--width">
-      <input matInput class="info-value" value ="{{profile.email}}" id="email" placeholder="E-mail"/>
-    </mat-form-field>
-  </p>
-
-</mat-card-content>
-
-<mat-card-content class="info">
-  <div *ngIf="!editMode">
-    <h5>Bio:</h5>
-  <p class="info-value" *ngIf="!editMode">{{profile.description}}</p>
-  </div>
-
-  <p *ngIf="editMode">
-    <mat-form-field class="input-field--width">
-      <textarea matInput class="info-value" value ="{{profile.description}}" id="description" placeholder="Bio"></textarea>
-    </mat-form-field>
-  </p>
-
-</mat-card-content>
-
-<div *ngIf="!editMode" (click)="onEditButtonClicked()">
-    <button mat-raised-button class="button--width">Edit profile</button>
-</div>
-
-<div *ngIf="editMode" (click)="onSaveButtonClicked()">
-    <button mat-raised-button class="button--width">Save profile</button>
 </div>

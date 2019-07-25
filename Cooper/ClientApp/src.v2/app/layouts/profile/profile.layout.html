@@ -2,8 +2,7 @@
   <main>
       <div class="col-md-1"></div>
 
-      <div class="col-md-2" id="main-container">
-          
+      <div class="col-md-2">          
           <coop-my-profile
           *ngIf = "isSessionProfile"
           [profile] = "profile"
@@ -31,8 +30,7 @@
       <div class="col-md-3">
         <coop-games-list
         [games]="games"
-        ></coop-games-list>
-            
+        ></coop-games-list>            
       </div>
 
       <div class="col-md-1"></div>

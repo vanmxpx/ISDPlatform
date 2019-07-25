@@ -1,19 +1,21 @@
-<mat-card class="example-card">                
-  <img mat-card-image src="{{profile.photoURL}}" onError="this.src='assets/imageKeeper/robot.png'" class="avatar">
-  <mat-card-title>{{profile.nickname}}</mat-card-title> 
-</mat-card>
+<div>
+  <mat-card class="avatar-card">                
+    <img mat-card-image src="{{profile.photoURL}}" onError="this.src='assets/imageKeeper/robot.png'" class="avatar-img">
+    <mat-card-title>{{profile.nickname}}</mat-card-title> 
+  </mat-card>
 
-<mat-card-content class="info">
-  <h5>Name:</h5>
-    <p class="info-value" >{{profile.name}} </p>
-</mat-card-content>
+  <mat-card-content class="info-card">
+    <h5>Name:</h5>
+      <p class="info-card__field" >{{profile.name}} </p>
+  </mat-card-content>
 
-<mat-card-content class="info"> 
-  <h5>E-mail:</h5>
-  <p class="info-value">{{profile.email}}</p>
-</mat-card-content>
+  <mat-card-content  class="info-card"> 
+    <h5>E-mail:</h5>
+    <p class="info-card__field">{{profile.email}}</p>
+  </mat-card-content>
 
-<mat-card-content class="info">
-  <h5>Bio:</h5>
-  <p class="info-value">{{profile.description}}</p>
-</mat-card-content>
+  <mat-card-content class="info-card">
+    <h5>Bio:</h5>
+    <p class="info-card__field">{{profile.description}}</p>
+  </mat-card-content>
+</div>

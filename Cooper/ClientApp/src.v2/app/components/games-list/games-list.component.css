@@ -5,7 +5,7 @@
     margin-top: 30px;
   }
   
-  .games-list {
+  .games-card__list {
     height: 210px;
     overflow-y: scroll;
 }

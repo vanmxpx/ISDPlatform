@@ -1,11 +1,13 @@
-<mat-card class="games-card">
-   <mat-card-title>Games</mat-card-title>
-   <mat-card-content>
-      <mat-action-list class = "games-list">
-         <mat-list-item *ngFor="let game of games">
-              <img mat-card-avatar src={{game.logourl}}>
-              <h3 matLine> {{game.name}} </h3>                   
-         </mat-list-item>
-      </mat-action-list>
-    </mat-card-content>
-</mat-card>
+<div>
+   <mat-card class="games-card">
+      <mat-card-title>Games</mat-card-title>
+      <mat-card-content>
+         <mat-action-list class = "games-card__list">
+            <mat-list-item *ngFor="let game of games">
+               <img mat-card-avatar src={{game.logourl}}>
+               <h3 matLine> {{game.name}} </h3>                   
+            </mat-list-item>
+         </mat-action-list>
+      </mat-card-content>
+   </mat-card>
+</div>
