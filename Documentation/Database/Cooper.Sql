@@ -12,7 +12,7 @@ CREATE TABLE USERS (
   NAME                      VARCHAR(40),
   NICKNAME                  VARCHAR(40),
   EMAIL                     VARCHAR(40),
-  PASSWORD                  VARCHAR(100) NOT NULL,
+  PASSWORD                  VARCHAR(300) NOT NULL,
   PHOTOURL                  VARCHAR(100),
   ISVERIFIED                VARCHAR2(1) DEFAULT 'n' NOT NULL,
   ISCREATOR                 VARCHAR2(1) DEFAULT 'n' NOT NULL,
@@ -198,6 +198,13 @@ CREATE TABLE TOKENS (
   ENDVERIFYDATE TIMESTAMP
 )
 ;
+
+CREATE TABLE DB_VERSION (
+  VERSION VARCHAR(200)
+)
+;
+
+INSERT INTO DB_VERSION(VERSION) VALUES ('0.0.0');
 
 /*==================================*/
 ALTER TABLE MESSAGES

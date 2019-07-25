@@ -15,7 +15,7 @@ import { NgForm } from '@angular/forms';
 export class SignInComponent implements OnInit {
 
   constructor(private service: UserService) {
-    this.service.CheckAuthentification();
+    this.service.checkAuthentification();
   }
 
   login(form: NgForm) {

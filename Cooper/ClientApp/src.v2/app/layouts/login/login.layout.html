@@ -1,0 +1,23 @@
+<div class = "row headContainer">
+    
+    <div class = "col-md-4 col-xs-12 leftContainer ">
+        <coop-poster></coop-poster>
+    </div>
+
+    <div class = "col-md-8 col-xs-12">     
+      <div class = "row headContainer">
+        <div class = "col-md-2"></div>
+          <div class = "col-md-8 centralContentContainer">
+            <div>
+                <coop-login-form
+                [failedLogin]="failedLogin"
+                (signIn)="signIn($event)" 
+                (socialSignIn)="socialSignIn($event)"
+                ></coop-login-form>
+            </div>
+          </div>
+          <div class = "col-md-2"></div>
+        </div>
+    </div>
+
+  </div>

@@ -17,18 +17,18 @@
     <div class="col-md-2" id="main-container">
         <mat-card class="example-card">                
   <img mat-card-image src="assets/imageKeeper/robot.png" class="avatar">
-  <mat-card-title>{{response.nickname}}</mat-card-title> 
+  <mat-card-title>{{profile.nickname}}</mat-card-title> 
   </mat-card>
   <mat-card-content class="info">
     Name:
   <p class="info-value">
-      {{response.name}}
+      {{profile.name}}
   </p>
   </mat-card-content>
   <mat-card-content class="info">
       E-mail:
     <p class="info-value">
-        {{response.email}}
+        {{profile.email}}
     </p>
     </mat-card-content>
     <mat-card-content class="info">
@@ -37,7 +37,7 @@
           I am just a man from nowhere. I like lorem ipsum and game of thrones
       </p>
       </mat-card-content>
-      <div *ngIf="this.response.isMy" (click)="this.isButtonVisible = true">
+      <div *ngIf="this.profile.isMy" (click)="this.isButtonVisible = true">
   <button mat-raised-button class="button-edit">Edit profile</button>
 </div>
     </div>

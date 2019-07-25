@@ -1,0 +1,36 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url('https://fonts.googleapis.com/css?family=Roboto:900');
+
+body{
+    font-family: 'Roboto', sans-serif;
+    background-color: rgba(255, 255, 255, 255);
+    min-height: 100vh;
+    height: auto;
+}
+
+
+.coop-form {
+    padding-top: 32px;
+    padding-right: 32px;
+    padding-left: 32px;
+    padding-bottom: 32px;
+    font-family: "Roboto";
+    border-bottom-width: 1px;
+    width: 450px;
+  }
+
+.row{
+	margin-left:0;
+	margin-right:0;
+	margin-top:1%;
+}
+
+button {
+    outline: none;
+}
+
+html{
+    min-height: 100vh;
+    height: auto;
+}

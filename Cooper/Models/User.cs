@@ -15,6 +15,7 @@ namespace Cooper.Models
         public bool IsMy { get; set; }
         public bool IsVerified { get; set; }
         public bool IsCreator { get; set; }
+        public string Description { get; set; }
         public bool IsBanned { get; set; }
         public DateTime EndBanDate { get; set; }
         public string PlatformLanguage { get; set; }

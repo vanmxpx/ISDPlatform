@@ -13,10 +13,18 @@ export interface Game {
     name: string;
     message: string;
     avatar: string;
-    date: any;
+    date: string;
   }
 
   export interface ProfileList {
     Nickname: string;
     PhotoURL: string;
+  }
+
+  export class Profile{
+    nickname: string = "";
+    name: string = "";
+    photoUrl: string = "";
+    email: string = "";
+    isMy: boolean = false;
   }

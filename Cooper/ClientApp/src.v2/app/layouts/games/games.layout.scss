@@ -1,0 +1,33 @@
+.coop-games{
+  &__game-list-item { 
+    width: 100%;
+    margin: 5px;
+  }
+
+  &__grid-list {
+    margin-top: 1%;
+  }
+
+  &__button-toggle {
+    align-self: flex-end;
+  }
+
+  &__games-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    top: 0;
+    position: sticky;
+    z-index: 999;
+    background-color: white;
+  }
+
+  &__game-item {
+    width: 100%;
+  }
+
+  &__game-row {
+    width: 100%;
+    display:block;
+  }
+}

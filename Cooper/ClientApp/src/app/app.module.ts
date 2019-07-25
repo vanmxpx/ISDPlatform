@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { DynamiSocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from 'ng-dynami-social-login';
 import { SignInComponent } from './components/auth/sign-in/sign-in.component';
 import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
-import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from './components/auth/guards/auth-guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule, MatButtonModule, MatCardModule, MatListModule, MatTabsModule, MatBadgeModule} from '@angular/material';
@@ -16,7 +15,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
 import { AppSignComponentComponent } from './app-sign-component/app-sign-component.component';
 import { MyPageComponent } from './my-page/my-page.component';
-import { GameComponent } from './components/home/game/game.component';
 import { GamesComponent } from './components/games/games.component';
 import { GameDetailComponent } from './components/game-detail/game-detail.component';
 import { GameSearchComponent } from './components/game-search/game-search.component';
@@ -54,8 +52,6 @@ export function getAuthServiceConfigs() {
     AppComponent,
     SignInComponent,
     SignUpComponent,
-    HomeComponent,
-    GameComponent,
     AppSignComponentComponent,
     MyPageComponent,
     GamesComponent,

@@ -1,37 +1,44 @@
 <h1 class = "head-text">Sign Up</h1>
-<form [formGroup]="service.formModel" autocomplete="off" (submit)="onSubmit()">
+
+<form [formGroup]="registrationForm" autocomplete="off" (submit)="onSubmit()">
     
 <div class="personal-data-form">
     <mat-form-field>
-      <input matInput placeholder="Enter your email" formControlName="Email" [(ngModel)]="userName" type = "email"/>
+      <input matInput placeholder="Enter your email" formControlName="Email" [(ngModel)]="Nickname" type = "email"/>
     </mat-form-field>
-    <label class="text-danger" *ngIf="service.formModel.get('Email').touched &&  service.formModel.get('Email').errors?.required">This field is mandatory.</label>
-    <label class="text-danger" *ngIf="service.formModel.get('Email').touched && service.formModel.get('Email').errors?.email">Invalid email address.</label>
-      
+    <mat-error *ngIf="registrationForm.controls.Email.invalid">
+      {{getEmailErrorMessage()}}
+    </mat-error>
+
     <mat-form-field>
-      <input matInput placeholder="Enter your username" formControlName="UserName" [(ngModel)]="nick" type = "text"/>
+      <input matInput placeholder="Enter your nickname" formControlName="Nickname" [(ngModel)]="nick" type = "text"/>
     </mat-form-field>
-    <label class="text-danger" *ngIf="service.formModel.get('UserName').touched && service.formModel.get('UserName').errors?.required">This field is mandatory.</label>
+    <mat-error *ngIf="registrationForm.controls.Nickname.invalid">
+      {{getNicknameErrorMessage()}}
+    </mat-error>
     
     <div formGroupName="Passwords">
       <mat-form-field>
           <input matInput placeholder="Enter your password" formControlName="Password" [(ngModel)]="password" type = "password"/>
       </mat-form-field>
-      <label class="text-danger" *ngIf="service.formModel.get('Passwords.Password').touched && service.formModel.get('Passwords.Password').errors?.required">This field is mandatory.</label>
-      <label class="text-danger" *ngIf="service.formModel.get('Passwords.Password').touched && service.formModel.get('Passwords.Password').errors?.minlength">Minimum 4 characters required.</label>
-   
+      <mat-error *ngIf="registrationForm.controls.Passwords.controls.Password.invalid">
+        {{getPasswordErrorMessage()}}
+      </mat-error>
+
       <mat-form-field>
           <input matInput placeholder="Repeat your password" formControlName="ConfirmPassword" [(ngModel)]="reppassword" type = "password"/>
       </mat-form-field> 
-     <label class="text-danger" *ngIf="service.formModel.get('Passwords.ConfirmPassword').touched && service.formModel.get('Passwords.ConfirmPassword').errors?.required">This field is mandatory.</label>
-     <label class="text-danger" *ngIf="service.formModel.get('Passwords.ConfirmPassword').touched && service.formModel.get('Passwords.ConfirmPassword').errors?.passwordMismatch">Confirm Password does not match.</label>
-       
+      <mat-error *ngIf="registrationForm.controls.Passwords.controls.ConfirmPassword.invalid">
+        {{getConfirmPasswordErrorMessage()}}
+      </mat-error>
       </div>
     
   </div>
+
 <br/>
-<button class = "sign-up-button" type="submit" [disabled]="!service.formModel.valid">Sign up</button>
+<button class = "sign-up-button" type="submit" [disabled]="!registrationForm.valid">Sign up</button>
 </form>
+
 <div class = "text-help">
   <p>also you can <a routerLink="/auth" routerLinkActive="active" class="hyper-text">Sign in</a>
   <br>or sign up by:</p>
