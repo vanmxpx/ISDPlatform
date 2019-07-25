@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using Utility;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace MediaServer.Services
 {
@@ -17,14 +18,14 @@ namespace MediaServer.Services
             imageFolderPath = $"{_appEnvironment.WebRootPath}/Images/";
         }
 
-        public async Task<Image> GetImageAsync(string path)
+        public async Task<Image<Rgb24>> GetImageAsync(string path)
         {
-            Image image;
+            Image<Rgb24> image;
 
             try
             {
                 byte[] bytes = await File.ReadAllBytesAsync(path);
-                return bytes.ToImage();
+                return Image.Load<Rgb24>(bytes);
             }
             catch
             {
@@ -34,7 +35,7 @@ namespace MediaServer.Services
             return image;
         }
 
-        public async Task<string> AddImageAsync(Image image)
+        public async Task<string> AddImageAsync(Image<Rgb24> image)
         {
             byte[] bytes = image.ToByteArray();
             string fileName = image.GetHash() + ".jpg";
