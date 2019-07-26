@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System.Drawing;
 using System.IO;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace Utility
 {
@@ -30,7 +31,7 @@ namespace Utility
         }
 
         /// <summary> Converts a file to an image. </summary>
-        public static Image ToImage(this IFormFile file)
+        public static Image<Rgb24> ToImage(this IFormFile file)
         {
             return file.GetBytes().ToImage();
         }

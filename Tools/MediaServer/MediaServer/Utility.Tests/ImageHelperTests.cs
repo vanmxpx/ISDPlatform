@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Drawing;
-using System.Text;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace Utility.Tests
 {
@@ -70,20 +70,19 @@ namespace Utility.Tests
         [TestCase(2048, 4)]
         public void ResizeImageTest(int width, int height)
         {
-            Image image = ImageHelper.ToImage(dataImage);
-            Image resizedImage = ImageHelper.ResizeImage(image, width, height);
-            Assert.IsTrue(resizedImage.Width == width && resizedImage.Height == height);
+            Image<Rgb24> image = ImageHelper.ToImage(dataImage);
+            ImageHelper.ResizeImage(image, width, height);
+            Assert.IsTrue(image.Width == width && image.Height == height);
         }
 
         [Test]
         [TestCase(-128, 128)]
-        [TestCase(512, 0)]
         public void ResizeImageExceptionTest1(int width, int height)
         {
-            Image image = ImageHelper.ToImage(dataImage);
-            Assert.Throws<ArgumentException>(() =>
+            Image<Rgb24> image = ImageHelper.ToImage(dataImage);
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                Image resizedImage = ImageHelper.ResizeImage(image, width, height);
+                ImageHelper.ResizeImage(image, width, height);
             });
         }
 
@@ -92,11 +91,11 @@ namespace Utility.Tests
         [TestCase(512, 0)]
         public void ResizeImageExceptionTest2(int width, int height)
         {
-            Image resizedImage = null;
+            Image<Rgb24> resizedImage = null;
 
             try
             {
-                resizedImage = ImageHelper.ResizeImage(null, width, height);
+                ImageHelper.ResizeImage(null, width, height);
             }
             catch { }
 
@@ -105,11 +104,11 @@ namespace Utility.Tests
 
         [Test]
         public void GetHashCodeTest()
-        {        
-            Image image = ImageHelper.ToImage(dataImage);
-            string hash = "JkOrCWhglSAZmJxfNxR7ym54cxrGRCi-twWcQvO8Ir8";
+        {
+            Image<Rgb24> image = ImageHelper.ToImage(dataImage);
+            string hash = "4qNC_bBUC1FN0Po83f3CKsXHaORfgoKrKZNjRUyQ_2Y";
             string testHash = ImageHelper.GetHash(image);
-            Assert.IsTrue(ImageHelper.GetHash(image) == hash);
+            Assert.IsTrue(testHash == hash);
         }
     }
 }

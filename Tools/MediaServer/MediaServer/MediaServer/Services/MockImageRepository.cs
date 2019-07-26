@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using System.Threading.Tasks;
 using Utility;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace MediaServer.Services
 {
     public class MockImageRepository : IImageRepository
     {
-        private Dictionary<string, Image> images = new Dictionary<string, Image>();
+        private Dictionary<string, Image<Rgb24>> images = new Dictionary<string, Image<Rgb24>>();
 
-        public async Task<string> AddImageAsync(Image image)
+        public async Task<string> AddImageAsync(Image<Rgb24> image)
         {
             string hash = image.GetHash();
 
@@ -28,9 +29,9 @@ namespace MediaServer.Services
             return hash;
         }
 
-        public async Task<Image> GetImageAsync(string hash)
+        public async Task<Image<Rgb24>> GetImageAsync(string hash)
         {
-            Image image = null;
+            Image<Rgb24> image = null;
 
             await Task.Run(() =>
             {
