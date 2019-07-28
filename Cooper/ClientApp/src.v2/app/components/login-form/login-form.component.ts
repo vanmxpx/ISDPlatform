@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {SocialNetwork} from '@enums';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'coop-login-form',
@@ -8,14 +9,15 @@ import {SocialNetwork} from '@enums';
   styleUrls: ['./login-form.component.css']
 })
 export class LoginFormComponent implements OnInit {
-
+  title = "ngxtranslate";
   failedLoginMessage = 'Invalid username or password.';
 
   @Input() failedLogin: boolean;
   @Output() signIn = new EventEmitter<NgForm>();
   @Output() socialSignIn = new EventEmitter<SocialNetwork>();
 
-  constructor() { }
+  constructor(public translate: TranslateService) {  
+   }
 
   ngOnInit() {
   }

@@ -8,7 +8,7 @@ const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginLayoutComponent},
   {path: 'registration', component: RegistrationLayoutComponent},
-  {path: 'platform', component: PlatformLayoutComponent, canActivate: [AuthGuard],
+  {path: 'platform', component: PlatformLayoutComponent,
    children:  [
     {path: 'games', component: GamesLayoutComponent},
     {path: 'game/:id', component: GameLayoutComponent},
