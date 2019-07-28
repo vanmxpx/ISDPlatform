@@ -26,7 +26,7 @@ import {
 } from '@layouts';
 import {
   LoginFormComponent, RegistrationFormComponent, PosterComponent, GameListItemComponent,
-  GameCardComponent
+  GameCardComponent, NavigationComponent
 } from '@components';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -65,12 +65,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProfileLayoutComponent,
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
+
     GameListItemComponent,
     GameCardComponent,
     LoginFormComponent,
     RegistrationFormComponent,
     PosterComponent,
-  ],
+    NavigationComponent
+],
   imports: [
     BrowserModule,
     AppRoutingModule,
