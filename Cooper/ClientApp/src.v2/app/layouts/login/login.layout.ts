@@ -7,6 +7,7 @@ import {trigger, transition, style, query, group, animateChild, animate, keyfram
 import { NgForm } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SocialNetwork} from '@enums';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'coop-login-layout',
@@ -17,7 +18,7 @@ export class LoginLayoutComponent implements OnInit {
 
   failedLogin = false;
 
-  constructor(private authService: AuthentificationService, private route: ActivatedRoute, private router: Router) {
+  constructor(private authService: AuthentificationService, private route: ActivatedRoute, private router: Router, public translate: TranslateService) {
 
     this.route.params.subscribe(params => {
       console.log(params);

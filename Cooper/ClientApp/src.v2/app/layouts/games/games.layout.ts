@@ -3,6 +3,7 @@ import { Game } from '@models';
 import { GamesService } from '@services';
 import { AnimationsHelper } from '@helpers';
 import { GameListTabs } from '@enums';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'coop-games-layout',
@@ -19,7 +20,7 @@ export class GamesLayoutComponent implements OnInit {
   selectedTab: GameListTabs = GameListTabs.Cards;
   GameTabs = GameListTabs;
 
-  constructor(private gameService: GamesService) { }
+  constructor(private gameService: GamesService, public translate: TranslateService) { }
 
   ngOnInit() {
     this.fetchData();  

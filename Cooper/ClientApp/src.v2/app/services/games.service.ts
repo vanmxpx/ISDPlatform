@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Game } from '@models';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,14 @@ export class GamesService {
     return this.httpClient.get<Game[]>(GamesService.getGamesUrl);
   }
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, public translate: TranslateService) { }
 
   mockedGames: Game[] = [
     {
       name: 'tanks',
       logoUrl: 'assets/imageKeeper/WebTanks.png',
       description:'The Biggest War EverThe Biggest War EveThe Biggest War EveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War Eve EveThe Biggest War EveThe Biggest War EveThe Biggest War EveThe Biggest War Eve',
-      genre: 'War'
+      genre: 'GAMES.GENRES.WAR'
     },
     {
       name: 'fortnite',

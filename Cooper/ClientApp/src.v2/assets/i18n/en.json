@@ -6,5 +6,24 @@
         "LINK-TO-SIGN-UP": "Sign up",
         "PLACEHOLDER-PASSWORD": "Enter your password",
         "PLACEHOLDER-NICKNAME": "Enter your nickname"
+    },
+
+    "TOP-PANEL" : {
+        "HOME": "Home",
+        "GAMES": "Games",
+        "CHATS": "Chats",
+        "MY-PROFILE": "My profile",
+        "FORUM": "Forum",
+        "VACANCIES": "Vacancies"
+    },
+
+    "GAMES" : {
+        "HEADER": "Games",
+        "GENRES": {
+            "WAR": "War",
+            "ACTION": "Action",
+            "STRATEGY": "Strategy"           
+        }
     }
 }
+

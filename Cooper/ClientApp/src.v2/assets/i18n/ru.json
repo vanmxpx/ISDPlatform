@@ -6,5 +6,23 @@
         "LINK-TO-SIGN-UP": "зарегистрироваться",
         "PLACEHOLDER-PASSWORD": "Введите свой пароль",
         "PLACEHOLDER-NICKNAME": "Введите свой ник"
+    },
+
+    "TOP-PANEL" : {
+        "HOME": "Главная",
+        "GAMES": "Игры",
+        "CHATS": "Чаты",
+        "MY-PROFILE": "Мой профиль",
+        "FORUM": "Форум",
+        "VACANCIES": "Вакансии"
+    },
+
+    "GAMES" : {
+        "HEADER": "Игры",
+        "GENRES": {
+            "WAR": "Война",
+            "ACTION": "Экшн",
+            "STRATEGY": "Стратегия"           
+        }
     }
 }

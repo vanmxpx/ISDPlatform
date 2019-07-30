@@ -2,12 +2,7 @@
 
   <form class="coop-form personal-data-form" #loginForm="ngForm" (ngSubmit)="onSignInClicked(loginForm)">
      
-    <label>
-      {{ 'LOGIN-FORM.TITLE' | translate }}
-      <select #langSelect (change)="translate.use(langSelect.value)">
-        <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
-      </select>
-    </label>
+    
     <div class="div--color div--positioning div--font">{{'LOGIN-FORM.TITLE' | translate}}</div>
 
     <mat-form-field class="mat-form-field">
