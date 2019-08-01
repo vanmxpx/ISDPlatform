@@ -35,11 +35,11 @@ namespace Cooper.Controllers
 
 
         // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public GameReview Get(long id)
-        {
-            return gameReviewRepository.Get(id);
-        }
+        // [HttpGet("{id}")]
+        // public GameReview Get(long id)
+        // {
+        //     return gameReviewRepository.Get(id);
+        // }
 
         // POST api/<controller>
         [HttpPost]

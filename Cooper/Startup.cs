@@ -16,7 +16,11 @@ using Microsoft.AspNetCore.SignalR;
 using Cooper.Services;
 using cooper.SignalR;
 using Cooper.Repository.CommonChats;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
+using System.IO;
+using System.Reflection;
 
 [assembly: ApiController]
 namespace Cooper
@@ -61,6 +65,20 @@ namespace Cooper
             services.AddUserConnectionService();
             services.AddTokenCleanerService();
             services.AddSocialAuthService();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Title = "Cooper API",
+                    Version = "v1",
+                    Description = "Cooper API for Cooper's developers",
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +100,14 @@ namespace Cooper
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cooper API");
+                c.SupportedSubmitMethods(SubmitMethod.Get);
+            });
 
             app.UseCors("CorsPolicy");
 

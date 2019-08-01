@@ -21,16 +21,16 @@ namespace Cooper.Controllers
         }
 
         // GET: api/<controller>
-        [HttpGet("{id}")]
-        public IEnumerable<Statistics> GetAllStatistics()
-        {
-            return statisticsRepository.GetAll();
-        }
+        // [HttpGet("{id}")]
+        // public IEnumerable<Statistics> GetAllStatistics()
+        // {
+        //     return statisticsRepository.GetAll();
+        // }
 
-        public IEnumerable<Statistics> GetAllStatisticsByUserId(long Id)    // get all game statistics for concrete user
-        {
-            return statisticsRepository.GetStatisticsByUser(Id);
-        }
+        // public IEnumerable<Statistics> GetAllStatisticsByUserId(long Id)    // get all game statistics for concrete user
+        // {
+        //     return statisticsRepository.GetStatisticsByUser(Id);
+        // }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
@@ -39,6 +39,7 @@ namespace Cooper.Controllers
             return statisticsRepository.GetStatisticsByGame(id);
         }
 
+        [HttpGet]
         public Statistics GetStatisticsById(long id)
         {
             return statisticsRepository.Get(id);

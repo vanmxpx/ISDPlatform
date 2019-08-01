@@ -77,6 +77,7 @@ namespace Cooper.Controllers
             this.configProvider = configProvider;
         }
 
+        [HttpPost]
         [Route("confirm")]
         public IActionResult Confirm() {
             IActionResult result;

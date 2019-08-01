@@ -120,7 +120,13 @@ namespace Cooper.Controllers
         }
 
         // DELETE api/<controller>/5
+        /// <summary>
+        /// Deletes user with specified id.
+        /// </summary>
+        /// <param name="id">User's id</param>
+        /// <response code="200">If the user has been deleted</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Delete(long id)
         {
             userRepository.Delete(id);
