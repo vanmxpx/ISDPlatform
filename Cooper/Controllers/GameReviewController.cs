@@ -12,6 +12,7 @@ using Cooper.Configuration;
 namespace Cooper.Controllers
 {
     [Route("api/game/reviews")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class GameReviewController : ControllerBase
     {
         GameReviewRepository gameReviewRepository;

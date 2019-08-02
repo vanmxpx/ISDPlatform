@@ -11,6 +11,7 @@ using Cooper.Configuration;
 namespace Cooper.Controllers
 {
     [Route("api/game/statistics")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class GameStatisticsController : ControllerBase
     {
         StatisticsRepository statisticsRepository;

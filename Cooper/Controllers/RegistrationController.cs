@@ -9,8 +9,8 @@ using System;
 
 namespace Cooper.Controllers
 {
-    [Route("api/registration")]
     [ApiController]
+    [Route("api/registration")]
     public class RegistrationController : ControllerBase
     {
         private readonly UserRepository userRepository;
@@ -39,9 +39,9 @@ namespace Cooper.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Post([FromBody]UserRegistration user)
+        public IActionResult Post(UserRegistration user)
         {
-            IActionResult result = BadRequest(ModelState);
+            IActionResult result = BadRequest();
             // TODO: send the proper explanation for bad-request.
             user.Nickname = DbTools.SanitizeString(user.Nickname);
             user.Email = DbTools.SanitizeString(user.Email);
@@ -60,7 +60,7 @@ namespace Cooper.Controllers
                     result = Ok(userRepository.Create(user));
                 }
                 else if (user.Provider == null)
-{
+                {
                     var verify = new Verification();
                     verify.Email = user.Email;
                     verify.Token = Guid.NewGuid().ToString();

@@ -16,6 +16,7 @@ using Cooper.Configuration;
 namespace Cooper.Controllers
 {
     [Route("api/users")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class UserController : ControllerBase
     {
         UserRepository userRepository;

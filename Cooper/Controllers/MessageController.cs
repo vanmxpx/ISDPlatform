@@ -12,6 +12,7 @@ using Cooper.Configuration;
 namespace Cooper.Controllers
 {
     [Route("api/chat/messages")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class MessageController : ControllerBase
     {
         MessageRepository messageRepository;

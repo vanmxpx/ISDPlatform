@@ -16,6 +16,7 @@ using Cooper.Extensions;
 namespace Cooper.Controllers
 {
     [Route("api/interaction")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class UsersConnectionController : ControllerBase
     {
         IUsersConnectionRepository userConnectionsRepository;

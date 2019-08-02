@@ -8,9 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Cooper.Controllers
 {
-
-    [Route("api/auth")]
     [ApiController]
+    [Route("api/auth")]
     public class AuthController : ControllerBase
     {
         private readonly UserRepository userRepository;
@@ -31,7 +30,7 @@ namespace Cooper.Controllers
         /// <param name="login">Login information</param>
         /// <returns>Token if user is registered</returns>
         /// <response code="200">If user is registered</response>
-        /// <response code="400">If invalid client request</response>  
+        /// <response code="400">If client request or invalid model is invalid</response>  
         /// <response code="401">If the user is not registered</response>  
         [HttpPost]
         [Route("login")]
@@ -40,13 +39,17 @@ namespace Cooper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult Login([FromBody]Login login)
+        public IActionResult Login(Login login)
         {
             IActionResult result = Unauthorized();
 
-            if (login == null)
+            if (!ModelState.IsValid)
             {
-                result = BadRequest("Invalid client request");
+                result = BadRequest();
+            }
+            else if (login == null)
+            {
+                result = BadRequest();
             }
             else 
             {
@@ -60,7 +63,7 @@ namespace Cooper.Controllers
                     }
                     else
                     {
-                        result = BadRequest("Auth");
+                        result = BadRequest();
                     }
                 }
                 else if (login.Provider == null)
