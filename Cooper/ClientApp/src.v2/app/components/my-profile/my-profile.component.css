@@ -18,16 +18,16 @@
   word-wrap: break-word;
 }
 
-.info-card__field {
+.card-field {
     font-size: 18px;   
 }
 
 
-.button--width {
+.my-button{
     width: 230px;
 }
 
 
-.input-field--width {
+.input-field {
     width: 230px;
 }

@@ -7,7 +7,7 @@
               <span matBadge="{{friendsAmount}}" matBadgeOverlap="false">Friends</span>
             </ng-template>
             <mat-card-content>
-              <mat-action-list class = "user-interaction-card__list">
+              <mat-action-list class = "user-interaction-list">
                 <mat-list-item *ngFor="let friend of friends" (click)="onInListUserClicked(friend.nickname)">
                     <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{friend.photoURL}}>
                     <h3 matLine> {{friend.nickname}} </h3>
@@ -21,7 +21,7 @@
                   <span matBadge="{{subscribersAmount}}" matBadgeOverlap="false">Subscribers</span>
                 </ng-template> 
                 <mat-card-content>
-                  <mat-action-list class = "user-interaction-card__list">
+                  <mat-action-list class = "user-interaction-list">
                       <mat-list-item *ngFor="let subscriber of subscribers" (click)="onInListUserClicked(subscriber.nickname)">
                           <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{subscriber.photoURL}}>
                           <h3 matLine> {{subscriber.nickname}} </h3>
@@ -35,7 +35,7 @@
               <span matBadge="{{subscriptionsAmount}}" matBadgeOverlap="false">Subscriptions</span>
             </ng-template>
             <mat-card-content>
-              <mat-action-list class = "user-interaction-card__list">
+              <mat-action-list class = "user-interaction-list">
                   <mat-list-item *ngFor="let subscription of subscriptions" (click)="onInListUserClicked(subscription.nickname)">
                       <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{subscription.photoURL}}>
                       <h3 matLine> {{subscription.nickname}} </h3>
