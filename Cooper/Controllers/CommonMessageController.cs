@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.SignalR;
 namespace Cooper.Controllers
 {
     [Route("api/common")]
-    [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class CommonMessageController : ControllerBase
     {
         private IHubContext<ChatHub, ITypedHubClient> _hubContext;

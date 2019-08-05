@@ -12,6 +12,7 @@ using Cooper.Configuration;
 namespace Cooper.Controllers
 {
     [Route("api/game/reviews")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class GameReviewController : ControllerBase
     {
         GameReviewRepository gameReviewRepository;
@@ -35,11 +36,11 @@ namespace Cooper.Controllers
 
 
         // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public GameReview Get(long id)
-        {
-            return gameReviewRepository.Get(id);
-        }
+        // [HttpGet("{id}")]
+        // public GameReview Get(long id)
+        // {
+        //     return gameReviewRepository.Get(id);
+        // }
 
         // POST api/<controller>
         [HttpPost]

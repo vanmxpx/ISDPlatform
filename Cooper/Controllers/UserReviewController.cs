@@ -12,6 +12,7 @@ using Cooper.Configuration;
 namespace Cooper.Controllers
 {
     [Route("api/user/reviews")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class UserReviewController : ControllerBase
     {
         // GET: api/<controller>
