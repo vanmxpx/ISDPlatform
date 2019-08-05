@@ -14,9 +14,10 @@ using Cooper.DAO.Models;
 using Cooper.Configuration;
 using Microsoft.AspNetCore.SignalR;
 using Cooper.Services;
-using cooper.SignalR;
-using Cooper.Repository.CommonChats;
+using Cooper.SignalR;
+using Cooper.Repositories.CommonChats;
 using System;
+using NLog;
 
 [assembly: ApiController]
 namespace Cooper
@@ -26,7 +27,6 @@ namespace Cooper
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
         }
 
         public IConfiguration Configuration { get; }
@@ -52,7 +52,6 @@ namespace Cooper
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            
             services.AddJWTHandler();
             services.AddConfigurationProvider(Configuration);
             services.AddJWTAuthorization();

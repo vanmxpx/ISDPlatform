@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AssemblyName>Cooper.Repositories</AssemblyName>
+    <RootNamespace>Cooper.Repositories</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cooper.Configuration\Cooper.Configuration.csproj" />
+    <ProjectReference Include="..\Cooper.Controllers.ViewModels\Cooper.Controllers.ViewModels.csproj" />
+    <ProjectReference Include="..\Cooper.DAO\Cooper.DAO.csproj" />
+    <ProjectReference Include="..\Cooper.Models\Cooper.Models.csproj" />
+    <ProjectReference Include="..\Cooper.Services.Interfaces\Cooper.Services.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

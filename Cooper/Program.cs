@@ -9,6 +9,8 @@ using NLog;
 using NLog.Config;
 using NLog.Targets;
 using Oracle.ManagedDataAccess.Client;
+using Cooper.Logging;
+
 namespace Cooper
 {
     public class Program
@@ -16,6 +18,16 @@ namespace Cooper
         public static void Main(string[] args)
         {
             Console.WriteLine("Starting.\r\n");
+            Logger logger = CooperLogger.GetLogger("PROGRAM");
+            logger.Info("SUCCESS");
+            logger.Info("SUCCESS");
+            logger.Info("SUCCESS");
+            logger.Info("SUCCESS");
+            logger.Info("SUCCESS");
+            logger.Info("SUCCESS");
+            logger.Info("SUCCESS");
+            logger.Info("SUCCESS");
+
             CreateWebHostBuilder(args).Build().Run();
         }
 
