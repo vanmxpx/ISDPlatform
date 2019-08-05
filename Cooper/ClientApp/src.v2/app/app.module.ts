@@ -6,22 +6,24 @@ import {FormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { DynamiSocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from 'ng-dynami-social-login';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatInputModule, MatButtonModule, MatCardModule, MatListModule, MatTabsModule, MatBadgeModule} from '@angular/material';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatInputModule, MatButtonModule, MatCardModule, MatListModule, MatTabsModule,
+  MatBadgeModule, MatGridListModule, MatRippleModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CooperInterceptor } from 'src/assets/cooper.interceptor';
 import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
-
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {AuthGuard} from '@guards';
-
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent } from '@layouts';
 
 import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserInteractionListComponent,
-   GamesListComponent, ForeignProfileComponent, MyProfileComponent} from '@components';
+   GamesListComponent,GameListItemComponent, ForeignProfileComponent, MyProfileComponent, GameCardComponent, NavigationComponent} from '@components';
+
 
 
 export function getAuthServiceConfigs() {
@@ -59,6 +61,10 @@ export function getAuthServiceConfigs() {
   GamesListComponent,
   ForeignProfileComponent,
   MyProfileComponent,
+  GameListItemComponent,
+  GameCardComponent,
+  NavigationComponent,
+
 ],
   imports: [
     BrowserModule,
@@ -77,7 +83,11 @@ export function getAuthServiceConfigs() {
     GrowlModule,
     MatIconModule,
     MatTabsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatGridListModule,
+    MatRippleModule,
+    MatProgressBarModule,
+    MatButtonToggleModule
   ],
   providers: [
     {

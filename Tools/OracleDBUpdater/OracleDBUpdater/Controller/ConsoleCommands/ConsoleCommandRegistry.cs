@@ -13,6 +13,8 @@ namespace OracleDBUpdater.Commands.ConsoleCommands
             { new VersionsCommand() },
             { new GitHubCommand() },
             { new HelpCommand() },
+            { new ImportBDCommand() },
+            { new ExportBDCommand() },
             { new ExitCommand() }
         };
 
