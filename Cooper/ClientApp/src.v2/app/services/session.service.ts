@@ -27,7 +27,6 @@ export class SessionService {
     return this.sessionProfile.nickname;
   }
 
-
   public IsSessionProfile(profile: User): boolean {
     return this.sessionProfile.id === profile.id &&
     this.sessionProfile.nickname === profile.nickname &&
@@ -35,28 +34,4 @@ export class SessionService {
     this.sessionProfile.email === profile.email &&
     this.sessionProfile.description === profile.description;
   }
-
-  isEqual(objA, objB) {
-    // Create arrays of property names
-    const aProps = Object.getOwnPropertyNames(objA);
-    const bProps = Object.getOwnPropertyNames(objB);
-    // If count of properties is different,
-    // objects are not equivalent
-    if (aProps.length !== bProps.length) {
-        return false;
-    }
-    for(let i = 0; i < aProps.length; i++) {
-
-         const propName = aProps[i];
-          // If values of same property are not equal,
-          // objects are not equivalent
-         if (objA[propName] !== objB[propName]) {
-             return false;
-         }
-    }
-    // If we made it this far, objects
-    // are considered equivalent
-
-    return true;
-    }
 }
