@@ -9,14 +9,14 @@
           (userUpdated) = "updateSessionUserInfo($event)"
           ></coop-my-profile>
 
-          <coop-foreign-profile
+          <coop-user-info
           *ngIf = "!isSessionProfile"
           [profile] = "profile"
-          ></coop-foreign-profile>
+          ></coop-user-info>
       </div>
 
       <div class="col-md-5">
-          <coop-user-interaction-list
+          <coop-user-connections-list
           [friends] = "friends"
           [subscribers] = "subscribers"
           [subscriptions] = "subscriptions"
@@ -24,7 +24,7 @@
           [subscribersAmount] = "subscribersAmount"
           [subscriptionsAmount] = "subscriptionsAmount" 
           (userChosen) = "goToProfile($event)"
-          ></coop-user-interaction-list>
+          ></coop-user-connections-list>
       </div>
         
       <div class="col-md-3">

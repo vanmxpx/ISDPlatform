@@ -4,11 +4,11 @@ export {RegistrationFormComponent} from './registration-form/registration-form.c
 
 export { PosterComponent} from './poster/poster.component';
 
-export {UserInteractionListComponent} from './user-interaction-list/user-interaction-list.component';
+export {UserConnectionsListComponent} from './user-connections-list/user-connections-list.component';
 
 export {GamesListComponent} from './games-list/games-list.component';
 
-export {ForeignProfileComponent} from './foreign-profile/foreign-profile.component';
+export {UserInfoComponent} from './user-info/user-info.component';
 
 export {MyProfileComponent} from './my-profile/my-profile.component';
 export {NavigationComponent} from './navigation/navigation.component';

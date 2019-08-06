@@ -2,11 +2,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {User} from '@models';
 
 @Component({
-  selector: 'coop-user-interaction-list',
-  templateUrl: './user-interaction-list.component.html',
-  styleUrls: ['./user-interaction-list.component.css']
+  selector: 'coop-user-connections-list',
+  templateUrl: './user-connections-list.component.html',
+  styleUrls: ['./user-connections-list.component.css']
 })
-export class UserInteractionListComponent implements OnInit {
+export class UserConnectionsListComponent implements OnInit {
 
   @Input() friends: User[];
   @Input() subscribers: User[];

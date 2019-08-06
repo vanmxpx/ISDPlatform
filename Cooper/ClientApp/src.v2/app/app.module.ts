@@ -21,8 +21,9 @@ import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent } from '@layouts';
 
-import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserInteractionListComponent,
-   GamesListComponent,GameListItemComponent, ForeignProfileComponent, MyProfileComponent, GameCardComponent, NavigationComponent} from '@components';
+import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
+   GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
+   NavigationComponent} from '@components';
 
 
 
@@ -57,9 +58,9 @@ export function getAuthServiceConfigs() {
   LoginFormComponent,
   RegistrationFormComponent,
   PosterComponent,
-  UserInteractionListComponent,
+  UserConnectionsListComponent,
   GamesListComponent,
-  ForeignProfileComponent,
+  UserInfoComponent,
   MyProfileComponent,
   GameListItemComponent,
   GameCardComponent,
