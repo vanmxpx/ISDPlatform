@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.5.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cooper.Configuration\Cooper.Configuration.csproj" />
+    <ProjectReference Include="..\Cooper.Controllers.ViewModels\Cooper.Controllers.ViewModels.csproj" />
+    <ProjectReference Include="..\Cooper.DAO\Cooper.DAO.csproj" />
+    <ProjectReference Include="..\Cooper.ORM\Cooper.ORM.csproj" />
+    <ProjectReference Include="..\Cooper.Repositories\Cooper.Repositories.csproj" />
+    <ProjectReference Include="..\Cooper.Services.Interfaces\Cooper.Services.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>
