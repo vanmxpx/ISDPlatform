@@ -24,6 +24,7 @@ import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
 import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
    GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
    NavigationComponent} from '@components';
+import { AvatarCardComponent } from './components/avatar-card/avatar-card.component';
 
 
 
@@ -65,6 +66,7 @@ export function getAuthServiceConfigs() {
   GameListItemComponent,
   GameCardComponent,
   NavigationComponent,
+  AvatarCardComponent,
 
 ],
   imports: [

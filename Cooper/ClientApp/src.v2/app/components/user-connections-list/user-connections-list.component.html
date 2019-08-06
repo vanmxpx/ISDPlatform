@@ -6,7 +6,7 @@
             <ng-template mat-tab-label>
               <span matBadge="{{friendsAmount}}" matBadgeOverlap="false">Friends</span>
             </ng-template>
-            <mat-card-content>
+            <mat-card-content >
               <mat-action-list class = "user-interaction-list">
                 <mat-list-item *ngFor="let friend of friends" (click)="onInListUserClicked(friend.nickname)">
                     <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{friend.photoURL}}>
