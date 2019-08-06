@@ -55,9 +55,18 @@
     width: 25%;
     height: auto;    
   }
-  
 
   .personal-data-form {
     border: 1px solid rgb(168, 168, 168);
     border-radius: 8px;
   }
+
+  .login-select{
+    display: inline-flex;
+    float: right;
+    font-size: 15px;
+  }
+
+::ng-deep .select-option .mat-select-value{
+    color:grey;  
+}

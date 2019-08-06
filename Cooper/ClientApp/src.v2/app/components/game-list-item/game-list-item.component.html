@@ -3,7 +3,7 @@
         <div class = "game-list-items__game-list-item">   
             <img matListAvatar onError="this.src='assets/imageKeeper/robot.png'" src={{game.logoUrl}}/>         
             <span class = "game-list-items__game-list-item-attr"> {{game.name}} </span> 
-            <span class = "game-list-items__game-list-item-attr"> {{game.genre}} </span>  
+            <span class = "game-list-items__game-list-item-attr"> {{'GAMES.GENRES.' + game.genre | translate}} </span>  
             <span class = "game-list-items__game-list-item-attr"> {{game.description}} </span>  
         </div>      
         <mat-divider></mat-divider>  

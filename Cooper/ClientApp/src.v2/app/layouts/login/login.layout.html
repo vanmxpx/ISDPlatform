@@ -17,12 +17,6 @@
             </div>
           </div>
           <div class = "col-md-2">
-            <label>
-              {{ 'LOGIN-FORM.TITLE' | translate }}
-              <select #langSelect (change)="translate.use(langSelect.value)">
-                <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
-              </select>
-            </label>  
           </div>
         </div>
     </div>

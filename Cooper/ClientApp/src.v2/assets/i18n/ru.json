@@ -20,9 +20,9 @@
     "GAMES" : {
         "HEADER": "Игры",
         "GENRES": {
-            "WAR": "Война",
-            "ACTION": "Экшн",
-            "STRATEGY": "Стратегия"           
+            "War": "Война",
+            "Action": "Экшн",
+            "Strategy": "Стратегия"           
         }
     }
 }

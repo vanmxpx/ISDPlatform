@@ -31,6 +31,7 @@ import {
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatSelectModule } from '@angular/material/select';
+import { LanguageSelectComponent } from './components/language-select/language-select.component';
 
 
 export function getAuthServiceConfigs() {
@@ -65,13 +66,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProfileLayoutComponent,
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
-
     GameListItemComponent,
     GameCardComponent,
     LoginFormComponent,
     RegistrationFormComponent,
     PosterComponent,
-    NavigationComponent
+    NavigationComponent,
+    LanguageSelectComponent
 ],
   imports: [
     BrowserModule,

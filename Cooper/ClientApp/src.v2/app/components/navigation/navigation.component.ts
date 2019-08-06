@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {CoopNavBarItem} from "@models";
+import {CoopNavBarItem} from '@models';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class NavigationComponent implements OnInit {
 
-  @Input() items: CoopNavBarItem[]
+  @Input() items: CoopNavBarItem[];
 
   constructor(public translate: TranslateService) { }
 

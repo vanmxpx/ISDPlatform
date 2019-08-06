@@ -1,0 +1,21 @@
+@import "../../constants.scss";
+
+.select-mat-icon{
+    margin: 5px;
+}
+.all-items-float{
+    width: 135px;
+    display: flex;
+    align-items: center;
+}
+
+ .select-option {
+    color:grey;  
+}
+
+.select-option .mat-select-value span {
+    color: grey; 
+}
+
+
+

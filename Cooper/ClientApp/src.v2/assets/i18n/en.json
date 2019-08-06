@@ -20,9 +20,9 @@
     "GAMES" : {
         "HEADER": "Games",
         "GENRES": {
-            "WAR": "War",
-            "ACTION": "Action",
-            "STRATEGY": "Strategy"           
+            "War": "War",
+            "Action": "Action",
+            "Strategy": "Strategy"           
         }
     }
 }

@@ -3,7 +3,11 @@
   <form class="coop-form personal-data-form" #loginForm="ngForm" (ngSubmit)="onSignInClicked(loginForm)">
      
     
-    <div class="div--color div--positioning div--font">{{'LOGIN-FORM.TITLE' | translate}}</div>
+    <div class="div--color div--positioning div--font">{{'LOGIN-FORM.TITLE' | translate}}
+      <div class="login-select">
+      <coop-language-select></coop-language-select>
+    </div>
+    </div>
 
     <mat-form-field class="mat-form-field">
       <input matInput type="email" [(ngModel)]="username" name="username" placeholder="{{'LOGIN-FORM.PLACEHOLDER-NICKNAME'|translate}}" />
