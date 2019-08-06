@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Cooper.Models;
+﻿using Cooper.Models;
 using Cooper.Repositories;
-using Cooper.Configuration;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Cooper.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Cooper.Controllers
 {
     [Route("api/game/reviews")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class GameReviewController : ControllerBase
     {
-        GameReviewRepository gameReviewRepository;
+        private readonly GameReviewRepository gameReviewRepository;
 
         public GameReviewController(IConfigProvider configProvider)
         {
             gameReviewRepository = new GameReviewRepository(configProvider);
         }
+
         // GET: api/<controller>
         [HttpGet("{id}")]
-        public IEnumerable<GameReview> GetReviewsForGame(long Id)      // get users reviews for game
+        public IEnumerable<GameReview> GetReviewsForGame(long Id)
         {
             return gameReviewRepository.GetReviewsForGame(Id);
         }
@@ -30,16 +27,15 @@ namespace Cooper.Controllers
         [HttpGet]
         public IEnumerable<GameReview> GetUserReviews(long userId)
         {
-            return gameReviewRepository.GetReviewsFromUser(userId);      // get reviews for games from concrete user
+            return gameReviewRepository.GetReviewsFromUser(userId);
         }
-
 
         // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public GameReview Get(long id)
-        {
-            return gameReviewRepository.Get(id);
-        }
+        // [HttpGet("{id}")]
+        // public GameReview Get(long id)
+        // {
+        //     return gameReviewRepository.Get(id);
+        // }
 
         // POST api/<controller>
         [HttpPost]

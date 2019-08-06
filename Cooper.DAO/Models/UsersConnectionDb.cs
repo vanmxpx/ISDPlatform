@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Cooper.Models;
-using Cooper.Configuration;
-
-namespace Cooper.DAO.Models
+﻿namespace Cooper.DAO.Models
 {
     public class UsersConnectionDb : EntityDb
     {

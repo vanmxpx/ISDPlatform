@@ -14,7 +14,7 @@
     <ProjectReference Include="..\Cooper.Controllers.ViewModels\Cooper.Controllers.ViewModels.csproj" />
     <ProjectReference Include="..\Cooper.DAO\Cooper.DAO.csproj" />
     <ProjectReference Include="..\Cooper.ORM\Cooper.ORM.csproj" />
-    <ProjectReference Include="..\Cooper.RepositoriesAndServices\Cooper.Repositories.csproj" />
+    <ProjectReference Include="..\Cooper.Repositories\Cooper.Repositories.csproj" />
     <ProjectReference Include="..\Cooper.Services.Interfaces\Cooper.Services.Interfaces.csproj" />
   </ItemGroup>
 

@@ -5,12 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App"/>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cooper.Models\Cooper.Models.csproj" />
-    <ProjectReference Include="..\Cooper.RepositoriesAndServices\Cooper.Repositories.csproj" />
+    <ProjectReference Include="..\Cooper.Repositories\Cooper.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

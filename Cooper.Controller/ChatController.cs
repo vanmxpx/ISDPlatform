@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Cooper.Models;
+﻿using Cooper.Models;
 using Cooper.Repositories;
-using Cooper.Configuration;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Cooper.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Cooper.Controllers
 {
     [Route("api/chats")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ChatController : ControllerBase
     {
-        ChatRepository chatRepository;
+        private readonly ChatRepository chatRepository;
 
         public ChatController(IConfigProvider configProvider)
         {
@@ -34,6 +30,7 @@ namespace Cooper.Controllers
         public IActionResult GetChatById(long id)
         {
             Chat chat = chatRepository.Get(id);
+
             if (chat == null)
             {
                 return NotFound();
@@ -41,7 +38,7 @@ namespace Cooper.Controllers
 
             return Ok(chat);
         }
-        
+
         // POST api/<controller>
         [HttpPost]
         [ProducesResponseType(200)]

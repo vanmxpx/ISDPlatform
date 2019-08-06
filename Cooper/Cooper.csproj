@@ -16,6 +16,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.18.3" />
   </ItemGroup>
 
@@ -37,7 +38,7 @@
     <ProjectReference Include="..\Cooper.Logging\Cooper.Logging.csproj" />
     <ProjectReference Include="..\Cooper.Models\Cooper.Models.csproj" />
     <ProjectReference Include="..\Cooper.ORM\Cooper.ORM.csproj" />
-    <ProjectReference Include="..\Cooper.RepositoriesAndServices\Cooper.Repositories.csproj" />
+    <ProjectReference Include="..\Cooper.Repositories\Cooper.Repositories.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Cooper.DAO.Models;
 using Cooper.ORM;
-using Cooper.DAO.Models;
+using System;
+using System.Collections.Generic;
 
 namespace Cooper.DAO.Mapping
 {
     public class EntityMapping
     {
-        public static void Map(EntityORM entity, out VerificationDb verify) {
+        public static void Map(EntityORM entity, out VerificationDb verify)
+        {
             verify = new VerificationDb();
 
             foreach (KeyValuePair<string, object> aV in entity.attributeValue)
@@ -29,7 +28,8 @@ namespace Cooper.DAO.Mapping
             }
         }
 
-        public static EntityORM Map(VerificationDb verify, HashSet<string> attributes) {
+        public static EntityORM Map(VerificationDb verify, HashSet<string> attributes)
+        {
             EntityORM entity = new EntityORM();
 
             foreach (string attribute in attributes)
@@ -487,7 +487,6 @@ namespace Cooper.DAO.Mapping
         }
         #endregion
         
-
         #region Chat/entity mapping
         ///<summary>
         ///Maps properties from EntityORM object to ChatDb object

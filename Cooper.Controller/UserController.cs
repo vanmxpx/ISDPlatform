@@ -1,31 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Cooper.Extensions;
 using Cooper.Models;
 using Cooper.Repositories;
-using Microsoft.AspNetCore.Http;
-using Cooper.Services;
-using Cooper.Extensions;
-using Cooper.Configuration;
 using Cooper.Services.Interfaces;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Cooper.Controllers
 {
     [Route("api/users")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class UserController : ControllerBase
     {
-        UserRepository userRepository;
+        private readonly UserRepository userRepository;
 
         public UserController(IJwtHandlerService jwtService, IConfigProvider configProvider)
         {
             userRepository = new UserRepository(jwtService, configProvider);
         }
-        
+
         [HttpGet]
         public IEnumerable<User> GetAll()
         {
@@ -77,18 +71,18 @@ namespace Cooper.Controllers
             myUser.IsMy = true;
 
             if (nickname == myUser.Nickname || nickname == "my")
-            {                
+            {
                 return Ok(myUser);
             }
-            
-            if (user == null )
+
+            if (user == null)
             {
                 return NotFound();
             }
             user.IsMy = false;
             return Ok(user);
         }
-        
+
         [HttpGet("token"), Authorize]
         [ProducesResponseType(200, Type = typeof(User))]
         [ProducesResponseType(404)]
@@ -114,14 +108,20 @@ namespace Cooper.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+
             userRepository.Update(user);
 
             return Ok(user);
         }
 
         // DELETE api/<controller>/5
+        /// <summary>
+        /// Deletes user with specified id.
+        /// </summary>
+        /// <param name="id">User's id</param>
+        /// <response code="200">If the user has been deleted</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Delete(long id)
         {
             userRepository.Delete(id);

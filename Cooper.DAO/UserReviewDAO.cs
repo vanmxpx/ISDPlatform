@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Cooper.DAO.Mapping;
 using Cooper.DAO.Models;
 using Cooper.ORM;
-using Cooper.DAO.Mapping;
+using Cooper.Services.Interfaces;
 using NLog;
-using Oracle.ManagedDataAccess.Client;
-using Cooper.Configuration;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Cooper.DAO
 {
     public class UserReviewDAO
     {
-        private CRUD crud;
-        Logger logger;
+        private readonly CRUD crud;
+        private readonly Logger logger;
 
         private string table;
         private string idColumn;

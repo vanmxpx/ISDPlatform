@@ -1,4 +1,3 @@
-using Cooper.Configuration;
 using Cooper.Services.Interfaces;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
@@ -10,10 +9,10 @@ namespace Cooper.Services
 {
     class SocialAuth : ISocialAuth
     {
-        readonly string FacebookAppID, FacebookSecretKey;
-        readonly string getFacebookSecretKey;
-        delegate bool authorizerDelegate(string token, string id);
-        Dictionary<string, authorizerDelegate> CheckAuth = new Dictionary<string, authorizerDelegate>();
+        private readonly string FacebookAppID, FacebookSecretKey;
+        private readonly string getFacebookSecretKey;
+        private delegate bool authorizerDelegate(string token, string id);
+        private Dictionary<string, authorizerDelegate> CheckAuth = new Dictionary<string, authorizerDelegate>();
 
         public SocialAuth(IConfigProvider configProvider)
         {
@@ -39,8 +38,8 @@ namespace Cooper.Services
             try
             {
                 var json_result = JObject.Parse(ParseURL(url));
-                result = ((bool)(json_result.SelectToken("data").SelectToken("is_valid"))
-                         && (string)(json_result.SelectToken("data").SelectToken("user_id")) == user_id);
+                result = (bool)json_result.SelectToken("data").SelectToken("is_valid")
+                         && (string)json_result.SelectToken("data").SelectToken("user_id") == user_id;
             }
             catch { }
 
@@ -54,9 +53,9 @@ namespace Cooper.Services
             try
             {
                 var json_result = JObject.Parse(ParseURL(url));
-                result = (string)(json_result.SelectToken("error")) == null
-                    && (bool)(json_result.SelectToken("email_verified"))
-                    && (string)(json_result.SelectToken("email")) == email;
+                result = (string)json_result.SelectToken("error") == null
+                    && (bool)json_result.SelectToken("email_verified")
+                    && (string)json_result.SelectToken("email") == email;
             }
             catch { }
 
@@ -65,7 +64,7 @@ namespace Cooper.Services
 
         private string GetFacebookSecretKey()
         {
-            return (string)(JObject.Parse(ParseURL(getFacebookSecretKey)).SelectToken("access_token"));
+            return (string)JObject.Parse(ParseURL(getFacebookSecretKey)).SelectToken("access_token");
         }
 
         private string ParseURL(string url)

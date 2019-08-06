@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Oracle.ManagedDataAccess.Client;
-using System.Data.Common;
+﻿using Cooper.Services.Interfaces;
 using NLog;
-using Cooper.Configuration;
+using Oracle.ManagedDataAccess.Client;
+using System;
+using System.Collections.Generic;
+using System.Data.Common;
 
 namespace Cooper.ORM
 {
     public class CRUD : ICRUD
     {
-        private DbConnect dbConnect;
-        private Logger logger;
+        private readonly DbConnect dbConnect;
+        private readonly Logger logger;
 
         public CRUD(IConfigProvider configProvider)
         {
@@ -65,7 +63,7 @@ namespace Cooper.ORM
             List<EntityORM> entities = new List<EntityORM>();
             try
             {
-                string sqlExpression = DbTools.createQuery(table, attributes, whereRequests);
+                string sqlExpression = DbTools.CreateQuery(table, attributes, whereRequests);
 
                 dbConnect.OpenConnection();
                 OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());

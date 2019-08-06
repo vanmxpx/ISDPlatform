@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Cooper.DAO.Models;
+﻿using Cooper.DAO.Models;
 using Cooper.Models.UserConnectionsEnumTypes;
+using System.Collections.Generic;
 
 namespace Cooper.DAO
 {

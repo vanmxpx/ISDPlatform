@@ -1,23 +1,11 @@
-using System.Text;
+using Cooper.Repositories.CommonChats;
+using Cooper.SignalR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using Oracle.ManagedDataAccess;
-using Cooper.Models;
-using Cooper.DAO.Models;
-using Cooper.Configuration;
-using Microsoft.AspNetCore.SignalR;
-using Cooper.Services;
-using Cooper.SignalR;
-using Cooper.Repositories.CommonChats;
-using System;
-using NLog;
 
 [assembly: ApiController]
 namespace Cooper
@@ -31,7 +19,6 @@ namespace Cooper
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
@@ -62,7 +49,6 @@ namespace Cooper
             services.AddSocialAuthService();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
 
@@ -97,8 +83,6 @@ namespace Cooper
                         name: "default",
                         template: "{controller}/{action=Index}/{id?}");
                 });
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
 
                 spa.Options.SourcePath = "ClientApp";
 

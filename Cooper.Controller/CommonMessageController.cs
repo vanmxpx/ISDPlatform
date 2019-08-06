@@ -1,29 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Cooper.SignalR;
-using Cooper.Configuration;
-using Cooper.Extensions;
+﻿using Cooper.Extensions;
 using Cooper.Models;
 using Cooper.Repositories;
 using Cooper.Repositories.CommonChats;
-using Cooper.Services;
+using Cooper.Services.Interfaces;
+using Cooper.SignalR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Cooper.Services.Interfaces;
+using System;
 
 namespace Cooper.Controllers
 {
     [Route("api/common")]
-    [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class CommonMessageController : ControllerBase
     {
-        private IHubContext<ChatHub, ITypedHubClient> _hubContext;
-        private UserRepository userRepository;
-        private ICommonChatRepository commonChatRepository;
+        private readonly IHubContext<ChatHub, ITypedHubClient> _hubContext;
+        private readonly UserRepository userRepository;
+        private readonly ICommonChatRepository commonChatRepository;
+
         public CommonMessageController(IHubContext<ChatHub, ITypedHubClient> hubContext, IConfigProvider configProvider, IJwtHandlerService jwtService, ICommonChatRepository commonChatRepository)
         {
             _hubContext = hubContext;
@@ -35,18 +30,19 @@ namespace Cooper.Controllers
         [Authorize]
         public IActionResult Post([FromBody]CommonMessages msg)
         {
-
             if ((msg.Text == null) || (msg.Text == "")) return BadRequest();
 
             User user = Request.GetAuthorizedUser(userRepository);
             int now = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-            CommonMessage message = new CommonMessage {
+            CommonMessage message = new CommonMessage
+            {
                 Content = msg.Text,
                 CreateDate = now,
-                Author = user };
+                Author = user
+            };
             commonChatRepository.addMessage(message);
             _hubContext.Clients.All.BroadcastMessage(message);
-            
+
             return Ok();
         }
 
@@ -56,6 +52,5 @@ namespace Cooper.Controllers
         {
             return Ok(commonChatRepository.getMessages());
         }
-        
     }
 }

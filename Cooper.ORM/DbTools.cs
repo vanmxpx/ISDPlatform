@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cooper.Services.Interfaces;
 
 namespace Cooper.ORM
 {
@@ -7,17 +8,20 @@ namespace Cooper.ORM
     {
         private static string[] operators = new string[] { "=", ">=", "<=", ">", "<", "IS NULL", "IS NOT NULL" };
 
-        public struct WhereRequest {
+        public struct WhereRequest
+        {
             public readonly string variable_name;
             public readonly RequestOperator request_operator;
             public readonly WhereRequest[] and_requests;
 
             public string variable_value;
-            public WhereRequest(string variable_name, RequestOperator request_operator, object variable_value, WhereRequest[] and_requests = null) {
+
+            public WhereRequest(string variable_name, RequestOperator request_operator, object variable_value, WhereRequest[] and_requests = null)
+            {
                 this.variable_name = variable_name;
                 this.request_operator = request_operator;
-                if (request_operator != RequestOperator.NULL
-                && request_operator != RequestOperator.NOTNULL) {
+                if (request_operator != RequestOperator.NULL && request_operator != RequestOperator.NOTNULL)
+                {
                     this.variable_value = " " + variable_value.ToString();
                 }
                 else 
@@ -27,20 +31,24 @@ namespace Cooper.ORM
                 this.and_requests = and_requests;
             }
         }
-        public static string GetOperatorString(RequestOperator request_operator) {
+        public static string GetOperatorString(RequestOperator request_operator)
+        {
             return operators[(int)request_operator];
         }
 
-        public static string GetVariableAttribute(string attribute) {
+        public static string GetVariableAttribute(string attribute)
+        {
             int start_pos = attribute.IndexOf("(");
-            if (start_pos != -1) {
+            if (start_pos != -1)
+            {
                 start_pos++;
                 attribute = attribute.Substring(start_pos, attribute.IndexOf(")") - start_pos);
             }
             return attribute;
         }
 
-        public enum RequestOperator {
+        public enum RequestOperator
+        {
             Equal = 0,
             MoreOrEqual = 1,
             LessOrEqual = 2,
@@ -50,7 +58,7 @@ namespace Cooper.ORM
             NOTNULL = 6
         }
 
-        public static string createQuery(string table, HashSet<string> attributes, WhereRequest[] whereRequests = null)
+        public static string CreateQuery(string table, HashSet<string> attributes, WhereRequest[] whereRequests = null)
         {
             string where = "";
             if (whereRequests != null)

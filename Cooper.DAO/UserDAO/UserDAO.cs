@@ -1,29 +1,26 @@
+using Cooper.DAO.Mapping;
+using Cooper.DAO.Models;
+using Cooper.ORM;
+using Cooper.Services.Interfaces;
+using NLog;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Cooper.DAO.Models;
-using Cooper.ORM;
-using Cooper.DAO.Mapping;
-using NLog;
-using Oracle.ManagedDataAccess.Client;
-using Cooper.Configuration;
 
 namespace Cooper.DAO
 {
     public class UserDAO : IUserDAO
     {
-        private DbConnect dbConnect;
-        private OracleConnection Connection;
-        private Logger logger;
-
-        private CRUD crud;
+        private readonly DbConnect dbConnect;
+        private readonly OracleConnection Connection;
+        private readonly Logger logger;
+        private readonly CRUD crud;
 
         private string table;
         private string idColumn;
         private HashSet<string> attributes;
         private HashSet<string> unique_attributes;
-        
 
         public UserDAO(IConfigProvider configProvider)
         {

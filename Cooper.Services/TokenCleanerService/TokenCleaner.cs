@@ -12,26 +12,30 @@ namespace Cooper.Services
 {
     class TokenCleaner : ITokenCleaner
     {
-        readonly HashSet<string> attributes = new HashSet<string>()
+        private readonly CRUD crud;
+        private Timer timer;
+
+        private readonly HashSet<string> attributes = new HashSet<string>()
         {
             "TOKEN",
             "ENDVERIFYDATE"
         };
 
-        readonly HashSet<string> token_attribute = new HashSet<string>() { "TOKEN" };
-        readonly HashSet<string> min_date = new HashSet<string>() { "MIN(ENDVERIFYDATE)" };
+        private readonly HashSet<string> token_attribute = new HashSet<string>() { "TOKEN" };
+        private readonly HashSet<string> min_date = new HashSet<string>() { "MIN(ENDVERIFYDATE)" };
 
         const string tokens_table = "TOKENS";
         const string users_table = "USERS";
         private bool timerStart = false;
-        private CRUD crud;
-        private Timer timer;
-        public TokenCleaner(IConfigProvider configProvider) {
+
+        public TokenCleaner(IConfigProvider configProvider)
+        {
             crud = new CRUD(configProvider);
             RemoveOutdated();
         }
 
-        void RemoveOutdated() {
+        private void RemoveOutdated()
+        {
             VerificationDb unverify;
             string now = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss");
             //Get all users that don't verify email
@@ -53,20 +57,25 @@ namespace Cooper.Services
             TryToStart();
         }
 
-        string GetMinDate() {
+        private string GetMinDate()
+        {
             string result = "";
             List<EntityORM> data = (List<EntityORM>)crud.Read(tokens_table, min_date);
-            if (data.Any()) { 
+
+            if (data.Any())
+            { 
                 result = data[0].attributeValue["ENDVERIFYDATE"].ToString();
             }
 
             return result;
         }
 
-        public void TryToStart() {
+        public void TryToStart()
+        {
             if (!timerStart) {
                 string date = GetMinDate();
-                if (date != "") { 
+                if (date != "")
+                { 
                     timer = new Timer((int)((DateTime.Parse(date) - DateTime.Now).TotalMilliseconds));
                     timer.Elapsed += ( sender, e ) => RemoveOutdated();
                     timer.Start();

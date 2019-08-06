@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Cooper.DAO.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Cooper.DAO.Models;
 
 namespace Cooper.DAO
 {

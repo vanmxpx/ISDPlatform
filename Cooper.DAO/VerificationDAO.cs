@@ -1,23 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Cooper.DAO.Mapping;
 using Cooper.DAO.Models;
 using Cooper.ORM;
-using Cooper.DAO.Mapping;
+using Cooper.Services.Interfaces;
 using NLog;
 using Oracle.ManagedDataAccess.Client;
-using Cooper.Configuration;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Cooper.DAO
 {
     public class VerificationDAO : IDAO<VerificationDb>
     {
-        private DbConnect dbConnect;
-        private OracleConnection Connection;
-        private Logger logger;
-
-        private CRUD crud;
+        private readonly DbConnect dbConnect;
+        private readonly OracleConnection Connection;
+        private readonly Logger logger;
+        private readonly CRUD crud;
 
         private string table;
         private string idColumn;

@@ -1,15 +1,7 @@
-using System;
-using System.IO;
-using Cooper.Controllers;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using NLog;
-using NLog.Config;
-using NLog.Targets;
-using Oracle.ManagedDataAccess.Client;
-using Cooper.Logging;
+using System;
+using System.IO;
 
 namespace Cooper
 {
@@ -18,16 +10,6 @@ namespace Cooper
         public static void Main(string[] args)
         {
             Console.WriteLine("Starting.\r\n");
-            Logger logger = CooperLogger.GetLogger("PROGRAM");
-            logger.Info("SUCCESS");
-            logger.Info("SUCCESS");
-            logger.Info("SUCCESS");
-            logger.Info("SUCCESS");
-            logger.Info("SUCCESS");
-            logger.Info("SUCCESS");
-            logger.Info("SUCCESS");
-            logger.Info("SUCCESS");
-
             CreateWebHostBuilder(args).Build().Run();
         }
 

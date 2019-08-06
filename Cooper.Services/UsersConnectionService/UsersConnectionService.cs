@@ -1,5 +1,4 @@
-﻿using Cooper.Configuration;
-using Cooper.Models;
+﻿using Cooper.Models;
 using Cooper.Repositories;
 using Cooper.Services.Interfaces;
 

@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Cooper.Models;
+﻿using Cooper.Models;
 using Cooper.Repositories;
-using Cooper.Configuration;
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Cooper.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Cooper.Controllers
 {
     [Route("api/game/statistics")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class GameStatisticsController : ControllerBase
     {
-        StatisticsRepository statisticsRepository;
+        private readonly StatisticsRepository statisticsRepository;
 
         public GameStatisticsController(IConfigProvider configProvider)
         {
@@ -21,29 +18,30 @@ namespace Cooper.Controllers
         }
 
         // GET: api/<controller>
-        [HttpGet("{id}")]
-        public IEnumerable<Statistics> GetAllStatistics()
-        {
-            return statisticsRepository.GetAll();
-        }
+        // [HttpGet("{id}")]
+        // public IEnumerable<Statistics> GetAllStatistics()
+        // {
+        //     return statisticsRepository.GetAll();
+        // }
 
-        public IEnumerable<Statistics> GetAllStatisticsByUserId(long Id)    // get all game statistics for concrete user
-        {
-            return statisticsRepository.GetStatisticsByUser(Id);
-        }
+        // public IEnumerable<Statistics> GetAllStatisticsByUserId(long Id)
+        // {
+        //     return statisticsRepository.GetStatisticsByUser(Id);
+        // }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public IEnumerable<Statistics> GetAllStatisticByGameId(long id)                    // get all game statistics for concreate game
+        public IEnumerable<Statistics> GetAllStatisticByGameId(long id)
         {
             return statisticsRepository.GetStatisticsByGame(id);
         }
 
+        [HttpGet]
         public Statistics GetStatisticsById(long id)
         {
             return statisticsRepository.Get(id);
         }
-        
+
         // POST api/<controller>
         [HttpPost]
         [ProducesResponseType(200)]
@@ -69,7 +67,7 @@ namespace Cooper.Controllers
                 return Ok(statistics);
             }
         }
-        
+
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)

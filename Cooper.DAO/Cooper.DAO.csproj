@@ -13,6 +13,7 @@
     <ProjectReference Include="..\Cooper.Configuration\Cooper.Configuration.csproj" />
     <ProjectReference Include="..\Cooper.Models\Cooper.Models.csproj" />
     <ProjectReference Include="..\Cooper.ORM\Cooper.ORM.csproj" />
+    <ProjectReference Include="..\Cooper.Services.Interfaces\Cooper.Services.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

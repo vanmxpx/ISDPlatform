@@ -1,5 +1,5 @@
-﻿using Cooper.Configuration;
-using Cooper.Controllers.ViewModels;
+﻿using Cooper.Controllers.ViewModels;
+using Cooper.Services.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;

@@ -1,26 +1,24 @@
-﻿using System;
+﻿using Cooper.DAO.Mapping;
+using Cooper.DAO.Models;
+using Cooper.Models.UserConnectionsEnumTypes;
+using Cooper.ORM;
+using Cooper.Services.Interfaces;
+using NLog;
+using Oracle.ManagedDataAccess.Client;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
-using System.Threading.Tasks;
-using Cooper.DAO.Models;
-using Cooper.ORM;
-using Cooper.DAO.Mapping;
-using NLog;
-using Oracle.ManagedDataAccess.Client;
-using Cooper.Configuration;
-using Cooper.Models.UserConnectionsEnumTypes;
 
 namespace Cooper.DAO
 {
     public class UsersConnectionDAO : IUsersConnectionDAO
     {
-        private DbConnect dbConnect;
-        private OracleConnection Connection;
-        private Logger logger;
-
-        private ICRUD crud;
-        IUserDAO userDAO;
+        private readonly DbConnect dbConnect;
+        private readonly OracleConnection Connection;
+        private readonly Logger logger;
+        private readonly ICRUD crud;
+        private readonly IUserDAO userDAO;
 
         private string idColumn;
         private string table;

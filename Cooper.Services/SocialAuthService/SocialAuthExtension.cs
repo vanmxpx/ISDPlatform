@@ -1,4 +1,3 @@
-using Cooper.Configuration;
 using Cooper.Services;
 using Cooper.Services.Interfaces;
 using System;

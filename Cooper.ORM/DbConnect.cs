@@ -1,8 +1,6 @@
-﻿using Oracle.ManagedDataAccess.Client;
-using System;
+﻿using Cooper.Services.Interfaces;
+using Oracle.ManagedDataAccess.Client;
 using System.Data;
-using System.Data.Common;
-using Cooper.Configuration;
 
 namespace Cooper.ORM
 {
@@ -12,7 +10,7 @@ namespace Cooper.ORM
 
         private string connectionString;
 
-        private OracleConnection connection;
+        private readonly OracleConnection connection;
 
         private readonly IConfigProvider configProvider;
 

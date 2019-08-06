@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+﻿using Cooper.Extensions;
 using Cooper.Models;
-using Cooper.Repositories;
-using Cooper.Configuration;
-using Cooper.Services;
 using Cooper.Models.UserConnectionsEnumTypes;
-using Cooper.Extensions;
+using Cooper.Repositories;
 using Cooper.Services.Interfaces;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Cooper.Controllers
 {
     [Route("api/interaction")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class UsersConnectionController : ControllerBase
     {
-        IUsersConnectionRepository userConnectionsRepository;
+        private readonly IUsersConnectionRepository userConnectionsRepository;
         private readonly IUsersConnectionService userConnectionService;
 
         public UsersConnectionController(IConfigProvider configProvider, IUsersConnectionService userConnectionService)
@@ -27,14 +21,14 @@ namespace Cooper.Controllers
             userConnectionsRepository = new UsersConnectionRepository(configProvider);
             this.userConnectionService = userConnectionService;
         }
-        
+
         [HttpGet("blacklist"), Authorize]
         [ProducesResponseType(200, Type = typeof(UsersConnection))]
         [ProducesResponseType(404)]
         public IActionResult GetUserBlackList()
         {
             string userToken = Request.GetUserToken();
-            
+
             long userId = userConnectionService.GetUserId(userToken);
 
             List<User> blackList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Blacklist);
@@ -93,10 +87,10 @@ namespace Cooper.Controllers
 
 
             bool isSubscribed = userConnectionsRepository.CreateSubscription(usersConnection);
-            
+
             return Ok(isSubscribed);
         }
-        
+
         [HttpPost("ban/{bannedUserId}"), Authorize]
         [ProducesResponseType(200)]
         [ProducesResponseType(201)]
@@ -117,10 +111,10 @@ namespace Cooper.Controllers
             }
 
             bool isBanned = userConnectionsRepository.BanUser(usersConnection);
-            
+
             return Ok(isBanned);
         }
-       
+
         [HttpPost("unban/{bannedUserId}"), Authorize]
         public IActionResult Unban(long bannedUserId)
         {
@@ -142,7 +136,7 @@ namespace Cooper.Controllers
 
             return Ok(isUnbanned);
         }
-        
+
         [HttpDelete("{id}"), Authorize]
         public IActionResult Unsubscribe(long userId)
         {

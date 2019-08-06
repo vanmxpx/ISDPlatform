@@ -1,5 +1,4 @@
-﻿using Cooper.Configuration;
-using Cooper.Services;
+﻿using Cooper.Services;
 using Cooper.Services.Interfaces;
 using System;
 
@@ -7,7 +6,6 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class UsersConnectionServiceExtension
     {
-        private static IUsersConnectionService userConnectionService;
         public static void AddUserConnectionService(this IServiceCollection services)
         {
             IServiceProvider serviceProvider = services.BuildServiceProvider();

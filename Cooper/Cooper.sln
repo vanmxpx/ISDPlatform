@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooper", "Cooper.csproj", "{B4481194-A63F-4E27-B650-E650886D6DDD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooper.Tests", "..\CooperTest\Cooper.Tests.csproj", "{CE7ECEF3-2D4A-43E4-B268-92486CD321E1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooper.ORM", "..\Cooper.ORM\Cooper.ORM.csproj", "{8D6D5DE8-2BAA-40AD-AA72-139D48E36C26}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooper.Configuration", "..\Cooper.Configuration\Cooper.Configuration.csproj", "{A68F2D0B-EEB4-4DDB-ADA1-715A007E92DF}"
@@ -17,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooper.DAO", "..\Cooper.DAO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooper.Controllers.ViewModels", "..\Cooper.Controllers.ViewModels\Cooper.Controllers.ViewModels.csproj", "{7C72AAD9-5E34-4DCB-8A3E-35C612E3BC27}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooper.Repositories", "..\Cooper.RepositoriesAndServices\Cooper.Repositories.csproj", "{4162FF46-4132-44FA-88AB-7BA2A7F74D32}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooper.Logging", "..\Cooper.Logging\Cooper.Logging.csproj", "{795A5807-BB0E-45A7-8062-87B70CD402DC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooper.Controller", "..\Cooper.Controller\Cooper.Controller.csproj", "{7E7F3108-559E-4D6B-B667-52B42565BBB9}"
@@ -27,9 +23,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooper.Extensions", "..\Coo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooper.SignalR", "..\Cooper.SignalR\Cooper.SignalR.csproj", "{0FE14F15-5E01-4455-922B-F20A7959F841}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cooper.Services.Interfaces", "..\Cooper.Services.Interfaces\Cooper.Services.Interfaces.csproj", "{B7F9C022-FCA0-4EB2-8EAC-519C31A836E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooper.Services.Interfaces", "..\Cooper.Services.Interfaces\Cooper.Services.Interfaces.csproj", "{B7F9C022-FCA0-4EB2-8EAC-519C31A836E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cooper.Services", "..\Cooper.Services\Cooper.Services.csproj", "{9EC22A77-03EF-4303-A47A-ACCA019E9AC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooper.Services", "..\Cooper.Services\Cooper.Services.csproj", "{9EC22A77-03EF-4303-A47A-ACCA019E9AC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cooper.Repositories", "..\Cooper.Repositories\Cooper.Repositories.csproj", "{611C57C5-F789-475B-99F0-45DE3F736AB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cooper.Tests", "..\Cooper.Tests\Cooper.Tests.csproj", "{8E96DF7D-B633-48F6-B4E1-B673E95341DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,6 @@ Global
 		{B4481194-A63F-4E27-B650-E650886D6DDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4481194-A63F-4E27-B650-E650886D6DDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4481194-A63F-4E27-B650-E650886D6DDD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE7ECEF3-2D4A-43E4-B268-92486CD321E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE7ECEF3-2D4A-43E4-B268-92486CD321E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE7ECEF3-2D4A-43E4-B268-92486CD321E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE7ECEF3-2D4A-43E4-B268-92486CD321E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8D6D5DE8-2BAA-40AD-AA72-139D48E36C26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8D6D5DE8-2BAA-40AD-AA72-139D48E36C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D6D5DE8-2BAA-40AD-AA72-139D48E36C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,10 +61,6 @@ Global
 		{7C72AAD9-5E34-4DCB-8A3E-35C612E3BC27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C72AAD9-5E34-4DCB-8A3E-35C612E3BC27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C72AAD9-5E34-4DCB-8A3E-35C612E3BC27}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4162FF46-4132-44FA-88AB-7BA2A7F74D32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4162FF46-4132-44FA-88AB-7BA2A7F74D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4162FF46-4132-44FA-88AB-7BA2A7F74D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4162FF46-4132-44FA-88AB-7BA2A7F74D32}.Release|Any CPU.Build.0 = Release|Any CPU
 		{795A5807-BB0E-45A7-8062-87B70CD402DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{795A5807-BB0E-45A7-8062-87B70CD402DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{795A5807-BB0E-45A7-8062-87B70CD402DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -93,6 +85,14 @@ Global
 		{9EC22A77-03EF-4303-A47A-ACCA019E9AC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EC22A77-03EF-4303-A47A-ACCA019E9AC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EC22A77-03EF-4303-A47A-ACCA019E9AC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{611C57C5-F789-475B-99F0-45DE3F736AB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{611C57C5-F789-475B-99F0-45DE3F736AB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{611C57C5-F789-475B-99F0-45DE3F736AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{611C57C5-F789-475B-99F0-45DE3F736AB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E96DF7D-B633-48F6-B4E1-B673E95341DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E96DF7D-B633-48F6-B4E1-B673E95341DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E96DF7D-B633-48F6-B4E1-B673E95341DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E96DF7D-B633-48F6-B4E1-B673E95341DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,26 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Cooper.Controllers.ViewModels;
 using Cooper.Models;
-using System.Net;
-using Cooper.Repositories;
-using Cooper.Controllers.ViewModels;
-using Cooper.Services;
-using Cooper.Configuration;
 using Cooper.ORM;
+using Cooper.Repositories;
 using Cooper.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Cooper.Controllers
 {
+    [ApiController]
     [Route("api/registration")]
-    public class RegistrationController : Controller
+    public class RegistrationController : ControllerBase
     {
-        UserRepository userRepository;
+        private readonly UserRepository userRepository;
         private readonly ISmtpClient smtpClient;
         private readonly ITokenCleaner cleaner;
         private readonly ISocialAuth socialAuth;
+
         public RegistrationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider, ISocialAuth socialAuth, ITokenCleaner cleaner, ISmtpClient smtpClient)
         {
             userRepository = new UserRepository(jwtHandler, configProvider);
@@ -29,28 +26,41 @@ namespace Cooper.Controllers
             this.socialAuth = socialAuth;
         }
 
+        /// <summary>
+        /// Registers user.
+        /// </summary>
+        /// <param name="user">User registration information</param>
+        /// <returns>Registered user id</returns>
+        /// <response code="200">If user is created</response>
+        /// <response code="400">If the user is already created</response>  
         [HttpPost]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(201)]
-        public IActionResult Post([FromBody]UserRegistration user, string Password)
+        [Route("login")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Post(UserRegistration user)
         {
-            IActionResult result = BadRequest(ModelState);
+            IActionResult result = BadRequest();
             // TODO: send the proper explanation for bad-request.
             user.Nickname = DbTools.SanitizeString(user.Nickname);
             user.Email = DbTools.SanitizeString(user.Email);
 
-            if (ModelState.IsValid 
-                && !userRepository.IfNicknameExists(user.Nickname) 
-                && !userRepository.IfEmailExists(user.Email)) 
+            if (ModelState.IsValid
+                && !userRepository.IfNicknameExists(user.Nickname)
+                && !userRepository.IfEmailExists(user.Email))
             {
                 user.Password = DbTools.SanitizeString(user.Password);
-                if (user.Provider != null && this.socialAuth.getCheckAuth(user.Provider, user.Password, user.Nickname)) {
-                    if (user.Password.Length > 300) {
+                if (user.Provider != null && socialAuth.getCheckAuth(user.Provider, user.Password, user.Nickname))
+                {
+                    if (user.Password.Length > 300)
+                    {
                         user.Password = user.Password.Substring(0, 300);
                     }
                     result = Ok(userRepository.Create(user));
                 }
-                else if (user.Provider == null) {
+                else if (user.Provider == null)
+                {
                     var verify = new Verification();
                     verify.Email = user.Email;
                     verify.Token = Guid.NewGuid().ToString();
@@ -59,43 +69,11 @@ namespace Cooper.Controllers
 
                     userRepository.Create(verify);
                     cleaner.TryToStart();
-                    this.smtpClient.SendMail(verify.Email, "Register confirmation", "", verify.Token);
+                    smtpClient.SendMail(verify.Email, "Register confirmation", "", verify.Token);
                     result = Ok(userRepository.Create(user));
                 }
             }
 
-            return result;
-        }
-    }
-
-    public class ConfirmationController : Controller 
-    {
-        UserRepository userRepository;
-        private readonly IConfigProvider configProvider;
-
-        public ConfirmationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider, ISmtpClient smtpClient)
-        {
-            userRepository = new UserRepository(jwtHandler, configProvider);
-            this.configProvider = configProvider;
-        }
-
-        [Route("confirm")]
-        public IActionResult Confirm() {
-            IActionResult result;
-            string token = Request.Query["token"];
-            var email = userRepository.GetVerifyEmail($"\'{token}\'");
-
-            if (email == null) {
-                result = Redirect("/auth");
-            } 
-            else 
-            {
-                userRepository.ConfirmEmail(token, email);
-                userRepository.DeleteToken($"\'{token}\'");
-                
-                result = Redirect("/auth");//TODO: Auth
-            }
-            
             return result;
         }
     }
