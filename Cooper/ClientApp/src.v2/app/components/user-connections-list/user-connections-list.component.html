@@ -1,0 +1,51 @@
+<div>
+  <mat-card class="user-interaction-card">
+      <mat-card-title>
+        <mat-tab-group mat-stretch-tabs>
+          <mat-tab>  
+            <ng-template mat-tab-label>
+              <span matBadge="{{friendsAmount}}" matBadgeOverlap="false">Friends</span>
+            </ng-template>
+            <mat-card-content >
+              <mat-action-list class = "user-interaction-list">
+                <mat-list-item *ngFor="let friend of friends" (click)="onInListUserClicked(friend.nickname)">
+                    <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{friend.photoURL}}>
+                    <h3 matLine> {{friend.nickname}} </h3>
+                </mat-list-item>
+              </mat-action-list>
+            </mat-card-content>
+            </mat-tab>
+      
+            <mat-tab>
+                <ng-template mat-tab-label>
+                  <span matBadge="{{subscribersAmount}}" matBadgeOverlap="false">Subscribers</span>
+                </ng-template> 
+                <mat-card-content>
+                  <mat-action-list class = "user-interaction-list">
+                      <mat-list-item *ngFor="let subscriber of subscribers" (click)="onInListUserClicked(subscriber.nickname)">
+                          <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{subscriber.photoURL}}>
+                          <h3 matLine> {{subscriber.nickname}} </h3>
+                      </mat-list-item>
+                    </mat-action-list>
+                </mat-card-content>  
+            </mat-tab>
+
+          <mat-tab> 
+            <ng-template mat-tab-label>
+              <span matBadge="{{subscriptionsAmount}}" matBadgeOverlap="false">Subscriptions</span>
+            </ng-template>
+            <mat-card-content>
+              <mat-action-list class = "user-interaction-list">
+                  <mat-list-item *ngFor="let subscription of subscriptions" (click)="onInListUserClicked(subscription.nickname)">
+                      <img mat-card-avatar onError="this.src='assets/imageKeeper/robot.png'" src={{subscription.photoURL}}>
+                      <h3 matLine> {{subscription.nickname}} </h3>
+                  </mat-list-item>
+                </mat-action-list>
+            </mat-card-content>
+          </mat-tab>
+          
+        </mat-tab-group>
+      </mat-card-title>
+    </mat-card>
+
+</div>

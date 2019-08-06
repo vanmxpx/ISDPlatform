@@ -21,8 +21,11 @@ import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent } from '@layouts';
 
-import { LoginFormComponent, RegistrationFormComponent, PosterComponent, GameListItemComponent,
-         GameCardComponent, NavigationComponent} from '@components';
+import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
+   GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
+   NavigationComponent} from '@components';
+import { AvatarCardComponent } from './components/avatar-card/avatar-card.component';
+
 
 
 export function getAuthServiceConfigs() {
@@ -53,12 +56,18 @@ export function getAuthServiceConfigs() {
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
 
-    GameListItemComponent,
-    GameCardComponent,
-    LoginFormComponent,
-    RegistrationFormComponent,
-    PosterComponent,
-    NavigationComponent
+  LoginFormComponent,
+  RegistrationFormComponent,
+  PosterComponent,
+  UserConnectionsListComponent,
+  GamesListComponent,
+  UserInfoComponent,
+  MyProfileComponent,
+  GameListItemComponent,
+  GameCardComponent,
+  NavigationComponent,
+  AvatarCardComponent,
+
 ],
   imports: [
     BrowserModule,

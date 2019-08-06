@@ -26,7 +26,16 @@ namespace MediaServer.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Uploads an image to the media server.
+        /// </summary>
+        /// <returns>Returns json with file name or error description</returns>
+        /// <response code="200">If the image is successfully uploaded</response>
+        /// <response code="400">If the image is not uploaded to the media server</response> 
         [HttpPost]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(ImageModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
         [Route("upload")]
         public async Task<IActionResult> Upload()
         {
@@ -100,11 +109,21 @@ namespace MediaServer.Controllers
                 _logger.LogWarning(errorMessage);
             }
 
-            return Json(new ErrorModel { ErrorMessage = errorMessage });
+            return BadRequest(new ErrorModel { ErrorMessage = errorMessage });
         }
 
+        /// <summary>
+        /// Returns a image with the specified name, if it exists.
+        /// </summary>
+        /// <param name="fileName">The name of the image to be returned</param>
+        /// <returns>Required image or code 404</returns>
+        /// <response code="200">If required image found</response>
+        /// <response code="404">If required image not found</response>  
         [HttpGet]
-        [Route("{filename}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Route("{fileName}")]
         public async Task<IActionResult> Download(string fileName)
         {
             string path = _appEnvironment.WebRootPath + "/Images";
