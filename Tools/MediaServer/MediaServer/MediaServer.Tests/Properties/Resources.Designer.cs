@@ -22,7 +22,7 @@ namespace MediaServer.Tests.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace MediaServer.Tests.Properties {
         ///   Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MediaServer.Tests.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace MediaServer.Tests.Properties {
         ///   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,12 +61,11 @@ namespace MediaServer.Tests.Properties {
         }
         
         /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
+        ///   Ищет локализованную строку, похожую на iVBORw0KGgoAAAANSUhEUgAAAG4AAABuCAYAAADGWyb7AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAmZSURBVHja7JxRSFPvG8e//fldzV9EMGXhYUajizNBGi1UBi4dKDEGXkzUiILmLhICTxddGCwaOEgiw8AbUeimEo2CIVJgtkBSpgmCGxKuWossD4iY5/b/vzrv/xx3ztxmbU6f79V2zs529n7O87zP+77P8x4rLy//L0glp/9QExA4EoEjETgCRyJwJAJH4EgEjkTgSASOwJEIHInAETgSgSMROBKBI3AkAkcicASOROBIBI5E4AgcqeD65yDchM1mg8fjgcViQUVFBcxmMwBAFEU4nc68vtPlcgEApqen/8g9ulwunDx5kr1fW1vD0tLS0QRns9ng9/t14RiNRrhcrpwbXxAEdHV1AQDu3r2LiYmJvO+vs7MTtbW1 [остаток строки не уместился]&quot;;.
         /// </summary>
-        internal static byte[] TestImage {
+        public static string TestImage {
             get {
-                object obj = ResourceManager.GetObject("TestImage", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("TestImage", resourceCulture);
             }
         }
     }

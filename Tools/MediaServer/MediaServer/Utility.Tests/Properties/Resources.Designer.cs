@@ -61,12 +61,11 @@ namespace Utility.Tests.Properties {
         }
         
         /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
+        ///   Ищет локализованную строку, похожую на iVBORw0KGgoAAAANSUhEUgAAAG4AAABuCAYAAADGWyb7AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAmZSURBVHja7JxRSFPvG8e//fldzV9EMGXhYUajizNBGi1UBi4dKDEGXkzUiILmLhICTxddGCwaOEgiw8AbUeimEo2CIVJgtkBSpgmCGxKuWossD4iY5/b/vzrv/xx3ztxmbU6f79V2zs529n7O87zP+77P8x4rLy//L0glp/9QExA4EoEjETgCRyJwJAJH4EgEjkTgSASOwJEIHInAETgSgSMROBKBI3AkAkcicASOROBIBI5E4AgcqeD65yDchM1mg8fjgcViQUVFBcxmMwBAFEU4nc68vtPlcgEApqen/8g9ulwunDx5kr1fW1vD0tLS0QRns9ng9/t14RiNRrhcrpwbXxAEdHV1AQDu3r2LiYmJvO+vs7MTtbW1 [остаток строки не уместился]&quot;;.
         /// </summary>
-        internal static byte[] TestImage {
+        internal static string TestImage {
             get {
-                object obj = ResourceManager.GetObject("TestImage", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("TestImage", resourceCulture);
             }
         }
     }

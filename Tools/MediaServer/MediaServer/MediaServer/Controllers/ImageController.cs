@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using Utility;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace MediaServer.Controllers
 {
@@ -25,7 +26,16 @@ namespace MediaServer.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Uploads an image to the media server.
+        /// </summary>
+        /// <returns>Returns json with file name or error description</returns>
+        /// <response code="200">If the image is successfully uploaded</response>
+        /// <response code="400">If the image is not uploaded to the media server</response> 
         [HttpPost]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(ImageModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
         [Route("upload")]
         public async Task<IActionResult> Upload()
         {
@@ -51,7 +61,7 @@ namespace MediaServer.Controllers
                 {
                     if (uploadedFile.IsImage())
                     {
-                        Image image = uploadedFile.ToImage();
+                        Image<Rgb24> image = uploadedFile.ToImage();
 
                         float width = image.Width;
                         float height = image.Height;
@@ -59,20 +69,20 @@ namespace MediaServer.Controllers
                         // Resize the image if necessary.
                         if (width > height && width > 1000)
                         {
-                            image = image.ResizeImage(1000, (int)(height / width * 1000));
+                            image.ResizeImage(1000, (int)(height / width * 1000));
                         }
                         else if (height > width && height > 1000)
                         {
-                            image = image.ResizeImage((int)(width / height * 1000), 1000);
+                            image.ResizeImage((int)(width / height * 1000), 1000);
                         }
                         else if (height == width && height > 1000)
                         {
-                            image = image.ResizeImage(1000, 1000);
+                            image.ResizeImage(1000, 1000);
                         }
                         else
                         {
                             // We have to create a new bitmap, because using the image created from the input stream directly causes an error.
-                            image = new Bitmap(image);
+                            image.ResizeImage((int)width, (int)height);
                         }
 
                         string fileName = await _imageRepository.AddImageAsync(image);
@@ -99,17 +109,27 @@ namespace MediaServer.Controllers
                 _logger.LogWarning(errorMessage);
             }
 
-            return Json(new ErrorModel { ErrorMessage = errorMessage });
+            return BadRequest(new ErrorModel { ErrorMessage = errorMessage });
         }
 
+        /// <summary>
+        /// Returns a image with the specified name, if it exists.
+        /// </summary>
+        /// <param name="fileName">The name of the image to be returned</param>
+        /// <returns>Required image or code 404</returns>
+        /// <response code="200">If required image found</response>
+        /// <response code="404">If required image not found</response>  
         [HttpGet]
-        [Route("{filename}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Route("{fileName}")]
         public async Task<IActionResult> Download(string fileName)
         {
             string path = _appEnvironment.WebRootPath + "/Images";
             string filePath = Path.Combine(path, fileName);
 
-            Image image = await _imageRepository.GetImageAsync(filePath);
+            Image<Rgb24> image = await _imageRepository.GetImageAsync(filePath);
 
             if (image != null)
             {
