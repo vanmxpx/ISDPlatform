@@ -3,20 +3,23 @@ using Cooper.Repositories;
 using Cooper.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Cooper.Controllers
 {
-    [ApiController]
+    //[ApiController]
     [Route("api/games")]
     public class GameController : ControllerBase
     {
         private readonly IRepository<Game> gameRepository;
+        private readonly ILogger<GameController> logger;
 
-        public GameController(IConfigProvider configProvider)
+        public GameController(IConfigProvider configProvider, ILogger<GameController> logger)
         {
             gameRepository = new GameRepository(configProvider);
+            this.logger = logger;
         }
 
         /// <summary>
@@ -25,11 +28,11 @@ namespace Cooper.Controllers
         /// <returns>All games</returns>
         /// <response code="200">Always</response>
         [HttpGet]
-        [Route("login")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(IEnumerable<Game>), StatusCodes.Status200OK)]
         public IActionResult GetAll()
         {
+            logger.LogInformation("Getting all games");
             return Ok(gameRepository.GetAll());
         }
 
