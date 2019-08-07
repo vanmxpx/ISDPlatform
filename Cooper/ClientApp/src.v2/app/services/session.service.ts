@@ -27,6 +27,11 @@ export class SessionService {
     return this.sessionProfile.nickname;
   }
 
+  GetSessionUserId(): number {
+
+    return this.sessionProfile.id;
+  }
+
   public IsSessionProfile(profile: User): boolean {
     return this.sessionProfile.id === profile.id &&
     this.sessionProfile.nickname === profile.nickname &&

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '@models';
 
 
@@ -15,5 +15,16 @@ export class UserService {
     return response;
   }
 
-
+  updateUserInfo(user: User) {
+    return this.httpClient.post('/users', user, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }).subscribe((res: User) => {
+      console.log('User with id {0} was succesfully updated.', user.id);
+    },
+      err => {
+        console.log('Error: {0}', err);
+      });
+  }
 }
