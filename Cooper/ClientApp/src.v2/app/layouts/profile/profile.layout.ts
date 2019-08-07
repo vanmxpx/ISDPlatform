@@ -80,8 +80,9 @@ export class ProfileLayoutComponent implements OnInit {
       this.updateProfile();
     }
 
-    updateSessionUserInfo(updatedUser: User) {
-
-      // add update user logic
+    updateSessionUserInfo(updatedUser: User): void {
+      if (this.isSessionProfile) {
+        this.userService.postData(updatedUser);
+      }
     }
 }
