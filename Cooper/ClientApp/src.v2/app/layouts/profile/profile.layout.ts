@@ -21,7 +21,7 @@ export class ProfileLayoutComponent implements OnInit {
   subscribersAmount = 0;
 
   profile: User;
-  isSessionProfile = false;
+  isOwnProfile = false;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private gameDummyService: GamesService,
@@ -67,7 +67,7 @@ export class ProfileLayoutComponent implements OnInit {
       }
 
 
-      this.isSessionProfile = this.sessionService.IsSessionProfile(this.profile);
+      this.isOwnProfile = this.sessionService.isOwnProfile(this.profile);
     }
 
     // Dummy method
@@ -81,8 +81,8 @@ export class ProfileLayoutComponent implements OnInit {
     }
 
     updateSessionUserInfo(updatedUser: User): void {
-      if (this.isSessionProfile) {
-        this.userService.postData(updatedUser);
+      if (this.isOwnProfile) {
+        this.userService.updateUserInfo(updatedUser);
       }
     }
 }

@@ -15,7 +15,7 @@ export class UserService {
     return response;
   }
 
-  postData(user: User) {
+  updateUserInfo(user: User) {
     return this.httpClient.post('/users', user, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
