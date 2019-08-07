@@ -8,11 +8,12 @@
 	padding: 3px;
 	align-items: center;
 	display: flex;
-	position: fixed;
+	position: sticky;
 	top: 0;
 	left: 0;
-	z-index: 999;
+	z-index: 9999;
 	width: 100%;
+	box-shadow: 1px 5px 10px  rgba(67, 67, 70, 0.4);
 }
 .header-items {
 	align-items: center;
@@ -20,7 +21,7 @@
 }
 .my-navigate {
 	color: $top-panel-color;
-	font-weight: 600;
+	font-weight: 500;
 	font-size: 14px;
 }
 a {
