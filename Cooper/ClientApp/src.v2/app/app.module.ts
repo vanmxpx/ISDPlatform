@@ -25,13 +25,14 @@ import {
   RegistrationLayoutComponent, PageNotFoundLayoutComponent
 } from '@layouts';
 import {
-  LoginFormComponent, RegistrationFormComponent, PosterComponent, GameListItemComponent,
-  GameCardComponent, NavigationComponent
+  LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
+  GameListItemComponent, GameCardComponent, NavigationComponent, UserInfoComponent, MyProfileComponent, GamesListComponent
 } from '@components';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatSelectModule } from '@angular/material/select';
 import { LanguageSelectComponent } from './components/language-select/language-select.component';
+import { AvatarCardComponent } from './components/avatar-card/avatar-card.component';
 
 
 export function getAuthServiceConfigs() {
@@ -66,13 +67,20 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProfileLayoutComponent,
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
-    GameListItemComponent,
-    GameCardComponent,
-    LoginFormComponent,
-    RegistrationFormComponent,
-    PosterComponent,
-    NavigationComponent,
-    LanguageSelectComponent
+
+  LoginFormComponent,
+  RegistrationFormComponent,
+  PosterComponent,
+  UserConnectionsListComponent,
+  GamesListComponent,
+  UserInfoComponent,
+  MyProfileComponent,
+  GameListItemComponent,
+  GameCardComponent,
+  NavigationComponent,
+  AvatarCardComponent,
+  LanguageSelectComponent
+
 ],
   imports: [
     BrowserModule,

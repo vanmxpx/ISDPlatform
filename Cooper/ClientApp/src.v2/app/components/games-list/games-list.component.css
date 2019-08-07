@@ -1,0 +1,11 @@
+.games-card {   
+    object-fit: cover;
+    width: 100%;
+    height: 280px;
+    margin-top: 30px;
+  }
+  
+  .games-list {
+    height: 210px;
+    overflow: auto;
+}

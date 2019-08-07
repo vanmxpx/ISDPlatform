@@ -8,12 +8,12 @@
 	padding: 0px;
 	align-items: center;
 	display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    position: absolute;
+	position: sticky;
 	top: 0;
 	left: 0;
+	z-index: 9999;
 	width: 100%;
+	box-shadow: 1px 5px 10px  rgba(67, 67, 70, 0.4);
 }
 .header-items {
 	align-items: center;
