@@ -67,7 +67,7 @@ export class ProfileLayoutComponent implements OnInit {
       }
 
 
-      this.isOwnProfile = this.sessionService.isOwnProfile(this.profile);
+      this.isOwnProfile = this.sessionService.GetSessionUserId() === this.profile.id;
     }
 
     // Dummy method
