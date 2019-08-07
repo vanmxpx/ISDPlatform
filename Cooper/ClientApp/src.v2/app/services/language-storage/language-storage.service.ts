@@ -4,11 +4,12 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class LanguageStorageService {
+  defoultLanguage = 'en';
   getLanguage(): string {
     if (localStorage) {
-        return localStorage.getItem('language') || 'en';
+        return localStorage.getItem('language') || this.defoultLanguage;
     } else {
-        return 'en';
+        return this.defoultLanguage;
     }
 }
 
@@ -18,5 +19,6 @@ setLanguage(language: string) {
     }
 }
 
-  constructor() { }
+  constructor() {
+  }
 }
