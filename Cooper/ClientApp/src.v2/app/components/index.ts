@@ -17,3 +17,4 @@ export { GameCardComponent } from './game-card/game-card.component';
 
 export { GameListItemComponent } from './game-list-item/game-list-item.component';
 
+export {AvatarCardComponent} from './avatar-card/avatar-card.component';
