@@ -1,3 +1,43 @@
-<p>
-  profile works!
-</p>
+<div>
+  <main>
+      <div class="col-md-1"></div>
+
+      <div class="col-md-2">
+          <coop-avatar-card
+          [nickname] = "profile.nickname"
+          [photoURL] = "profile.photoURL"
+          ></coop-avatar-card>
+               
+          <coop-my-profile
+          *ngIf = "isOwnProfile"
+          [profile] = "profile"
+          (userUpdated) = "updateSessionUserInfo($event)"
+          ></coop-my-profile>
+
+          <coop-user-info
+          *ngIf = "!isOwnProfile"
+          [profile] = "profile"
+          ></coop-user-info>
+      </div>
+
+      <div class="col-md-5">
+          <coop-user-connections-list
+          [friends] = "friends"
+          [subscribers] = "subscribers"
+          [subscriptions] = "subscriptions"
+          [friendsAmount] = "friendsAmount"
+          [subscribersAmount] = "subscribersAmount"
+          [subscriptionsAmount] = "subscriptionsAmount" 
+          (userChosen) = "goToProfile($event)"
+          ></coop-user-connections-list>
+      </div>
+        
+      <div class="col-md-3">
+        <coop-games-list
+        [games]="games"
+        ></coop-games-list>            
+      </div>
+
+      <div class="col-md-1"></div>
+  </main>
+</div>

@@ -1,22 +1,16 @@
-using System.Text;
+using Cooper.Repositories.CommonChats;
+using Cooper.SignalR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using Oracle.ManagedDataAccess;
-using Cooper.Models;
-using Cooper.DAO.Models;
-using Cooper.Configuration;
-using Microsoft.AspNetCore.SignalR;
-using Cooper.Services;
-using cooper.SignalR;
-using Cooper.Repository.CommonChats;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
+using System.IO;
+using System.Reflection;
 
 [assembly: ApiController]
 namespace Cooper
@@ -25,13 +19,11 @@ namespace Cooper
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
-
+            Configuration = configuration;  
         }
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
@@ -43,7 +35,9 @@ namespace Cooper
             }));
 
             services.AddSignalR();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            var controllersAssembly = Assembly.Load("Cooper.Controllers");
+            services.AddMvc().AddApplicationPart(controllersAssembly).AddControllersAsServices();
             services.AddSingleton<ICommonChatRepository, CommonChatRepository>();
 
             // In production, the Angular files will be served from this directory
@@ -52,7 +46,6 @@ namespace Cooper
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            
             services.AddJWTHandler();
             services.AddConfigurationProvider(Configuration);
             services.AddJWTAuthorization();
@@ -61,9 +54,22 @@ namespace Cooper
             services.AddUserConnectionService();
             services.AddTokenCleanerService();
             services.AddSocialAuthService();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Title = "Cooper API",
+                    Version = "v1",
+                    Description = "Cooper API for Cooper's developers",
+                });
+
+                var xmlFile = $"{controllersAssembly.GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
 
@@ -83,6 +89,13 @@ namespace Cooper
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cooper API");
+                c.SupportedSubmitMethods(SubmitMethod.Get);
+            });
+
             app.UseCors("CorsPolicy");
 
             app.UseSignalR(routes =>
@@ -98,8 +111,6 @@ namespace Cooper
                         name: "default",
                         template: "{controller}/{action=Index}/{id?}");
                 });
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
 
                 spa.Options.SourcePath = "ClientApp";
 

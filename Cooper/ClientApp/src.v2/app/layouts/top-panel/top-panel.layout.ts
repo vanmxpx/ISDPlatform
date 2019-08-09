@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SessionService } from '@services';
 
 @Component({
   selector: 'coop-top-panel-layout',
@@ -7,17 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopPanelLayoutComponent implements OnInit {
   navigationItems = [
-    {label: 'Home', link: '#'},
-    {label: 'Games', link: '/platform/games'}, 
-    {label: 'Chats', link: '#'}, 
-    {label: 'My profile', link: '#'},  
+    {label: 'Home', link: '/platform/home'},
+    {label: 'Games', link: '/platform/games'},
+    {label: 'Chats', link: '#'},
+    { label: 'My profile', link: '#'},
     {label: 'Forum', link: '#'},
-    {label: 'Vacancies', link: '#'} 
+    {label: 'Vacancies', link: '#'}
   ];
 
-  constructor() { }
+  constructor(private sessionService: SessionService) { }
 
   ngOnInit() {
+    this.navigationItems[3].link = '/platform/profile/' + this.sessionService.GetSessionUserNickname();
   }
 
 }
