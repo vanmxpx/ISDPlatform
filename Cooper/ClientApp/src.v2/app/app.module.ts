@@ -12,7 +12,7 @@ import { MatInputModule, MatButtonModule, MatCardModule, MatListModule, MatTabsM
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CooperInterceptor } from 'src/assets/cooper.interceptor';
+import { CooperInterceptor } from './services/interceptor/cooper.interceptor';
 import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
