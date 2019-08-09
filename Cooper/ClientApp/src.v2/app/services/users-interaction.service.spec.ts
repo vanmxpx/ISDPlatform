@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UsersInteractionService } from './users-interaction.service';
+import { UsersConnectionService } from './users-interaction.service';
 
-describe('UsersInteractionService', () => {
+describe('UsersConnectionService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: UsersInteractionService = TestBed.get(UsersInteractionService);
+    const service: UsersConnectionService = TestBed.get(UsersConnectionService);
     expect(service).toBeTruthy();
   });
 });

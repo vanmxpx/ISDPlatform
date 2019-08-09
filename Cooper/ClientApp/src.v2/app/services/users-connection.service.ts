@@ -7,9 +7,9 @@ import { timeout, catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class UsersInteractionService {
+export class UsersConnectionService {
 
-  private readonly userInteractionUrl = '/interaction';
+  private readonly userInteractionUrl = '/connection';
 
   constructor(private http: HttpClient) { }
 
