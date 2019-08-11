@@ -22,17 +22,15 @@ import { AuthGuard } from '@guards';
 import {
   LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent
-} from '@layouts';
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent } from '@layouts';
 import {
   LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
-  GameListItemComponent, GameCardComponent, NavigationComponent, UserInfoComponent, MyProfileComponent, GamesListComponent
-} from '@components';
+  GameListItemComponent, GameCardComponent, NavigationComponent, UserInfoComponent, MyProfileComponent, GamesListComponent,
+  AvatarCardComponent} from '@components';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatSelectModule } from '@angular/material/select';
 import { LanguageSelectComponent } from './components/language-select/language-select.component';
-import { AvatarCardComponent } from './components/avatar-card/avatar-card.component';
 
 
 export function getAuthServiceConfigs() {
@@ -67,6 +65,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProfileLayoutComponent,
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
+    HomeLayoutComponent,
 
   LoginFormComponent,
   RegistrationFormComponent,

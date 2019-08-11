@@ -9,13 +9,13 @@
           ></coop-avatar-card>
                
           <coop-my-profile
-          *ngIf = "isSessionProfile"
+          *ngIf = "isOwnProfile"
           [profile] = "profile"
           (userUpdated) = "updateSessionUserInfo($event)"
           ></coop-my-profile>
 
           <coop-user-info
-          *ngIf = "!isSessionProfile"
+          *ngIf = "!isOwnProfile"
           [profile] = "profile"
           ></coop-user-info>
       </div>
