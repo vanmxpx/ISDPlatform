@@ -1,48 +1,43 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { AppComponent } from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { DynamiSocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from 'ng-dynami-social-login';
-import { SignInComponent } from './components/auth/sign-in/sign-in.component';
-import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
-import { AuthGuard } from './components/auth/guards/auth-guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatInputModule, MatButtonModule, MatCardModule, MatListModule, MatTabsModule, MatBadgeModule} from '@angular/material';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatInputModule, MatButtonModule, MatCardModule, MatListModule, MatTabsModule,
+  MatBadgeModule, MatGridListModule, MatRippleModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
-import { AppSignComponentComponent } from './app-sign-component/app-sign-component.component';
-import { MyPageComponent } from './my-page/my-page.component';
-import { GamesComponent } from './components/games/games.component';
-import { GameDetailComponent } from './components/game-detail/game-detail.component';
-import { GameSearchComponent } from './components/game-search/game-search.component';
-import { SafePipe } from './pipes/safe.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UserService } from './services/user.service';
 import { CooperInterceptor } from 'src/assets/cooper.interceptor';
 import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {AuthGuard} from '@guards';
+import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
+  PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent } from '@layouts';
 
+import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
+   GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
+   NavigationComponent} from '@components';
+import { AvatarCardComponent } from './components/avatar-card/avatar-card.component';
 
-const appRoutes : Routes = [
-  {path: '', redirectTo : '/signIn', pathMatch: 'full'},
-  {path: 'signIn', component: SignInComponent, data: { animation: 'isSignIn' }},
-  {path: 'signUp', component: SignUpComponent, data: { animation: 'isSignUp' }}
-]
-export function getAuthServiceConfigs() {
-  let config = new AuthServiceConfig(
+export function getAuthServiceConfigs(): AuthServiceConfig {
+  const config = new AuthServiceConfig(
       [
          {
           id: FacebookLoginProvider.PROVIDER_ID,
-          provider: new FacebookLoginProvider("INSERT_FACEBOOK_APP_ID")
+          provider: new FacebookLoginProvider('INSERT_FACEBOOK_APP_ID')
         },
         {
           id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider("INSERT_GOOGLE_APP_ID")
+          provider: new GoogleLoginProvider('INSERT_GOOGLE_APP_ID')
         }
-         
+
       ]
   );
   return config;
@@ -50,22 +45,35 @@ export function getAuthServiceConfigs() {
 @NgModule({
   declarations: [
     AppComponent,
-    SignInComponent,
-    SignUpComponent,
-    AppSignComponentComponent,
-    MyPageComponent,
-    GamesComponent,
-    GameDetailComponent,
-    GameSearchComponent,
-    SafePipe
-  ],
+    LoginLayoutComponent,
+    RegistrationLayoutComponent,
+    GameLayoutComponent,
+    GamesLayoutComponent,
+    TopPanelLayoutComponent,
+    ProfileLayoutComponent,
+    PlatformLayoutComponent,
+    PageNotFoundLayoutComponent,
+
+  LoginFormComponent,
+  RegistrationFormComponent,
+  PosterComponent,
+  UserConnectionsListComponent,
+  GamesListComponent,
+  UserInfoComponent,
+  MyProfileComponent,
+  GameListItemComponent,
+  GameCardComponent,
+  NavigationComponent,
+  AvatarCardComponent,
+
+],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,
     MatInputModule,
     MatFormFieldModule,
     MatTableModule,
@@ -76,24 +84,27 @@ export function getAuthServiceConfigs() {
     GrowlModule,
     MatIconModule,
     MatTabsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatGridListModule,
+    MatRippleModule,
+    MatProgressBarModule,
+    MatButtonToggleModule
   ],
   providers: [
     {
-    provide: AuthServiceConfig,
-    useFactory: getAuthServiceConfigs
+      provide: AuthServiceConfig,
+      useFactory: getAuthServiceConfigs
     },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CooperInterceptor,
       multi: true // give the possibility of various interceptors
-    }, 
-    AuthGuard, 
-    UserService
+    },
+    AuthGuard
+
   ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
 export class PizzaPartyAppModule { }
-export class InputOverviewExample {}
-
+export class InputOverviewExample { }

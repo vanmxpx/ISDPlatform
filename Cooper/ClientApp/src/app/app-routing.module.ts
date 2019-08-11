@@ -1,25 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SignInComponent } from './components/auth/sign-in/sign-in.component';
-import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
-import { AppComponent } from './app.component';
-import { GamesComponent } from './components/games/games.component';
-import { GameDetailComponent }  from './components/game-detail/game-detail.component';
-import { AuthGuard } from './components/auth/guards/auth-guard';
-import { AppSignComponentComponent } from './app-sign-component/app-sign-component.component';
-import { MyPageComponent } from './my-page/my-page.component';
+import {AuthGuard} from '@guards';
+import {LoginLayoutComponent, RegistrationLayoutComponent, PlatformLayoutComponent,
+  PageNotFoundLayoutComponent, GameLayoutComponent, GamesLayoutComponent, ProfileLayoutComponent} from '@layouts';
 
-const routes: Routes = [  
-  {path: '', redirectTo : 'auth', pathMatch: 'full'},
-  { path: 'gamedetail/:id', component: GameDetailComponent, canActivate: [AuthGuard] },
-  { path: 'games', component: GamesComponent, canActivate: [AuthGuard] },
-  { path: 'myPage/:nickname', component: MyPageComponent, canActivate: [AuthGuard]},
-  { path: '**', redirectTo : 'auth/signIn', pathMatch: 'full'},
-  { path: 'auth', component: AppSignComponentComponent,
-    children: [
-      { path: '', component: SignInComponent, outlet:'sub', data: { animation: 'isSignIn' }},
-      { path:'signUp',component:SignUpComponent, outlet:'sub', data: { animation: 'isSignUp' }},
-      ]},
+const routes: Routes = [
+  {path: '', redirectTo: 'login', pathMatch: 'full'},
+  {path: 'login', component: LoginLayoutComponent},
+  {path: 'registration', component: RegistrationLayoutComponent},
+  {path: 'platform', component: PlatformLayoutComponent, canActivate: [AuthGuard],
+   children:  [
+    {path: 'games', component: GamesLayoutComponent},
+    {path: 'game/:id', component: GameLayoutComponent},
+    {path: 'profile/:nickname', component: ProfileLayoutComponent}
+  ]},
+  {path: '**', component: PageNotFoundLayoutComponent}
 ];
 
 @NgModule({

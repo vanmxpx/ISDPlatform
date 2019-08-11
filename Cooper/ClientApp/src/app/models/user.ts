@@ -1,13 +1,15 @@
 export class User {
-    id: number;
-    nickname: string;
-    email: string;
-    photoURL: string;
+    public id: number;
+    public nickname: string;
+    public name: string;
+    public email: string;
+    public description: string;
+    public photoURL: string;
 
     // IsVerified: boolean;
     // IsCreator: boolean;
     // IsBanned: boolean
 
-    platformLanguage: string;
-    platformTheme: string;
+    // platformLanguage: string;
+    // platformTheme: string;
 }
