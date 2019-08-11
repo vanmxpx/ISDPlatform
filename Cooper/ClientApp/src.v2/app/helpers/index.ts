@@ -1,2 +1,2 @@
-export { AnimationsHelper } from './animation.helper'
-export { LanguagesHelper } from './languages.helper'
+export { AnimationsHelper } from './animation.helper';
+export { LanguagesHelper } from './languages.helper';

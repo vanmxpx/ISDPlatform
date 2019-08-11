@@ -10,7 +10,6 @@ import {TranslateService} from '@ngx-translate/core';
   styleUrls: ['./login-form.component.css']
 })
 export class LoginFormComponent implements OnInit {
-  title = 'ngxtranslate';
   failedLoginMessage = 'Invalid username or password.';
   languages: Languages;
 

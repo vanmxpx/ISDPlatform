@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LocalizationService } from '@services';
+import { LocalizationService } from './localization.service';
 
-describe('LanguageStorageService', () => {
+describe('LocalizationService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {

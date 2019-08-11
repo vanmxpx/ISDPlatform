@@ -9,13 +9,9 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class GamesService {
 
-  private static readonly getGamesUrl = "/games";
-
-  getData(): Observable<Game[]> {   
-    return this.httpClient.get<Game[]>(GamesService.getGamesUrl);
-  }
-
   constructor(private httpClient: HttpClient, public translate: TranslateService) { }
+
+  private static readonly getGamesUrl = '/games';
 
   mockedGames: Game[] = [
     {
@@ -99,21 +95,21 @@ export class GamesService {
     {
       name: 'Mafia 2',
       logoUrl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
-      description:'The Biggest War Ever',
+      description: 'The Biggest War Ever',
       genre: 'War'
     },
     {
       name: 'tanks',
       logoUrl: 'assets/imageKeeper/WebTanks.png',
-      description:'The Biggest War EverThe Biggest War EveThe Biggest War EveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War Eve EveThe Biggest War EveThe Biggest War EveThe Biggest War EveThe Biggest War Eve',
+      description: 'The Biggest War EverThe Biggest War Eve',
       genre: 'War'
     },
     {
       name: 'fortnite',
       logoUrl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
-      description:'The Biggest War Ever',
+      description: 'The Biggest War Ever',
       genre: 'War'
-    }, 
+    },
     {
       name: 'Mafia 2',
       logoUrl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
@@ -123,8 +119,12 @@ export class GamesService {
     {
       name: 'tanks',
       logoUrl: 'assets/imageKeeper/WebTanks.png',
-      description:'The Biggest War EverThe Biggest War EveThe Biggest War EveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War Eve EveThe Biggest War EveThe Biggest War EveThe Biggest War EveThe Biggest War Eve',
+      description: 'The Biggest War EverThe Biggest War EveThe Biggest War EveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War Eve EveThe Biggest War EveThe Biggest War EveThe Biggest War EveThe Biggest War Eve',
       genre: 'War'
     }
-  ]
+  ];
+
+  getData(): Observable<Game[]> {
+    return this.httpClient.get<Game[]>(GamesService.getGamesUrl);
+  }
 }

@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Languages } from '@enums';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguagesHelper } from '@helpers';
-import { LanguageStorageService } from '@services';
+import { LocalizationService } from '@services';
 
 @Component({
   selector: 'coop-language-select',
@@ -10,21 +8,15 @@ import { LanguageStorageService } from '@services';
   styleUrls: ['./language-select.component.scss']
 })
 export class LanguageSelectComponent implements OnInit {
-  helper = LanguagesHelper;
-  languageKeys = this.helper.getLanguageKeys();
+  helper = this.localizationService.helper;
+  languageKeys = this.localizationService.languageKeys;
 
-  languages = Languages;
-  currentLanguage = this.translateService.getLanguage();
+  languages = this.localizationService.languages;
+  currentLanguage = this.localizationService.getCurrentLanguage();
 
-  constructor(public translate: TranslateService, private translateService: LanguageStorageService) {
+  constructor(public translate: TranslateService, private localizationService: LocalizationService) {
     this.translate.setDefaultLang(this.currentLanguage);
   }
-
-  onLanguageChanged(language: string, translate: TranslateService) {
-    this.translateService.setLanguage(language);
-    this.translate.use(language);
-  }
-
   ngOnInit() {
   }
 }
