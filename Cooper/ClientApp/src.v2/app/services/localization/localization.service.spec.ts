@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LocalizationService } from './localization.service';
+import { LocalizationService } from '@services';
 
 describe('LocalizationService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
