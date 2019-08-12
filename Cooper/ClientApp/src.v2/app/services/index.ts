@@ -10,3 +10,5 @@ export {GamesService} from './games.service';
 export {SessionService} from './session.service';
 
 export {RegistrationService} from './registration/registration.service';
+
+export {CooperInterceptor} from './interceptor/cooper.interceptor';
