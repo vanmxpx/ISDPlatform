@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {SocialNetwork} from '@enums';
-import { Languages } from '@enums';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
@@ -9,24 +8,20 @@ import {TranslateService} from '@ngx-translate/core';
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.css']
 })
-export class LoginFormComponent implements OnInit {
-  failedLoginMessage = 'Invalid username or password.';
-  languages: Languages;
+export class LoginFormComponent {
 
-  @Input() failedLogin: boolean;
-  @Output() signIn = new EventEmitter<NgForm>();
-  @Output() socialSignIn = new EventEmitter<SocialNetwork>();
+  public failedLoginMessage: string = 'Invalid username or password.';
+
+  @Input() public failedLogin: boolean;
+  @Output() public signIn: EventEmitter<NgForm> = new EventEmitter<NgForm>();
+  @Output() public socialSignIn: EventEmitter<SocialNetwork> = new EventEmitter<SocialNetwork>();
 
   constructor(public translate: TranslateService) { }
-
-  ngOnInit() {
-  }
-
-  onSignInClicked(form: NgForm): void {
+  public onSignInClicked(form: NgForm): void {
     this.signIn.emit(form);
   }
 
-  onSocialSignInClicked(socialNetwork: SocialNetwork): void {
+  public onSocialSignInClicked(socialNetwork: SocialNetwork): void {
     this.socialSignIn.emit(socialNetwork);
   }
 }

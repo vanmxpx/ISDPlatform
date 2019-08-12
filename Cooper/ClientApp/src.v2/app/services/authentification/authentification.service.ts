@@ -5,21 +5,19 @@ import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'ng-dyna
 import { SocialNetwork} from '@enums';
 
 class LoginAttemptResponse {
-  token: string;
+  public token: string;
 }
 
 const registrationUrl = '/registration';
 const authUrl = '/auth/login';
 const socialProvider = {
-      'google': GoogleLoginProvider.PROVIDER_ID,
-      'facebook': FacebookLoginProvider.PROVIDER_ID
+      google: GoogleLoginProvider.PROVIDER_ID,
+      facebook: FacebookLoginProvider.PROVIDER_ID
     };
 
 @Injectable({
   providedIn: 'root'
 })
-
-
 export class AuthentificationService {
 
   constructor(private router: Router, private http: HttpClient, private socialAuthService: AuthService) {
@@ -40,14 +38,14 @@ export class AuthentificationService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
-    }).subscribe(response => {
+    }).subscribe((response) => {
       this.onPassedAuth((response as LoginAttemptResponse).token);
-        }, err => {
+        }, () => {
       this.redirectToLoginPage();
     });
   }
 
-  public socialSignIn(socialPlatform: SocialNetwork) {
+  public socialSignIn(socialPlatform: SocialNetwork): void {
     this.socialAuthService.signIn(socialProvider[socialPlatform]).then(
       (userData) => {
         if (socialPlatform === SocialNetwork.Google) {
@@ -59,26 +57,26 @@ export class AuthentificationService {
     );
   }
 
-  private transferSocialDataToServer(userData: any) {
+  private transferSocialDataToServer(userData: any): void {
     let body = this.createBody(userData, true);
 
     this.http.post(authUrl, body).subscribe(
-      response => {
+      (response) => {
         this.onPassedAuth((response as LoginAttemptResponse).token);
       },
-      err => {
+      (err) => {
         if (err.error === 'Auth') {
           // Register
           body = this.createBody(userData, false);
           this.http.post(registrationUrl, body).subscribe(
-            response => {
+            () => {
               // Try to login 1 time
               body = this.createBody(userData, true);
               this.http.post(authUrl, body).subscribe(
-                response => {
+                (response) => {
                   this.onPassedAuth((response as LoginAttemptResponse).token);
                 },
-                err => {
+                () => {
                   this.redirectToLoginPage();
                 }
               );
@@ -91,7 +89,7 @@ export class AuthentificationService {
     );
   }
 
-  onPassedAuth(token: string): void {
+  public onPassedAuth(token: string): void {
     localStorage.setItem('JwtCooper', token);
     this.router.navigate(['/platform/home']);
   }
@@ -100,7 +98,7 @@ export class AuthentificationService {
     this.router.navigate(['/login', {failedLogin: true}]);
   }
 
-  createBody(userData, isAuth: boolean) {
+  public createBody(userData: any, isAuth: boolean): void {
     let body;
     if (isAuth) {
       body = {

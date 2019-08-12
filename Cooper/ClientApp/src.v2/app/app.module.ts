@@ -32,8 +32,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatSelectModule } from '@angular/material/select';
 import { LanguageSelectComponent } from './components/language-select/language-select.component';
 
-
-export function getAuthServiceConfigs() {
+export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
     [
       {
@@ -50,7 +49,7 @@ export function getAuthServiceConfigs() {
   return config;
 }
 
-export function HttpLoaderFactory(http: HttpClient) {
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
 }
 
@@ -66,19 +65,18 @@ export function HttpLoaderFactory(http: HttpClient) {
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
     HomeLayoutComponent,
-
-  LoginFormComponent,
-  RegistrationFormComponent,
-  PosterComponent,
-  UserConnectionsListComponent,
-  GamesListComponent,
-  UserInfoComponent,
-  MyProfileComponent,
-  GameListItemComponent,
-  GameCardComponent,
-  NavigationComponent,
-  AvatarCardComponent,
-  LanguageSelectComponent
+    LoginFormComponent,
+    RegistrationFormComponent,
+    PosterComponent,
+    UserConnectionsListComponent,
+    GamesListComponent,
+    UserInfoComponent,
+    MyProfileComponent,
+    GameListItemComponent,
+    GameCardComponent,
+    NavigationComponent,
+    AvatarCardComponent,
+    LanguageSelectComponent
 
 ],
   imports: [
@@ -130,4 +128,3 @@ export function HttpLoaderFactory(http: HttpClient) {
 export class AppModule { }
 export class PizzaPartyAppModule { }
 export class InputOverviewExample { }
-

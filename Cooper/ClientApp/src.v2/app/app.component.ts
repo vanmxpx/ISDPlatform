@@ -10,10 +10,6 @@ import { LocalizationService } from '@services';
 })
 export class AppComponent {
   constructor(public translate: TranslateService, private localizationService: LocalizationService) {
-    localizationService.switchLanguage();
+    this.localizationService.switchLanguage();
   }
 }
-
-
-
-

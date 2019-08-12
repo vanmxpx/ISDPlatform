@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Game } from '@models';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -7,13 +7,10 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './game-card.component.html',
   styleUrls: ['./game-card.component.scss']
 })
-export class GameCardComponent implements OnInit {
+export class GameCardComponent {
 
-  @Input() game: Game;
+  @Input() public game: Game;
 
   constructor(public translate: TranslateService) { }
-
-  ngOnInit() {
-  }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {CoopNavBarItem} from '@models';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -7,13 +7,9 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss']
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent {
 
-  @Input() items: CoopNavBarItem[];
-
+  @Input() public items: CoopNavBarItem[];
   constructor(public translate: TranslateService) { }
-
-  ngOnInit() {
-  }
 
 }
