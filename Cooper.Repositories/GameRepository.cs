@@ -36,7 +36,28 @@ namespace Cooper.Repositories
 
         public Game Get(object obj)
         {
-            return ToGame(gameDAO.Get(obj));
+
+            Game game_newTyped = null;
+            GameDb game = null;
+            if (obj is string name)
+            {
+                game = gameDAO.GetByName(name);
+            }
+            else if (obj is long id)
+            {
+               game = gameDAO.Get(id);
+            }
+            else
+            {
+                throw new System.Exception("Object type error!");
+            }
+
+            if (game != null)
+            {
+                game_newTyped = mapper.Map(game);
+            }
+
+            return game_newTyped;
         }
 
         public long Create(Game game)
@@ -56,19 +77,6 @@ namespace Cooper.Repositories
         public void Delete(long id)
         {
             gameDAO.Delete(id);
-        }
-
-        private Game ToGame(GameDb game)
-        {
-            Game game_newTyped = null;
-
-
-            if (game != null)
-            {
-                game_newTyped = mapper.Map(game);
-            }
-
-            return game_newTyped;
         }
     }
 }

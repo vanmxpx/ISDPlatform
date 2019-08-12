@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Cooper.DAO
 {
-    public class GameDAO : IDAO<GameDb>
+    public class GameDAO : IGameDAO
     {
         private readonly CRUD crud;
         private readonly Logger logger;
@@ -34,20 +34,23 @@ namespace Cooper.DAO
 
         #region Get methods
 
-        public GameDb Get(object obj)
+        public GameDb Get(long id)
         {
-            string name = obj.ToString();
             GameDb game = null;
-            List<EntityORM> entities;
-            if (long.TryParse(name, out long id))
+            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
+
+            if (entities.Any())
             {
-                entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
-            }
-            else
-            {
-                entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest("LINK", DbTools.RequestOperator.Equal, $"'{name}'") }));
+                EntityMapping.Map(entities[0], out game);
             }
 
+            return game;
+        }
+
+        public GameDb GetByName(string name)
+        {
+            GameDb game = null;
+            List<EntityORM>  entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest("LINK", DbTools.RequestOperator.Equal, $"'{name}'") }));
             if (entities.Any())
             {
                 EntityMapping.Map(entities[0], out game);

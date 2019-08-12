@@ -17,7 +17,7 @@ import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { AuthGuard } from '@guards';
-import { SafePipe } from './pipes/safe.pipe';
+import { SafePipe } from '@pipes';
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent } from '@layouts';
