@@ -1,0 +1,95 @@
+
+button{
+  background: gray;
+  color: cornsilk;
+  font-family: 'Comic Sans Ms';
+  font-size: 18px;
+  border-radius: 3px;
+}
+
+.errorField {
+  color: red;
+  border-color: red;
+}
+
+.errorField::placeholder {
+  color: red;
+}
+
+.sign-in-button {
+  width:45%;
+  align-self: center;
+  padding: 1%;
+  color: #fff;
+}
+
+.text-help {
+  color: rgba(86, 88, 92, 100);
+  margin-top: 5%;
+  font-family: 'Comic Sans Ms'
+}
+
+.socials-container {
+  display: inline-block;
+  align-self: center;
+
+  width: 45%;
+}
+
+.social-icon{
+  width: 25%;
+  height: auto;
+  
+}
+.central-content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+}
+
+.personal-data-form {
+  border: 1px solid rgb(168, 168, 168);
+  border-radius: 3px;
+  padding: 25px;
+}
+
+mat-form-field {
+  width:100%;
+  margin-top: 7px;
+}
+
+.logo {
+  width:95%;
+  margin-top: 10%;
+  display: block;
+}
+
+.image-sign {
+  width:110%;
+  display: block;
+  margin-left: -50%;
+}
+
+.left-container {
+  background-color: rgba(86, 88, 92, 100);
+  min-height: 100vh;
+  height: auto;
+}
+
+.hyper-text{
+  font-family: 'Comic Sans Ms'
+}
+.head-text {
+  color: rgba(86, 88, 92, 100);
+  margin-bottom: 5%;
+}
+
+.head-container {
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+}

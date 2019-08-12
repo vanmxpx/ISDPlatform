@@ -1,0 +1,57 @@
+  .h1--color {
+    color: #646464;
+  }
+
+  .col__h2 {    
+    color: #646464;
+    margin-top: 30px;
+    margin-left: 40px;
+  }
+  
+  .games-list--padding {
+    padding: 40px 200px
+  }
+
+  .row__image-col--align {
+    text-align:center;
+  }
+
+  .image-col__game-image--size-squared {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .row__action-col--align {
+    text-align: center;
+    margin: auto 0px;
+  }
+  
+  .action-col__button {
+    margin-top: 70px;
+    padding:15px 20px;
+
+    color:#858585;
+    background-color:#ffffff;
+    border-color: #cecece;
+
+    font-size:15px;
+    font-weight:bold;
+    
+    border:1px solid;
+    display: inline-block;
+    cursor:pointer;
+    text-decoration:none;
+    width: 10rem;
+  }
+
+  .action-col__button:hover {
+    background-color:#858585;
+    border-color: #e0e0e0;
+    color: white;
+  }
+  .action-col__button:active {
+    position:relative;
+    top:1px;
+  }
+  
+  

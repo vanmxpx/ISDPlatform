@@ -1,0 +1,49 @@
+<h1 class = "head-text">Sign Up</h1>
+
+<form [formGroup]="registrationForm" autocomplete="off" (submit)="onSubmit()">
+    
+<div class="personal-data-form">
+    <mat-form-field>
+      <input matInput placeholder="Enter your email" formControlName="Email" [(ngModel)]="Nickname" type = "email"/>
+    </mat-form-field>
+    <mat-error *ngIf="registrationForm.controls.Email.invalid">
+      {{getEmailErrorMessage()}}
+    </mat-error>
+
+    <mat-form-field>
+      <input matInput placeholder="Enter your nickname" formControlName="Nickname" [(ngModel)]="nick" type = "text"/>
+    </mat-form-field>
+    <mat-error *ngIf="registrationForm.controls.Nickname.invalid">
+      {{getNicknameErrorMessage()}}
+    </mat-error>
+    
+    <div formGroupName="Passwords">
+      <mat-form-field>
+          <input matInput placeholder="Enter your password" formControlName="Password" [(ngModel)]="password" type = "password"/>
+      </mat-form-field>
+      <mat-error *ngIf="registrationForm.controls.Passwords.controls.Password.invalid">
+        {{getPasswordErrorMessage()}}
+      </mat-error>
+
+      <mat-form-field>
+          <input matInput placeholder="Repeat your password" formControlName="ConfirmPassword" [(ngModel)]="reppassword" type = "password"/>
+      </mat-form-field> 
+      <mat-error *ngIf="registrationForm.controls.Passwords.controls.ConfirmPassword.invalid">
+        {{getConfirmPasswordErrorMessage()}}
+      </mat-error>
+      </div>
+    
+  </div>
+
+<br/>
+<button class = "sign-up-button" type="submit" [disabled]="!registrationForm.valid">Sign up</button>
+</form>
+
+<div class = "text-help">
+  <p>also you can <a routerLink="/auth" routerLinkActive="active" class="hyper-text">Sign in</a>
+  <br>or sign up by:</p>
+</div>
+  <div class = "socials-container">
+    <img src = "assets/imageKeeper/google-icon.png" class="social-icon" (click)="socialSignIn('google')" />
+    <img src = "assets/imageKeeper/facebook-icon.png" class="social-icon" (click)="socialSignIn('facebook')"/>
+  </div>

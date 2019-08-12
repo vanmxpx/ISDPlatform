@@ -9,17 +9,6 @@ body{
     height: auto;
 }
 
-
-.coop-form {
-    padding-top: 32px;
-    padding-right: 32px;
-    padding-left: 32px;
-    padding-bottom: 32px;
-    font-family: "Roboto";
-    border-bottom-width: 1px;
-    width: 450px;
-  }
-
 .row{
 	margin-left:0;
 	margin-right:0;
