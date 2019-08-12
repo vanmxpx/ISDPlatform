@@ -10,3 +10,5 @@ export {UsersInteractionService} from './users-iteration/users-interaction.servi
 export {GamesService} from './games/games.service';
 
 export {SessionService} from './session/session.service';
+
+export {CooperInterceptor} from './interceptor/cooper.interceptor';
