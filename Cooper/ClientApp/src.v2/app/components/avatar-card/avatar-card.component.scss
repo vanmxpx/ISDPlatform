@@ -1,9 +1,10 @@
 .avatar-card {   
     object-fit: cover;
     width: 230px;
-    height: 280px;
+    height: auto;
     margin-top: 30px;
     margin-bottom: 10px;
+    word-wrap: break-word;
   }
 
 .avatar-img {

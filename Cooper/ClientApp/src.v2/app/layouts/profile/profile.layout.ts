@@ -11,17 +11,17 @@ import { User, Game} from '@models';
 
 export class ProfileLayoutComponent implements OnInit {
 
-  games: Game[] = [];
-  friends: User[] = [];
-  subscriptions: User[] = [];
-  subscribers: User[] = [];
+  public games: Game[] = [];
+  public friends: User[] = [];
+  public subscriptions: User[] = [];
+  public subscribers: User[] = [];
 
-  friendsAmount = 0;
-  subscriptionsAmount = 0;
-  subscribersAmount = 0;
+  public friendsAmount: number = 0;
+  public subscriptionsAmount: number = 0;
+  public subscribersAmount: number = 0;
 
-  profile: User;
-  isOwnProfile = false;
+  public profile: User;
+  public isOwnProfile: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private gameDummyService: GamesService,
@@ -30,20 +30,19 @@ export class ProfileLayoutComponent implements OnInit {
               private sessionService: SessionService) {
               }
 
-    ngOnInit() {
+    public ngOnInit(): void {
       this.updateProfile();
     }
 
-    updateProfile() {
+    public updateProfile(): void {
       const nickname = this.route.snapshot.paramMap.get('nickname');
       this.fetchProfileData(nickname);
 
       this.getAllGames();
     }
 
-    async fetchProfileData(nickname: string) {
+    public async fetchProfileData(nickname: string): Promise<any> {
       this.profile = await this.userService.getUserByNickname(nickname);
-
 
       this.friends = await this.usersSocialConnectionsService.getFriends(this.profile.id);
       if (this.friends) {
@@ -66,21 +65,20 @@ export class ProfileLayoutComponent implements OnInit {
         this.subscriptionsAmount = 0;
       }
 
-
       this.isOwnProfile = this.sessionService.GetSessionUserId() === this.profile.id;
     }
 
     // Dummy method
-    private getAllGames() {
+    private getAllGames(): void {
       this.games = this.gameDummyService.mockedGames;
     }
 
-    async goToProfile(nickname: string) {
+    public async goToProfile(nickname: string): Promise<any> {
       await this.router.navigate(['/platform/profile', nickname]);
       this.updateProfile();
     }
 
-    updateSessionUserInfo(updatedUser: User): void {
+    public updateSessionUserInfo(updatedUser: User): void {
       if (this.isOwnProfile) {
         this.userService.updateUserInfo(updatedUser);
       }

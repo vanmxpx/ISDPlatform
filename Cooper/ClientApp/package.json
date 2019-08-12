@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "prestart": "tslint -c ./tslint.json 'src.v2/**/*{.ts,.tsx}'",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",

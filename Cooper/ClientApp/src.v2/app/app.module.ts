@@ -12,20 +12,21 @@ import { MatInputModule, MatButtonModule, MatCardModule, MatListModule, MatTabsM
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CooperInterceptor } from 'src/assets/cooper.interceptor';
+import { CooperInterceptor } from '@services';
 import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {AuthGuard} from '@guards';
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent } from '@layouts';
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent } from '@layouts';
 
 import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
    GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
-   NavigationComponent, AvatarCardComponent} from '@components';
+   NavigationComponent} from '@components';
+import { AvatarCardComponent } from './components/avatar-card/avatar-card.component';
 
-export function getAuthServiceConfigs() {
+export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
       [
          {
@@ -52,7 +53,6 @@ export function getAuthServiceConfigs() {
     ProfileLayoutComponent,
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
-    HomeLayoutComponent,
 
   LoginFormComponent,
   RegistrationFormComponent,
@@ -107,5 +107,4 @@ export function getAuthServiceConfigs() {
 })
 export class AppModule { }
 export class PizzaPartyAppModule { }
-export class InputOverviewExample {}
-
+export class InputOverviewExample { }

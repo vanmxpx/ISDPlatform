@@ -8,3 +8,5 @@ export {UsersSocialConnectionsService} from './users-social-connections.service'
 export {GamesService} from './games.service';
 
 export {SessionService} from './session.service';
+
+export {CooperInterceptor} from './interceptor/cooper.interceptor';

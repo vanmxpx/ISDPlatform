@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {SessionService} from '@services';
 import {Router} from '@angular/router';
 
@@ -7,17 +7,12 @@ import {Router} from '@angular/router';
   templateUrl: './home.layout.html',
   styleUrls: ['./home.layout.scss']
 })
-export class HomeLayoutComponent implements OnInit {
-
+export class HomeLayoutComponent {
 
   constructor(private sessionService: SessionService, private router: Router) {
    }
 
-
-  ngOnInit() {
-  }
-
-  goToProfilePage() {
+  public goToProfilePage(): void {
     this.router.navigate(['/platform/profile/' + this.sessionService.GetSessionUserNickname()]);
   }
 }

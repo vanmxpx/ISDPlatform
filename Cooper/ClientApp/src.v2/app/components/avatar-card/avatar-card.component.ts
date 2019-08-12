@@ -1,18 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'coop-avatar-card',
   templateUrl: './avatar-card.component.html',
   styleUrls: ['./avatar-card.component.scss']
 })
-export class AvatarCardComponent implements OnInit {
+export class AvatarCardComponent {
 
-  constructor() { }
-
-  @Input() nickname: string;
-  @Input() photoURL: string;
-
-  ngOnInit() {
-  }
+  @Input() public nickname: string;
+  @Input() public photoURL: string;
 
 }

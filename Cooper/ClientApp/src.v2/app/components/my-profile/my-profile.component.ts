@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { User } from '@models';
 
 @Component({
@@ -6,26 +6,20 @@ import { User } from '@models';
   templateUrl: './my-profile.component.html',
   styleUrls: ['./my-profile.component.css']
 })
-export class MyProfileComponent implements OnInit {
+export class MyProfileComponent {
 
-  editMode = false;
+  public editMode: boolean = false;
 
-  constructor() { }
+  @Input() public profile: User;
 
-  @Input() profile: User;
+  @Output() public userUpdated: EventEmitter<User> = new EventEmitter<User>();
 
-  @Output() userUpdated = new EventEmitter<User>();
-
-  ngOnInit() {
-  }
-
-  onEditButtonClicked(): void {
+  public onEditButtonClicked(): void {
     this.editMode = true;
   }
 
-  onSaveButtonClicked(): void {
+  public onSaveButtonClicked(): void {
     const userUpdated = this.profile;
-
 
     userUpdated.name = (document.getElementById('name') as HTMLInputElement).value;
     userUpdated.email = (document.getElementById('email') as HTMLInputElement).value;

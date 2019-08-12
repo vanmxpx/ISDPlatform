@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {User} from '@models';
 
 @Component({
@@ -6,24 +6,19 @@ import {User} from '@models';
   templateUrl: './user-connections-list.component.html',
   styleUrls: ['./user-connections-list.component.css']
 })
-export class UserConnectionsListComponent implements OnInit {
+export class UserConnectionsListComponent {
 
-  @Input() friends: User[];
-  @Input() subscribers: User[];
-  @Input() subscriptions: User[];
+  @Input() public friends: User[];
+  @Input() public subscribers: User[];
+  @Input() public subscriptions: User[];
 
-  @Input() friendsAmount: User[];
-  @Input() subscribersAmount: User[];
-  @Input() subscriptionsAmount: User[];
+  @Input() public friendsAmount: User[];
+  @Input() public subscribersAmount: User[];
+  @Input() public subscriptionsAmount: User[];
 
-  @Output() userChosen = new EventEmitter<string>(true);
+  @Output() public userChosen: EventEmitter<string> = new EventEmitter<string>(true);
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-  onInListUserClicked(nickname: string): void {
+  public onInListUserClicked(nickname: string): void {
     this.userChosen.emit(nickname);
   }
 
