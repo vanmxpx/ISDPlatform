@@ -1,7 +1,7 @@
 
 <div class="all-items-float">
   <mat-icon class="select-mat-icon">language</mat-icon>
-  <mat-select class="select-option" #langSelect (selectionChange)="this.localizationService.onLanguageChanged(langSelect.value)"[(value)]="currentLanguage"  >
+  <mat-select class="select-option" panelClass = "testClass" #langSelect (selectionChange)="onLangChangeEvent(langSelect.value)"[(value)]="currentLanguage"  >
    <mat-option class="select-option" *ngFor='let language of languageKeys' [value]="language"  >{{this.helper.getLanguageTitle(language)}}</mat-option>
   </mat-select>
 </div>

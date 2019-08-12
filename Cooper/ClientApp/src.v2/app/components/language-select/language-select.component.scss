@@ -1,5 +1,3 @@
-@import "../../constants.scss";
-
 .select-mat-icon{
     margin: 5px;
 }
@@ -10,11 +8,7 @@
     z-index: 10000;
 }
 
- .select-option {
-    color:grey;  
-}
-
-.select-option .mat-select-value span {
+.select-option .mat-select-value {
     color: grey; 
 }
 

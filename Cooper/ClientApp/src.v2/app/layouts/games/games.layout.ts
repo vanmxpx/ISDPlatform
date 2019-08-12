@@ -27,7 +27,7 @@ export class GamesLayoutComponent implements OnInit {
   }
 
   fetchData() {
-   this.gameService.getData()
+   this.gameService.getGamesData()
     .subscribe((games: Game[]) => {
       this.games = games;
       this.isLoading = false;

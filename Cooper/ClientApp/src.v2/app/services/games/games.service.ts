@@ -124,7 +124,7 @@ export class GamesService {
     }
   ];
 
-  getData(): Observable<Game[]> {
+  getGamesData(): Observable<Game[]> {
     return this.httpClient.get<Game[]>(GamesService.getGamesUrl);
   }
 }

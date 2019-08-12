@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { SessionService } from '@services';
 
 @Component({
   selector: 'coop-top-panel-layout',
   templateUrl: './top-panel.layout.html',
-  styleUrls: ['./top-panel.layout.scss']
+  styleUrls: ['./top-panel.layout.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class TopPanelLayoutComponent implements OnInit {

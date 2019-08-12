@@ -52,11 +52,12 @@ a {
 	font-weight: 500;
 	margin-left: auto;
 	z-index: 100000;
+	color: $top-panel-color;
 }
-::ng-deep .select-option .mat-select-value{
+ .top-language-select .select-option .mat-select-value {
     color: $top-panel-color; 
 }
-::ng-deep .select-option .mat-select-arrow{
+.top-language-select .mat-select-arrow{
     color: $top-panel-color; 
 }
 
