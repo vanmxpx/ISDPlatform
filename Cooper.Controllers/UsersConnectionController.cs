@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Cooper.Controllers
 {
-    [Route("api/connection")]
+    [Route("api/socialConnections")]
     [ApiExplorerSettings(IgnoreApi = true)]
     public class UsersConnectionController : ControllerBase
     {

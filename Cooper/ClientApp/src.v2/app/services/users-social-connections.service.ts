@@ -4,18 +4,20 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '@models';
 import { timeout, catchError } from 'rxjs/operators';
 
+
+const userSocialConnectionUrl = '/socialConnections';
+  
 @Injectable({
   providedIn: 'root'
 })
 export class UsersSocialConnectionsService {
 
-  private readonly userInteractionUrl = '/connection';
 
   constructor(private http: HttpClient) { }
 
   async getFriends(userId: number): Promise<User[]> {
 
-    const response = await this.http.get<User[]>(this.userInteractionUrl + '/friends/' + userId.toString()).pipe(timeout(3000),
+    const response = await this.http.get<User[]>(userSocialConnectionUrl + '/friends/' + userId.toString()).pipe(timeout(3000),
     catchError(e => {
       console.log('Too long respond for taking friends for user whose Id =' + userId.toString());
 
@@ -29,7 +31,7 @@ export class UsersSocialConnectionsService {
 
   async getSubscribers(userId: number): Promise<User[]> {
 
-    const response = await this.http.get<User[]>(this.userInteractionUrl + '/subscribers/' + userId.toString()).pipe(timeout(3000),
+    const response = await this.http.get<User[]>(userSocialConnectionUrl + '/subscribers/' + userId.toString()).pipe(timeout(3000),
     catchError(e => {
       console.log('Too long respond for taking subscribers for user whose Id =' + userId.toString());
 
@@ -43,7 +45,7 @@ export class UsersSocialConnectionsService {
 
   async getSubscriptions(userId: number): Promise<User[]> {
 
-    const response = await this.http.get<User[]>(this.userInteractionUrl + '/subscriptions/' + userId.toString()).pipe(timeout(3000),
+    const response = await this.http.get<User[]>(userSocialConnectionUrl + '/subscriptions/' + userId.toString()).pipe(timeout(3000),
     catchError(e => {
       console.log('Too long respond for taking subscriptions for user whose Id =' + userId.toString());
 
@@ -58,7 +60,7 @@ export class UsersSocialConnectionsService {
 
   async getBlacklist(): Promise<User[]> {
 
-    const response = await this.http.get<User[]>(this.userInteractionUrl + '/blacklist').pipe(timeout(3000),
+    const response = await this.http.get<User[]>(userSocialConnectionUrl + '/blacklist').pipe(timeout(3000),
     catchError(e => {
       console.log('Too long respond for taking blacklist for currect session user');
 
