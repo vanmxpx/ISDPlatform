@@ -14,28 +14,28 @@ import { GameListTabs } from '@enums';
 
 export class GamesLayoutComponent implements OnInit {
 
-  games: Game[];
-  isLoading: boolean = true;
-  selectedTab: GameListTabs = GameListTabs.Cards;
-  GameTabs = GameListTabs;
+  public games: Game[];
+  public isLoading: boolean = true;
+  public selectedTab: GameListTabs = GameListTabs.Cards;
 
   constructor(private gameService: GamesService) { }
 
-  ngOnInit() {
-    this.fetchData();  
+  public ngOnInit(): void {
+    this.fetchData();
   }
 
-  fetchData() {   
+  public fetchData(): void {
    this.gameService.getData()
-    .subscribe((games: Game[]) => { 
+    .subscribe((games: Game[]) => {
       this.games = games;
       this.isLoading = false;
     },
-    err => this.isLoading = false)
+    // tslint:disable-next-line: variable-name
+    (_err) => this.isLoading = false);
   }
 
-  public onTabChange(val: string) {
-    this.selectedTab = GameListTabs[val];  
+  public onTabChange(val: string): void {
+    this.selectedTab = GameListTabs[val];
   }
 
 }

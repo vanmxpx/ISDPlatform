@@ -1,6 +1,6 @@
 export class Game {
-    name: string;
-    genre: string;
-    description: string;
-    logoUrl: string;
+    public name: string;
+    public genre: string;
+    public description: string;
+    public logoUrl: string;
   }

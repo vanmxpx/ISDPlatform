@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {SocialNetwork} from '@enums';
 
@@ -7,7 +7,7 @@ import {SocialNetwork} from '@enums';
   templateUrl: './registration-form.component.html',
   styleUrls: ['./registration-form.component.css']
 })
-export class RegistrationFormComponent implements OnInit {
+export class RegistrationFormComponent {
 
   registrationForm: FormGroup;
   emptyFieldWarning = 'This field is empty';
@@ -25,9 +25,6 @@ export class RegistrationFormComponent implements OnInit {
         ConfirmPassword: ['', Validators.required]
       }, { validator: this.comparePasswords })
     });
-   }
-
-  ngOnInit() {
   }
 
   private onSignUpClicked(): void {

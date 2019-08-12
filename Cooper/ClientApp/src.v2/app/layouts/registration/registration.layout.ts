@@ -10,10 +10,8 @@ import {SocialNetwork} from '@enums';
   templateUrl: './registration.layout.html',
   styleUrls: ['./registration.layout.css']
 })
-export class RegistrationLayoutComponent implements OnInit {
 
-  ngOnInit() {
-  }
+export class RegistrationLayoutComponent {
 
   constructor(private formBuilder: FormBuilder, private userService: UserService, private service: RegistrationService,
               private authService: AuthentificationService, private router: Router) {

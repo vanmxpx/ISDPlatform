@@ -1,4 +1,4 @@
 export class CoopNavBarItem {
-    label: string;
-    link: string;
+    public label: string;
+    public link: string;
   }
