@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService, GamesService, UsersConnectionService, SessionService } from '@services';
+import { UserService, GamesService, UsersSocialConnectionService, SessionService } from '@services';
 import { User, Game} from '@models';
 
 @Component({
@@ -25,7 +25,7 @@ export class ProfileLayoutComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router,
               private gameDummyService: GamesService,
-              private usersConnectionService: UsersConnectionService,
+              private usersSocialConnectionService: UsersSocialConnectionService,
               private userService: UserService,
               private sessionService: SessionService) {
               }
@@ -45,21 +45,21 @@ export class ProfileLayoutComponent implements OnInit {
       this.profile = await this.userService.getUserByNickname(nickname);
 
 
-      this.friends = await this.usersConnectionService.getFriends(this.profile.id);
+      this.friends = await this.usersSocialConnectionService.getFriends(this.profile.id);
       if (this.friends) {
         this.friendsAmount = this.friends.length;
       } else {
         this.friendsAmount = 0;
       }
 
-      this.subscribers = await this.usersConnectionService.getSubscribers(this.profile.id);
+      this.subscribers = await this.usersSocialConnectionService.getSubscribers(this.profile.id);
       if (this.subscribers) {
         this.subscribersAmount = this.subscribers.length;
       } else {
         this.subscribersAmount = 0;
       }
 
-      this.subscriptions = await this.usersConnectionService.getSubscriptions(this.profile.id);
+      this.subscriptions = await this.usersSocialConnectionService.getSubscriptions(this.profile.id);
       if (this.subscriptions) {
         this.subscriptionsAmount = this.subscriptions.length;
       } else {

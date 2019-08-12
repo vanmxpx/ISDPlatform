@@ -7,7 +7,7 @@ import { timeout, catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class UsersConnectionService {
+export class UsersSocialConnectionService {
 
   private readonly userInteractionUrl = '/connection';
 

@@ -3,7 +3,7 @@ export {AuthentificationService} from './authentification/authentification.servi
 
 export {UserService} from './user.service';
 
-export {UsersConnectionService} from './users-connection.service';
+export {UsersSocialConnectionService} from './users-social-connection.service';
 
 export {GamesService} from './games.service';
 
