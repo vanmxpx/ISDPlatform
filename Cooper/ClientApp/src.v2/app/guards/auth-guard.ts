@@ -5,9 +5,11 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 export class AuthGuard implements CanActivate {
   constructor(private router: Router) {
   }
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-    const token: String = localStorage.getItem('JwtCooper');
+  // tslint:disable-next-line: variable-name
+  public canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+
+    const token: string = localStorage.getItem('JwtCooper');
 
     if (token) {
       return true;

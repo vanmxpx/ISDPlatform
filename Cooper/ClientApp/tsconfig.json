@@ -18,6 +18,8 @@
       "es2018",
       "dom"
     ],
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "paths": {
     "@app": ["src.v2/app/"],
     "@components": ["src.v2/app/components/"],
