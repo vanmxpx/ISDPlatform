@@ -19,8 +19,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { AuthGuard } from '@guards';
 import { SafePipe } from '@pipes';
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
-  PlatformLayoutComponent, HomeLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent } from '@layouts';
+  PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent } from '@layouts';
 
 import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
    GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,

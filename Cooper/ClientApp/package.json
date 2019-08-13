@@ -7,7 +7,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": "tslint -c ./tslint.json 'src.v2/**/*{.ts,.tsx}'",
     "e2e": "ng e2e"
   },
   "private": true,
@@ -31,6 +31,7 @@
     "font-awesome": "^4.7.0",
     "ng-dynami-social-login": "^1.0.8",
     "primeng": "^7.1.2",
+    "restore": "^0.3.0",
     "rxjs": "~6.3.3",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
