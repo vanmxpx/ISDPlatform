@@ -1,3 +1,22 @@
-<p>
-  registration works!
-</p>
+<div class = "row head-container">
+    
+  <div class = "col-md-4 col-xs-12 left-container ">
+      <coop-poster></coop-poster>
+  </div>
+
+  <div class = "col-md-8 col-xs-12">     
+    <div class = "row head-container">
+      <div class = "col-md-2"></div>
+        <div class = "col-md-8 central-content-container">
+          <div>
+              <coop-registration-form
+              (signUp)="registerUser($event)" 
+              (socialSignIn)="socialSignIn($event)"
+              ></coop-registration-form>
+          </div>
+        </div>
+        <div class = "col-md-2"></div>
+      </div>
+  </div>
+
+</div>
