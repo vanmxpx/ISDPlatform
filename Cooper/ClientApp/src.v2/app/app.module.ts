@@ -19,7 +19,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {AuthGuard} from '@guards';
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent } from '@layouts';
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent } from '@layouts';
 
 import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
    GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
@@ -53,7 +53,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     ProfileLayoutComponent,
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
-
+    HomeLayoutComponent,
   LoginFormComponent,
   RegistrationFormComponent,
   PosterComponent,
