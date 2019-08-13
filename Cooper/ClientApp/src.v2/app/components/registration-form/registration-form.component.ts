@@ -9,11 +9,11 @@ import {SocialNetwork} from '@enums';
 })
 export class RegistrationFormComponent {
 
-  registrationForm: FormGroup;
-  emptyFieldWarning = 'This field is empty';
+  private registrationForm: FormGroup;
+  private emptyFieldWarning: string = 'This field is empty';
 
-  @Output() signUp = new EventEmitter<any>();
-  @Output() socialSignIn = new EventEmitter<SocialNetwork>();
+  @Output() public signUp: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public socialSignIn: EventEmitter<SocialNetwork> = new EventEmitter<SocialNetwork>();
 
   constructor(private formBuilder: FormBuilder) {
     this.registrationForm = this.formBuilder.group({
@@ -27,7 +27,7 @@ export class RegistrationFormComponent {
     });
   }
 
-  private onSignUpClicked(): void {
+  public onSignUpClicked(): void {
 
     const body = {
       Name: this.registrationForm.value.Nickname,
@@ -39,11 +39,11 @@ export class RegistrationFormComponent {
     this.signUp.emit(body);
   }
 
-  private onSocialSignInClicked(network: SocialNetwork): void {
+  public onSocialSignInClicked(network: SocialNetwork): void {
     this.socialSignIn.emit(network);
   }
 
-  private getEmailErrorMessage() {
+  public getEmailErrorMessage(): string {
 
     const fieldName = 'Email';
 
@@ -55,17 +55,21 @@ export class RegistrationFormComponent {
         return this.emptyFieldWarning;
       }
     }
+
+    return '';
   }
 
-  private getNicknameErrorMessage() {
+  public getNicknameErrorMessage(): string {
     const fieldName = 'Nickname';
 
     if (this.registrationForm.controls[fieldName].touched && this.registrationForm.controls[fieldName].hasError('required')) {
       return this.emptyFieldWarning;
     }
+
+    return '';
   }
 
-  private getPasswordErrorMessage() {
+  public getPasswordErrorMessage(): string {
     const fieldName = 'Passwords.Password';
 
     if (this.registrationForm.get(fieldName).touched) {
@@ -76,9 +80,11 @@ export class RegistrationFormComponent {
       return this.emptyFieldWarning;
       }
     }
+
+    return '';
   }
 
-  private getConfirmPasswordErrorMessage() {
+  public getConfirmPasswordErrorMessage(): string {
     const fieldName = 'Passwords.ConfirmPassword';
 
     if (this.registrationForm.get(fieldName).touched) {
@@ -89,9 +95,11 @@ export class RegistrationFormComponent {
       return 'Passwords are not the same.';
     }
   }
+
+    return '';
   }
 
-  private comparePasswords(registrationForm: FormGroup) {
+  private comparePasswords(registrationForm: FormGroup): any {
 
     const confirmPswrdCtrl = registrationForm.get('ConfirmPassword');
 

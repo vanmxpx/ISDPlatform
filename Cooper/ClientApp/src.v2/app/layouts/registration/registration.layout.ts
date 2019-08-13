@@ -1,8 +1,6 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService, RegistrationService, AuthentificationService } from '@services';
+import { RegistrationService, AuthentificationService } from '@services';
 import {SocialNetwork} from '@enums';
 
 @Component({
@@ -13,18 +11,18 @@ import {SocialNetwork} from '@enums';
 
 export class RegistrationLayoutComponent {
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private service: RegistrationService,
+  constructor(private service: RegistrationService,
               private authService: AuthentificationService, private router: Router) {
     if (this.authService.isAuthentificated()) {
       this.router.navigate(['/platform/home']);
     }
   }
 
-  private registerUser(body: any) {
+  public registerUser(body: any): void {
     this.service.register(body);
   }
 
-  private socialSignIn(platform: SocialNetwork) {
+  public socialSignIn(platform: SocialNetwork): void {
     this.authService.socialSignIn(platform);
   }
 }
