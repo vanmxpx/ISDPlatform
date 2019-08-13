@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService, GamesService, UsersInteractionService, SessionService } from '@services';
+import { UserService, GamesService, UsersSocialConnectionsService, SessionService } from '@services';
 import { User, Game} from '@models';
 
 @Component({
@@ -25,7 +25,7 @@ export class ProfileLayoutComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router,
               private gameDummyService: GamesService,
-              private usersInteractionService: UsersInteractionService,
+              private usersSocialConnectionsService: UsersSocialConnectionsService,
               private userService: UserService,
               private sessionService: SessionService) {
               }
@@ -44,21 +44,21 @@ export class ProfileLayoutComponent implements OnInit {
     public async fetchProfileData(nickname: string): Promise<any> {
       this.profile = await this.userService.getUserByNickname(nickname);
 
-      this.friends = await this.usersInteractionService.getFriends(this.profile.id);
+      this.friends = await this.usersSocialConnectionsService.getFriends(this.profile.id);
       if (this.friends) {
         this.friendsAmount = this.friends.length;
       } else {
         this.friendsAmount = 0;
       }
 
-      this.subscribers = await this.usersInteractionService.getSubscribers(this.profile.id);
+      this.subscribers = await this.usersSocialConnectionsService.getSubscribers(this.profile.id);
       if (this.subscribers) {
         this.subscribersAmount = this.subscribers.length;
       } else {
         this.subscribersAmount = 0;
       }
 
-      this.subscriptions = await this.usersInteractionService.getSubscriptions(this.profile.id);
+      this.subscriptions = await this.usersSocialConnectionsService.getSubscriptions(this.profile.id);
       if (this.subscriptions) {
         this.subscriptionsAmount = this.subscriptions.length;
       } else {
