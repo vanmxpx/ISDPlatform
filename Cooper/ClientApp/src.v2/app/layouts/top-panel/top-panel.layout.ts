@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CoopNavBarItem } from 'src/app/models/coop-navbar-item';
+import { CoopNavBarItem } from '@models';
 
 @Component({
   selector: 'coop-top-panel-layout',
