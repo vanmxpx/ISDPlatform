@@ -1,10 +1,9 @@
-import { HttpClient, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpHeaders } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { environment } from '@environment/environment';
 
 export class CooperInterceptor implements HttpInterceptor {
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let reqWithNewUrl = req.clone({setHeaders: { 'Content-Type': 'application/json' }});
         if (!req.url.startsWith(environment.BASE_URL)) {
 

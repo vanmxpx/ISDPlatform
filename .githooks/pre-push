@@ -5,7 +5,7 @@ RED='\033[1;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-cd ClientApp
+cd Cooper/ClientApp
 
 echo "Running Linters:"
 tslint=$(npm run lint)
