@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CoopNavBarItem } from 'src.v2/app/models/coop-navbar-item';
+import { CoopNavBarItem } from '@models';
 
 @Component({
   selector: 'coop-top-panel-layout',
@@ -9,7 +9,7 @@ import { CoopNavBarItem } from 'src.v2/app/models/coop-navbar-item';
 export class TopPanelLayoutComponent {
 
   public navigationItems: CoopNavBarItem[] = [
-    {label: 'Home', link: '#'},
+    {label: 'Home', link: '/platform/home'},
     {label: 'Games', link: '/platform/games'},
     {label: 'Chats', link: '#'},
     {label: 'My profile', link: '#'},
