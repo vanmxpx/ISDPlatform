@@ -9,8 +9,8 @@ import { GamesService } from '@services';
   styleUrls: ['./game.layout.css']
 })
 export class GameLayoutComponent implements OnInit {
-  game: Game;
-  url: string;
+  public game: Game;
+  public url: string;
 
   constructor(private route: ActivatedRoute, private gameService: GamesService) {
     this.game = {
@@ -22,14 +22,16 @@ export class GameLayoutComponent implements OnInit {
     };
   }
 
-  ngOnInit() {
-    this.gameService.getGame(this.route.snapshot.params['link']).subscribe(data => {
+  public ngOnInit(): void {
+    /* tslint:disable:no-string-literal */
+    this.gameService.getGame(this.route.snapshot.params['link']).subscribe((data) => {
         this.game = data;
-        this.url = "/" + this.game.link;
+        this.url = '/' + this.game.link;
       },
-      err => {
+      (err) => {
         console.log(err);
       }
     );
+    /* tslint:enable:no-string-literal */
   }
 }

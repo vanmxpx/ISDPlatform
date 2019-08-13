@@ -48,7 +48,16 @@ namespace Cooper.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Get(string name)
         {
-            Game game = gameRepository.Get(name);
+            Game game = null;
+            if (long.TryParse(name, out long id))
+            {
+                game = gameRepository.Get(id);
+            }
+            else
+            {
+                game = gameRepository.Get(name);
+            }
+            
             if (game == null)
             {
                 return NotFound();
