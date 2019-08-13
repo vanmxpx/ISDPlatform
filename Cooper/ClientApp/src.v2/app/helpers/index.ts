@@ -1,1 +1,1 @@
-export { AnimationsHelper } from './animation.helper'
+export { AnimationsHelper } from './animation.helper';

@@ -18,6 +18,8 @@
       "es2018",
       "dom"
     ],
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "paths": {
     "@app": ["src.v2/app/"],
     "@components": ["src.v2/app/components/"],
@@ -27,7 +29,8 @@
     "@pipes": ["src.v2/app/pipes/"],
     "@services": ["src.v2/app/services/"],
     "@guards": ["src.v2/app/guards/"],
-    "@enums": [ "src.v2/app/enums/" ]
+    "@enums": ["src.v2/app/enums/"],
+    "@environment/*": ["src.v2/environments/*"]
     }
   }
 }

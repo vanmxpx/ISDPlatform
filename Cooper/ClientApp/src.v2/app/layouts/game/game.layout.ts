@@ -1,8 +1,7 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Game } from '@models';
 import { GamesService } from '@services';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'coop-game-layout',
@@ -13,7 +12,7 @@ export class GameLayoutComponent implements OnInit {
   game: Game;
   url: string;
 
-  constructor(private route: ActivatedRoute, private gameService: GamesService, private sanitizer: DomSanitizer) {
+  constructor(private route: ActivatedRoute, private gameService: GamesService) {
     this.game = {
       name: 'Loading...',
       logoUrl: '',

@@ -21,7 +21,7 @@ export class GamesService {
 
   constructor(private httpClient: HttpClient) { }
 
-  mockedGames: Game[] = [
+  public mockedGames: Game[] = [
     {
       name: 'tanks',
       logoUrl: 'assets/imageKeeper/WebTanks.png',
@@ -31,11 +31,12 @@ export class GamesService {
     },
     {
       name: 'fortnite',
+      // tslint:disable-next-line: max-line-length
       logoUrl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
       link: 'fortnite',
       description:'The Biggest War Ever',
       genre: 'War'
-    }, 
+    },
     {
       name: 'Mafia 2',
       logoUrl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
@@ -52,11 +53,12 @@ export class GamesService {
     },
     {
       name: 'fortnite',
+      // tslint:disable-next-line: max-line-length
       logoUrl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
       link: 'fortnite',
       description:'The Biggest War Ever',
       genre: 'War'
-    }, 
+    },
     {
       name: 'Mafia 2',
       logoUrl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
@@ -73,11 +75,12 @@ export class GamesService {
     },
     {
       name: 'fortnite',
+      // tslint:disable-next-line: max-line-length
       logoUrl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
       link: 'fortnite',
       description:'The Biggest War Ever',
       genre: 'War'
-    }, 
+    },
     {
       name: 'Mafia 2',
       logoUrl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
@@ -94,11 +97,12 @@ export class GamesService {
     },
     {
       name: 'fortnite',
+      // tslint:disable-next-line: max-line-length
       logoUrl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
       link: 'fortnite',
       description:'The Biggest War Ever',
       genre: 'War'
-    }, 
+    },
     {
       name: 'Mafia 2',
       logoUrl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
@@ -108,11 +112,12 @@ export class GamesService {
     },
     {
       name: 'fortnite',
+      // tslint:disable-next-line: max-line-length
       logoUrl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
       link: 'fortnite',
       description:'The Biggest War Ever',
       genre: 'War'
-    }, 
+    },
     {
       name: 'Mafia 2',
       logoUrl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
@@ -129,11 +134,12 @@ export class GamesService {
     },
     {
       name: 'fortnite',
+      // tslint:disable-next-line: max-line-length
       logoUrl: 'https://cdn2.unrealengine.com/Fortnite%2FBattle-pass%2FSeason-7%2Fseason7_plane-2024x1139-a974df2b274a4254b43387ef34ab40c1b42250a9.jpg',
       link: 'fortnite',
       description:'The Biggest War Ever',
       genre: 'War'
-    }, 
+    },
     {
       name: 'Mafia 2',
       logoUrl: 'https://upload.wikimedia.org/wikipedia/ru/thumb/d/d6/MafiaII.jpg/270px-MafiaII.jpg',
@@ -148,5 +154,5 @@ export class GamesService {
       description:'The Biggest War EverThe Biggest War EveThe Biggest War EveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War EveEveThe Biggest War Eve EveThe Biggest War EveThe Biggest War EveThe Biggest War EveThe Biggest War Eve',
       genre: 'War'
     }
-  ]
+  ];
 }

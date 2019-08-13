@@ -13,21 +13,21 @@ export class SessionService {
       this.fetchSessionProfileData();
    }
 
-  async fetchSessionProfileData() {
+  public async fetchSessionProfileData(): Promise<any> {
     this.sessionProfile = await this.getSessionUserData();
   }
 
-  async getSessionUserData(): Promise<User> {
+  public async getSessionUserData(): Promise<User> {
     const response = await this.httpClient.get<User>('/users/token').toPromise();
     return response;
   }
 
-  GetSessionUserNickname(): string {
+  public GetSessionUserNickname(): string {
 
     return this.sessionProfile.nickname;
   }
 
-  GetSessionUserId(): number {
+  public GetSessionUserId(): number {
 
     return this.sessionProfile.id;
   }
