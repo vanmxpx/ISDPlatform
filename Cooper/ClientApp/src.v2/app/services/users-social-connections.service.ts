@@ -4,9 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '@models';
 import { timeout, catchError } from 'rxjs/operators';
 
-
 const userSocialConnectionUrl = '/socialConnections';
-  
+
 @Injectable({
   providedIn: 'root'
 })
