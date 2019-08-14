@@ -43,13 +43,13 @@ namespace Cooper.Controllers
         /// <response code="200">If the game exists</response>
         /// <response code="404">If the game does not exist</response>
         [HttpGet]
-        [Route("{name}")]
+        [Route("get")]
         [ProducesResponseType(typeof(Game), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Get(string name)
+        public IActionResult Get(string name, long id)
         {
             Game game = null;
-            if (long.TryParse(name, out long id))
+            if (name == null)
             {
                 game = gameRepository.Get(id);
             }

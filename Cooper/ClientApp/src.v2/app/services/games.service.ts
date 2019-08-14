@@ -143,7 +143,7 @@ export class GamesService {
   }
 
   public getGame(name: string): Observable<Game> {
-    const url = GamesService.getGamesUrl + '/' + name;
+    const url = GamesService.getGamesUrl + '/get?name=' + name;
     return this.httpClient.get<Game>(url);
   }
 
