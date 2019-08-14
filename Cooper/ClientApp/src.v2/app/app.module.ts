@@ -79,7 +79,6 @@ export function HttpLoaderFactory(http: HttpClient): any {
     AvatarCardComponent,
     LanguageSelectComponent,
     LanguageNamePipe
-
 ],
   imports: [
     BrowserModule,

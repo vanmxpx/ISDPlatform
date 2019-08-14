@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { CoopNavBarItem } from 'src.v2/app/models';
+import { CoopNavBarItem } from '@models';
 
 @Component({
   selector: 'coop-top-panel-layout',
