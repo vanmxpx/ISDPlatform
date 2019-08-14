@@ -34,7 +34,6 @@ namespace Cooper.Controllers
         /// <response code="200">If user is created</response>
         /// <response code="400">If the user is already created</response>  
         [HttpPost]
-        [Route("login")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]

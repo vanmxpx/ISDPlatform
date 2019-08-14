@@ -10,3 +10,5 @@ export {GamesService} from './games.service';
 export {SessionService} from './session.service';
 
 export {CooperInterceptor} from './interceptor/cooper.interceptor';
+
+export {ResetPasswordService} from './reset-password/reset-password.service';

@@ -6,24 +6,20 @@ using Cooper.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Cooper.Controllers
 {
     [ApiController]
-    [Route("api/forgot")]
-    public class ForgotPasswordController : ControllerBase
+    [Route("api/reset")]
+    public class ResetPasswordController : ControllerBase
     {
         private readonly UserRepository userRepository;
-        private readonly IConfigProvider configProvider;
-        private readonly ISocialAuth socialAuth;
-        private readonly ILogger<ForgotPasswordController> logger;
+        private readonly ILogger<ResetPasswordController> logger;
 
-        public ForgotPasswordController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider, ILogger<ForgotPasswordController> logger)
+        public ResetPasswordController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider, ILogger<ResetPasswordController> logger)
         {
             userRepository = new UserRepository(jwtService, configProvider);
-
-            this.configProvider = configProvider;
-            this.socialAuth = socialAuth;
             this.logger = logger;
         }
 
@@ -34,23 +30,23 @@ namespace Cooper.Controllers
         /// <response code="200">If letter was sent</response>
         /// <response code="400">If letter was not sent</response>
         [HttpPost]
-        [Route("send/{email}")]
-        [Consumes("text/plain")]
+        [Route("send")]
+        [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult SendLetter(string email)
+        public IActionResult SendLetter(TargetEmail email)
         {
             IActionResult result = BadRequest();
 
             if (email != null)
             {
-                email = DbTools.SanitizeString(email);
+                email.Email = DbTools.SanitizeString(email.Email);
 
-                if (userRepository.IfEmailExists(email))
+                if (userRepository.IfEmailExists(email.Email))
                 {
                     // TODO: SENT EMAIL
-                    logger.LogInformation("Password reset occurred for email {0}.", email);
+                    logger.LogInformation("Password reset occurred for email {0}.", email.Email);
                     result = Ok();
                 }
                 else

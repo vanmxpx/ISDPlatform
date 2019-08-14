@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthentificationService } from '@services';
+import { AuthentificationService, ResetPasswordService } from '@services';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -12,7 +12,8 @@ export class ResetPasswordLayoutComponent implements OnInit {
 
   public failedLogin: boolean = false;
 
-  constructor(private authService: AuthentificationService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private authService: AuthentificationService, private resetPasswordService: ResetPasswordService,
+              private route: ActivatedRoute, private router: Router) { }
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -27,7 +28,7 @@ export class ResetPasswordLayoutComponent implements OnInit {
     }
   }
 
-  public forgotPassword(form: NgForm): void {
-    console.log(form.value.email);
+  public resetPassword(form: NgForm): void {
+    this.resetPasswordService.send(form.value.email);
   }
 }

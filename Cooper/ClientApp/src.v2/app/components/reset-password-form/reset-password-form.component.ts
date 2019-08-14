@@ -11,9 +11,9 @@ export class ResetPasswordFormComponent {
   public failedLoginMessage: string = 'Invalid username or password.';
 
   @Input() public failedLogin: boolean;
-  @Output() public forgotPassword: EventEmitter<NgForm> = new EventEmitter<NgForm>();
+  @Output() public resetPassword: EventEmitter<NgForm> = new EventEmitter<NgForm>();
 
   public onForgotPasswordClicked(form: NgForm): void {
-    this.forgotPassword.emit(form);
+    this.resetPassword.emit(form);
   }
 }
