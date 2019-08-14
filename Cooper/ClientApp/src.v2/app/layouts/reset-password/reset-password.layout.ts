@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthentificationService, ResetPasswordService } from '@services';
+import { ResetPasswordService } from '@services';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'coop-reset-password-layout',
@@ -10,25 +10,25 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ResetPasswordLayoutComponent implements OnInit {
 
-  public failedLogin: boolean = false;
+  public failedReset: boolean = false;
+  public failedResetMessage: string;
 
-  constructor(private authService: AuthentificationService, private resetPasswordService: ResetPasswordService,
-              private route: ActivatedRoute, private router: Router) { }
+  constructor(private resetPasswordService: ResetPasswordService, private route: ActivatedRoute) { }
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
       console.log(params);
-      if (params.failedLogin) {
-        this.failedLogin = params.failedLogin;
+      if (params.failedReset) {
+        this.failedReset = params.failedReset;
+        this.failedResetMessage = params.failed;
+      } else {
+        this.failedReset = false;
       }
     });
-
-    if (this.authService.isAuthentificated()) {
-      this.router.navigate(['/platform/home']);
-    }
   }
 
   public resetPassword(form: NgForm): void {
+    console.log(form.value.email);
     this.resetPasswordService.send(form.value.email);
   }
 }

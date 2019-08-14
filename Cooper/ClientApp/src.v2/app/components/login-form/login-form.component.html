@@ -13,7 +13,9 @@
     </mat-form-field>
     <mat-error *ngIf="failedLogin">{{failedLoginMessage}}</mat-error>
 
-    <a routerLink="../reset" routerLinkActive="active">Forgot your password?</a>
+    <div class="div--positioning">
+      <a routerLink="../reset" routerLinkActive="active">Forgot your password?</a>
+    </div>
     
     <button class="button--colors button--sizes button--font button--margin" type="submit">Sign in</button>
 
