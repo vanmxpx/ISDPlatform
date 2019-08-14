@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import {SocialNetwork} from '@enums';
+import { SocialNetwork } from '@enums';
 
 @Component({
   selector: 'coop-login-form',

@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { AuthentificationService } from '@services';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SocialNetwork } from '@enums';
 
 @Component({
-  selector: 'coop-login-layout',
-  templateUrl: './login.layout.html',
-  styleUrls: ['./login.layout.css']
+  selector: 'coop-reset-password-layout',
+  templateUrl: './reset-password.layout.html',
+  styleUrls: ['./reset-password.layout.css']
 })
-export class LoginLayoutComponent implements OnInit {
+export class ResetPasswordLayoutComponent implements OnInit {
 
   public failedLogin: boolean = false;
 
@@ -28,11 +27,7 @@ export class LoginLayoutComponent implements OnInit {
     }
   }
 
-  public signIn(form: NgForm): void {
-    this.authService.signIn(JSON.stringify(form.value));
-  }
-
-  public socialSignIn(platform: SocialNetwork): void {
-    this.authService.socialSignIn(platform);
+  public forgotPassword(form: NgForm): void {
+    console.log(form.value.email);
   }
 }
