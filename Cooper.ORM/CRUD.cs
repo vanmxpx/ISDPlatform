@@ -63,7 +63,7 @@ namespace Cooper.ORM
             List<EntityORM> entities = new List<EntityORM>();
             try
             {
-                string sqlExpression = DbTools.CreateQuery(table, attributes, whereRequests);
+                string sqlExpression = DbTools.CreateSelectQuery(table, attributes, whereRequests);
 
                 dbConnect.OpenConnection();
                 OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
@@ -92,25 +92,12 @@ namespace Cooper.ORM
             return entities;
         }
 
-        public bool Update(long id, string table, string idColumn, EntityORM entity)
+        public bool Update(string table, EntityORM entity, DbTools.WhereRequest[] whereRequests = null)
         {
             try
             {
                 dbConnect.OpenConnection();
-                #region Forming SQL expression text
-
-                string sqlExpression = $"UPDATE {table} SET ";
-
-                foreach (KeyValuePair<string, object> aV in entity.attributeValue)  // tuning command content
-                {
-                    sqlExpression += $"{aV.Key} = {aV.Value}, ";
-                }
-
-                sqlExpression = sqlExpression.TrimEnd(' ', ',');
-                sqlExpression += $" WHERE {idColumn} = {id}";
-
-                #endregion
-
+                string sqlExpression = DbTools.CreateUpdateQuery(table, entity, whereRequests);
                 dbConnect.ExecuteNonQuery(sqlExpression);
             }
             catch (DbException ex)
