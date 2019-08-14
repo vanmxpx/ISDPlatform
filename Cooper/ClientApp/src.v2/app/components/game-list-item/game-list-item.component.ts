@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Game } from '@models';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'coop-game-list-item',

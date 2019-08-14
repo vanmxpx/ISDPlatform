@@ -15,7 +15,8 @@ export class LoginLayoutComponent {
 
   public failedLogin: boolean = false;
 
-  constructor(private authService: AuthentificationService, private route: ActivatedRoute, private router: Router, public translate: TranslateService) {
+  constructor(private authService: AuthentificationService, private route: ActivatedRoute,
+              private router: Router, public translate: TranslateService) {
 
     this.route.params.subscribe((params) => {
       console.log(params);

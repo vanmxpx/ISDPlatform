@@ -31,6 +31,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatSelectModule } from '@angular/material/select';
 import { LanguageSelectComponent } from './components/language-select/language-select.component';
+import { LanguageNamePipe } from '@pipes';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
@@ -49,7 +50,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
   return config;
 }
 
-export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+export function HttpLoaderFactory(http: HttpClient): any {
   return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
 }
 
@@ -76,7 +77,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     GameCardComponent,
     NavigationComponent,
     AvatarCardComponent,
-    LanguageSelectComponent
+    LanguageSelectComponent,
+    LanguageNamePipe
 
 ],
   imports: [

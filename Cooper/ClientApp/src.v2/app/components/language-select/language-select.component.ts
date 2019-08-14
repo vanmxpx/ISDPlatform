@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, Output, ViewEncapsulation, EventEmitter } from '@angular/core';
+import { Component, ViewEncapsulation, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalizationService } from '@services';
-import { Languages } from 'src.v2/app/enums';
 
 @Component({
   selector: 'coop-language-select',
@@ -9,22 +8,16 @@ import { Languages } from 'src.v2/app/enums';
   styleUrls: ['./language-select.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class LanguageSelectComponent implements OnInit {
-  helper = this.localizationService.helper;
-  languageKeys = this.localizationService.languageKeys;
+export class LanguageSelectComponent {
+  @Input() public languageKeys: string[] = this.localizationService.languageKeys;
 
-  languages = this.localizationService.languages;
-  currentLanguage = this.localizationService.getCurrentLanguage();
-  onLangChangeEvent(lang: string) {
+  @Input() public languages: any = this.localizationService.languages;
+  @Input() public currentLanguage: string = this.localizationService.getCurrentLanguage();
+  public onLangChangeEvent(lang: string): void {
     this.localizationService.onLanguageChanged(lang);
-  }
-  getLanguageTitle(lang: Languages) {
-    return this.helper.getLanguageTitle(lang);
   }
 
   constructor(public translate: TranslateService, private localizationService: LocalizationService) {
-    this.translate.setDefaultLang(this.currentLanguage);
-  }
-  ngOnInit() {
+    translate.setDefaultLang(this.currentLanguage);
   }
 }

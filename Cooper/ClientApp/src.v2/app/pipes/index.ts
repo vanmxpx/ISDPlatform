@@ -1,0 +1,1 @@
+export {LanguageNamePipe} from './language-name-pipe/language-name.pipe';

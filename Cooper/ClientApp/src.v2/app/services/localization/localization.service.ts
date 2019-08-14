@@ -7,12 +7,12 @@ import { TranslateService } from '@ngx-translate/core';
   providedIn: 'root'
 })
 export class LocalizationService {
-  public DEFAULT_LANGUAGE = Languages.English;
-  public helper = LanguagesHelper;
-  public languageKeys = this.helper.getLanguageKeys();
-  public languages = Languages;
+  public DEFAULT_LANGUAGE: string = Languages.English;
+  public helper: any = LanguagesHelper;
+  public languageKeys: any = this.helper.getLanguageKeys();
+  public languages: any = Languages;
 
-  getCurrentLanguage(): string {
+  public getCurrentLanguage(): string {
     if (localStorage) {
         return localStorage.getItem('language') || this.DEFAULT_LANGUAGE;
     } else {
@@ -20,13 +20,13 @@ export class LocalizationService {
     }
 }
 
-setCurrentLanguage(language: string) {
+public setCurrentLanguage(language: string): void {
     if (localStorage) {
         localStorage.setItem('language', language);
     }
 }
 
-switchLanguage() {
+public switchLanguage(): void {
   this.languageKeys = this.helper.getLanguageKeys();
 
   this.translate.addLangs(this.languageKeys);
@@ -37,7 +37,7 @@ switchLanguage() {
   this.translate.use(browserLang);
 }
 
-onLanguageChanged(language: string) {
+public onLanguageChanged(language: string): void {
   this.setCurrentLanguage(language);
   this.translate.use(language);
 }
