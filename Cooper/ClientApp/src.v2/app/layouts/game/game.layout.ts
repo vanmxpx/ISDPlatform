@@ -12,15 +12,7 @@ export class GameLayoutComponent implements OnInit {
   public game: Game;
   public url: string;
 
-  constructor(private route: ActivatedRoute, private gameService: GamesService) {
-    this.game = {
-      name: 'Loading...',
-      logoUrl: '',
-      link: '',
-      description: 'Loading...',
-      genre: 'Loading...'
-    };
-  }
+  constructor(private route: ActivatedRoute, private gameService: GamesService) { }
 
   public ngOnInit(): void {
     /* tslint:disable:no-string-literal */
