@@ -49,11 +49,11 @@ namespace Cooper.Controllers
         public IActionResult Get(string name, long id)
         {
             Game game = null;
-            if (name == null)
+            if (id > 0)
             {
                 game = gameRepository.Get(id);
             }
-            else
+            else if (name != null)
             {
                 game = gameRepository.Get(name);
             }
