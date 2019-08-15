@@ -4,6 +4,7 @@ using Cooper.DAO.Models;
 using Cooper.Models;
 using Cooper.Repositories.Mapping;
 using Cooper.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace Cooper.Repositories
@@ -125,8 +126,9 @@ namespace Cooper.Repositories
             return GetByNickname(nickname);
         }
 
-        public User Get(long id)
+        public User Get(object obj)
         {
+            long id = Convert.ToInt64(obj);
             UserDb user = userDAO.GetExtended(id);
             User user_newTyped = null;
 
