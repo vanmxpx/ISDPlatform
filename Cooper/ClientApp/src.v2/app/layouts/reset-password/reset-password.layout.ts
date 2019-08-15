@@ -17,7 +17,6 @@ export class ResetPasswordLayoutComponent implements OnInit {
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      console.log(params);
       if (params.failedReset) {
         this.failedReset = params.failedReset;
         this.failedResetMessage = params.failed;

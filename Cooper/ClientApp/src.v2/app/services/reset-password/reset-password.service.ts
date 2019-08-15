@@ -21,16 +21,17 @@ export class ResetPasswordService {
       Email: email
     };
 
-    return this.httpClient.post('/reset/send', body, {
+    return this.httpClient.post('/auth/reset/send', body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }).subscribe(() => {
-      console.log('Password reset email was sent successfully to \'{0}\'.', email);
+      console.log('Password reset email was sent successfully to ', email);
       this.redirectToResetPage();
     },
       (err) => {
-        console.log('Error: {0}', err);
+        console.log('Password reset email was not sent to ', email);
+        console.log('Error: ', err);
         this.redirectToResetPage('Email does not exist');
       });
   }
