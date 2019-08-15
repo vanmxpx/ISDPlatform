@@ -21,10 +21,11 @@ import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent } from '@layouts';
 
-import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
+import {LoginFormComponent, UploadComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
    GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
    NavigationComponent} from '@components';
 import { AvatarCardComponent } from './components/avatar-card/avatar-card.component';
+import { MatDialogModule } from '@angular/material';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
@@ -45,6 +46,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
 @NgModule({
   declarations: [
     AppComponent,
+    UploadComponent,
     LoginLayoutComponent,
     RegistrationLayoutComponent,
     GameLayoutComponent,
@@ -65,7 +67,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
   GameCardComponent,
   NavigationComponent,
   AvatarCardComponent,
-
+  UploadComponent
 ],
   imports: [
     BrowserModule,
@@ -80,6 +82,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     MatButtonModule,
     MatCardModule,
     MatListModule,
+    MatDialogModule,
     DynamiSocialLoginModule,
     GrowlModule,
     MatIconModule,
@@ -103,6 +106,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     AuthGuard
 
   ],
+  entryComponents: [UploadComponent],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
