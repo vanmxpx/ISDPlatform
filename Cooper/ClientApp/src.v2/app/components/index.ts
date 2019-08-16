@@ -20,3 +20,5 @@ export { GameListItemComponent } from './game-list-item/game-list-item.component
 export {AvatarCardComponent} from './avatar-card/avatar-card.component';
 
 export {ChatModalWindowComponent} from './chat-modal-window/chat-modal-window.component';
+
+export {ChatsListComponent} from './chats-list/chats-list.component';
