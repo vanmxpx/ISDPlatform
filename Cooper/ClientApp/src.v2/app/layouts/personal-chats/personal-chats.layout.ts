@@ -11,6 +11,7 @@ export class PersonalChatsLayoutComponent {
 
   public modalWindowVisibility: boolean = false;
   public chatsList: DummyChat[];
+  public currentChat: DummyChat;
 
   constructor(private chatService: ChatService) {
     this.getCurrentUserChats();
@@ -30,5 +31,9 @@ export class PersonalChatsLayoutComponent {
 
   public getCurrentUserChats(): void {
     this.chatsList = this.chatService.getDummyChats();
+  }
+
+  public loadChat(chat: DummyChat): void {
+    this.currentChat = chat;
   }
 }

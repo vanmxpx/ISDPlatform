@@ -1,23 +1,26 @@
+<div class="row">
+  <a class="pull-left btn btn-text btn-small" (click)="onNewMessageClicked()">✉ New</a>
+</div>
 
-<a class="pull-left btn btn-text btn-small" (click)="onNewMessageClicked()">✉ New</a>
-
-
-<div class="list-group">
-    <div *ngFor="let chat of chatsList" class="list-group-item">
+<ul class="list-group">
+    <li *ngFor="let chat of chatsList" class="list-group-item chat-item" (click)="onChatItemClick(chat)">
         <div class="row">
 
-          <div class="col">
-            <img src={{chat.photoUrl}} onError="this.src='assets/imageKeeper/gamepad.jpeg'">
+            <div class="column left">
+              <img class="image" src={{chat.photoUrl}} onError="this.src='assets/imageKeeper/gamepad.jpeg'">
             </div>
             
-            <div class="col">
-                <h2>{{chat.nickname}}</h2>
+            <div class="column right">
+
+              <div class="row chat-name">
+                <h5>{{chat.nickname}}</h5>
+              </div>
+              
+              <div class="row chat-last-message">
+                {{chat.lastMessage}}
+              </div>
             </div>
 
-            <div class="col">
-                <h2>{{chat.lastMessage}}</h2>
-            </div>
-
-        </div> 
-    </div>
-</div>
+        </div>
+      </li>
+    </ul>
