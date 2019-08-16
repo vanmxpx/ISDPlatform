@@ -67,13 +67,19 @@ namespace Cooper.Repositories
             return verifyDAO.Get(token)?.Email;
         }
 
+        public bool IfResetTokenExists(string token)
+        {
+            // TODO DAO
+            return true;
+        }
+
         #endregion
 
 
         #region Main methods
 
         #region Get Methods
-        
+
         public IEnumerable<User> GetAll()
         {
             List<UserDb> users = (List<UserDb>)userDAO.GetAll();
@@ -195,6 +201,11 @@ namespace Cooper.Repositories
             var user = userDAO.GetByEmail(token);
             user.Email = email;
             userDAO.Update(user);
+        }
+
+        public void ResetPassword(string token, string newPassword)
+        {
+            // TODO RESET PASSWORD
         }
 
         public void Delete(long id)

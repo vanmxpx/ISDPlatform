@@ -1,31 +1,29 @@
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { DynamiSocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from 'ng-dynami-social-login';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatInputModule, MatButtonModule, MatCardModule, MatListModule, MatTabsModule,
-  MatBadgeModule, MatGridListModule, MatRippleModule} from '@angular/material';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatTableModule} from '@angular/material/table';
+  MatBadgeModule, MatGridListModule, MatRippleModule } from '@angular/material';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTableModule } from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CooperInterceptor } from '@services';
 import { GrowlModule } from 'primeng/primeng';
-import {MatIconModule} from '@angular/material/icon';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {AuthGuard} from '@guards';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { AuthGuard } from '@guards';
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent, ResetPasswordLayoutComponent } from '@layouts';
-
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent,
+  ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent } from '@layouts';
 import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
    GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
-   NavigationComponent,
-   ResetPasswordFormComponent} from '@components';
-import { AvatarCardComponent } from './components/avatar-card/avatar-card.component';
+   NavigationComponent, ResetPasswordFormComponent, ConfirmPasswordFormComponent, AvatarCardComponent} from '@components';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
@@ -56,6 +54,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     PageNotFoundLayoutComponent,
     HomeLayoutComponent,
     ResetPasswordLayoutComponent,
+    ConfirmPasswordLayoutComponent,
   LoginFormComponent,
   RegistrationFormComponent,
   PosterComponent,
@@ -67,7 +66,8 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
   GameCardComponent,
   NavigationComponent,
   AvatarCardComponent,
-  ResetPasswordFormComponent
+  ResetPasswordFormComponent,
+  ConfirmPasswordFormComponent
 ],
   imports: [
     BrowserModule,

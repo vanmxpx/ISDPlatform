@@ -43,4 +43,27 @@ export class ResetPasswordService {
       this.router.navigate(['/reset']);
     }
   }
+
+  public resetPassword(token: string, newPassword: string): Subscription {
+    if (!token && !newPassword) {
+      return null;
+    }
+
+    const body = {
+      Token: token,
+      NewPassword: newPassword
+    };
+
+    return this.httpClient.post('/auth/reset', body, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }).subscribe(() => {
+      console.log('Password was reset successfully.');
+    },
+      (err) => {
+        console.log('Password was not reset.');
+        console.log('Error: ', err);
+      });
+  }
 }

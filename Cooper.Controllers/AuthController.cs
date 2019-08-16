@@ -102,7 +102,7 @@ namespace Cooper.Controllers
         {
             IActionResult result = BadRequest();
 
-            if (email != null)
+            if (ModelState.IsValid && email != null)
             {
                 email.Email = DbTools.SanitizeString(email.Email);
 
@@ -120,6 +120,46 @@ namespace Cooper.Controllers
             else
             {
                 logger.LogWarning("Password reset email was not sent, because the passed email was empty.");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Send letter to reset password.
+        /// </summary>
+        /// <param name="email">User email</param>
+        /// <response code="200">If letter was sent</response>
+        /// <response code="400">If letter was not sent</response>
+        [HttpPost]
+        [Route("reset/send")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult ResetPassword(ResetPassword resetPassword)
+        {
+            IActionResult result = BadRequest();
+
+            if (ModelState.IsValid && resetPassword != null)
+            {
+                resetPassword.Token = DbTools.SanitizeString(resetPassword.Token);
+                resetPassword.Password = DbTools.SanitizeString(resetPassword.Password);
+
+                if (userRepository.IfResetTokenExists(resetPassword.Token))
+                {
+                    userRepository.ResetPassword(resetPassword.Token, resetPassword.Password);
+                    logger.LogInformation("Password was reset successfully.");
+                    result = Ok();
+                }
+                else
+                {
+                    logger.LogInformation("Password was not reset, because token does not exist.");
+                }
+            }
+            else
+            {
+                logger.LogInformation("Password was not reset, because reset password is empty or invalid.");
             }
 
             return result;

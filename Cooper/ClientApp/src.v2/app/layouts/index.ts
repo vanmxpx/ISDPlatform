@@ -16,3 +16,4 @@ export {PageNotFoundLayoutComponent} from './page-not-found/page-not-found.layou
 export {HomeLayoutComponent} from './home/home.layout';
 
 export {ResetPasswordLayoutComponent} from './reset-password/reset-password.layout';
+export {ConfirmPasswordLayoutComponent} from './confirm-password/confirm-password.layout';
