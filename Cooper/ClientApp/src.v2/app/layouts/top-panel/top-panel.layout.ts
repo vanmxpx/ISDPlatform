@@ -9,9 +9,9 @@ import { CoopNavBarItem } from '@models';
 export class TopPanelLayoutComponent {
 
   public navigationItems: CoopNavBarItem[] = [
-    {label: 'Home', link: '#'},
+    {label: 'Home', link: '/platform/home'},
     {label: 'Games', link: '/platform/games'},
-    {label: 'Chats', link: '#'},
+    {label: 'Chats', link: '/platform/chats'},
     {label: 'My profile', link: '#'},
     {label: 'Forum', link: '#'},
     {label: 'Vacancies', link: '#'}
