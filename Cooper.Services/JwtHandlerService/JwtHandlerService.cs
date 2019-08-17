@@ -36,15 +36,15 @@ namespace Cooper.Services
             }
             catch (JsonReaderException ex)
             {
-                logger.Info(ex);
+                logger.Error(ex.Message);
             }
             catch (NullReferenceException ex)
             {
-                logger.Info(ex);
+                logger.Error(ex.Message);
             }
             catch (Exception ex)
             {
-                logger.Info(ex);
+                logger.Error(ex.Message);
             }
 
             return value;
