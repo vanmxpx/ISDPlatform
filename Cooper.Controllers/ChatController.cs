@@ -10,36 +10,28 @@ namespace Cooper.Controllers
     [ApiExplorerSettings(IgnoreApi = true)]
     public class ChatController : ControllerBase
     {
-        private readonly ChatRepository chatRepository;
+        private readonly IChatRepository chatRepository;
 
         public ChatController(IConfigProvider configProvider)
         {
             chatRepository = new ChatRepository(configProvider);
         }
 
-        [HttpGet]
-        public IEnumerable<Chat> GetAll()
-        {
-            return chatRepository.GetAll();
-        }
-
-        // GET api/<controller>/5
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(Chat))]
         [ProducesResponseType(404)]
-        public IActionResult GetChatById(long id)
+        public IActionResult GetChatById(long userId)
         {
-            Chat chat = chatRepository.Get(id);
+            IList<Chat> chats = chatRepository.GetPersonalChatsByUserId(userId);
 
-            if (chat == null)
+            if (chats == null)
             {
                 return NotFound();
             }
 
-            return Ok(chat);
+            return Ok(chats);
         }
-
-        // POST api/<controller>
+        
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(201)]

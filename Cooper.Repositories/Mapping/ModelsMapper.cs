@@ -291,7 +291,7 @@ namespace Cooper.Repositories.Mapping
 
             chat_newType.Id = chat.Id;
             chat_newType.ChatName = chat.ChatName;
-
+            chat_newType.IsOnetoOneChat = chat.IsOneToOneChat;
             #endregion
 
             #region Transfering interop attributes
@@ -310,7 +310,7 @@ namespace Cooper.Repositories.Mapping
 
             chat_newType.Id = chat.Id;
             chat_newType.ChatName = chat.ChatName;
-
+            chat_newType.IsOneToOneChat = chat.IsOnetoOneChat;
             #endregion
 
             #region Transfering interop attributes

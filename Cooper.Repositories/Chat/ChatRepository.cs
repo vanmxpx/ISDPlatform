@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Cooper.Repositories
 {
-    public class ChatRepository
+    public class ChatRepository : IChatRepository
     {
         private readonly ChatDAO chatDAO;
         private readonly ModelsMapper mapper;
@@ -19,33 +19,19 @@ namespace Cooper.Repositories
             mapper = new ModelsMapper();
         }
 
-        public IEnumerable<Chat> GetAll()
+        public IList<Chat> GetPersonalChatsByUserId(long userId)
         {
-            List<ChatDb> chats = (List<ChatDb>)chatDAO.GetAll();
+            var personalChats = new List<ChatDb>();
 
-            List<Chat> chats_newType = new List<Chat>();
+            var personalChats_newTyped = new List<Chat>(capacity: personalChats.Count);
 
-            foreach (ChatDb chat in chats)
+            foreach (var chat in personalChats)
             {
-                Chat chat_newType = mapper.Map(chat);
-
-                chats_newType.Add(chat_newType);
+                personalChats_newTyped.Add(mapper.Map(chat));
             }
 
-            return chats_newType;
-        }
-        
-        public Chat Get(long id)
-        {
-            ChatDb chat = chatDAO.GetExtended(id);
-            Chat chat_newTyped = null;
 
-            if (chat != null)
-            {
-                chat_newTyped = mapper.Map(chat);
-            }
-
-            return chat_newTyped;
+            return personalChats_newTyped;
         }
 
         public long Create(Chat chat)
@@ -62,9 +48,9 @@ namespace Cooper.Repositories
             chatDAO.Update(chatDb);
         }
 
-        public void Delete(long id)
+        public void Delete(long chatId)
         {
-            chatDAO.Delete(id);
+            chatDAO.Delete(chatId);
         }
 
     }

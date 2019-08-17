@@ -6,6 +6,7 @@ namespace Cooper.Models
     {
         #region Main attributes
         public string ChatName { get; set; }
+        public bool IsOnetoOneChat { get; set; }
         #endregion
 
         #region Interop attributes

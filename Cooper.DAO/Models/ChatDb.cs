@@ -7,7 +7,7 @@ namespace Cooper.DAO.Models
         #region Main attributes
 
         public string ChatName { get; set; }
-
+        public bool IsOneToOneChat { get; set; }
         #endregion
 
         #region Interop attributes
