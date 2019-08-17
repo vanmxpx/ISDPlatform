@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthentificationService, ResetPasswordService } from '@services';
-import { ActivatedRoute, Router } from '@angular/router';
+import { /*AuthentificationService,*/ ResetPasswordService } from '@services';
+import { ActivatedRoute, /*Router*/ } from '@angular/router';
 
 @Component({
   selector: 'coop-confirm-password-layout',
@@ -11,8 +11,8 @@ export class ConfirmPasswordLayoutComponent {
 
   private token: string;
 
-  constructor(private resetPasswordService: ResetPasswordService, private authService: AuthentificationService,
-              private router: Router, private route: ActivatedRoute) {
+  constructor(private resetPasswordService: ResetPasswordService, private route: ActivatedRoute
+    /*private authService: AuthentificationService, private router: Router*/ ) {
     this.route.params.subscribe((params) => {
       if (params.token) {
         this.token = params.token;
@@ -20,9 +20,10 @@ export class ConfirmPasswordLayoutComponent {
         this.token = '';
       }
     });
-    if (this.authService.isAuthentificated()) {
-      this.router.navigate(['/platform/home']);
-    }
+    console.log('token: ' + this.token);
+    // if (this.authService.isAuthentificated()) {
+    //   this.router.navigate(['/platform/home']);
+    // }
   }
 
   public resetPassword(newPassword: string): void {

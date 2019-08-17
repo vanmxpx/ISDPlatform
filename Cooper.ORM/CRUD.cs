@@ -1,4 +1,5 @@
 ﻿using Cooper.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 using NLog;
 using Oracle.ManagedDataAccess.Client;
 using System;
@@ -131,7 +132,7 @@ namespace Cooper.ORM
             try
             {
                 dbConnect.OpenConnection();
-                string sqlExpression = $"DELETE FROM {table} WHERE {idColumn} = {id}";
+                string sqlExpression = $"DELETE FROM {table} WHERE {idColumn} = '{id}'";
 
                 dbConnect.ExecuteNonQuery(sqlExpression);
             }

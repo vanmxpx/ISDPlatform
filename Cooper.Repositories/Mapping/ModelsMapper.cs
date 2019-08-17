@@ -17,6 +17,16 @@ namespace Cooper.Repositories.Mapping
             return verify_newType;
         }
 
+        public ResetTokenDb Map(ResetToken resetToken)
+        {
+            ResetTokenDb resetTokenDb = new ResetTokenDb();
+
+            resetTokenDb.Email = resetToken.Email;
+            resetTokenDb.Token = resetToken.Token;
+
+            return resetTokenDb;
+        }
+
         #region Game Mapping
 
         public Game Map(GameDb game)

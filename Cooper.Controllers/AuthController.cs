@@ -1,4 +1,5 @@
 ﻿using Cooper.Controllers.ViewModels;
+using Cooper.Models;
 using Cooper.ORM;
 using Cooper.Repositories;
 using Cooper.Services.Authorization;
@@ -6,6 +7,7 @@ using Cooper.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Cooper.Controllers
 {
@@ -17,14 +19,16 @@ namespace Cooper.Controllers
         private readonly IConfigProvider configProvider;
         private readonly ISocialAuth socialAuth;
         private readonly ILogger<AuthController> logger;
+        private readonly ISmtpClient smtpClient;
 
-        public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider, ILogger<AuthController> logger)
+        public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider, ILogger<AuthController> logger, ISmtpClient smtpClient)
         {
             userRepository = new UserRepository(jwtService, configProvider);
 
             this.configProvider = configProvider;
             this.socialAuth = socialAuth;
             this.logger = logger;
+            this.smtpClient = smtpClient;
         }
 
         /// <summary>
@@ -108,7 +112,16 @@ namespace Cooper.Controllers
 
                 if (userRepository.IfEmailExists(email.Email))
                 {
-                    // TODO: SENT EMAIL
+                    // Generate token
+                    ResetToken resetToken = new ResetToken();
+                    resetToken.Email = email.Email;
+                    resetToken.Token = Guid.NewGuid().ToString();
+                    userRepository.Create(resetToken);
+
+                    // Send email
+                    string url = "https://localhost:44396//confirm;token=" + resetToken.Token;
+                    smtpClient.SendMail(email.Email, "Cooper reset password", $"Password reset link: {url}");
+
                     logger.LogInformation("Password reset email was sent for email {0}.", email.Email);
                     result = Ok();
                 }
@@ -132,7 +145,7 @@ namespace Cooper.Controllers
         /// <response code="200">If letter was sent</response>
         /// <response code="400">If letter was not sent</response>
         [HttpPost]
-        [Route("reset/send")]
+        [Route("reset")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]

@@ -51,7 +51,7 @@ export class ResetPasswordService {
 
     const body = {
       Token: token,
-      NewPassword: newPassword
+      Password: newPassword
     };
 
     return this.httpClient.post('/auth/reset', body, {
