@@ -14,7 +14,7 @@ const routes: Routes = [
   {path: 'platform', component: PlatformLayoutComponent, canActivate: [AuthGuard],
    children:  [
     {path: 'games', component: GamesLayoutComponent},
-    {path: 'game/:id', component: GameLayoutComponent},
+    {path: 'games/:link', component: GameLayoutComponent},
     {path: 'profile/:nickname', component: ProfileLayoutComponent},
     {path: 'home', component: HomeLayoutComponent},
   ]},

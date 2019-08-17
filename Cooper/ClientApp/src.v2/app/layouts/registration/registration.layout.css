@@ -1,0 +1,21 @@
+  .central-content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    min-height: 100vh;
+    height: auto;
+    margin: 0;
+  }
+  
+  .left-container {
+    background-color: rgba(86, 88, 92, 100);
+    min-height: 100vh;
+    height: auto;
+  }
+  
+  .head-container {
+    min-height: 100vh;
+    height: auto;
+    margin: 0;
+  }
