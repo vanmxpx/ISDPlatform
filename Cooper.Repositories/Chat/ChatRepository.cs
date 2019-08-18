@@ -21,13 +21,19 @@ namespace Cooper.Repositories
 
         public IList<Chat> GetPersonalChatsByUserId(long userId)
         {
-            var personalChats = new List<ChatDb>();
+            IList<ChatDb> personalChats = chatDAO.GetPersonalChats(userId);
 
-            var personalChats_newTyped = new List<Chat>(capacity: personalChats.Count);
+            IList<Chat> personalChats_newTyped = null;
 
-            foreach (var chat in personalChats)
+            if (personalChats != null)
             {
-                personalChats_newTyped.Add(mapper.Map(chat));
+                personalChats_newTyped = new List<Chat>(capacity: personalChats.Count);
+
+
+                foreach (var chat in personalChats)
+                {
+                    personalChats_newTyped.Add(mapper.Map(chat));
+                }
             }
 
 

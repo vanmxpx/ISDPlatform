@@ -1,7 +1,9 @@
 using Cooper.Models;
+using Cooper.Extensions;
 using Cooper.Repositories;
 using Cooper.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 
 namespace Cooper.Controllers
@@ -11,17 +13,23 @@ namespace Cooper.Controllers
     public class ChatController : ControllerBase
     {
         private readonly IChatRepository chatRepository;
+        private readonly IUserRepository userRepository;
 
-        public ChatController(IConfigProvider configProvider)
+        public ChatController(IConfigProvider configProvider, IJwtHandlerService jwtHandlerService)
         {
             chatRepository = new ChatRepository(configProvider);
+            userRepository = new UserRepository(jwtHandlerService, configProvider);
         }
 
-        [HttpGet("{id}")]
+        [Authorize]
+        [HttpGet("one-to-one-chats")]
         [ProducesResponseType(200, Type = typeof(Chat))]
         [ProducesResponseType(404)]
-        public IActionResult GetChatById(long userId)
+        public IActionResult GetChatByUserId()
         {
+            string userToken = Request.GetUserToken();
+            long userId = userRepository.GetByJWToken(userToken).Id;
+
             IList<Chat> chats = chatRepository.GetPersonalChatsByUserId(userId);
 
             if (chats == null)

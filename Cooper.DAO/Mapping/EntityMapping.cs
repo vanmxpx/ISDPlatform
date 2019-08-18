@@ -505,6 +505,9 @@ namespace Cooper.DAO.Mapping
                     case "CHATNAME":
                         chat.ChatName = aV.Value.ToString();
                         break;
+                    case "ISONETOONE":
+                        chat.IsOneToOneChat = DbTools.ProcessBoolean(aV.Value);
+                        break;
                     default:
                         break;
                 }
@@ -526,6 +529,9 @@ namespace Cooper.DAO.Mapping
                 {
                     case "CHATNAME":
                         value = $"\'{chat.ChatName}\'";
+                        break;
+                    case "ISONETOONE":
+                        value = (chat.IsOneToOneChat) ? "\'y\'" : "\'n\'";
                         break;
                     default:
                         break;

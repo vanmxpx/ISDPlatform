@@ -1,6 +1,7 @@
 ﻿using Cooper.Controllers.ViewModels;
 using Cooper.DAO.Models;
 using Cooper.Models;
+using System.Collections.Generic;
 
 namespace Cooper.Repositories.Mapping
 {
@@ -295,7 +296,14 @@ namespace Cooper.Repositories.Mapping
             #endregion
 
             #region Transfering interop attributes
-            //EMPTY
+
+            chat_newType.UsersList = new List<User>(capacity: chat.UsersList.Count);
+
+            foreach (var userId in chat.UsersList)
+            {
+                User user = new User() { Id = userId };
+                chat_newType.UsersList.Add(user);
+            }
 
             #endregion
 
