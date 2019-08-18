@@ -90,7 +90,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     MatGridListModule,
     MatRippleModule,
     MatProgressBarModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
   ],
   providers: [
     {

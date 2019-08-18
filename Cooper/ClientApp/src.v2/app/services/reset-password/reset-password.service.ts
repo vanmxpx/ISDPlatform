@@ -13,7 +13,7 @@ export class ResetPasswordService {
   public send(email: string): Subscription {
 
     if (!email) {
-      this.redirectToResetPage('Email is required');
+      this.redirectToResetPage('Email is required', true);
       return null;
     }
 
@@ -27,21 +27,13 @@ export class ResetPasswordService {
       })
     }).subscribe(() => {
       console.log('Password reset email was sent successfully to ', email);
-      this.redirectToResetPage();
+      this.redirectToResetPage('The password reset email has been sent to your email!', false);
     },
       (err) => {
         console.log('Password reset email was not sent to ', email);
         console.log('Error: ', err);
-        this.redirectToResetPage('Email does not exist');
+        this.redirectToResetPage('Email does not exist', true);
       });
-  }
-
-  public redirectToResetPage(failedMessage?: string): void {
-    if (failedMessage) {
-      this.router.navigate(['/reset', {failedReset: true, failed: failedMessage}]);
-    } else {
-      this.router.navigate(['/reset']);
-    }
   }
 
   public resetPassword(token: string, newPassword: string): Subscription {
@@ -60,10 +52,21 @@ export class ResetPasswordService {
       })
     }).subscribe(() => {
       console.log('Password was reset successfully.');
+      this.router.navigate(['/login']);
     },
       (err) => {
         console.log('Password was not reset.');
         console.log('Error: ', err);
       });
+  }
+
+  public redirectToResetPage(message?: string, error?: boolean): void {
+    if (message && error) {
+      this.router.navigate(['/reset', {failed: true, msg: message}]);
+    } else if (message && !error) {
+      this.router.navigate(['/reset', {notified: true, msg: message}]);
+    } else {
+      this.router.navigate(['/reset']);
+    }
   }
 }
