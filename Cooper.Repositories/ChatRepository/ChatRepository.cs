@@ -12,11 +12,14 @@ namespace Cooper.Repositories
     {
         private readonly ChatDAO chatDAO;
         private readonly ModelsMapper mapper;
+        private readonly IMessageRepository messageRepository;
 
         public ChatRepository(IConfigProvider configProvider)
         {
             chatDAO = new ChatDAO(configProvider);
             mapper = new ModelsMapper();
+
+            messageRepository = new MessageRepository(configProvider);
         }
 
         public IList<Chat> GetPersonalChatsByUserId(long userId)
@@ -32,11 +35,14 @@ namespace Cooper.Repositories
 
                 foreach (var chat in personalChats)
                 {
-                    personalChats_newTyped.Add(mapper.Map(chat));
+                    Chat chat_newTyped = mapper.Map(chat);
+                    chat_newTyped.Messages = messageRepository.GetAllMessagesByChatId(chat_newTyped.Id);
+
+                    personalChats_newTyped.Add(chat_newTyped);
                 }
+                
             }
-
-
+            
             return personalChats_newTyped;
         }
 
@@ -58,6 +64,5 @@ namespace Cooper.Repositories
         {
             chatDAO.Delete(chatId);
         }
-
     }
 }

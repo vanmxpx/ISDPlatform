@@ -63,12 +63,12 @@ namespace Cooper.DAO
 
                     if (participantsEntities != null)
                     {
-                        chat.UsersList = new List<long>(capacity: participantsEntities.Count);
+                        chat.Participants = new List<long>(capacity: participantsEntities.Count);
 
                         foreach (var participantEntity in participantsEntities)
                         {
                             long userId1 = Convert.ToInt64(participantEntity.attributeValue["IDUSER"]);
-                            chat.UsersList.Add(userId1);
+                            chat.Participants.Add(userId1);
                         }
                     }
 

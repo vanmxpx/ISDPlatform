@@ -187,22 +187,15 @@ namespace Cooper.Repositories.Mapping
         public Message Map(MessageDb message)
         {
             Message message_newType = new Message();
-
-            #region Transfer main attributes
-
+ 
             message_newType.Id = message.Id;
             message_newType.Content = message.Content;
             message_newType.CreateDate = message.CreateDate;
             message_newType.IsRead = message.IsRead;
 
-            #endregion
-
-            #region Transfering interop attributes
-
-            message_newType.IdChat = new Chat() { Id = message.IdChat };
-            message_newType.IdSender = new User() { Id = message.IdSender };
-
-            #endregion
+            message_newType.ChatId = message.ChatId;
+            message_newType.SenderId = message.SenderId;
+            
 
             return message_newType;
         }
@@ -210,23 +203,15 @@ namespace Cooper.Repositories.Mapping
         public MessageDb Map(Message message)
         {
             MessageDb message_newType = new MessageDb();
-
-            #region Transfer main attributes
-
+            
             message_newType.Id = message.Id;
             message_newType.Content = message.Content;
             message_newType.CreateDate = message.CreateDate;
             message_newType.IsRead = message.IsRead;
-
-
-            #endregion
-
-            #region Transfering interop attributes
-
-            message_newType.IdChat = message.IdChat.Id;
-            message_newType.IdSender = message.IdSender.Id;
-
-            #endregion
+            
+            message_newType.ChatId = message.ChatId;
+            message_newType.SenderId = message.SenderId;
+            
 
             return message_newType;
         }
@@ -297,12 +282,12 @@ namespace Cooper.Repositories.Mapping
 
             #region Transfering interop attributes
 
-            chat_newType.UsersList = new List<User>(capacity: chat.UsersList.Count);
+            chat_newType.Participants = new List<User>(capacity: chat.Participants.Count);
 
-            foreach (var userId in chat.UsersList)
+            foreach (var userId in chat.Participants)
             {
                 User user = new User() { Id = userId };
-                chat_newType.UsersList.Add(user);
+                chat_newType.Participants.Add(user);
             }
 
             #endregion
