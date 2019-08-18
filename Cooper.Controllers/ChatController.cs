@@ -17,8 +17,8 @@ namespace Cooper.Controllers
 
         public ChatController(IConfigProvider configProvider, IJwtHandlerService jwtHandlerService)
         {
-            chatRepository = new ChatRepository(configProvider);
             userRepository = new UserRepository(jwtHandlerService, configProvider);
+            chatRepository = new ChatRepository(configProvider, userRepository as IRepository<User>);
         }
 
         [Authorize]
