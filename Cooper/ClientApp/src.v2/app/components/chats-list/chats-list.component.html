@@ -7,17 +7,17 @@
         <div class="row">
 
             <div class="column left">
-              <img class="image" src={{chat.photoUrl}} onError="this.src='assets/imageKeeper/gamepad.jpeg'">
+              <img class="image" src={{chat.participants[0]}} onError="this.src='assets/imageKeeper/gamepad.jpeg'">
             </div>
             
             <div class="column right">
 
               <div class="row chat-name">
-                <h5>{{chat.nickname}}</h5>
+                <h5>{{chat.chatName}}</h5>
               </div>
               
               <div class="row chat-last-message">
-                {{chat.lastMessage}}
+                {{chat.messages[chat.messages.length-1].content}}
               </div>
             </div>
 

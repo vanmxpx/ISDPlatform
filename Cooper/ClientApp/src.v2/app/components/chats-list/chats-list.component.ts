@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
-import {DummyChat} from '@models';
+import {Chat} from '@models';
 
 @Component({
   selector: 'coop-chats-list',
@@ -7,9 +7,9 @@ import {DummyChat} from '@models';
   styleUrls: ['./chats-list.component.scss']
 })
 export class ChatsListComponent implements OnInit {
-  @Input() public chatsList: DummyChat[];
+  @Input() public chatsList: Chat[];
   @Output() public openModalWindow: EventEmitter<void> = new EventEmitter<void>();
-  @Output() public openChat: EventEmitter<DummyChat> = new EventEmitter<DummyChat>();
+  @Output() public openChat: EventEmitter<Chat> = new EventEmitter<Chat>();
 
   public onNewMessageClicked(): void {
     this.openModalWindow.emit();
@@ -21,7 +21,7 @@ export class ChatsListComponent implements OnInit {
     }
   }
 
-  public onChatItemClick(chat: DummyChat): void {
+  public onChatItemClick(chat: Chat): void {
     this.openChat.emit(chat);
   }
 }

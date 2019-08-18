@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {ChatService} from '@services';
-import {DummyChat} from '@models';
+import {Chat} from '@models';
 
 @Component({
   selector: 'coop-personal-chats',
@@ -10,8 +10,8 @@ import {DummyChat} from '@models';
 export class PersonalChatsLayoutComponent {
 
   public modalWindowVisibility: boolean = false;
-  public chatsList: DummyChat[];
-  public currentChat: DummyChat;
+  public chatsList: Chat[];
+  public currentChat: Chat;
 
   constructor(private chatService: ChatService) {
     this.getCurrentUserChats();
@@ -29,11 +29,15 @@ export class PersonalChatsLayoutComponent {
 
   }
 
-  public getCurrentUserChats(): void {
-    this.chatsList = this.chatService.getDummyChats();
+  public async getCurrentUserChats(): Promise<any> {
+    this.chatsList = await this.chatService.getPersonalChats();
+
+    if (this.chatsList !== null && this.chatsList.length > 0) {
+      this.currentChat = this.chatsList[0];
+    }
   }
 
-  public loadChat(chat: DummyChat): void {
+  public loadChat(chat: Chat): void {
     this.currentChat = chat;
   }
 }
