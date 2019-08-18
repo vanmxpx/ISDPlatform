@@ -4,7 +4,7 @@
     <mat-progress-bar mode="query" *ngIf="this.isLoading"></mat-progress-bar>
     <div class="coop-games__games-header">
       <h1>{{'GAMES.HEADER' | translate}}</h1>
-      <mat-button-toggle-group #group="matButtonToggleGroup" class="coop-games__button-toggle" [value]="selectedTab" (change)="onTabChange(group.value)">
+      <mat-button-toggle-group #group="matButtonToggleGroup" class="coop-games__button-toggle" [value]="this.selectedTab" (change)="onTabChange(group.value)">
         <mat-button-toggle value="Cards">
           <mat-icon>dashboard</mat-icon>
         </mat-button-toggle>
@@ -18,7 +18,7 @@
         <coop-game-card [game]="game" class="coop-games__game-list-item"></coop-game-card>
       </mat-grid-tile>
     </mat-grid-list>
-    <mat-action-list *ngIf="this.selectedTab == GameTabs.List" @list>
+    <mat-action-list  @list *ngIf="this.selectedTab == GameTabs.List">
       <mat-list-item *ngFor="let game of games" @item>
           <coop-game-list-item class="coop-games__game-row" [game]="game"></coop-game-list-item>  
       </mat-list-item>

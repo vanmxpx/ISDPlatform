@@ -1,4 +1,4 @@
-  .button--colors {
+  .button-colors {
     background: gray;
     color: #fff;
   }
@@ -10,26 +10,26 @@
     border-radius: 4px;
   }
 
-  .button--margin {
+  .button-margin {
     margin: 32px 16px 8px 16px;
   }
 
-  .button--font {
+  .button-font {
     font-family: 'Comic Sans Ms';
     font-size: 18px;
   }
 
-  .div--font {
+  .div-font {
     font-size: 28px;
     font-weight: bold;
   }
 
-  .div--positioning {
+  .div-positioning {
     text-align: left;
     margin-bottom: 16px;
   }
 
-  .div--color {
+  .div-color {
     color: #646464;
   }
   

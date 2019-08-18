@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { CoopNavBarItem } from '@models';
+import { LocalizationService } from '@services';
 
 @Component({
   selector: 'coop-top-panel-layout',
@@ -10,7 +11,9 @@ import { CoopNavBarItem } from '@models';
 })
 
 export class TopPanelLayoutComponent {
-
+  public languageKeys: string[] = this.localizationService.languageKeys;
+  public languages: any = this.localizationService.languages;
+  public currentLanguage: string = this.localizationService.getCurrentLanguage();
   public navigationItems: CoopNavBarItem[] = [
     {label: 'TOP-PANEL.HOME', link: '#'},
     {label: 'TOP-PANEL.GAMES', link: '/platform/games'},
@@ -20,7 +23,9 @@ export class TopPanelLayoutComponent {
     {label: 'TOP-PANEL.VACANCIES', link: '#'}
   ];
 
-  constructor(public translate: TranslateService) {
+  constructor(public translate: TranslateService, public localizationService: LocalizationService) {
    }
-
+   public onLangChangeEvent(lang: string): void {
+    this.localizationService.onLanguageChanged(lang);
+  }
 }

@@ -1,7 +1,12 @@
 <div class="top-panel">
   <img src="assets/imageKeeper/111.ico" class="top-panel-logo">
   <coop-navigation [items] = navigationItems></coop-navigation>
-  <coop-language-select class= "top-language-select"></coop-language-select>
+  <coop-language-select class="top-language-select"
+    [languageKeys]="languageKeys" 
+    [languages]="languages" 
+    [currentLanguage]="currentLanguage" 
+    (onLangChangeEvent)="onLangChangeEvent($event)">
+  </coop-language-select>
   <button mat-icon-button class="top-panel-exit" onclick="exit()">
     <mat-icon >exit_to_app</mat-icon>
   </button>

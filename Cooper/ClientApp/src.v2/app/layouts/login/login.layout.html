@@ -13,6 +13,10 @@
                 [failedLogin]="failedLogin"
                 (signIn)="signIn($event)" 
                 (socialSignIn)="socialSignIn($event)"
+                [languageKeys]="languageKeys" 
+                [languages]="languages" 
+                [currentLanguage]="currentLanguage"
+                (langChangeEvent)="langChangeEvent($event)"
                 ></coop-login-form>
             </div>
           </div>

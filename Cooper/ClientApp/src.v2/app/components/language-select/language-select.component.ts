@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, Input } from '@angular/core';
+import { Component, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalizationService } from '@services';
 
@@ -9,15 +9,12 @@ import { LocalizationService } from '@services';
   encapsulation: ViewEncapsulation.None
 })
 export class LanguageSelectComponent {
-  @Input() public languageKeys: string[] = this.localizationService.languageKeys;
+  @Input() public languageKeys: string[];
+  @Input() public languages: any;
+  @Input() public currentLanguage: string;
+  @Output() public langChangeEvent: EventEmitter<LocalizationService>;
 
-  @Input() public languages: any = this.localizationService.languages;
-  @Input() public currentLanguage: string = this.localizationService.getCurrentLanguage();
-  public onLangChangeEvent(lang: string): void {
-    this.localizationService.onLanguageChanged(lang);
-  }
-
-  constructor(public translate: TranslateService, private localizationService: LocalizationService) {
+  constructor(public translate: TranslateService) {
     translate.setDefaultLang(this.currentLanguage);
   }
 }

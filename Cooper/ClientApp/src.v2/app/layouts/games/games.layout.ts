@@ -18,21 +18,18 @@ export class GamesLayoutComponent implements OnInit {
   public games: Game[];
   public isLoading: boolean = true;
   public selectedTab: GameListTabs = GameListTabs.Cards;
-
+  public GameTabs: typeof GameListTabs = GameListTabs;
   constructor(private gameService: GamesService, public translate: TranslateService) { }
-
   public ngOnInit(): void {
     this.fetchData();
   }
-
   public fetchData(): void {
    this.gameService.getData()
     .subscribe((games: Game[]) => {
       this.games = games;
       this.isLoading = false;
     },
-    // tslint:disable-next-line: variable-name
-    (_err) => this.isLoading = false);
+    (_) => this.isLoading = false);
   }
 
   public onTabChange(val: string): void {

@@ -31,7 +31,7 @@ namespace Cooper.Tests.ORM
             get
             {
                 yield return new Query("Test'''Table", null, null, "SELECT * FROM Test'''Table");
-                WhereRequest[] whereReq = new WhereRequest[] { new WhereRequest("var_name", RequestOperator.Equal, "value") };
+                WhereRequest[] whereReq = newz WhereRequest[] { new WhereRequest("var_name", RequestOperator.Equal, "value") };
                 yield return new Query("table", new HashSet<string> { "Name", "ID" }, whereReq, "SELECT Name, ID FROM table WHERE var_name = value");
                 yield return new Query("SomeName", new HashSet<string>() { "MIN(name)" }, null, "SELECT MIN(name) FROM SomeName");
                 whereReq = new WhereRequest[] {
