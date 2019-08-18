@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {SocialNetwork} from '@enums';
 import {TranslateService} from '@ngx-translate/core';
-import { LocalizationService } from '@services';
 
 @Component({
   selector: 'coop-login-form',
@@ -16,7 +15,7 @@ export class LoginFormComponent {
   @Input() public failedLogin: boolean;
   @Output() public signIn: EventEmitter<NgForm> = new EventEmitter<NgForm>();
   @Output() public socialSignIn: EventEmitter<SocialNetwork> = new EventEmitter<SocialNetwork>();
-  @Output() public langChangeEvent: EventEmitter<LocalizationService> = new EventEmitter<LocalizationService>();
+  @Output() public langChangeEvent: EventEmitter<string> = new EventEmitter<string>();
   @Input() public languageKeys: string[];
   @Input() public languages: any;
   @Input() public currentLanguage: string;
