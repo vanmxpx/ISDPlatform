@@ -3,6 +3,7 @@
 
 <div class="col-md-3">
     <coop-chats-list
+    [currentUserId] = "currentUserId"
     [chatsList] = "chatsList"
     (openModalWindow) = "openModalWindow($event)"
     (openChat)="loadChat($event)"
@@ -12,6 +13,7 @@
 <div class="col-md-5">
     <coop-chat-box
     [chat]="currentChat"
+    [currentUserId]="currentUserId"
     ></coop-chat-box>
 </div>
 

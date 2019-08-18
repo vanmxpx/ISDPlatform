@@ -7,17 +7,18 @@
         <div class="row">
 
             <div class="column left">
-              <img class="image" src={{chat.participants[1].photoURL}} onError="this.src='assets/imageKeeper/gamepad.jpeg'">
+              <img class="image" src={{getUserImage(chat)}} onError="this.src='assets/imageKeeper/gamepad.jpeg'">
             </div>
             
             <div class="column right">
 
               <div class="row chat-name">
-                <h5>{{chat.chatName}}</h5>
+                <h5>{{showChatName(chat)}}</h5>
               </div>
               
               <div class="row chat-last-message">
-                {{chat.messages[chat.messages.length-1].content}}
+                <i *ngIf="currentUserId===chat.messages[chat.messages.length-1].senderId">You: &nbsp;</i>
+                {{showLastMessageInChat(chat)}}
               </div>
             </div>
 

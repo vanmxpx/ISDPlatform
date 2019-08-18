@@ -6,4 +6,5 @@ export class Chat {
     public isOnetoOneChat: boolean;
     public participants: User[];
     public messages: Message[];
+    public chatPhotoURL: string;
 }
