@@ -14,6 +14,7 @@
     <coop-chat-box
     [chat]="currentChat"
     [currentUserId]="currentUserId"
+    (sendMessage)="sendMessage($event)"
     ></coop-chat-box>
 </div>
 

@@ -23,9 +23,9 @@
   </div>
   <div class="new-message">
     <mat-form-field class="input-chat">
-      <input matInput type="text" #box name="message" [(ngModel)]="message" placeholder="Enter your message..." (keyup.enter)="KeyEnter(box.value)"/>
+      <input matInput type="text" id='box' #box placeholder="Enter your message..." (keyup.enter)="createMessage(box.value)"/>
     </mat-form-field> 
-    <button mat-icon-button class="button-send" type="text" (click) = "sendMessage()" required>
+    <button mat-icon-button class="button-send" type="text" (click) = "createMessage(box.value)" required>
       <mat-icon>mail_outline</mat-icon>
     </button>
   </div>

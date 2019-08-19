@@ -8,6 +8,7 @@ namespace Cooper.Repositories
     public interface IMessageRepository
     {
         IList<Message> GetAllMessagesByChatId(long chatId);
+        long Create(Message message);
         bool Update(Message message);
         bool Delete(long messageId);
     }

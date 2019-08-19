@@ -5,6 +5,6 @@ namespace Cooper.SignalR
 {
     public interface ITypedHubClient
     {
-        Task BroadcastMessage(CommonMessage commonMessage);
+        Task BroadcastMessage(Message commonMessage);
     }
 }

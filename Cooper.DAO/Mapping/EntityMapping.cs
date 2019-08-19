@@ -474,7 +474,7 @@ namespace Cooper.DAO.Mapping
                         value = $"\'{message.CreateDate.ToString("dd-MMM-yyyy")}\'";
                         break;
                     case "ISREAD":
-                        value = DbTools.ProcessBoolean(message.IsRead);
+                        value = (message.IsRead) ? "\'y\'" : "\'n\'" ;
                         break;
                     default:
                         break;

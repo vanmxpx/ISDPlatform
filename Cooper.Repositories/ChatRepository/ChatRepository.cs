@@ -15,12 +15,12 @@ namespace Cooper.Repositories
         private readonly IMessageRepository messageRepository;
         private readonly IRepository<User> userRepository;
 
-        public ChatRepository(IConfigProvider configProvider, IRepository<User> userRepository)
+        public ChatRepository(IConfigProvider configProvider, IMessageRepository messageRepository, IRepository<User> userRepository)
         {
             chatDAO = new ChatDAO(configProvider);
             mapper = new ModelsMapper();
 
-            messageRepository = new MessageRepository(configProvider);
+            this.messageRepository = messageRepository;
             this.userRepository = userRepository;
         }
 

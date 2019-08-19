@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Chat} from '@models';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Chat, Message} from '@models';
+import { Subscription } from 'rxjs';
 
 const chatsUrl = 'api/chats';
 
@@ -13,5 +14,18 @@ export class ChatService {
   public async getPersonalChats(): Promise<Chat[]> {
     const response = await this.httpClient.get<Chat[]>(chatsUrl + '/one-to-one-chats').toPromise();
     return response;
+  }
+
+  public createMessage(message: Message): Subscription {
+    return this.httpClient.post(chatsUrl + '/send-message', message, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }).subscribe(() => {
+      console.log('User with id {0} was succesfully updated.', message.id);
+    },
+      (err) => {
+        console.log('Error: {0}', err);
+      });
   }
 }
