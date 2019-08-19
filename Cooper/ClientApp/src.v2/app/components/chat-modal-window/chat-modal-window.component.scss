@@ -21,10 +21,9 @@
 
 
 .text-area {
-    outline: none;
-	-moz-appearance: none;
     overflow: auto;
     resize: none;
+    border: 1px solid rgb(184, 184, 184);
     border-radius: 5px;
     padding: 5px;
 }

@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {NgForm} from '@angular/forms';
+import {Chat} from '@models';
 
 @Component({
   selector: 'coop-chat-modal-window',
@@ -14,9 +15,5 @@ export class ChatModalWindowComponent {
 
   public onCloseClick(): void {
     this.closeModalWindow.emit();
-  }
-
-  public onSendClick(): void {
-    // smth must happen
   }
 }

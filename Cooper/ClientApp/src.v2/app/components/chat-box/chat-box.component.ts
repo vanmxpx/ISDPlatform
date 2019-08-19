@@ -9,15 +9,10 @@ import { Chat, Message } from '@models';
 export class ChatBoxComponent {
 
   public messageContent: string;
-  public garbage: string;
 
   @Input() public currentUserId: number;
   @Input() public chat: Chat;
   @Output() public sendMessage: EventEmitter<Message> = new EventEmitter<Message>();
-
-  public KeyEnter(message: string): void {
-    this.garbage = message;
-  }
 
   public getUserAvatar(message: Message): string {
     for (const user of this.chat.participants) {
