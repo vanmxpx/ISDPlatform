@@ -94,7 +94,7 @@ namespace Cooper.DAO
             // Making sure that ID value is not touched
             entity.attributeValue.Remove("ID");
             
-            bool isUpdated = crud.Update(message.Id, table, idColumn, entity);
+            bool isUpdated = crud.Update(table, entity, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, message.Id) });
 
             if (isUpdated)
             {
