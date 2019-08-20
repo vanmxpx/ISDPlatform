@@ -24,7 +24,8 @@ namespace Cooper.Controllers
 
         private const string passwordResetURL = "https://cooper.serve.games/confirm;token=";
 
-        public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider, ILogger<AuthController> logger, ISmtpClient smtpClient, IResetPasswordService resetService)
+        public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider,
+            ILogger<AuthController> logger, ISmtpClient smtpClient, IResetPasswordService resetService)
         {
             userRepository = new UserRepository(jwtService, configProvider);
 
