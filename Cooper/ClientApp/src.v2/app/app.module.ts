@@ -16,7 +16,8 @@ import { CooperInterceptor } from '@services';
 import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {AuthGuard} from '@guards';
+import { AuthGuard } from '@guards';
+import { SafePipe } from '@pipes';
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent,
@@ -56,23 +57,24 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     PageNotFoundLayoutComponent,
     HomeLayoutComponent,
     PersonalChatsLayoutComponent,
+    SafePipe,
 
-  LoginFormComponent,
-  RegistrationFormComponent,
-  PosterComponent,
-  UserConnectionsListComponent,
-  GamesListComponent,
-  UserInfoComponent,
-  MyProfileComponent,
-  GameListItemComponent,
-  GameCardComponent,
-  NavigationComponent,
-  AvatarCardComponent,
+    LoginFormComponent,
+    RegistrationFormComponent,
+    PosterComponent,
+    UserConnectionsListComponent,
+    GamesListComponent,
+    UserInfoComponent,
+    MyProfileComponent,
+    GameListItemComponent,
+    GameCardComponent,
+    NavigationComponent,
+    AvatarCardComponent,
   ChatModalWindowComponent,
   ChatsListComponent,
   ChatBoxComponent,
 
-],
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

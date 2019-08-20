@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cooper.Services.Interfaces;
 
 namespace Cooper.ORM
@@ -58,7 +59,21 @@ namespace Cooper.ORM
             NOTNULL = 6
         }
 
-        public static string CreateQuery(string table, HashSet<string> attributes, WhereRequest[] whereRequests = null)
+        public static string CreateSelectQuery(string table, HashSet<string> attributes, WhereRequest[] whereRequests = null)
+        {
+            string where = CreateWhereRequest(whereRequests);
+            return String.Format("SELECT {0} FROM {1}{2}",
+                (attributes != null) ? string.Join(", ", attributes) : "*",
+                table, where);
+        }
+
+        public static string CreateUpdateQuery(string table, EntityORM entity, DbTools.WhereRequest[] whereRequests = null)
+        {
+            string where = CreateWhereRequest(whereRequests);
+            return String.Format("UPDATE {0} SET {1}{2}", table, string.Join(",", entity.attributeValue.Select(x => x.Key + "=" + x.Value).ToArray()), where);
+        }
+
+        private static string CreateWhereRequest(WhereRequest[] whereRequests = null)
         {
             string where = "";
             if (whereRequests != null)
@@ -79,9 +94,8 @@ namespace Cooper.ORM
                 //Remove last OR
                 where = where.Remove(where.Length - 2);
             }
-            return String.Format("SELECT {0} FROM {1}{2}",
-                (attributes != null) ? string.Join(", ", attributes) : "*",
-                table, where);
+
+            return where;
         }
 
         public static string SanitizeString(string value)
