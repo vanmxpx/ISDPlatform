@@ -192,6 +192,11 @@ namespace Cooper.Repositories
             userDAO.Update(userDb, removePassword: true);
         }
 
+        public void UpdateAvatar(string url, long userId)
+        {
+            userDAO.UpdateAvatar(url, userId);
+        }
+
         public void ConfirmEmail(string token, string email)
         {
             var user = userDAO.GetByEmail(token);

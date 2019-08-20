@@ -19,6 +19,7 @@ export { GameListItemComponent } from './game-list-item/game-list-item.component
 
 export {AvatarCardComponent} from './avatar-card/avatar-card.component';
 
+export {UploadComponent} from './upload-form/upload-form.component';
 export {ChatModalWindowComponent} from './chat-modal-window/chat-modal-window.component';
 
 export {ChatsListComponent} from './chats-list/chats-list.component';

@@ -23,10 +23,11 @@ import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent,
   PersonalChatsLayoutComponent } from '@layouts';
 
-import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
+import {LoginFormComponent, UploadComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
    GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
    NavigationComponent, AvatarCardComponent, ChatModalWindowComponent, ChatsListComponent} from '@components';
 import { ChatBoxComponent } from './components/chat-box/chat-box.component';
+import { MatDialogModule } from '@angular/material';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
@@ -47,6 +48,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
 @NgModule({
   declarations: [
     AppComponent,
+    UploadComponent,
     LoginLayoutComponent,
     RegistrationLayoutComponent,
     GameLayoutComponent,
@@ -56,25 +58,24 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
     HomeLayoutComponent,
-    PersonalChatsLayoutComponent,
+  LoginFormComponent,
+  RegistrationFormComponent,
+  PosterComponent,
+  UserConnectionsListComponent,
+  GamesListComponent,
+  UserInfoComponent,
+  MyProfileComponent,
+  GameListItemComponent,
+  GameCardComponent,
+  NavigationComponent,
+  AvatarCardComponent,
+  UploadComponent,
+  PersonalChatsLayoutComponent,
     SafePipe,
-
-    LoginFormComponent,
-    RegistrationFormComponent,
-    PosterComponent,
-    UserConnectionsListComponent,
-    GamesListComponent,
-    UserInfoComponent,
-    MyProfileComponent,
-    GameListItemComponent,
-    GameCardComponent,
-    NavigationComponent,
-    AvatarCardComponent,
   ChatModalWindowComponent,
   ChatsListComponent,
   ChatBoxComponent,
-
-  ],
+],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -88,6 +89,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     MatButtonModule,
     MatCardModule,
     MatListModule,
+    MatDialogModule,
     DynamiSocialLoginModule,
     GrowlModule,
     MatIconModule,
@@ -111,6 +113,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     AuthGuard
 
   ],
+  entryComponents: [UploadComponent],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
