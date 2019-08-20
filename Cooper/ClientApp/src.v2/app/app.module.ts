@@ -16,15 +16,17 @@ import { CooperInterceptor } from '@services';
 import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {AuthGuard} from '@guards';
+import { AuthGuard } from '@guards';
+import { SafePipe } from '@pipes';
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent } from '@layouts';
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent,
+  PersonalChatsLayoutComponent } from '@layouts';
 
 import {LoginFormComponent, UploadComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
    GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
-   NavigationComponent} from '@components';
-import { AvatarCardComponent } from './components/avatar-card/avatar-card.component';
+   NavigationComponent, AvatarCardComponent, ChatModalWindowComponent, ChatsListComponent} from '@components';
+import { ChatBoxComponent } from './components/chat-box/chat-box.component';
 import { MatDialogModule } from '@angular/material';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
@@ -67,7 +69,12 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
   GameCardComponent,
   NavigationComponent,
   AvatarCardComponent,
-  UploadComponent
+  UploadComponent,
+  PersonalChatsLayoutComponent,
+    SafePipe,
+  ChatModalWindowComponent,
+  ChatsListComponent,
+  ChatBoxComponent,
 ],
   imports: [
     BrowserModule,

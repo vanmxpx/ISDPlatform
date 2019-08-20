@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {AuthGuard} from '@guards';
 import {LoginLayoutComponent, RegistrationLayoutComponent, PlatformLayoutComponent,
-  PageNotFoundLayoutComponent, GameLayoutComponent, GamesLayoutComponent, ProfileLayoutComponent, HomeLayoutComponent} from '@layouts';
+  PageNotFoundLayoutComponent, GameLayoutComponent, GamesLayoutComponent, ProfileLayoutComponent,
+   HomeLayoutComponent, PersonalChatsLayoutComponent} from '@layouts';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -11,9 +12,10 @@ const routes: Routes = [
   {path: 'platform', component: PlatformLayoutComponent, canActivate: [AuthGuard],
    children:  [
     {path: 'games', component: GamesLayoutComponent},
-    {path: 'game/:id', component: GameLayoutComponent},
+    {path: 'games/:link', component: GameLayoutComponent},
     {path: 'profile/:nickname', component: ProfileLayoutComponent},
     {path: 'home', component: HomeLayoutComponent},
+    {path: 'chats', component: PersonalChatsLayoutComponent}
   ]},
   {path: '**', component: PageNotFoundLayoutComponent}
 ];
