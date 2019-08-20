@@ -63,30 +63,18 @@ namespace Cooper.Controllers
             return Ok();
         }
 
-
-        [HttpPost]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(201)]
+        [HttpPost("create-dialog")]
+        [Authorize]
         public IActionResult Post([FromBody]Chat chat)
         {
-            if (!ModelState.IsValid)
+            long chatId = chatRepository.Create(chat);
+
+            if (chatId == 0)
             {
-                return BadRequest(ModelState);
+                return BadRequest();
             }
 
-            if (chat.Id == 0)
-            {
-                long id = chatRepository.Create(chat);
-                chat.Id = id;
-
-                return Ok(chat);
-            }
-            else
-            {
-                chatRepository.Update(chat);
-
-                return Ok(chat);
-            }
+            return Ok(chatId);
         }
 
         // DELETE api/<controller>/5

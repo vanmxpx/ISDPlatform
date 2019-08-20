@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {ChatService, SessionService} from '@services';
+import {ChatService, SessionService, UserService} from '@services';
 import { HubConnection, HubConnectionBuilder, HttpTransportType, LogLevel} from '@aspnet/signalr';
 import {Chat, Message} from '@models';
 
@@ -17,7 +17,7 @@ export class PersonalChatsLayoutComponent {
 
   private hubConnection: HubConnection;
 
-  constructor(private chatService: ChatService, private sessionService: SessionService) {
+  constructor(private chatService: ChatService, private sessionService: SessionService, private userService: UserService) {
     this.fetchChatData();
     this.connectWebSockets();
   }
@@ -71,5 +71,21 @@ export class PersonalChatsLayoutComponent {
 
   public sendMessage(message: Message): void {
     this.chatService.createMessage(message);
+  }
+
+  public  createChat(chat: Chat): void { // I rewrite in a normal way creating chat
+    this.createChatAsync(chat);
+  }
+
+  public async createChatAsync(chat: Chat): Promise<any> { // I rewrite in a normal way creating chat
+    this.modalWindowVisibility = false;
+    chat.participants[0] = await this.userService.getUserByNickname(chat.participants[0].nickname);
+
+    chat.participants.push(await this.sessionService.getSessionUserData());
+    chat.messages[0].senderId = this.currentUserId;
+
+    this.chatService.createChat(chat);
+
+    window.location.reload();
   }
 }

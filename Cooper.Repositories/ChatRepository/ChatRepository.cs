@@ -56,8 +56,17 @@ namespace Cooper.Repositories
         public long Create(Chat chat)
         {
             ChatDb chatDb = mapper.Map(chat);
+            
+            long chatId = chatDAO.Save(chatDb);
 
-            return chatDAO.Save(chatDb);
+            if (chatId != 0)
+            {
+                Message firstChatMsg = chat.Messages[0];
+                firstChatMsg.ChatId = chatId;
+                messageRepository.Create(firstChatMsg);
+            }
+
+            return chatId;
         }
 
         public void Update(Chat chat)

@@ -280,8 +280,6 @@ namespace Cooper.Repositories.Mapping
             chat_newType.IsOnetoOneChat = chat.IsOneToOneChat;
             #endregion
 
-            #region Transfering interop attributes
-
             chat_newType.Participants = new List<User>(capacity: chat.Participants.Count);
 
             foreach (var userId in chat.Participants)
@@ -290,26 +288,27 @@ namespace Cooper.Repositories.Mapping
                 chat_newType.Participants.Add(user);
             }
 
-            #endregion
-
             return chat_newType;
         }
 
         public ChatDb Map(Chat chat)
         {
             ChatDb chat_newType = new ChatDb();
-
-            #region Transfer main attributes
+            
 
             chat_newType.Id = chat.Id;
             chat_newType.ChatName = chat.ChatName;
             chat_newType.IsOneToOneChat = chat.IsOnetoOneChat;
-            #endregion
 
-            #region Transfering interop attributes
-            //EMPTY
+            if (chat.Participants != null)
+            {
+                chat_newType.Participants = new List<long>(capacity: chat.Participants.Count);
 
-            #endregion
+                foreach (var user in chat.Participants)
+                {
+                    chat_newType.Participants.Add(user.Id);
+                }
+            }
 
             return chat_newType;
         }

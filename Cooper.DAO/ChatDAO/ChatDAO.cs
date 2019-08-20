@@ -89,6 +89,26 @@ namespace Cooper.DAO
 
             long idChat = crud.Create(table, idColumn, entity);
 
+            #region REWRITE THIS BLOCK
+            if (idChat != 0)
+            {
+                string anotherTable = "USERSCHATS";
+                var anotherAttributes = new HashSet<string>()
+            {
+                "IDCHAT", "IDUSER"
+            };
+
+                foreach (var idUser in chat.Participants)
+                {
+                    EntityORM userChat = new EntityORM();
+                    userChat.attributeValue.Add("IDUSER", idUser);
+                    userChat.attributeValue.Add("IDCHAT", idChat);
+
+                    crud.Create(anotherTable, idColumn, userChat);
+                }
+            }
+            #endregion
+
             return idChat;
         }
 

@@ -22,7 +22,20 @@ export class ChatService {
         'Content-Type': 'application/json'
       })
     }).subscribe(() => {
-      console.log('User with id {0} was succesfully updated.', message.id);
+      console.log('Message with id {0} was succesfully created.', message.id);
+    },
+      (err) => {
+        console.log('Error: {0}', err);
+      });
+  }
+
+  public createChat(chat: Chat): Subscription {
+    return this.httpClient.post(chatsUrl + '/create-dialog', chat, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }).subscribe((chatId) => {
+      console.log('Chat with id {0} was succesfully created.', chatId);
     },
       (err) => {
         console.log('Error: {0}', err);
