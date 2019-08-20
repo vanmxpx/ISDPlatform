@@ -321,14 +321,7 @@ namespace Cooper.DAO
 
             return entities;
         }
-
-        /// <summary>
-        ///  Gets the record which satisfy sql-expression with WHERE keyword. In the other way returns null.
-        /// </summary>
-        /// <param name="table"></param>
-        /// <param name="attributes"></param>
-        /// <param name="where_attributes"></param>
-        /// <returns></returns>
+        
         private EntityORM Get(string table, HashSet<string> attributes, Dictionary<string, object> where_attributes)
         {
             EntityORM entity = null;

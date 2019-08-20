@@ -100,7 +100,7 @@ namespace Cooper
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<ChatHub>("/chatCommon");
+                routes.MapHub<ChatHub>("/chat");
             });
            
             app.UseSpa(spa =>

@@ -12,3 +12,5 @@ export {SessionService} from './session.service';
 export {RegistrationService} from './registration/registration.service';
 
 export {CooperInterceptor} from './interceptor/cooper.interceptor';
+
+export {ChatService} from './chat.service';

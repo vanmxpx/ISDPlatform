@@ -20,12 +20,13 @@ import { AuthGuard } from '@guards';
 import { SafePipe } from '@pipes';
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent } from '@layouts';
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent,
+  PersonalChatsLayoutComponent } from '@layouts';
 
 import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
    GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
-   NavigationComponent} from '@components';
-import { AvatarCardComponent } from './components/avatar-card/avatar-card.component';
+   NavigationComponent, AvatarCardComponent, ChatModalWindowComponent, ChatsListComponent} from '@components';
+import { ChatBoxComponent } from './components/chat-box/chat-box.component';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
@@ -55,7 +56,9 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
     HomeLayoutComponent,
+    PersonalChatsLayoutComponent,
     SafePipe,
+
     LoginFormComponent,
     RegistrationFormComponent,
     PosterComponent,
@@ -67,6 +70,9 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     GameCardComponent,
     NavigationComponent,
     AvatarCardComponent,
+  ChatModalWindowComponent,
+  ChatsListComponent,
+  ChatBoxComponent,
 
   ],
   imports: [
