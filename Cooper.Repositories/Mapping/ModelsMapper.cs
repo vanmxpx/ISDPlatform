@@ -1,6 +1,7 @@
 ﻿using Cooper.Controllers.ViewModels;
 using Cooper.DAO.Models;
 using Cooper.Models;
+using System.Collections.Generic;
 
 namespace Cooper.Repositories.Mapping
 {
@@ -16,7 +17,7 @@ namespace Cooper.Repositories.Mapping
 
             return verify_newType;
         }
-
+      
         public ResetTokenDb Map(ResetToken resetToken)
         {
             ResetTokenDb resetTokenDb = new ResetTokenDb();
@@ -196,22 +197,15 @@ namespace Cooper.Repositories.Mapping
         public Message Map(MessageDb message)
         {
             Message message_newType = new Message();
-
-            #region Transfer main attributes
-
+ 
             message_newType.Id = message.Id;
             message_newType.Content = message.Content;
             message_newType.CreateDate = message.CreateDate;
             message_newType.IsRead = message.IsRead;
 
-            #endregion
-
-            #region Transfering interop attributes
-
-            message_newType.IdChat = new Chat() { Id = message.IdChat };
-            message_newType.IdSender = new User() { Id = message.IdSender };
-
-            #endregion
+            message_newType.ChatId = message.ChatId;
+            message_newType.SenderId = message.SenderId;
+            
 
             return message_newType;
         }
@@ -219,23 +213,15 @@ namespace Cooper.Repositories.Mapping
         public MessageDb Map(Message message)
         {
             MessageDb message_newType = new MessageDb();
-
-            #region Transfer main attributes
-
+            
             message_newType.Id = message.Id;
             message_newType.Content = message.Content;
             message_newType.CreateDate = message.CreateDate;
             message_newType.IsRead = message.IsRead;
-
-
-            #endregion
-
-            #region Transfering interop attributes
-
-            message_newType.IdChat = message.IdChat.Id;
-            message_newType.IdSender = message.IdSender.Id;
-
-            #endregion
+            
+            message_newType.ChatId = message.ChatId;
+            message_newType.SenderId = message.SenderId;
+            
 
             return message_newType;
         }
@@ -301,13 +287,16 @@ namespace Cooper.Repositories.Mapping
 
             chat_newType.Id = chat.Id;
             chat_newType.ChatName = chat.ChatName;
-
+            chat_newType.IsOnetoOneChat = chat.IsOneToOneChat;
             #endregion
 
-            #region Transfering interop attributes
-            //EMPTY
+            chat_newType.Participants = new List<User>(capacity: chat.Participants.Count);
 
-            #endregion
+            foreach (var userId in chat.Participants)
+            {
+                User user = new User() { Id = userId };
+                chat_newType.Participants.Add(user);
+            }
 
             return chat_newType;
         }
@@ -315,18 +304,21 @@ namespace Cooper.Repositories.Mapping
         public ChatDb Map(Chat chat)
         {
             ChatDb chat_newType = new ChatDb();
-
-            #region Transfer main attributes
+            
 
             chat_newType.Id = chat.Id;
             chat_newType.ChatName = chat.ChatName;
+            chat_newType.IsOneToOneChat = chat.IsOnetoOneChat;
 
-            #endregion
+            if (chat.Participants != null)
+            {
+                chat_newType.Participants = new List<long>(capacity: chat.Participants.Count);
 
-            #region Transfering interop attributes
-            //EMPTY
-
-            #endregion
+                foreach (var user in chat.Participants)
+                {
+                    chat_newType.Participants.Add(user.Id);
+                }
+            }
 
             return chat_newType;
         }

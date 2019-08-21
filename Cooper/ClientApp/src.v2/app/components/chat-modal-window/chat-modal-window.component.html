@@ -1,0 +1,34 @@
+
+<!-- Modal section -->
+
+<div class="backdrop" [style.display]="visibility?'block':'none'"></div>
+
+  <div class="modal vertically-centered" role="dialog" [style.display]="visibility?'block':'none'">
+  
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" (click)="onCloseClick()">&times;</button>
+
+        <h4 class="modal-title">New Message</h4>
+      </div>
+
+      <!-- model body section -->
+      <div class="modal-body">
+        <p>Send message to: 
+          <input type="text" id="nickname" placeholder="User's nickname" class="input"/></p>
+        <p><textarea matInput id="message" placeholder="Type your message here.." cols="75" rows="5" class="text-area"></textarea></p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default button" data-dismiss="modal" (click)="onSendClick()">Send</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>

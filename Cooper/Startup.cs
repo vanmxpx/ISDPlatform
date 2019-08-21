@@ -55,6 +55,7 @@ namespace Cooper
             services.AddTokenCleanerService();
             services.AddSocialAuthService();
             services.AddResetPasswordService();
+            services.AddMediaserverService();
 
             services.AddSwaggerGen(c =>
             {
@@ -101,7 +102,7 @@ namespace Cooper
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<ChatHub>("/chatCommon");
+                routes.MapHub<ChatHub>("/chat");
             });
            
             app.UseSpa(spa =>

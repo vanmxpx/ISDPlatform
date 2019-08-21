@@ -21,10 +21,17 @@ import { SafePipe } from '@pipes';
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent,
-  ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent } from '@layouts';
+  ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent, PersonalChatsLayoutComponent } from '@layouts';
 import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
    GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
    NavigationComponent, ResetPasswordFormComponent, ConfirmPasswordFormComponent, AvatarCardComponent} from '@components';
+
+import {LoginFormComponent, UploadComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
+   GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
+   NavigationComponent, AvatarCardComponent, ChatModalWindowComponent, ChatsListComponent, 
+   ResetPasswordFormComponent, ConfirmPasswordFormComponent} from '@components';
+import { ChatBoxComponent } from './components/chat-box/chat-box.component';
+import { MatDialogModule } from '@angular/material';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
@@ -45,6 +52,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
 @NgModule({
   declarations: [
     AppComponent,
+    UploadComponent,
     LoginLayoutComponent,
     RegistrationLayoutComponent,
     GameLayoutComponent,
@@ -70,6 +78,11 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
   AvatarCardComponent,
   ResetPasswordFormComponent,
   ConfirmPasswordFormComponent
+  UploadComponent,
+  PersonalChatsLayoutComponent,
+  ChatModalWindowComponent,
+  ChatsListComponent,
+  ChatBoxComponent
 ],
   imports: [
     BrowserModule,
@@ -84,6 +97,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     MatButtonModule,
     MatCardModule,
     MatListModule,
+    MatDialogModule,
     DynamiSocialLoginModule,
     GrowlModule,
     MatIconModule,
@@ -107,6 +121,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     AuthGuard
 
   ],
+  entryComponents: [UploadComponent],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

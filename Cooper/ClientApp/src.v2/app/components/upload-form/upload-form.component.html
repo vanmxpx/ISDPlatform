@@ -1,0 +1,9 @@
+<div class="uploader" mat-dialog-content (drop)="dragUploadFile($event)" (dragover)="dragOver($event)">
+  <input hidden type="file" #fileInput accept="image/*" (change)="clickUploadFile($event)">
+  <p class="uploader_error">{{ error }}</p>
+  <div class="uploader_content">
+    <h2>Перетащите файлы сюда</h2>
+    <p>или</p>
+    <input type="button" value="Выбрать файл на устройстве" (click)="fileInput.click()">
+  </div>
+</div>

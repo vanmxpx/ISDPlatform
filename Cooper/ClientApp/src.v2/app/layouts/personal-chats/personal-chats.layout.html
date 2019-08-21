@@ -1,0 +1,30 @@
+
+<div class="col-md-2"></div>
+
+<div class="col-md-3">
+    <coop-chats-list
+    [currentUserId] = "currentUserId"
+    [chatsList] = "chatsList"
+    (openModalWindow) = "openModalWindow($event)"
+    (openChat)="loadChat($event)"
+    ></coop-chats-list>        
+</div>
+
+<div class="col-md-5">
+    <coop-chat-box
+    [chat]="currentChat"
+    [currentUserId]="currentUserId"
+    (sendMessage)="sendMessage($event)"
+    ></coop-chat-box>
+</div>
+
+<div class="col-md-2">
+</div>
+
+
+<coop-chat-modal-window 
+[visibility]="modalWindowVisibility"
+(closeModalWindow)="closeModalWindow($event)"
+(createChat)="createChat($event)"
+></coop-chat-modal-window>
+
