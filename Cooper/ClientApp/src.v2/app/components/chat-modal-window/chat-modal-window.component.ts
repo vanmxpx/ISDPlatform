@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {Chat, Message, User} from '@models';
-import { timer } from 'rxjs';
 
 @Component({
   selector: 'coop-chat-modal-window',
