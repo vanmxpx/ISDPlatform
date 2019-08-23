@@ -13,7 +13,7 @@ export class PersonalChatsLayoutComponent {
   public modalWindowVisibility: boolean = false;
   public chatsList: Chat[];
   public currentChat: Chat;
-  public currentUserId: number;
+  public currentSessionUserId: number;
 
   private hubConnection: HubConnection;
 
@@ -22,26 +22,14 @@ export class PersonalChatsLayoutComponent {
     this.connectWebSockets();
   }
 
-  public openModalWindow(): void {
-
-    this.modalWindowVisibility = true;
-
-  }
-
-  public closeModalWindow(): void {
-
-    this.modalWindowVisibility = false;
-
-  }
-
   public async fetchChatData(): Promise<any> {
     this.chatsList = await this.chatService.getPersonalChats();
 
-    if (this.chatsList !== null && this.chatsList.length > 0) {
+    if (this.chatsList && this.chatsList.length > 0) {
       this.currentChat = this.chatsList[0];
     }
 
-    this.currentUserId = this.sessionService.GetSessionUserId();
+    this.currentSessionUserId = this.sessionService.GetSessionUserId();
 
     this.loadChat(this.chatsList[0]);
   }
@@ -65,12 +53,14 @@ export class PersonalChatsLayoutComponent {
     });
   }
 
-  public loadChat(chat: Chat): void {
-    this.currentChat = chat;
+  public changeModalWindowVisibility(): void {
+
+    this.modalWindowVisibility = !this.modalWindowVisibility;
+
   }
 
-  public sendMessage(message: Message): void {
-    this.chatService.createMessage(message);
+  public loadChat(chat: Chat): void {
+    this.currentChat = chat;
   }
 
   public  createChat(chat: Chat): void { // I rewrite in a normal way creating chat
@@ -82,10 +72,14 @@ export class PersonalChatsLayoutComponent {
     chat.participants[0] = await this.userService.getUserByNickname(chat.participants[0].nickname);
 
     chat.participants.push(await this.sessionService.getSessionUserData());
-    chat.messages[0].senderId = this.currentUserId;
+    chat.messages[0].senderId = this.currentSessionUserId;
 
     this.chatService.createChat(chat);
 
     window.location.reload();
+  }
+
+  public sendMessage(message: Message): void {
+    this.chatService.createMessage(message);
   }
 }

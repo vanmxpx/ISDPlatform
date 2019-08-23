@@ -10,11 +10,11 @@ export class ChatBoxComponent {
 
   public messageContent: string;
 
-  @Input() public currentUserId: number;
+  @Input() public currentSessionUserId: number;
   @Input() public chat: Chat;
   @Output() public sendMessage: EventEmitter<Message> = new EventEmitter<Message>();
 
-  public getUserAvatar(message: Message): string {
+  public getSenderAvatar(message: Message): string {
     for (const user of this.chat.participants) {
       if (user.id === message.senderId) {
         return user.photoURL;
@@ -38,7 +38,7 @@ export class ChatBoxComponent {
     const message: Message = new Message();
     message.content = messageContent;
     message.chatId = this.chat.id;
-    message.senderId = this.currentUserId;
+    message.senderId = this.currentSessionUserId;
     message.isRead = false;
 
     this.sendMessage.emit(message);

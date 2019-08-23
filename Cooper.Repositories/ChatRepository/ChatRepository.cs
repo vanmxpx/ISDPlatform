@@ -63,6 +63,7 @@ namespace Cooper.Repositories
             {
                 Message firstChatMsg = chat.Messages[0];
                 firstChatMsg.ChatId = chatId;
+
                 messageRepository.Create(firstChatMsg);
             }
 

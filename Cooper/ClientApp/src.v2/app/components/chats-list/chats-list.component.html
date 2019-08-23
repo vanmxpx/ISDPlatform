@@ -1,7 +1,7 @@
 
 <div class="row">
 <h4> Conversations </h4>
-  <a class="pull-left btn btn-text btn-small" (click)="onNewMessageClicked()">✉ New</a>
+  <a class="pull-left btn btn-text btn-small" (click)="onNewMessageButtonClicked()">✉ New</a>
 </div>
 
 <ul class="list-group">
@@ -9,18 +9,18 @@
         <div class="row">
 
             <div class="column left">
-              <img class="image" src={{getUserImage(chat)}} onError="this.src='assets/imageKeeper/robot.png'">
+              <img class="image" src={{getChatImage(chat)}} onError="this.src='assets/imageKeeper/robot.png'">
             </div>
             
             <div class="column right">
 
               <div class="row chat-name">
-                <h5>{{showChatName(chat)}}</h5>
+                <h5>{{getChatName(chat)}}</h5>
               </div>
               
               <div class="row chat-last-message">
-                <i *ngIf="currentUserId===chat.messages[chat.messages.length-1].senderId">You: &nbsp;</i>
-                {{showLastMessageInChat(chat)}}
+                <i *ngIf="currentSessionUserId===chat.messages[chat.messages.length-1].senderId">You: &nbsp;</i>
+                {{getLastMessageInChat(chat)}}
               </div>
             </div>
 

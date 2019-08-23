@@ -36,9 +36,15 @@ namespace Cooper.Controllers
         public IActionResult GetChatByUserId()
         {
             string userToken = Request.GetUserToken();
-            long userId = userRepository.GetByJWToken(userToken).Id;
 
-            IList<Chat> chats = chatRepository.GetPersonalChatsByUserId(userId);
+            User user = userRepository.GetByJWToken(userToken);
+
+            if (user == null)
+            {
+                return StatusCode(500); //  connection to database failed
+            }
+
+            IList<Chat> chats = chatRepository.GetPersonalChatsByUserId(user.Id);
 
             if (chats == null)
             {
@@ -57,13 +63,13 @@ namespace Cooper.Controllers
                 return BadRequest();
             }
 
-            messageRepository.Create(message);
+            message.Id = messageRepository.Create(message);
             hubContext.Clients.All.BroadcastMessage(message);
 
             return Ok();
         }
 
-        [HttpPost("create-dialog")]
+        [HttpPost("create-chat")]
         [Authorize]
         public IActionResult Post([FromBody]Chat chat)
         {

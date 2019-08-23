@@ -3,17 +3,17 @@
 
 <div class="col-md-3">
     <coop-chats-list
-    [currentUserId] = "currentUserId"
+    [currentSessionUserId]="currentSessionUserId"
     [chatsList] = "chatsList"
-    (openModalWindow) = "openModalWindow($event)"
-    (openChat)="loadChat($event)"
+    (openModalWindow) = "changeModalWindowVisibility($event)"
+    (loadChat)="loadChat($event)"
     ></coop-chats-list>        
 </div>
 
 <div class="col-md-5">
     <coop-chat-box
     [chat]="currentChat"
-    [currentUserId]="currentUserId"
+    [currentSessionUserId]="currentSessionUserId"
     (sendMessage)="sendMessage($event)"
     ></coop-chat-box>
 </div>
@@ -24,7 +24,7 @@
 
 <coop-chat-modal-window 
 [visibility]="modalWindowVisibility"
-(closeModalWindow)="closeModalWindow($event)"
+(closeModalWindow)="changeModalWindowVisibility($event)"
 (createChat)="createChat($event)"
 ></coop-chat-modal-window>
 

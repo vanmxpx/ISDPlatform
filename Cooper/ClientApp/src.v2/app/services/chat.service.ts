@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Chat, Message} from '@models';
 import { Subscription } from 'rxjs';
 
@@ -17,11 +17,7 @@ export class ChatService {
   }
 
   public createMessage(message: Message): Subscription {
-    return this.httpClient.post(chatsUrl + '/send-message', message, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }).subscribe(() => {
+    return this.httpClient.post(chatsUrl + '/send-message', message).subscribe(() => {
       console.log('Message with id {0} was succesfully created.', message.id);
     },
       (err) => {
@@ -30,11 +26,7 @@ export class ChatService {
   }
 
   public createChat(chat: Chat): Subscription {
-    return this.httpClient.post(chatsUrl + '/create-dialog', chat, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }).subscribe((chatId) => {
+    return this.httpClient.post(chatsUrl + '/create-chat', chat).subscribe((chatId) => {
       console.log('Chat with id {0} was succesfully created.', chatId);
     },
       (err) => {
