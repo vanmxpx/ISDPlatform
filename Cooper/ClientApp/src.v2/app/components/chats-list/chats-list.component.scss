@@ -5,6 +5,12 @@
     border-radius: 50%;
 }
 
+.chat {
+    height: 600px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
 .chat-item {
     margin: 0px;
 }

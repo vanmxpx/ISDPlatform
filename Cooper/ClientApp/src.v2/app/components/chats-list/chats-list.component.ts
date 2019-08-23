@@ -43,8 +43,11 @@ export class ChatsListComponent implements OnInit {
 
     let chatHeader: string;
     if (chat.isOnetoOneChat) {
+
       chatHeader = (this.currentSessionUserId === chat.participants[0].id) ?
-      chat.participants[1].name : chat.participants[0].name;
+      (chat.participants[1].name !== '' ? chat.participants[1].name : chat.participants[1].nickname) :
+      (chat.participants[0].name !== '' ? chat.participants[0].name : chat.participants[0].nickname);
+
     } else {
       chatHeader = (chat.chatName) ? chat.chatName : 'Non-named chat';
     }

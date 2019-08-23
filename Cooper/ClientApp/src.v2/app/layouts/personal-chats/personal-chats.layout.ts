@@ -72,8 +72,12 @@ export class PersonalChatsLayoutComponent {
   }
 
   public async createChatAsync(chat: Chat): Promise<any> {
-    this.modalWindowVisibility = false;
     chat.participants[0] = await this.userService.getUserByNickname(chat.participants[0].nickname);
+
+    if (!chat.participants[0]) {
+      return;
+    }
+    this.modalWindowVisibility = false;
 
     chat.participants.push(await this.sessionService.getSessionUserData());
     chat.messages[0].senderId = this.currentSessionUserId;

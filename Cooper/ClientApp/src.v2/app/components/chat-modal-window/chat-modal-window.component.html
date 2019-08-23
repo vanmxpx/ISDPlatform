@@ -23,6 +23,9 @@
       </div>
 
       <div class="modal-footer">
+        <mat-error *ngIf="emptyMessageFieldError">{{emptyMessageErrorContent}}</mat-error>
+        <mat-error *ngIf="emptyNicknameFieldError">{{emptyNicknameErrorContent}}</mat-error>
+        <mat-error *ngIf="notFoundUserError">{{notFoundUserErrorContent}}</mat-error>
         <button type="button" class="btn btn-default button" data-dismiss="modal" (click)="onSendClick()">Send</button>
       </div>
 
