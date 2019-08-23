@@ -80,6 +80,10 @@ namespace Cooper.Controllers
                 return BadRequest();
             }
 
+            chat.Id = chatId;
+
+            hubContext.Clients.All.BroadcastChat(chat);
+
             return Ok(chatId);
         }
 

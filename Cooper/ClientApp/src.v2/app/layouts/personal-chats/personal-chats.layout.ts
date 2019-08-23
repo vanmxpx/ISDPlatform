@@ -51,6 +51,10 @@ export class PersonalChatsLayoutComponent {
     this.hubConnection.on('BroadcastMessage', (newMessage: Message) => {
         this.currentChat.messages = this.currentChat.messages.concat(newMessage);
     });
+
+    this.hubConnection.on('BroadcastChat', (newChat: Chat) => {
+      this.chatsList = this.chatsList.concat(newChat);
+  });
   }
 
   public changeModalWindowVisibility(): void {
@@ -75,8 +79,6 @@ export class PersonalChatsLayoutComponent {
     chat.messages[0].senderId = this.currentSessionUserId;
 
     this.chatService.createChat(chat);
-
-    window.location.reload();
   }
 
   public sendMessage(message: Message): void {
