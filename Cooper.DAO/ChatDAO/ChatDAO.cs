@@ -48,31 +48,43 @@ namespace Cooper.DAO
 
             IList<EntityORM> chatsEntities = ExecuteQuery(chatAttributes, sqlExpression);
 
-            if (chatsEntities != null)
+            if (chatsEntities != null && chatsEntities.Count != 0)
             {
                 personalChats = new List<ChatDb>(capacity: chatsEntities.Count);
+                var chatsIndexes = new Dictionary<long, int>(capacity: chatsEntities.Count);    // helping collection
 
-                foreach (var chatEntity in chatsEntities)
+                for (int i = 0; i  < chatsEntities.Count; i++)
                 {
                     ChatDb chat;
-                    Mapping.EntityMapping.Map(chatEntity, out chat);
-
-                    var user_attribute = new HashSet<string> { "IDUSER" };
-                    sqlExpression = String.Format("SELECT IDUSER FROM USERSCHATS WHERE IDCHAT = {0}", chat.Id);
-                    IList<EntityORM> participantsEntities = ExecuteQuery(user_attribute, sqlExpression);
-
-                    if (participantsEntities != null)
-                    {
-                        chat.Participants = new List<long>(capacity: participantsEntities.Count);
-
-                        foreach (var participantEntity in participantsEntities)
-                        {
-                            long userId1 = Convert.ToInt64(participantEntity.attributeValue["IDUSER"]);
-                            chat.Participants.Add(userId1);
-                        }
-                    }
+                    Mapping.EntityMapping.Map(chatsEntities[i], out chat);
+                    chat.Participants = new List<long>();
 
                     personalChats.Add(chat);
+
+                    chatsIndexes.Add(chat.Id, i);
+                }
+
+                var user_attribute = new HashSet<string> { "IDUSER", "IDCHAT" };
+                sqlExpression = "SELECT IDUSER, IDCHAT FROM USERSCHATS ";
+
+                for (int i = 0; i < personalChats.Count; i++)
+                {
+                    sqlExpression += (i == 0) ? "WHERE " : "OR ";
+                    sqlExpression += $"IDCHAT = {personalChats[i].Id} ";
+                }
+
+                IList<EntityORM> participantsEntities = ExecuteQuery(user_attribute, sqlExpression);
+
+                if (participantsEntities != null)
+                {
+
+                    foreach (var participantEntity in participantsEntities)
+                    {
+                        long participantId = Convert.ToInt64(participantEntity.attributeValue["IDUSER"]);
+                        long chatId = Convert.ToInt64(participantEntity.attributeValue["IDCHAT"]);
+
+                        personalChats[chatsIndexes[chatId]].Participants.Add(participantId);
+                    }
                 }
             }
 
@@ -88,15 +100,10 @@ namespace Cooper.DAO
             entity.attributeValue.Remove("ID");     
 
             long idChat = crud.Create(table, idColumn, entity);
-
-            #region REWRITE THIS BLOCK
+            
             if (idChat != 0)
             {
-                string anotherTable = "USERSCHATS";
-                var anotherAttributes = new HashSet<string>()
-            {
-                "IDCHAT", "IDUSER"
-            };
+                string relatedTable = "USERSCHATS";
 
                 foreach (var idUser in chat.Participants)
                 {
@@ -104,10 +111,9 @@ namespace Cooper.DAO
                     userChat.attributeValue.Add("IDUSER", idUser);
                     userChat.attributeValue.Add("IDCHAT", idChat);
 
-                    crud.Create(anotherTable, idColumn, userChat);
+                    crud.Create(relatedTable, idColumn, userChat);
                 }
             }
-            #endregion
 
             return idChat;
         }
@@ -158,8 +164,7 @@ namespace Cooper.DAO
 
                 if (reader.Read())
                 {
-                    long size = reader.RowSize;
-                    entities = new List<EntityORM>(capacity: (int)reader.RowSize);
+                    entities = new List<EntityORM>();
 
                     do
                     {

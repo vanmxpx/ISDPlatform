@@ -169,7 +169,34 @@ namespace Cooper.DAO
 
             return users;
         }
-        
+
+        public IList<UserDb> GetUsersById(IList<long> usersId)
+        {
+            var whereFiter = new DbTools.WhereRequest[usersId.Count];
+
+            for (int i = 0; i < usersId.Count; i++)
+            {
+                whereFiter[i] = new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, usersId[i]);
+            }
+
+            IList<UserDb> users = null;
+
+            IList<EntityORM> entities = crud.Read(table, attributes, whereFiter) as List<EntityORM>;
+
+            if (entities != null)
+            {
+                users = new List<UserDb>(capacity: entities.Count);
+                foreach (EntityORM entity in entities)             
+                {
+                    EntityMapping.Map(entity, out UserDb user);
+                    users.Add(user);
+                }
+            }
+
+            return users;
+
+        }
+
         #region Interop properties info reading
         private List<long> GetConnectionsList(long id)
         {

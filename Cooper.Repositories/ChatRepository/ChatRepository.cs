@@ -40,10 +40,7 @@ namespace Cooper.Repositories
                     Chat chat_newTyped = mapper.Map(chat);
                     chat_newTyped.Messages = messageRepository.GetAllMessagesByChatId(chat_newTyped.Id);
 
-                    for (int i = 0; i < chat_newTyped.Participants.Count; i++)
-                    {
-                        chat_newTyped.Participants[i] = userRepository.Get(chat_newTyped.Participants[i].Id);
-                    }
+                    chat_newTyped.Participants = ((IUserRepository)userRepository).GetUsersById(chat.Participants);
 
                     personalChats_newTyped.Add(chat_newTyped);
                 }
