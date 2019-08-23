@@ -67,11 +67,11 @@ export class PersonalChatsLayoutComponent {
     this.currentChat = chat;
   }
 
-  public  createChat(chat: Chat): void { // I rewrite in a normal way creating chat
+  public  createChat(chat: Chat): void {
     this.createChatAsync(chat);
   }
 
-  public async createChatAsync(chat: Chat): Promise<any> { // I rewrite in a normal way creating chat
+  public async createChatAsync(chat: Chat): Promise<any> {
     this.modalWindowVisibility = false;
     chat.participants[0] = await this.userService.getUserByNickname(chat.participants[0].nickname);
 

@@ -22,9 +22,12 @@
 </div>
 
 
-<coop-chat-modal-window 
-[visibility]="modalWindowVisibility"
-(closeModalWindow)="changeModalWindowVisibility($event)"
-(createChat)="createChat($event)"
-></coop-chat-modal-window>
 
+<div class="backdrop" [style.display]="modalWindowVisibility?'block':'none'"></div>
+<div>
+    <coop-chat-modal-window 
+    [visibility]="modalWindowVisibility"
+    (closeModalWindow)="changeModalWindowVisibility($event)"
+    (createChat)="createChat($event)"
+    ></coop-chat-modal-window>
+</div>
