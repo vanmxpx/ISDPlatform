@@ -1,6 +1,4 @@
-import { Component, Inject } from '@angular/core';
-import { MediaserverService } from '@services';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'coop-upload-form',
@@ -8,35 +6,17 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./upload-form.component.scss']
 })
 export class UploadComponent {
-  public error: string;
-
-  constructor(private dialogRef: MatDialogRef<UploadComponent>,
-              @Inject(MAT_DIALOG_DATA) private data: string,
-              private mediaserver: MediaserverService) { }
+  @Input() public error: string;
+  @Output() public upload: EventEmitter<any> = new EventEmitter();
 
   public dragUploadFile(event: any): void {
     event.preventDefault();
-    this.uploadFile(event.dataTransfer.files[0]);
+    this.upload.emit(event.dataTransfer.files[0]);
   }
 
   public clickUploadFile(event: any): void {
     event.preventDefault();
-    this.uploadFile(event.target.files[0]);
-  }
-
-  private uploadFile(file: any): void {
-    if (!file.type.match('image*/')) {
-      this.error = 'File is not an image';
-      return;
-    }
-    /* tslint:disable:no-string-literal */
-    if (this.data['type'] != null) {
-      this.mediaserver.uploadImage(file, this.data['type']).subscribe((data) => {
-        this.dialogRef.close(data);
-      },
-      (err) => { this.error = err; });
-    }
-    /* tslint:enable:no-string-literal */
+    this.upload.emit(event.target.files[0]);
   }
 
   public dragOver(event: any): void {

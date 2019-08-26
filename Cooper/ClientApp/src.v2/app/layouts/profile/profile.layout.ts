@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService, GamesService, UsersSocialConnectionsService, SessionService } from '@services';
 import { MatDialog } from '@angular/material/dialog';
 import { User, Game } from '@models';
-import { UploadComponent } from '@components';
+import { UploadLayoutComponent } from '../upload-form/upload-form.layout';
 
 @Component({
   selector: 'coop-profile-layout',
@@ -38,7 +38,7 @@ export class ProfileLayoutComponent implements OnInit {
 
   public openDialog(): void {
     if (this.sessionService.GetSessionUserId() === this.profile.id) {
-      const dialogRef = this.dialog.open(UploadComponent, {
+      const dialogRef = this.dialog.open(UploadLayoutComponent, {
         data: { type: 'avatar' }
       });
       dialogRef.afterClosed().subscribe(

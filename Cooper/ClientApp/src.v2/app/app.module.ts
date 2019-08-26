@@ -19,10 +19,10 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {AuthGuard} from '@guards';
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent } from '@layouts';
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent, UploadLayoutComponent, HomeLayoutComponent } from '@layouts';
 
-import {LoginFormComponent, UploadComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
-   GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
+import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
+  GamesListComponent, GameListItemComponent, UploadComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
    NavigationComponent} from '@components';
 import { AvatarCardComponent } from './components/avatar-card/avatar-card.component';
 import { MatDialogModule } from '@angular/material';
@@ -46,7 +46,6 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
 @NgModule({
   declarations: [
     AppComponent,
-    UploadComponent,
     LoginLayoutComponent,
     RegistrationLayoutComponent,
     GameLayoutComponent,
@@ -67,7 +66,8 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
   GameCardComponent,
   NavigationComponent,
   AvatarCardComponent,
-  UploadComponent
+  UploadComponent,
+  UploadLayoutComponent
 ],
   imports: [
     BrowserModule,
@@ -106,7 +106,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     AuthGuard
 
   ],
-  entryComponents: [UploadComponent],
+  entryComponents: [UploadLayoutComponent],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
