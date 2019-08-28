@@ -31,7 +31,11 @@ export class ProfileLayoutComponent implements OnInit {
               }
 
     public ngOnInit(): void {
-      this.updateProfile();
+      this.route.queryParams.subscribe(() => {      //  subscription on changing routes params
+        this.route.params.subscribe(() => {
+            this.updateProfile();
+        });
+      });
     }
 
     public updateProfile(): void {
