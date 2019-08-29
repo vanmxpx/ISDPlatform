@@ -8,16 +8,16 @@
     width: 400px;
 }
 
-.text {
+p {
     color: rgb(100, 99, 99);
     font-size: 40px;
 }
 
-.row {
-    display: flex;
-  }
+div.text-block {
+  text-align: left;
+}
 
-.link-text {
+a {
     cursor: pointer;
     font-size: 20px;
 }
