@@ -17,7 +17,6 @@ export class GameLayoutComponent implements OnInit, IComponentCanDeactivate {
   constructor(private route: ActivatedRoute, private gameService: GamesService) { }
 
   public ngOnInit(): void {
-    /* tslint:disable:no-string-literal */
     this.gameService.getGame(this.route.snapshot.params['link']).subscribe((data) => {
         this.game = data;
         this.url = '/' + this.game.link;
@@ -26,7 +25,6 @@ export class GameLayoutComponent implements OnInit, IComponentCanDeactivate {
         console.log(err);
       }
     );
-    /* tslint:enable:no-string-literal */
   }
 
   public canDeactivate(): boolean | Observable<boolean> {
