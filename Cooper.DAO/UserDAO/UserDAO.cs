@@ -254,7 +254,7 @@ namespace Cooper.DAO
                 entity.attributeValue.Remove("PASSWORD");
             } 
 
-            bool ifUpdated = crud.Update(user.Id, table, idColumn, entity);
+            bool ifUpdated = crud.Update(table, entity, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, user.Id) });
 
             if (ifUpdated)
             {
