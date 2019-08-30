@@ -77,6 +77,7 @@ namespace Cooper.DAO
                     {
                         user1_attribute = "IDUSER2";
                         where_attributes.Add(user1_attribute, userId);
+                        where_attributes.Add("BLACKLISTED", "\'n\'");
 
                         user2_attribute = "IDUSER1";
                         break;
@@ -115,93 +116,147 @@ namespace Cooper.DAO
 
         public bool CreateConnection(UsersConnectionDb usersConnection)
         {
-            if (ConnectionExists(usersConnection))
-                return false;
-
-            bool isCreated = false;
-
-            UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
-            var where_attributes = new Dictionary<string, object>()
-            {
-                { "IDUSER1", symmetricConnection.IdUser1 },
-                { "IDUSER2", symmetricConnection.IdUser2 }
-            };
-
+            Connection.Open();
+            OracleTransaction transaction = Connection.BeginTransaction();
             
-            EntityORM entity = Get(table, attributes, where_attributes);
-            
-            if (entity != null)
+            bool isCreated = true;            
+
+            try
             {
-                if (DbTools.ProcessBoolean(entity.attributeValue["BLACKLISTED"]))
+                if (ConnectionExists(usersConnection, transaction))
+                    return false;
+
+                UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
+
+                var where_attributes = new Dictionary<string, object>()
                 {
-                    return isCreated;
-                }
-                
-                symmetricConnection.AreFriends = true;
+                    { "IDUSER1", symmetricConnection.IdUser1 },
+                    { "IDUSER2", symmetricConnection.IdUser2 }
+                };
 
-                EntityORM symmetricConnection_newTyped = Mapping.EntityMapping.Map(symmetricConnection, attributes);
-                
-                // Making sure that ID value is not touched.
-                symmetricConnection_newTyped.attributeValue.Remove("ID");
+                EntityORM entity = Get(table, attributes, where_attributes, transaction);
 
-                Update(table, attributes, where_attributes, symmetricConnection_newTyped);
-
-                usersConnection.AreFriends = true;
-            }
-            
-            isCreated = Save(usersConnection);
-
-            return isCreated;
-        }
-
-        private bool ConnectionExists(UsersConnectionDb usersConnection)
-        {
-            var where_attributes = new Dictionary<string, object>()
-            {
-                { "IDUSER1", usersConnection.IdUser1 },
-                { "IDUSER2", usersConnection.IdUser2 }
-            };
-
-
-            EntityORM usersConnection_newTyped = Get(table, attributes, where_attributes);
-
-            return usersConnection_newTyped != null;
-        }
-
-        public bool BanUser(UsersConnectionDb usersConnection)
-        {
-            bool isBanned = false;
-            bool isUnsubscribed = false;
-            UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
-
-            var where_attributes = new Dictionary<string, object>()
-            {
-                { "IDUSER1", usersConnection.IdUser1 },
-                { "IDUSER2", usersConnection.IdUser2 }
-            };
-
-            if (ConnectionExists(symmetricConnection))
-            {
-                isUnsubscribed = Unsubscribe(symmetricConnection);
-            }
-
-            if (ConnectionExists(usersConnection))
-            {
-                if (isUnsubscribed)
+                if (entity != null)
                 {
-                    usersConnection.AreFriends = false;
+                    if (DbTools.ProcessBoolean(entity.attributeValue["BLACKLISTED"]))
+                    {
+                        isCreated = false;
+
+                        return isCreated;
+                    }
+
+                    symmetricConnection.AreFriends = true;
+
+                    EntityORM symmetricConnection_newTyped = Mapping.EntityMapping.Map(symmetricConnection, attributes);
+
+                    // Making sure that ID value is not touched.
+                    symmetricConnection_newTyped.attributeValue.Remove("ID");
+
+                    Update(table, attributes, where_attributes, symmetricConnection_newTyped, transaction);
+
+                    usersConnection.AreFriends = true;
                 }
+
+                where_attributes["IDUSER1"] = usersConnection.IdUser1;
+                where_attributes["IDUSER2"] = usersConnection.IdUser2;
 
                 EntityORM usersConnection_newTyped = Mapping.EntityMapping.Map(usersConnection, attributes);
 
                 // Making sure that ID value is not touched.
                 usersConnection_newTyped.attributeValue.Remove("ID");
 
-                isBanned = Update(table, attributes, where_attributes, usersConnection_newTyped);
+                Create(table, usersConnection_newTyped, transaction);
+
+                transaction.Commit();
             }
-            else
+            catch (DbException ex)
             {
-                isBanned = Save(usersConnection);
+                logger.Info("Creating subscription user with id={1} on user with id={0} failed: {2}", usersConnection.IdUser1, usersConnection.IdUser2, ex.Message);
+                transaction.Rollback();
+            }
+            finally
+            {
+                Connection.Close();
+            }
+
+            return isCreated;
+        }
+
+        private bool ConnectionExists(UsersConnectionDb usersConnection, OracleTransaction transaction)
+        {
+            var where_attributes = new Dictionary<string, object>()
+            {
+                { "IDUSER1", usersConnection.IdUser1 },
+                { "IDUSER2", usersConnection.IdUser2 }
+            };
+
+
+            EntityORM usersConnection_newTyped = Get(table, attributes, where_attributes, transaction);
+
+            return usersConnection_newTyped != null;
+        }
+
+        public bool BanUser(UsersConnectionDb usersConnection)
+        {
+
+            bool isBanned = true;
+            bool isUnsubscribed = false;
+            
+
+            Connection.Open();
+            OracleTransaction transaction = Connection.BeginTransaction();
+
+            try
+            {
+                UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
+
+                var where_attributes = new Dictionary<string, object>()
+                {
+                    { "IDUSER1", symmetricConnection.IdUser1 },
+                    { "IDUSER2", symmetricConnection.IdUser2 }
+                };
+
+                if (ConnectionExists(symmetricConnection, transaction))
+                {
+                    isUnsubscribed = true;
+                    Delete(table, attributes, where_attributes, transaction);
+                }
+
+                where_attributes["IDUSER1"] = usersConnection.IdUser1;
+                where_attributes["IDUSER2"] = usersConnection.IdUser2;
+
+
+
+                EntityORM usersConnection_newTyped = Mapping.EntityMapping.Map(usersConnection, attributes);
+
+                // Making sure that ID value is not touched.
+                usersConnection_newTyped.attributeValue.Remove("ID");
+
+                if (ConnectionExists(usersConnection, transaction))
+                {
+                    if (isUnsubscribed)
+                    {
+                        usersConnection.AreFriends = false;
+                    }
+
+                    Update(table, attributes, where_attributes, usersConnection_newTyped, transaction);
+                }
+                else
+                {
+                    Create(table, usersConnection_newTyped, transaction);
+                }
+                transaction.Commit();
+
+            }
+            catch (DbException ex)
+            {
+                logger.Info("Banning user with id={1} by user with id={0} failed: {2}", usersConnection.IdUser1, usersConnection.IdUser2, ex.Message);
+                transaction.Rollback();
+                isBanned = false;
+            }
+            finally
+            {
+                Connection.Close();
             }
 
             return isBanned;
@@ -209,64 +264,100 @@ namespace Cooper.DAO
 
         public bool UnbanUser(UsersConnectionDb usersConnection)
         {
+            bool isUnbanned = true;
+
             var where_attributes = new Dictionary<string, object>()
             {
                 { "IDUSER1", usersConnection.IdUser1 },
                 { "IDUSER2", usersConnection.IdUser2 }
             };
 
-            bool isUnbanned = Delete(table, attributes, where_attributes);
+            Connection.Open();
+            OracleTransaction transaction = Connection.BeginTransaction();
+
+            try
+            {
+                Delete(table, attributes, where_attributes, transaction);
+                transaction.Commit();
+            }
+            catch (DbException ex)
+            {
+                logger.Info("Unbanning user with id={1} by user with id={0} failed: {2}", usersConnection.IdUser1, usersConnection.IdUser2, ex.Message);
+                isUnbanned = false;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+
 
             return isUnbanned;
         }
 
         public bool Unsubscribe(UsersConnectionDb usersConnection)
         {
-            var where_attributes = new Dictionary<string, object>()
+            bool isUnsubscribed = true;
+            
+            Connection.Open();
+            OracleTransaction transaction = Connection.BeginTransaction();
+
+            try
             {
-                { "IDUSER1", usersConnection.IdUser1 },
-                { "IDUSER2", usersConnection.IdUser2 }
-            };
+                var where_attributes = new Dictionary<string, object>()
+                {
+                    { "IDUSER1", usersConnection.IdUser1 },
+                    { "IDUSER2", usersConnection.IdUser2 }
+                };
+                Delete(table, attributes, where_attributes, transaction);
 
-            bool isUnsubscribed = Delete(table, attributes, where_attributes);
+                UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
 
-            UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
+                if (ConnectionExists(symmetricConnection, transaction))
+                {
+                    where_attributes["IDUSER1"] = symmetricConnection.IdUser1;
+                    where_attributes["IDUSER2"] = symmetricConnection.IdUser2;
+                    symmetricConnection.AreFriends = false;
 
-            if (ConnectionExists(symmetricConnection))
+                    EntityORM symmetricConnection_newTyped = Mapping.EntityMapping.Map(symmetricConnection, attributes);
+
+                    // Making sure that ID value is not touched.
+                    symmetricConnection_newTyped.attributeValue.Remove("ID");
+
+                    Update(table, attributes, where_attributes, symmetricConnection_newTyped, transaction);
+                }
+
+                transaction.Commit();
+                logger.Info($"User with id={usersConnection.IdUser1} has succesfully unsubscribed from user with id={usersConnection.IdUser2}");
+            }
+            catch (DbException ex)
             {
-                where_attributes["IDUSER1"] = symmetricConnection.IdUser1;
-                where_attributes["IDUSER2"] = symmetricConnection.IdUser2;
-                symmetricConnection.AreFriends = false;
+                logger.Info("Unsubcription user with id={0} from user with id={1} failed: {2}", usersConnection.IdUser1, usersConnection.IdUser2, ex.Message);
+                transaction.Rollback();
 
-                EntityORM symmetricConnection_newTyped = Mapping.EntityMapping.Map(symmetricConnection, attributes);
-
-                // Making sure that ID value is not touched.
-                symmetricConnection_newTyped.attributeValue.Remove("ID");
-
-                Update(table, attributes, where_attributes, symmetricConnection_newTyped);
+                isUnsubscribed = false;
+            }
+            finally
+            {
+                Connection.Close();
             }
 
             return isUnsubscribed;
         }
-        
-        public bool Save(UsersConnectionDb usersConnection)
+
+        public void Create(string table, EntityORM entity, OracleTransaction transaction)
         {
-            bool isSaved = false;
 
-            EntityORM entity = EntityMapping.Map(usersConnection, attributes);
+            #region Creating SQL expression text
+            string sqlExpression = String.Format("INSERT INTO {0} ({1}) VALUES ({2})",
+                table,
+                String.Join(",", entity.attributeValue.Keys),
+                String.Join(",", entity.attributeValue.Values));
+            #endregion
+            
+            OracleCommand command = new OracleCommand(sqlExpression, Connection);
+            command.Transaction = transaction;
 
-            // Making sure that ID value is not touched.
-            entity.attributeValue.Remove("ID");
-
-            long userConnection_id = crud.Create(table, idColumn, entity);
-
-            if (userConnection_id != 0)
-            {
-                logger.Info($"UsersConnection with id = {userConnection_id} was created");
-                isSaved = true;
-            }
-
-            return isSaved;
+            command.ExecuteNonQuery();
         }
 
         /// <summary>
@@ -329,106 +420,60 @@ namespace Cooper.DAO
         /// <param name="attributes"></param>
         /// <param name="where_attributes"></param>
         /// <returns></returns>
-        private EntityORM Get(string table, HashSet<string> attributes, Dictionary<string, object> where_attributes)
+        private EntityORM Get(string table, HashSet<string> attributes, Dictionary<string, object> where_attributes, OracleTransaction transaction)
         {
             EntityORM entity = null;
 
-            try
+            string where_part = string.Join(" AND ", where_attributes.Select(x => string.Format("{0}={1}", x.Key, x.Value)));
+            string sqlExpression = String.Format("SELECT * FROM {0} WHERE {1}", table, where_part);
+
+            OracleCommand command = new OracleCommand(sqlExpression, Connection);
+            command.Transaction = transaction;
+
+            OracleDataReader reader = command.ExecuteReader();
+
+            if (reader.Read())
             {
-                dbConnect.OpenConnection();
-                
-                string where_part = string.Join(" AND ", where_attributes.Select(x => string.Format("{0}={1}", x.Key, x.Value)));
-                string sqlExpression = String.Format("SELECT * FROM {0} WHERE {1}", table, where_part);                
-                
-                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
+                entity = new EntityORM();
 
-                OracleDataReader reader = command.ExecuteReader();
-
-                if (reader.Read())
+                foreach (string attribute in attributes)
                 {
-                    entity = new EntityORM();
-
-                    foreach (string attribute in attributes)
-                    {
-                        object value = reader[attribute];
-                        entity.attributeValue.Add(attribute, value);
-                    }
+                    object value = reader[attribute];
+                    entity.attributeValue.Add(attribute, value);
                 }
-
-            }
-            catch (DbException ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
             }
 
             return entity;
         }
 
-        private bool Delete(string table, HashSet<string> attributes, Dictionary<string, object> where_attributes)
+        private void Delete(string table, HashSet<string> attributes, Dictionary<string, object> where_attributes, OracleTransaction transaction)
         {
-            bool isDeleted = false;
+            string where_part = string.Join(" AND ", where_attributes.Select(x => string.Format("{0}={1}", x.Key, x.Value)));
+            string sqlExpression = string.Format("DELETE FROM {0} WHERE {1}", table, where_part);
             
-            try
-            {
-                dbConnect.OpenConnection();
-                
-                string where_part = string.Join(" AND ", where_attributes.Select(x => string.Format("{0}={1}", x.Key, x.Value)));
-                string sqlExpression = string.Format("DELETE FROM {0} WHERE {1}", table, where_part);
 
-
-                dbConnect.ExecuteNonQuery(sqlExpression);
-
-                isDeleted = true;
-            }
-            catch (DbException ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
-            }
-
-            return isDeleted;
+            OracleCommand command = new OracleCommand(sqlExpression, Connection);
+            command.Transaction = transaction;
+            command.ExecuteNonQuery();
         }
 
-        private bool Update(string table, HashSet<string> attributes, Dictionary<string, object> where_attributes, EntityORM entity)
+        private void Update(string table, HashSet<string> attributes, Dictionary<string, object> where_attributes, EntityORM entity, OracleTransaction transaction)
         {
-
-            bool isUpdated = false;
-
-            try
-            {
-                dbConnect.OpenConnection();
-
-                #region Forming SQL-expression
+            
+            #region Forming SQL-expression
 
 
-                string set_part = string.Join(", ", entity.attributeValue.Select(x => string.Format("{0}={1}", x.Key, x.Value)));
-                string where_part = string.Join(" AND ", where_attributes.Select(x => string.Format("{0}={1}", x.Key, x.Value)));
+            string set_part = string.Join(", ", entity.attributeValue.Select(x => string.Format("{0}={1}", x.Key, x.Value)));
+            string where_part = string.Join(" AND ", where_attributes.Select(x => string.Format("{0}={1}", x.Key, x.Value)));
 
-                string sqlExpression = String.Format("UPDATE {0} SET {1} WHERE {2}", table, set_part, where_part);
-                #endregion
+            string sqlExpression = String.Format("UPDATE {0} SET {1} WHERE {2}", table, set_part, where_part);
+            #endregion
 
-                dbConnect.ExecuteNonQuery(sqlExpression);
 
-                isUpdated = true;
+            var oracleCommand = new OracleCommand(sqlExpression, Connection);
+            oracleCommand.Transaction = transaction;
 
-            }
-            catch (DbException ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
-            }
-
-            return isUpdated;
+            oracleCommand.ExecuteNonQuery();
         }
 
     }
