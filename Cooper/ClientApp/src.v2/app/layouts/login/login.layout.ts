@@ -40,8 +40,10 @@ export class LoginLayoutComponent {
   public socialSignIn(platform: SocialNetwork): void {
     this.authService.socialSignIn(platform);
   }
-  public langChangeEvent(lang: string): void {
+  public onLangChanged(lang: string): void {
     this.localizationService.onLanguageChanged(lang);
   }
-
+  public setDefaultLang(): void {
+    this.translate.setDefaultLang(this.currentLanguage);
+  }
 }

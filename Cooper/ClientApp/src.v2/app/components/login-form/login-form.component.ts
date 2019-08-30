@@ -12,14 +12,14 @@ export class LoginFormComponent {
 
   public failedLoginMessage: string = 'Invalid username or password.';
 
-  @Input() public failedLogin: boolean;
+  @Output() public settingDefaultLang: EventEmitter<string> = new EventEmitter<string>();
   @Output() public signIn: EventEmitter<NgForm> = new EventEmitter<NgForm>();
   @Output() public socialSignIn: EventEmitter<SocialNetwork> = new EventEmitter<SocialNetwork>();
   @Output() public langChangeEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Input() public failedLogin: boolean;
   @Input() public languageKeys: string[];
   @Input() public languages: any;
   @Input() public currentLanguage: string;
-
   constructor(public translate: TranslateService) { }
   public onSignInClicked(form: NgForm): void {
     this.signIn.emit(form);
@@ -27,5 +27,13 @@ export class LoginFormComponent {
 
   public onSocialSignInClicked(socialNetwork: SocialNetwork): void {
     this.socialSignIn.emit(socialNetwork);
+  }
+
+  public onLangChanged(lang: string): void {
+    this.langChangeEvent.emit(lang);
+  }
+
+  public setDefaultLang(): void {
+    this.settingDefaultLang.emit(this.currentLanguage);
   }
 }

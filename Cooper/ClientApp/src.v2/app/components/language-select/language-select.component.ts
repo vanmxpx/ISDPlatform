@@ -1,5 +1,4 @@
 import { Component, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'coop-language-select',
@@ -12,12 +11,13 @@ export class LanguageSelectComponent {
   @Input() public languages: any;
   @Input() public currentLanguage: string;
   @Output() public langChangeEvent: EventEmitter<string> = new EventEmitter<string>();
-
-  constructor(public translate: TranslateService) {
-    translate.setDefaultLang(this.currentLanguage);
-  }
+  @Output() public settingDefaultLang: EventEmitter<string> = new EventEmitter<string>();
 
   public onLangChanged(lang: string): void {
     this.langChangeEvent.emit(lang);
+  }
+
+  public setDefaultLang(): void {
+    this.settingDefaultLang.emit(this.currentLanguage);
   }
 }

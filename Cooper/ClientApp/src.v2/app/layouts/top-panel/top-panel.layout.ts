@@ -28,4 +28,7 @@ export class TopPanelLayoutComponent {
    public onLangChangeEvent(lang: string): void {
     this.localizationService.onLanguageChanged(lang);
   }
+  public setDefaultLang(): void {
+    this.translate.setDefaultLang(this.currentLanguage);
+  }
 }
