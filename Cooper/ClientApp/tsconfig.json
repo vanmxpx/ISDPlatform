@@ -30,7 +30,7 @@
     "@services": ["src.v2/app/services/"],
     "@guards": ["src.v2/app/guards/"],
     "@enums": ["src.v2/app/enums/"],
-    "@environment/*": ["src.v2/environments/*"]
+    "@environment/*": ["src.v2/environments/*"],
     }
   }
 }

@@ -8,4 +8,5 @@ import {Game} from '@models';
 export class GamesListComponent {
 
   @Input() public games: Game[];
+
 }

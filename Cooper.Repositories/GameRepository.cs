@@ -34,23 +34,12 @@ namespace Cooper.Repositories
             return games_newType;
         }
 
-        public Game Get(object obj)
+        public Game Get(long id)
         {
+            GameDb game = gameDAO.GetExtended(id);
 
             Game game_newTyped = null;
-            GameDb game = null;
-            if (obj is string name)
-            {
-                game = gameDAO.GetByName(name);
-            }
-            else if (obj is long id)
-            {
-               game = gameDAO.Get(id);
-            }
-            else
-            {
-                throw new System.Exception("Object type error!");
-            }
+
 
             if (game != null)
             {
@@ -78,5 +67,8 @@ namespace Cooper.Repositories
         {
             gameDAO.Delete(id);
         }
+
+        
+
     }
 }

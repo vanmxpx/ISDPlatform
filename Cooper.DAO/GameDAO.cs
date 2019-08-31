@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Cooper.DAO
 {
-    public class GameDAO : IGameDAO
+    public class GameDAO : IDAO<GameDb>
     {
         private readonly CRUD crud;
         private readonly Logger logger;
@@ -16,7 +16,7 @@ namespace Cooper.DAO
         private string table;
         private string idColumn;
         private HashSet<string> attributes;
-
+        
         public GameDAO(IConfigProvider configProvider)
         {
             crud = new CRUD(configProvider);
@@ -34,25 +34,13 @@ namespace Cooper.DAO
 
         #region Get methods
 
-        public GameDb Get(long id)
+        public GameDb Get(object id)
         {
             GameDb game = null;
-            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
 
-            if (entities.Any())
-            {
-                EntityMapping.Map(entities[0], out game);
-            }
+             List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
 
-            return game;
-        }
-
-        public GameDb GetByName(string name)
-        {
-            GameDb game = null;
-            List<EntityORM>  entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest("LINK", DbTools.RequestOperator.Equal, $"'{name}'") }));
-            if (entities.Any())
-            {
+            if (entities.Any()) {
                 EntityMapping.Map(entities[0], out game);
             }
 
@@ -69,17 +57,17 @@ namespace Cooper.DAO
             GameDb game = Get(id);
 
             //game.PlayersList = GetPlayersList(id);
-
+            
             return game;
         }
-
+        
         public IEnumerable<GameDb> GetAll()
         {
             List<GameDb> games = new List<GameDb>();
 
             List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes);
 
-            foreach (EntityORM entity in entities)
+            foreach (EntityORM entity in entities)              
             {
                 EntityMapping.Map(entity, out GameDb game);
                 games.Add(game);
@@ -91,7 +79,7 @@ namespace Cooper.DAO
 
         #region Interop properties info reading
 
-        private List<long> GetPlayersList(long idGame)
+        private List<long> GetPlayersList(long idGame) 
         {
             // TODO
             List<long> playersList = new List<long>();
@@ -106,7 +94,7 @@ namespace Cooper.DAO
         #endregion
 
         #endregion
-
+        
         public long Save(GameDb game)
         {
             EntityORM entity = EntityMapping.Map(game, attributes);

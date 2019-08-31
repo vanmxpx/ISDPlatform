@@ -17,7 +17,6 @@ export class GamesLayoutComponent implements OnInit {
   public games: Game[];
   public isLoading: boolean = true;
   public selectedTab: GameListTabs = GameListTabs.Cards;
-  public GameTabs: typeof GameListTabs = GameListTabs;
 
   constructor(private gameService: GamesService) { }
 

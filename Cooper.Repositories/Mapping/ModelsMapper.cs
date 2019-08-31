@@ -80,7 +80,7 @@ namespace Cooper.Repositories.Mapping
         }
 
         #endregion
-        
+
         #region User Mapping
         public User Map(UserDb user)
         {
@@ -104,7 +104,7 @@ namespace Cooper.Repositories.Mapping
             #endregion
 
             #region Transfering interop attributes
-            
+
 
             #endregion
 
@@ -131,7 +131,7 @@ namespace Cooper.Repositories.Mapping
             user_newType.PlatformTheme = user.PlatformTheme;
 
             #endregion
-            
+
 
             return user_newType;
         }
@@ -241,7 +241,7 @@ namespace Cooper.Repositories.Mapping
         }
 
         #endregion
-        
+
         #region UserReview Mapping
 
         public UserReview Map(UserReviewDb userReview)
@@ -291,7 +291,7 @@ namespace Cooper.Repositories.Mapping
         }
 
         #endregion
-        
+
         #region Chat Mapping
         public Chat Map(ChatDb chat)
         {

@@ -7,8 +7,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { DynamiSocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from 'ng-dynami-social-login';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatInputModule, MatButtonModule, MatCardModule, MatListModule, MatTabsModule,
-  MatBadgeModule, MatGridListModule, MatRippleModule } from '@angular/material';
+import {
+  MatInputModule, MatButtonModule, MatCardModule, MatListModule, MatTabsModule,
+  MatBadgeModule, MatGridListModule, MatRippleModule
+} from '@angular/material';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -18,27 +20,31 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AuthGuard } from '@guards';
 import { SafePipe } from '@pipes';
-import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
+import {
+  LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent,
-  ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent } from '@layouts';
-import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
-   GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
-   NavigationComponent, ResetPasswordFormComponent, ConfirmPasswordFormComponent, AvatarCardComponent} from '@components';
+  ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent
+} from '@layouts';
+import {
+  LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
+  GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
+  NavigationComponent, ResetPasswordFormComponent, ConfirmPasswordFormComponent, AvatarCardComponent
+} from '@components';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
-      [
-         {
-          id: FacebookLoginProvider.PROVIDER_ID,
-          provider: new FacebookLoginProvider('INSERT_FACEBOOK_APP_ID')
-        },
-        {
-          id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider('INSERT_GOOGLE_APP_ID')
-        }
+    [
+      {
+        id: FacebookLoginProvider.PROVIDER_ID,
+        provider: new FacebookLoginProvider('INSERT_FACEBOOK_APP_ID')
+      },
+      {
+        id: GoogleLoginProvider.PROVIDER_ID,
+        provider: new GoogleLoginProvider('INSERT_GOOGLE_APP_ID')
+      }
 
-      ]
+    ]
   );
   return config;
 }
@@ -56,21 +62,21 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     HomeLayoutComponent,
     ResetPasswordLayoutComponent,
     ConfirmPasswordLayoutComponent,
-  SafePipe,
-  LoginFormComponent,
-  RegistrationFormComponent,
-  PosterComponent,
-  UserConnectionsListComponent,
-  GamesListComponent,
-  UserInfoComponent,
-  MyProfileComponent,
-  GameListItemComponent,
-  GameCardComponent,
-  NavigationComponent,
-  AvatarCardComponent,
-  ResetPasswordFormComponent,
-  ConfirmPasswordFormComponent
-],
+    SafePipe,
+    LoginFormComponent,
+    RegistrationFormComponent,
+    PosterComponent,
+    UserConnectionsListComponent,
+    GamesListComponent,
+    UserInfoComponent,
+    MyProfileComponent,
+    GameListItemComponent,
+    GameCardComponent,
+    NavigationComponent,
+    AvatarCardComponent,
+    ResetPasswordFormComponent,
+    ConfirmPasswordFormComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -107,7 +113,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     AuthGuard
 
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
 export class PizzaPartyAppModule { }
