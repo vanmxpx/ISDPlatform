@@ -6,62 +6,61 @@ using System.Collections.Generic;
 
 namespace Cooper.Controllers
 {
-    [Route("api/chats")]
+    [Route("api/chat/messages")]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public class ChatController : ControllerBase
+    public class MessageController : ControllerBase
     {
-        private readonly ChatRepository chatRepository;
+        private readonly MessageRepository messageRepository;
 
-        public ChatController(IConfigProvider configProvider)
+        public MessageController(IConfigProvider configProvider)
         {
-            chatRepository = new ChatRepository(configProvider);
+            messageRepository = new MessageRepository(configProvider);
         }
 
         [HttpGet]
-        public IEnumerable<Chat> GetAll()
+        public IEnumerable<Message> GetAll()
         {
-            return chatRepository.GetAll();
+            return messageRepository.GetAll();
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(Chat))]
+        [ProducesResponseType(200, Type = typeof(Message))]
         [ProducesResponseType(404)]
-        public IActionResult GetChatById(long id)
+        public IActionResult GetMessageById(long id)
         {
-            Chat chat = chatRepository.Get(id);
-
-            if (chat == null)
+            Message message = messageRepository.Get(id);
+            if (message == null)
             {
                 return NotFound();
             }
 
-            return Ok(chat);
+            return Ok(message);
         }
 
         // POST api/<controller>
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(201)]
-        public IActionResult Post([FromBody]Chat chat)
+        public IActionResult Post([FromBody]Message message)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (chat.Id == 0)
+            if (message.Id == 0)
             {
-                long id = chatRepository.Create(chat);
-                chat.Id = id;
+                long id = messageRepository.Create(message);
+                message.Id = id;
 
-                return Ok(chat);
+                return Ok(message);
             }
             else
             {
-                chatRepository.Update(chat);
+                messageRepository.Update(message);
 
-                return Ok(chat);
+                return Ok(message);
             }
         }
 
@@ -69,7 +68,7 @@ namespace Cooper.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            chatRepository.Delete(id);
+            messageRepository.Delete(id);
             return Ok();
         }
     }

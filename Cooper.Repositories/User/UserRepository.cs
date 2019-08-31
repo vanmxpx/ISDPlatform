@@ -69,7 +69,7 @@ namespace Cooper.Repositories
         {
             return verifyDAO.Get(token)?.Email;
         }
-        
+
         public bool IfResetTokenExists(string token)
         {
             return resetTokenDAO.IfTokenExists(token);
@@ -81,7 +81,7 @@ namespace Cooper.Repositories
         #region Main methods
 
         #region Get Methods
-        
+
         public IEnumerable<User> GetAll()
         {
             List<UserDb> users = (List<UserDb>)userDAO.GetAll();
@@ -179,7 +179,7 @@ namespace Cooper.Repositories
 
             return verifyDAO.Save(verifydb);
         }
-        
+
         public long Create(ResetToken resetToken)
         {
             ResetTokenDb resetTokenDb = mapper.Map(resetToken);
@@ -205,18 +205,13 @@ namespace Cooper.Repositories
             userDAO.Update(userDb, removePassword: true);
         }
 
-        public void UpdateAvatar(string url, long userId)
-        {
-            userDAO.UpdateAvatar(url, userId);
-        }
-
         public void ConfirmEmail(string token, string email)
         {
             var user = userDAO.GetByEmail(token);
             user.Email = email;
             userDAO.Update(user);
         }
-        
+
         public void ResetPassword(string token, string newPassword)
         {
             string email = resetTokenDAO.GetEmailByToken(token);
@@ -225,7 +220,6 @@ namespace Cooper.Repositories
             userDAO.Update(user);
             resetTokenDAO.Delete(token);
         }
-
 
         public void Delete(long id)
         {

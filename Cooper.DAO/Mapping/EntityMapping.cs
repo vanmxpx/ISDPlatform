@@ -1,4 +1,4 @@
-using Cooper.DAO.Models;
+﻿using Cooper.DAO.Models;
 using Cooper.ORM;
 using System;
 using System.Collections.Generic;
@@ -48,7 +48,7 @@ namespace Cooper.DAO.Mapping
 
             return entity;
         }
-      
+
         public static void Map(EntityORM entity, out VerificationDb verify)
         {
             verify = new VerificationDb();
@@ -470,10 +470,10 @@ namespace Cooper.DAO.Mapping
                         message.Id = Convert.ToInt64(aV.Value);
                         break;
                     case "IDSENDER":
-                        message.SenderId = Convert.ToInt64(aV.Value);
+                        message.IdSender = Convert.ToInt64(aV.Value);
                         break;
                     case "IDCHAT":
-                        message.ChatId = Convert.ToInt64(aV.Value);
+                        message.IdChat = Convert.ToInt64(aV.Value);
                         break;
                     case "CONTENT":
                         message.Content = aV.Value.ToString();
@@ -504,10 +504,10 @@ namespace Cooper.DAO.Mapping
                 switch (attribute)
                 {
                     case "IDSENDER":
-                        value = message.SenderId;
+                        value = message.IdSender;
                         break;
                     case "IDCHAT":
-                        value = message.ChatId;
+                        value = message.IdChat;
                         break;
                     case "CONTENT":
                         value = $"\'{message.Content}\'";
@@ -516,7 +516,7 @@ namespace Cooper.DAO.Mapping
                         value = $"\'{message.CreateDate.ToString("dd-MMM-yyyy")}\'";
                         break;
                     case "ISREAD":
-                        value = (message.IsRead) ? "\'y\'" : "\'n\'" ;
+                        value = (message.IsRead) ? "\'y\'" : "\'n\'";
                         break;
                     default:
                         break;
@@ -547,9 +547,6 @@ namespace Cooper.DAO.Mapping
                     case "CHATNAME":
                         chat.ChatName = aV.Value.ToString();
                         break;
-                    case "ISONETOONE":
-                        chat.IsOneToOneChat = DbTools.ProcessBoolean(aV.Value);
-                        break;
                     default:
                         break;
                 }
@@ -571,9 +568,6 @@ namespace Cooper.DAO.Mapping
                 {
                     case "CHATNAME":
                         value = $"\'{chat.ChatName}\'";
-                        break;
-                    case "ISONETOONE":
-                        value = (chat.IsOneToOneChat) ? "\'y\'" : "\'n\'";
                         break;
                     default:
                         break;
@@ -727,3 +721,4 @@ namespace Cooper.DAO.Mapping
     }
 
 }
+

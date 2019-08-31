@@ -41,7 +41,7 @@ namespace Cooper.Controllers
                 Author = user
             };
             commonChatRepository.addMessage(message);
-            //_hubContext.Clients.All.BroadcastMessage(message);
+            _hubContext.Clients.All.BroadcastMessage(message);
 
             return Ok();
         }

@@ -266,23 +266,6 @@ namespace Cooper.DAO
             }
         }
 
-        public void UpdateAvatar(string url, long userId)
-        {
-            EntityORM entity = new EntityORM();
-            entity.attributeValue.Add(DbTools.GetVariableAttribute("PHOTOURL"), $"'{url}'");
-
-            bool ifUpdated = crud.Update(table, entity, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, userId) });
-
-            if (ifUpdated)
-            {
-                logger.Info($"User avatar with id={userId} was successfully updated.");
-            }
-            else
-            {
-                logger.Info($"Updating user avatar with id={userId} was failed.");
-            }
-        }
-
         #endregion
     }
 }

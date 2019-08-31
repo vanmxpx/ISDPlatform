@@ -17,5 +17,3 @@ export {HomeLayoutComponent} from './home/home.layout';
 
 export {ResetPasswordLayoutComponent} from './reset-password/reset-password.layout';
 export {ConfirmPasswordLayoutComponent} from './confirm-password/confirm-password.layout';
-
-export {PersonalChatsLayoutComponent} from './personal-chats/personal-chats.layout';

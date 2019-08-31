@@ -12,7 +12,6 @@ namespace Cooper.Services
                 ConnectionStrings = GetConfiguration<ConnectionStrings>(configuration, "ConnectionStrings"),
                 FacebookProvider = GetConfiguration<Provider>(configuration, "FacebookProvider"),
                 GmailProvider = GetConfiguration<Smtp>(configuration, "GmailProvider"),
-                MediaserverConf = GetConfiguration<MediaserverConf>(configuration, "MediaserverConf"),
                 JwtToken = GetConfiguration<JwtToken>(configuration, "JwtToken")
             };
 
