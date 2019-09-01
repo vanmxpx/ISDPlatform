@@ -45,8 +45,8 @@ namespace Cooper.DAO
         public List<UserDb> GetSpecifiedTypeUsersList(object userId, ConnectionType connectionType)
         {
             List<UserDb> usersList = null;
-
-            var where_attributes = new Dictionary<string, object>();
+            
+            DbTools.WhereRequest[] where_filter = null;
 
             string user1_attribute = String.Empty;
             string user2_attribute = String.Empty;
@@ -56,8 +56,15 @@ namespace Cooper.DAO
                 case ConnectionType.Subscribers:
                     {
                         user1_attribute = "IDUSER1";
-                        where_attributes.Add(user1_attribute, userId);
-                        where_attributes.Add("BLACKLISTED", DbTools.WrapBoolean(false));
+                        
+
+                        where_filter = new DbTools.WhereRequest[]
+                        {
+                            new DbTools.WhereRequest(user1_attribute, DbTools.RequestOperator.Equal, userId, new DbTools.WhereRequest[] 
+                            {
+                                new DbTools.WhereRequest("BLACKLISTED", DbTools.RequestOperator.Equal, DbTools.WrapBoolean(false))
+                            })
+                        };
 
                         user2_attribute = "IDUSER2";
 
@@ -67,8 +74,13 @@ namespace Cooper.DAO
                     {
                         user1_attribute = "IDUSER1";
 
-                        where_attributes.Add(user1_attribute, userId);
-                        where_attributes.Add("BLACKLISTED", DbTools.WrapBoolean(true));
+                        where_filter = new DbTools.WhereRequest[]
+                        {
+                            new DbTools.WhereRequest(user1_attribute, DbTools.RequestOperator.Equal, userId, new DbTools.WhereRequest[]
+                            {
+                                new DbTools.WhereRequest("BLACKLISTED", DbTools.RequestOperator.Equal, DbTools.WrapBoolean(true))
+                            })
+                        };
 
                         user2_attribute = "IDUSER2";
                         break;
@@ -76,8 +88,14 @@ namespace Cooper.DAO
                 case ConnectionType.Subscriptions:
                     {
                         user1_attribute = "IDUSER2";
-                        where_attributes.Add(user1_attribute, userId);
-                        where_attributes.Add("BLACKLISTED", DbTools.WrapBoolean(false));
+
+                        where_filter = new DbTools.WhereRequest[]
+                        {
+                            new DbTools.WhereRequest(user1_attribute, DbTools.RequestOperator.Equal, userId, new DbTools.WhereRequest[]
+                            {
+                                new DbTools.WhereRequest("BLACKLISTED", DbTools.RequestOperator.Equal, DbTools.WrapBoolean(false))
+                            })
+                        };
 
                         user2_attribute = "IDUSER1";
                         break;
@@ -86,8 +104,13 @@ namespace Cooper.DAO
                     {
                         user1_attribute = "IDUSER1";
 
-                        where_attributes.Add(user1_attribute, userId);
-                        where_attributes.Add("AREFRIENDS", DbTools.WrapBoolean(true));
+                        where_filter = new DbTools.WhereRequest[]
+                        {
+                            new DbTools.WhereRequest(user1_attribute, DbTools.RequestOperator.Equal, userId, new DbTools.WhereRequest[]
+                            {
+                                new DbTools.WhereRequest("AREFRIENDS", DbTools.RequestOperator.Equal, DbTools.WrapBoolean(true))
+                            })
+                        };
 
                         user2_attribute = "IDUSER2";
                         break;
@@ -96,7 +119,7 @@ namespace Cooper.DAO
                     break;                    
             }
             
-            List<EntityORM> userConnections = GetAll(table, attributes, where_attributes);
+            List<EntityORM> userConnections = (List<EntityORM>)crud.Read(table, attributes, where_filter);
 
             if (userConnections != null)
             {
@@ -358,59 +381,6 @@ namespace Cooper.DAO
             command.Transaction = transaction;
 
             command.ExecuteNonQuery();
-        }
-
-        /// <summary>
-        /// Gets all the records which satisfy sql-expression with WHERE keyword. In the other way returns null.
-        /// </summary>
-        /// <param name="table"></param>
-        /// <param name="attributes"></param>
-        /// <param name="where_attributes"></param>
-        /// <returns></returns>
-        private List<EntityORM> GetAll(string table, HashSet<string> attributes, Dictionary<string, object> where_attributes)
-        {
-            List<EntityORM> entities = null;
-
-            try
-            {
-                dbConnect.OpenConnection();
-
-                string where_part = string.Join(" AND ", where_attributes.Select(x => string.Format("{0}={1}", x.Key, x.Value)));
-                string sqlExpression = String.Format("SELECT * FROM {0} WHERE {1}", table, where_part);
-                
-                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
-
-                OracleDataReader reader = command.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    entities = new List<EntityORM>();
-
-                    do
-                    {
-                        EntityORM entity = new EntityORM();
-                        foreach (string attribute in attributes)
-                        {
-                            object value = reader[attribute];
-                            entity.attributeValue.Add(attribute, value);
-                        }
-
-                        entities.Add(entity);
-                    } while (reader.Read());
-
-                }
-
-            }
-            catch (DbException ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
-            }
-
-            return entities;
         }
 
         /// <summary>
