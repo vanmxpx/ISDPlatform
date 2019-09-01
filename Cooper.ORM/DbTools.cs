@@ -115,5 +115,15 @@ namespace Cooper.ORM
 
             return (value.ToString() == "y") ? true : false;
         }
+
+        public static string WrapBoolean(bool value)
+        {
+            return (value) ? "\'y\'" : "\'n\'";
+        }
+
+        public static string WrapString(string value)
+        {
+            return String.Format("\'{0}\'", value);
+        }
     }
 }

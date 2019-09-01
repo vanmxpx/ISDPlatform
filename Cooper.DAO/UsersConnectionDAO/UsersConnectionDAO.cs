@@ -57,7 +57,7 @@ namespace Cooper.DAO
                     {
                         user1_attribute = "IDUSER1";
                         where_attributes.Add(user1_attribute, userId);
-                        where_attributes.Add("BLACKLISTED", "\'n\'");
+                        where_attributes.Add("BLACKLISTED", DbTools.WrapBoolean(false));
 
                         user2_attribute = "IDUSER2";
 
@@ -68,7 +68,7 @@ namespace Cooper.DAO
                         user1_attribute = "IDUSER1";
 
                         where_attributes.Add(user1_attribute, userId);
-                        where_attributes.Add("BLACKLISTED", "\'y\'");
+                        where_attributes.Add("BLACKLISTED", DbTools.WrapBoolean(true));
 
                         user2_attribute = "IDUSER2";
                         break;
@@ -77,7 +77,7 @@ namespace Cooper.DAO
                     {
                         user1_attribute = "IDUSER2";
                         where_attributes.Add(user1_attribute, userId);
-                        where_attributes.Add("BLACKLISTED", "\'n\'");
+                        where_attributes.Add("BLACKLISTED", DbTools.WrapBoolean(false));
 
                         user2_attribute = "IDUSER1";
                         break;
@@ -87,7 +87,7 @@ namespace Cooper.DAO
                         user1_attribute = "IDUSER1";
 
                         where_attributes.Add(user1_attribute, userId);
-                        where_attributes.Add("AREFRIENDS", "\'y\'");
+                        where_attributes.Add("AREFRIENDS", DbTools.WrapBoolean(true));
 
                         user2_attribute = "IDUSER2";
                         break;
