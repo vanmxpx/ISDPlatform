@@ -19,6 +19,7 @@ namespace Cooper.DAO
         private readonly Logger logger;
         private readonly ICRUD crud;
         private readonly IUserDAO userDAO;
+        private OracleTransaction transaction = null;
 
         private string idColumn;
         private string table;
@@ -139,13 +140,15 @@ namespace Cooper.DAO
 
         public bool CreateConnection(UsersConnectionDb usersConnection)
         {
-            Connection.Open();
-            OracleTransaction transaction = Connection.BeginTransaction();
-            
             bool isCreated = true;            
 
             try
             {
+
+                Connection.Open();
+                transaction = Connection.BeginTransaction();
+
+
                 if (ConnectionExists(usersConnection, transaction))
                     return false;
 
@@ -195,7 +198,11 @@ namespace Cooper.DAO
             catch (DbException ex)
             {
                 logger.Info("Creating subscription user with id={1} on user with id={0} failed: {2}", usersConnection.IdUser1, usersConnection.IdUser2, ex.Message);
-                transaction.Rollback();
+
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
             }
             finally
             {
@@ -224,13 +231,12 @@ namespace Cooper.DAO
 
             bool isBanned = true;
             bool isUnsubscribed = false;
-            
-
-            Connection.Open();
-            OracleTransaction transaction = Connection.BeginTransaction();
 
             try
             {
+                Connection.Open();
+                transaction = Connection.BeginTransaction();
+
                 UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
 
                 var where_attributes = new Dictionary<string, object>()
@@ -274,8 +280,13 @@ namespace Cooper.DAO
             catch (DbException ex)
             {
                 logger.Info("Banning user with id={1} by user with id={0} failed: {2}", usersConnection.IdUser1, usersConnection.IdUser2, ex.Message);
-                transaction.Rollback();
+                
                 isBanned = false;
+
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
             }
             finally
             {
@@ -295,11 +306,11 @@ namespace Cooper.DAO
                 { "IDUSER2", usersConnection.IdUser2 }
             };
 
-            Connection.Open();
-            OracleTransaction transaction = Connection.BeginTransaction();
-
             try
             {
+                Connection.Open();
+                transaction = Connection.BeginTransaction();
+
                 Delete(table, attributes, where_attributes, transaction);
                 transaction.Commit();
             }
@@ -321,11 +332,11 @@ namespace Cooper.DAO
         {
             bool isUnsubscribed = true;
             
-            Connection.Open();
-            OracleTransaction transaction = Connection.BeginTransaction();
-
             try
             {
+                Connection.Open();
+                transaction = Connection.BeginTransaction();
+
                 var where_attributes = new Dictionary<string, object>()
                 {
                     { "IDUSER1", usersConnection.IdUser1 },
@@ -355,9 +366,13 @@ namespace Cooper.DAO
             catch (DbException ex)
             {
                 logger.Info("Unsubcription user with id={0} from user with id={1} failed: {2}", usersConnection.IdUser1, usersConnection.IdUser2, ex.Message);
-                transaction.Rollback();
 
                 isUnsubscribed = false;
+
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
             }
             finally
             {
