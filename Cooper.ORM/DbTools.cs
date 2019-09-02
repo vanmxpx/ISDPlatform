@@ -73,6 +73,13 @@ namespace Cooper.ORM
             return String.Format("UPDATE {0} SET {1}{2}", table, string.Join(",", entity.attributeValue.Select(x => x.Key + "=" + x.Value).ToArray()), where);
         }
 
+        public static string CreateDeleteQuery(string table, WhereRequest[] whereRequests = null)
+        {
+            string where = CreateWhereRequest(whereRequests);
+
+            return String.Format("DELETE FROM {0} {1}", table, where);
+        }
+
         private static string CreateWhereRequest(WhereRequest[] whereRequests = null)
         {
             string where = "";
@@ -114,6 +121,16 @@ namespace Cooper.ORM
             }
 
             return (value.ToString() == "y") ? true : false;
+        }
+
+        public static string WrapBoolean(bool value)
+        {
+            return (value) ? "\'y\'" : "\'n\'";
+        }
+
+        public static string WrapString(string value)
+        {
+            return String.Format("\'{0}\'", value);
         }
     }
 }
