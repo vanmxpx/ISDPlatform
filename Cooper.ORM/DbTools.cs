@@ -36,7 +36,7 @@ namespace Cooper.ORM
             return string.Format("DELETE FROM {0} {1}", table, whereRequest?.ToString());
         }
 
-        public static string Sanitizestring(string value)
+        public static string SanitizeString(string value)
         {
             if (value == null) { 
                 return null;
@@ -191,7 +191,7 @@ namespace Cooper.ORM
 
         public override string ToString()
         {
-            return "WHERE " + whereRequest.ToString();
+            return " WHERE " + whereRequest.ToString();
         }
     }
 
