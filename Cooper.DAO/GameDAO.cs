@@ -37,7 +37,10 @@ namespace Cooper.DAO
         public GameDb Get(long id)
         {
             GameDb game = null;
-            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
+
+            var whereRequest = new WhereRequest(idColumn, Operators.Equal, id.ToString());
+
+            List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes, whereRequest);
 
             if (entities.Any())
             {
@@ -50,7 +53,11 @@ namespace Cooper.DAO
         public GameDb GetByName(string name)
         {
             GameDb game = null;
-            List<EntityORM>  entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest("LINK", DbTools.RequestOperator.Equal, $"'{name}'") }));
+
+            var whereRequest = new WhereRequest("LINK", Operators.Equal, $"'{name}'");
+
+            List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes, whereRequest);
+
             if (entities.Any())
             {
                 EntityMapping.Map(entities[0], out game);
@@ -141,7 +148,9 @@ namespace Cooper.DAO
             // Making sure that ID value is not touched.
             entity.attributeValue.Remove("ID");
 
-            bool ifUpdated = crud.Update(table, entity, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, game.Id) });
+            var whereRequest = new WhereRequest(idColumn, Operators.Equal, game.Id.ToString());
+
+            bool ifUpdated = crud.Update(table, entity, whereRequest);
 
             if (ifUpdated)
             {

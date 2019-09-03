@@ -36,7 +36,9 @@ namespace Cooper.DAO
         {
             MessageDb message = null;
 
-            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
+            var whereRequest = new WhereRequest(idColumn, Operators.Equal, id.ToString());
+
+            List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes, whereRequest);
 
             if (entities.Any()) {
                 EntityMapping.Map(entities[0], out message);
@@ -115,8 +117,10 @@ namespace Cooper.DAO
 
             // Making sure that ID value is not touched
             entity.attributeValue.Remove("ID");
-            
-            bool ifUpdated = crud.Update(table, entity, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, message.Id) });
+
+            var whereRequest = new WhereRequest(idColumn, Operators.Equal, message.Id.ToString());
+
+            bool ifUpdated = crud.Update(table, entity, whereRequest);
 
             if (ifUpdated)
             {
