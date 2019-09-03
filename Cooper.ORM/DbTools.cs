@@ -1,41 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cooper.Services.Interfaces;
+using System.Text;
 
 namespace Cooper.ORM
 {
     public class DbTools
     {
-        private static string[] operators = new string[] { "=", ">=", "<=", ">", "<", "IS NULL", "IS NOT NULL" };
-
-        public struct WhereRequest
-        {
-            public readonly string variable_name;
-            public readonly RequestOperator request_operator;
-            public readonly WhereRequest[] and_requests;
-
-            public string variable_value;
-
-            public WhereRequest(string variable_name, RequestOperator request_operator, object variable_value, WhereRequest[] and_requests = null)
-            {
-                this.variable_name = variable_name;
-                this.request_operator = request_operator;
-                if (request_operator != RequestOperator.NULL && request_operator != RequestOperator.NOTNULL)
-                {
-                    this.variable_value = " " + variable_value.ToString();
-                }
-                else 
-                {
-                    this.variable_value = "";
-                }
-                this.and_requests = and_requests;
-            }
-        }
-        public static string GetOperatorString(RequestOperator request_operator)
-        {
-            return operators[(int)request_operator];
-        }
 
         public static string GetVariableAttribute(string attribute)
         {
@@ -48,64 +19,24 @@ namespace Cooper.ORM
             return attribute;
         }
 
-        public enum RequestOperator
+        public static string CreateSelectQuery(string table, HashSet<string> attributes, WhereRequest whereRequest = null)
         {
-            Equal = 0,
-            MoreOrEqual = 1,
-            LessOrEqual = 2,
-            More = 3,
-            Less = 4,
-            NULL = 5,
-            NOTNULL = 6
-        }
-
-        public static string CreateSelectQuery(string table, HashSet<string> attributes, WhereRequest[] whereRequests = null)
-        {
-            string where = CreateWhereRequest(whereRequests);
-            return String.Format("SELECT {0} FROM {1}{2}",
+            return string.Format("SELECT {0} FROM {1}{2}",
                 (attributes != null) ? string.Join(", ", attributes) : "*",
-                table, where);
+                table, whereRequest?.ToString());
         }
 
-        public static string CreateUpdateQuery(string table, EntityORM entity, DbTools.WhereRequest[] whereRequests = null)
+        public static string CreateUpdateQuery(string table, EntityORM entity, WhereRequest whereRequest = null)
         {
-            string where = CreateWhereRequest(whereRequests);
-            return String.Format("UPDATE {0} SET {1}{2}", table, string.Join(",", entity.attributeValue.Select(x => x.Key + "=" + x.Value).ToArray()), where);
+            return string.Format("UPDATE {0} SET {1}{2}", table, string.Join(",", entity.attributeValue.Select(x => x.Key + "=" + x.Value).ToArray()), whereRequest?.ToString());
         }
 
-        public static string CreateDeleteQuery(string table, WhereRequest[] whereRequests = null)
+        public static string CreateDeleteQuery(string table, WhereRequest whereRequest = null)
         {
-            string where = CreateWhereRequest(whereRequests);
-
-            return String.Format("DELETE FROM {0} {1}", table, where);
+            return string.Format("DELETE FROM {0} {1}", table, whereRequest?.ToString());
         }
 
-        private static string CreateWhereRequest(WhereRequest[] whereRequests = null)
-        {
-            string where = "";
-            if (whereRequests != null)
-            {
-                where = " WHERE";
-                foreach (WhereRequest request in whereRequests)
-                {
-                    where += String.Format(" {0} {1}{2} ", request.variable_name, GetOperatorString(request.request_operator), request.variable_value);
-                    if (request.and_requests != null)
-                    {
-                        foreach (WhereRequest and_request in request.and_requests)
-                        {
-                            where += String.Format("AND {0} {1}{2} ", and_request.variable_name, GetOperatorString(and_request.request_operator), and_request.variable_value);
-                        }
-                    }
-                    where += "OR";
-                }
-                //Remove last OR
-                where = where.Remove(where.Length - 2);
-            }
-
-            return where;
-        }
-
-        public static string SanitizeString(string value)
+        public static string Sanitizestring(string value)
         {
             if (value == null) { 
                 return null;
@@ -128,9 +59,151 @@ namespace Cooper.ORM
             return (value) ? "\'y\'" : "\'n\'";
         }
 
-        public static string WrapString(string value)
+        public static string Wrapstring(string value)
         {
-            return String.Format("\'{0}\'", value);
+            return string.Format("\'{0}\'", value);
         }
+    }
+
+    public class WhereRequest
+    {
+        private StringBuilder whereRequest = new StringBuilder();
+
+        private static readonly string[] operators = new string[] { "=", ">=", "<=", ">", "<", "IS NULL", "IS NOT NULL", "IN" };
+
+        private static string GetOperatorstring(Operators requestOperator)
+        {
+            return operators[(int)requestOperator];
+        }
+
+        public WhereRequest(string attributeName, Operators op, params string[] attributeValues)
+        {
+            whereRequest.Append(attributeName);
+            if (op == Operators.Null || op == Operators.NotNull)
+            {
+                whereRequest.Append($" {GetOperatorstring(op)}");
+            }
+            else if (attributeValues.Length > 0)
+            {
+                if (op == Operators.In)
+                {
+                    whereRequest.Append(" IN ");
+                    whereRequest.Append("(");
+                    whereRequest.Append(string.Join(", ", attributeValues));
+                    whereRequest.Append(")");
+                }
+                else if (attributeValues.Length == 1)
+                {
+                    whereRequest.Append($" {GetOperatorstring(op)} ");
+                    whereRequest.Append(attributeValues[0]);
+                }
+                else
+                {
+                    throw new ArgumentException("For all operators (except NULL and NOT NULL), the attributeValues array must be initialized with at least one value. " +
+                        "For all operators (except NULL, NOT NULL, IN), the attributeValues array must be initialized with one value.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("For all operators (except NULL and NOT NULL), the attributeValues array must be initialized with at least one value. " +
+                    "For all operators (except NULL, NOT NULL, IN), the attributeValues array must be initialized with one value.");
+            }
+        }
+
+        public WhereRequest(WhereRequest where)
+        {
+            whereRequest.Append("(");
+            whereRequest.Append(where.ToString().Replace("WHERE ", ""));
+            whereRequest.Append(")");
+        }
+
+        public WhereRequest And(string attributeName, Operators op, string attributeValue = null)
+        {
+            whereRequest.Append(" AND ");
+            whereRequest.Append(attributeName);
+            if (op == Operators.Null || op == Operators.NotNull)
+            {
+                whereRequest.Append($" {GetOperatorstring(op)}");
+            }
+            else
+            {
+                whereRequest.Append($" {GetOperatorstring(op)} ");
+                whereRequest.Append(attributeValue);
+            }
+            return this;
+        }
+
+        public WhereRequest And(WhereRequest where)
+        {
+            whereRequest.Append(" \nAND ");
+            whereRequest.Append("(");
+            whereRequest.Append(where.ToString().Replace("WHERE ", ""));
+            whereRequest.Append(")");
+            return this;
+        }
+
+        public WhereRequest Or(string attributeName, Operators op, string attributeValue = null)
+        {
+            whereRequest.Append(" OR ");
+            whereRequest.Append(attributeName);
+            if (op == Operators.Null || op == Operators.NotNull)
+            {
+                whereRequest.Append($" {GetOperatorstring(op)}");
+            }
+            else
+            {
+                whereRequest.Append($" {GetOperatorstring(op)} ");
+                whereRequest.Append(attributeValue);
+            }
+            return this;
+        }
+
+        public WhereRequest Or(WhereRequest where)
+        {
+            whereRequest.Append(" \nOR ");
+            whereRequest.Append("(");
+            whereRequest.Append(where.ToString().Replace("WHERE ", ""));
+            whereRequest.Append(")");
+            return this;
+        }
+
+        public WhereRequest AndIn(string attributeName, params string[] attributeValues)
+        {
+            whereRequest.Append(" AND ");
+            whereRequest.Append(attributeName);
+            whereRequest.Append(" IN ");
+            whereRequest.Append("(");
+            whereRequest.Append(string.Join(", ", attributeValues));
+            whereRequest.Append(")");
+            return this;
+        }
+
+        public WhereRequest OrIn(string attributeName, params string[] attributeValues)
+        {
+            whereRequest.Append(" OR ");
+            whereRequest.Append(attributeName);
+            whereRequest.Append(" IN ");
+            whereRequest.Append("(");
+            whereRequest.Append(string.Join(", ", attributeValues));
+            whereRequest.Append(")");
+            return this;
+        }
+
+        public override string ToString()
+        {
+            return "WHERE " + whereRequest.ToString();
+        }
+    }
+
+    public enum Operators
+    {
+        Equal,
+        MoreOrEqual,
+        LessOrEqual,
+        More,
+        Less,
+        Null,
+        NotNull,
+        In
     }
 }
