@@ -31,26 +31,15 @@ export class ChatsListComponent implements OnInit {
 
   public getChatImage(chat: Chat): string {
 
-    if (chat.isOnetoOneChat) {
       return (this.currentSessionUserId === chat.participants[0].id) ? chat.participants[1].photoURL : chat.participants[0].photoURL;
-    } else {
-      return chat.chatPhotoURL;
 
-    }
   }
 
   public getChatName(chat: Chat): string {
 
-    let chatHeader: string;
-    if (chat.isOnetoOneChat) {
-
-      chatHeader = (this.currentSessionUserId === chat.participants[0].id) ?
+    let chatHeader = (this.currentSessionUserId === chat.participants[0].id) ?
       (chat.participants[1].name !== '' ? chat.participants[1].name : chat.participants[1].nickname) :
       (chat.participants[0].name !== '' ? chat.participants[0].name : chat.participants[0].nickname);
-
-    } else {
-      chatHeader = (chat.chatName) ? chat.chatName : 'Non-named chat';
-    }
 
     if (chatHeader.length > fieldPermissibleMaxLength) {
       chatHeader = chatHeader.slice(0, fieldPermissibleMaxLength - 3) + '...';

@@ -40,7 +40,6 @@ export class ChatModalWindowComponent {
     }
 
     const chat: Chat = new Chat();
-    chat.isOnetoOneChat = true;
 
     const message: Message = new Message();
     message.content = messageContent;
