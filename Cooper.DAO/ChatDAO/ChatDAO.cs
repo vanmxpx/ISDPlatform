@@ -31,7 +31,7 @@ namespace Cooper.DAO
             idColumn = "ID";
             attributes = new HashSet<string>()
             {
-                "ID", "CHATNAME", "ISONETOONE"
+                "ID", "CHATNAME"
             };
         }
         
@@ -41,10 +41,10 @@ namespace Cooper.DAO
 
             var chatAttributes = new HashSet<string>()
             {
-                "ID", "ISONETOONE",
+                "ID"
             };
 
-            string sqlExpression = String.Format("SELECT IDCHAT as ID, ISONETOONE FROM {0} INNER JOIN USERSCHATS ON {0}.ID = USERSCHATS.IDCHAT WHERE IDUSER = {1}", table, userId);
+            string sqlExpression = String.Format("SELECT IDCHAT as ID FROM {0} INNER JOIN USERSCHATS ON {0}.ID = USERSCHATS.IDCHAT WHERE IDUSER = {1}", table, userId);
 
             IList<EntityORM> chatsEntities = ExecuteQuery(chatAttributes, sqlExpression);
 

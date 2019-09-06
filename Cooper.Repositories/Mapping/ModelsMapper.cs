@@ -277,7 +277,6 @@ namespace Cooper.Repositories.Mapping
 
             chat_newType.Id = chat.Id;
             chat_newType.ChatName = chat.ChatName;
-            chat_newType.IsOnetoOneChat = chat.IsOneToOneChat;
             #endregion
 
             chat_newType.Participants = new List<User>(capacity: chat.Participants.Count);
@@ -298,7 +297,6 @@ namespace Cooper.Repositories.Mapping
 
             chat_newType.Id = chat.Id;
             chat_newType.ChatName = chat.ChatName;
-            chat_newType.IsOneToOneChat = chat.IsOnetoOneChat;
 
             if (chat.Participants != null)
             {

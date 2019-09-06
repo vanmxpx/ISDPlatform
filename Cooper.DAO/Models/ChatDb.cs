@@ -6,7 +6,6 @@ namespace Cooper.DAO.Models
     {
 
         public string ChatName { get; set; }
-        public bool IsOneToOneChat { get; set; }
 
         public List<long> Participants { get; set; }
         public List<long> Messages { get; set; }
