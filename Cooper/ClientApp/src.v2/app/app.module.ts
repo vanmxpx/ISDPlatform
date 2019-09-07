@@ -20,12 +20,13 @@ import { AuthGuard, ExitGuard } from '@guards';
 import { SafePipe } from '@pipes';
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent } from '@layouts';
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent, UploadLayoutComponent, HomeLayoutComponent } from '@layouts';
 
 import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
-   GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
+  GamesListComponent, GameListItemComponent, UploadComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
    NavigationComponent} from '@components';
 import { AvatarCardComponent } from './components/avatar-card/avatar-card.component';
+import { MatDialogModule } from '@angular/material';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
@@ -67,8 +68,9 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     GameCardComponent,
     NavigationComponent,
     AvatarCardComponent,
-
-  ],
+    UploadComponent,
+    UploadLayoutComponent
+],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -82,6 +84,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     MatButtonModule,
     MatCardModule,
     MatListModule,
+    MatDialogModule,
     DynamiSocialLoginModule,
     GrowlModule,
     MatIconModule,
@@ -106,6 +109,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     ExitGuard,
 
   ],
+  entryComponents: [UploadLayoutComponent],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
