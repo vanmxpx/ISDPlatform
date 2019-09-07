@@ -36,7 +36,7 @@ export class ChatBoxComponent {
 
   public createMessage(messageContent: string): void {
     const message: Message = new Message();
-    message.content = messageContent;
+    message.content = messageContent.trimRight();
     message.chatId = this.chat.id;
     message.senderId = this.currentSessionUserId;
     message.isRead = false;
