@@ -137,7 +137,7 @@ namespace Cooper.Controllers
             return Ok(isUnbanned);
         }
 
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{userId}"), Authorize]
         public IActionResult Unsubscribe(long userId)
         {
             string subscriberToken = Request.GetUserToken();

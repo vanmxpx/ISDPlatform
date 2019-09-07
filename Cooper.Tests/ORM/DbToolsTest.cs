@@ -73,7 +73,7 @@ namespace Cooper.Tests.ORM
                 yield return new UpdateQuery("Test'''Table", null, "UPDATE Test'''Table SET test=test");
                 WhereRequest[] whereReq = new WhereRequest[] { new WhereRequest("var_name", RequestOperator.Equal, "value") };
                 yield return new UpdateQuery("table", whereReq, "UPDATE table SET test=test WHERE var_name = value");
-                yield return new UpdateQuery("SomeName", null, "SELECT MIN(name) FROM SomeName");
+                yield return new UpdateQuery("SomeName", null, "UPDATE SomeName SET test=test");
                 whereReq = new WhereRequest[] {
                     new WhereRequest("name", RequestOperator.NOTNULL, null, new WhereRequest[] { new WhereRequest("test_name", RequestOperator.More, "value") }),
                     new WhereRequest("name1", RequestOperator.LessOrEqual, "3", new WhereRequest[] { new WhereRequest("test_name1", RequestOperator.NULL, null) })

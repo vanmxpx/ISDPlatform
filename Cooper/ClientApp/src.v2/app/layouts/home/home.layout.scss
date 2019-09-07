@@ -1,3 +1,30 @@
-.pointed {
+
+.container {
+    width: 40%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.image {
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    height: 300px;
+}
+
+.text-block {
+    text-align: center;
+}
+
+p {
+    color: rgb(90, 90, 90);
+    font-size: 28px;
+}
+
+a {
     cursor: pointer;
+    font-size: 20px;
 }
