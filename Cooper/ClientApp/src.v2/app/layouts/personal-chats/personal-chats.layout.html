@@ -2,10 +2,13 @@
 <div class="col-md-2"></div>
 
 <div class="col-md-3">
+    <coop-message-panel
+    (openModalWindow) = "changeModalWindowVisibility($event)"
+    ></coop-message-panel>
+
     <coop-chats-list
     [currentSessionUserId]="currentSessionUserId"
     [chatsList] = "chatsList"
-    (openModalWindow) = "changeModalWindowVisibility($event)"
     (loadChat)="loadChat($event)"
     ></coop-chats-list>        
 </div>

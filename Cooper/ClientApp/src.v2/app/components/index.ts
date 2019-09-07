@@ -24,3 +24,5 @@ export {ChatModalWindowComponent} from './chat-modal-window/chat-modal-window.co
 export {ChatsListComponent} from './chats-list/chats-list.component';
 
 export {ChatBoxComponent} from './chat-box/chat-box.component';
+
+export { MessagePanelComponent } from './message-panel/message-panel.component';

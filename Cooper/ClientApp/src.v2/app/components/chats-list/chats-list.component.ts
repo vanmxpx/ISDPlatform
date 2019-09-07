@@ -12,17 +12,12 @@ export class ChatsListComponent implements OnInit {
 
   @Input() public currentSessionUserId: number;
   @Input() public chatsList: Chat[];
-  @Output() public openModalWindow: EventEmitter<void> = new EventEmitter<void>();
   @Output() public loadChat: EventEmitter<Chat> = new EventEmitter<Chat>();
 
   public ngOnInit(): void {
     if (this.chatsList.length > 0) {
       this.loadChat.emit(this.chatsList[0]);
     }
-  }
-
-  public onNewMessageButtonClicked(): void {
-    this.openModalWindow.emit();
   }
 
   public onChatItemClick(chat: Chat): void {

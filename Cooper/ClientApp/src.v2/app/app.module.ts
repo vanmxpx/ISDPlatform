@@ -25,7 +25,8 @@ import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
 
 import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
    GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
-   NavigationComponent, AvatarCardComponent, ChatModalWindowComponent, ChatsListComponent, ChatBoxComponent} from '@components';
+   NavigationComponent, AvatarCardComponent, ChatModalWindowComponent, ChatsListComponent, ChatBoxComponent,
+    MessagePanelComponent} from '@components';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
@@ -72,6 +73,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
   ChatModalWindowComponent,
   ChatsListComponent,
   ChatBoxComponent,
+  MessagePanelComponent,
 
   ],
   imports: [
