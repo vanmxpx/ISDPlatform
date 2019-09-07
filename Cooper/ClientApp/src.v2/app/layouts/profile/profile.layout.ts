@@ -43,7 +43,7 @@ export class ProfileLayoutComponent implements OnInit, OnDestroy {
         });
       });
     }
-      
+
   public ngOnDestroy(): void {
       this.routeChangeSubscription.unsubscribe();
   }
