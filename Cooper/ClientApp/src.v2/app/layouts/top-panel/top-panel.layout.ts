@@ -17,4 +17,9 @@ export class TopPanelLayoutComponent {
     {label: 'Vacancies', link: '#'}
   ];
 
+  public onExitButtonClick(): void {
+    localStorage.removeItem('JwtCooper');
+    document.location.reload();
+  }
+
 }
