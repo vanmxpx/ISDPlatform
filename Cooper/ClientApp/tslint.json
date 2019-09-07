@@ -40,6 +40,7 @@
     "component-class-suffix": true,
     "typedef": [true, "call-signature", "parameter", "member-variable-declaration", "property-declaration"],
     "arrow-return-shorthand": [true, "multiline"],
-    "no-console": false
+    "no-console": false,
+    "no-string-literal": false
   }
 }

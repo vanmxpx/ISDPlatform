@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 
 export class UploadLayoutComponent {
-  public error: string;
+  public errorMessage: string;
 
   constructor(private dialogRef: MatDialogRef<UploadLayoutComponent>,
               @Inject(MAT_DIALOG_DATA) private data: string,
@@ -16,7 +16,7 @@ export class UploadLayoutComponent {
 
   public uploadFile(file: any): void {
     if (!file.type.match('image*/')) {
-      this.error = 'File is not an image';
+      this.errorMessage = 'File is not an image';
       return;
     }
     /* tslint:disable:no-string-literal */
@@ -24,7 +24,7 @@ export class UploadLayoutComponent {
       this.mediaserver.uploadImage(file, this.data['type']).subscribe((data) => {
         this.dialogRef.close(data);
       },
-        (err) => { this.error = err; });
+        (err) => { this.errorMessage = err; });
     }
     /* tslint:enable:no-string-literal */
   }

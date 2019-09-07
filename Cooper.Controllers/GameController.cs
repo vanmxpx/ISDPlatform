@@ -37,24 +37,31 @@ namespace Cooper.Controllers
         }
 
         /// <summary>
-        /// Returns game by id.
+        /// Returns game by name.
         /// </summary>
         /// <returns>Game</returns>
         /// <response code="200">If the game exists</response>
         /// <response code="404">If the game does not exist</response>
         [HttpGet]
-        [Route("{id}")]
+        [Route("get")]
         [ProducesResponseType(typeof(Game), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetGameById(long id)
+        public IActionResult Get(string name, long id)
         {
-            Game game = gameRepository.Get(id);
-
+            Game game = null;
+            if (id > 0)
+            {
+                game = gameRepository.Get(id);
+            }
+            else if (name != null)
+            {
+                game = gameRepository.Get(name);
+            }
+            
             if (game == null)
             {
                 return NotFound();
             }
-
             return Ok(game);
         }
 

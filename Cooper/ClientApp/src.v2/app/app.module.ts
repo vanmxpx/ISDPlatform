@@ -16,7 +16,8 @@ import { CooperInterceptor } from '@services';
 import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {AuthGuard} from '@guards';
+import { AuthGuard, ExitGuard } from '@guards';
+import { SafePipe } from '@pipes';
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent, UploadLayoutComponent, HomeLayoutComponent } from '@layouts';
@@ -55,19 +56,20 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
     HomeLayoutComponent,
-  LoginFormComponent,
-  RegistrationFormComponent,
-  PosterComponent,
-  UserConnectionsListComponent,
-  GamesListComponent,
-  UserInfoComponent,
-  MyProfileComponent,
-  GameListItemComponent,
-  GameCardComponent,
-  NavigationComponent,
-  AvatarCardComponent,
-  UploadComponent,
-  UploadLayoutComponent
+    SafePipe,
+    LoginFormComponent,
+    RegistrationFormComponent,
+    PosterComponent,
+    UserConnectionsListComponent,
+    GamesListComponent,
+    UserInfoComponent,
+    MyProfileComponent,
+    GameListItemComponent,
+    GameCardComponent,
+    NavigationComponent,
+    AvatarCardComponent,
+    UploadComponent,
+    UploadLayoutComponent
 ],
   imports: [
     BrowserModule,
@@ -103,7 +105,8 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
       useClass: CooperInterceptor,
       multi: true // give the possibility of various interceptors
     },
-    AuthGuard
+    AuthGuard,
+    ExitGuard,
 
   ],
   entryComponents: [UploadLayoutComponent],
