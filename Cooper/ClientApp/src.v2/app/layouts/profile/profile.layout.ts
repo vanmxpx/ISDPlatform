@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService, GamesService, UsersSocialConnectionsService, SessionService } from '@services';
+
+import { User, Game} from '@models';
+import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { User, Game } from '@models';
 import { UploadLayoutComponent } from '../upload-form/upload-form.layout';
 
 @Component({
@@ -11,7 +13,7 @@ import { UploadLayoutComponent } from '../upload-form/upload-form.layout';
   styleUrls: ['./profile.layout.css']
 })
 
-export class ProfileLayoutComponent implements OnInit {
+export class ProfileLayoutComponent implements OnInit, OnDestroy {
 
   public games: Game[] = [];
   public friends: User[] = [];
@@ -25,6 +27,8 @@ export class ProfileLayoutComponent implements OnInit {
   public profile: User;
   public isOwnProfile: boolean = false;
 
+  public routeChangeSubscription: Subscription;
+
   constructor(private route: ActivatedRoute, private router: Router,
               private gameDummyService: GamesService,
               private usersSocialConnectionsService: UsersSocialConnectionsService,
@@ -33,7 +37,15 @@ export class ProfileLayoutComponent implements OnInit {
               public dialog: MatDialog) {}
 
   public ngOnInit(): void {
-    this.updateProfile();
+      this.routeChangeSubscription = this.route.queryParams.subscribe(() => {
+        this.route.params.subscribe(() => {
+            this.updateProfile();
+        });
+      });
+    }
+
+  public ngOnDestroy(): void {
+      this.routeChangeSubscription.unsubscribe();
   }
 
   public openDialog(): void {
