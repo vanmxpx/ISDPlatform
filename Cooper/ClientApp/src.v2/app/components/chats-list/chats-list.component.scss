@@ -1,3 +1,7 @@
+.chat-list-container {    
+    border: 1px solid gainsboro;
+}
+
 .image {
     height: 60px;
     width: 60px;
@@ -6,7 +10,7 @@
 }
 
 .chat {
-    height: 600px;
+    height: 500px;
     overflow-y: scroll;
     scroll-behavior: smooth;
 }
@@ -41,3 +45,23 @@
     position: top;
     padding-top: 0px;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }

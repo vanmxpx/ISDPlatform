@@ -1,4 +1,5 @@
-<ul class="list-group chat">
+<div class="chat-list-container">
+  <ul class="list-group chat">
     <li *ngFor="let chat of chatsList" class="list-group-item chat-item" (click)="onChatItemClick(chat)">
         <div class="row">
 
@@ -21,3 +22,4 @@
         </div>
       </li>
     </ul>
+</div>
