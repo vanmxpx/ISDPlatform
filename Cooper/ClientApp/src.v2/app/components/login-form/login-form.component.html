@@ -2,7 +2,7 @@
 
   <form class="coop-form personal-data-form" #loginForm="ngForm" (ngSubmit)="onSignInClicked(loginForm)">
 
-    <div class="div--color div--positioning div--font">Sign In</div>
+    <div class="div-color div-positioning div-font">Sign In</div>
 
     <mat-form-field class="mat-form-field">
       <input matInput type="email" [(ngModel)]="username" name="username" placeholder="Enter your nickname" />
@@ -13,11 +13,11 @@
     </mat-form-field>
     <mat-error *ngIf="failedLogin">{{failedLoginMessage}}</mat-error>
 
-    <div class="div--positioning">
+    <div class="div-positioning">
       <a routerLink="../reset" routerLinkActive="active">Forgot your password?</a>
     </div>
     
-    <button class="button--colors button--sizes button--font button--margin" type="submit">Sign in</button>
+    <button class="button-colors button-sizes button-font button-margin" type="submit">Sign in</button>
 
     <div class="text-help">
         <p>

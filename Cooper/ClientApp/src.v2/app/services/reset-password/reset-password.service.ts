@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -32,7 +32,7 @@ export class ResetPasswordService {
       });
   }
 
-  public resetPassword(token: string, newPassword: string): Subscription {
+  public resetPassword(token: string, newPassword: string): Observable<any> {
     if (!token && !newPassword) {
       return null;
     }
@@ -42,14 +42,7 @@ export class ResetPasswordService {
       Password: newPassword
     };
 
-    return this.httpClient.post('/auth/reset', body).subscribe(() => {
-      console.log('Password was reset successfully.');
-      this.router.navigate(['/login']);
-    },
-      (err) => {
-        console.log('Password was not reset.');
-        console.log('Error: ', err);
-      });
+    return this.httpClient.post('/auth/reset', body);
   }
 
   public redirectToResetPage(message?: string, error?: boolean): void {
