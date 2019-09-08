@@ -49,7 +49,7 @@ namespace MediaServer
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Media Server API");
+                c.SwaggerEndpoint("/media/swagger/v1/swagger.json", "Media Server API");
                 c.SupportedSubmitMethods(SubmitMethod.Get);
             });
 

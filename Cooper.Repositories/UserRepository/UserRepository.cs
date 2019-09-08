@@ -146,7 +146,6 @@ namespace Cooper.Repositories
             
             return GetByNickname(nickname);
         }
-
         public User Get(object obj)
         {
             long id = Convert.ToInt64(obj);
@@ -211,6 +210,11 @@ namespace Cooper.Repositories
             UserDb userDb = mapper.Map(user);
 
             userDAO.Update(userDb, removePassword: true);
+        }
+
+        public void UpdateAvatar(string url, long userId)
+        {
+            userDAO.UpdateAvatar(url, userId);
         }
 
         public void ConfirmEmail(string token, string email)

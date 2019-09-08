@@ -13,6 +13,8 @@ export {TopPanelLayoutComponent} from './top-panel/top-panel.layout';
 
 export {PageNotFoundLayoutComponent} from './page-not-found/page-not-found.layout';
 
-export {HomeLayoutComponent} from './home/home.layout';
+export { HomeLayoutComponent } from './home/home.layout';
 
 export {PersonalChatsLayoutComponent} from './personal-chats/personal-chats.layout';
+
+export { UploadLayoutComponent } from './upload-form/upload-form.layout';

@@ -14,3 +14,5 @@ export {RegistrationService} from './registration/registration.service';
 export {CooperInterceptor} from './interceptor/cooper.interceptor';
 
 export {ChatService} from './chat.service';
+
+export { MediaserverService } from './mediaserver/mediaserver.service';

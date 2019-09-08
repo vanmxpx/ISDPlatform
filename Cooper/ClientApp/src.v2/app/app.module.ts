@@ -16,17 +16,18 @@ import { CooperInterceptor } from '@services';
 import { GrowlModule } from 'primeng/primeng';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { AuthGuard } from '@guards';
+import { AuthGuard, ExitGuard } from '@guards';
 import { SafePipe } from '@pipes';
 import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent,
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent, UploadLayoutComponent, HomeLayoutComponent,
   PersonalChatsLayoutComponent } from '@layouts';
 
 import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
-   GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
+  GamesListComponent, GameListItemComponent, UploadComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
    NavigationComponent, AvatarCardComponent, ChatModalWindowComponent, ChatsListComponent, ChatBoxComponent,
     MessagePanelComponent} from '@components';
+import { MatDialogModule } from '@angular/material';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
@@ -74,8 +75,9 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
   ChatsListComponent,
   ChatBoxComponent,
   MessagePanelComponent,
-
-  ],
+  UploadComponent,
+  UploadLayoutComponent
+],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -89,6 +91,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     MatButtonModule,
     MatCardModule,
     MatListModule,
+    MatDialogModule,
     DynamiSocialLoginModule,
     GrowlModule,
     MatIconModule,
@@ -109,9 +112,11 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
       useClass: CooperInterceptor,
       multi: true // give the possibility of various interceptors
     },
-    AuthGuard
+    AuthGuard,
+    ExitGuard,
 
   ],
+  entryComponents: [UploadLayoutComponent],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
