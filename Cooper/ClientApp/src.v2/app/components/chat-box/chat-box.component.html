@@ -1,33 +1,38 @@
 <div class="chat-box-container">
-  <div class="chat">
-      <div class="chat-card">
-          <mat-list class = "chat-list" role="list" >
-              <mat-list-item role="listitem" *ngFor="let message of chat.messages" class = "message">
-                <img matListAvatar onError="this.src='assets/imageKeeper/robot.png'" src={{getSenderAvatar(message)}}>
+  <div class="messages-list-container">
+    <mat-list class = "chat-list">
+      <mat-list-item role="listitem" *ngFor="let message of chat.messages" class = "message">
+        <img matListAvatar onError="this.src='assets/imageKeeper/robot.png'" src={{getSenderAvatar(message)}}>
+            
+        <mat-card class="message-text" >   
+          <div class = "message-header">
+            <mat-card-title class = "sender">{{getSenderNickname(message)}}</mat-card-title>
+          </div>    
+          
+          <mat-card-title class = "message-content">
+            {{message.content}}
+          </mat-card-title>
                 
-                <mat-card class="message-text" >   
-                  <div class = "message-header">              
-                    <mat-card-title class = "sender">{{getSenderNickname(message)}}</mat-card-title>
-                  </div>    
-                    
-                  <mat-card-title class = "message-content">
-                    {{message.content}}
-                  </mat-card-title>
-                    
-                </mat-card>
+        </mat-card>
 
-              </mat-list-item>
+      </mat-list-item>
 
-          </mat-list>
-    </div>
-    <div class="new-message">
-      <mat-form-field class="input-chat">
-          <textarea matInput id='box' #box placeholder="Enter your message..." cols="75" rows="5" class="text-area"
-           (keyup.enter)="createMessage(box.value)"></textarea>
-      </mat-form-field> 
-      <button mat-icon-button class="button-send" type="text" (click) = "createMessage(box.value)" required>
-        <mat-icon>mail_outline</mat-icon>
-      </button>
-    </div>
+    </mat-list>
   </div>
+
+    <div class="new-message-container">
+
+      <div class="input-container">
+        <textarea id='box' #box placeholder="Enter your message..."
+        class="text-area" (keyup.enter)="createMessage(box.value)"></textarea>
+      </div>
+
+      <div class="send-button-container">
+        <button class="send-button" mat-icon-button type="text" (click) = "createMessage(box.value)" required>
+          SEND
+        </button>
+      </div>
+
+    </div>
+
 </div>
