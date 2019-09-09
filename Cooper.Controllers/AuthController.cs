@@ -20,8 +20,11 @@ namespace Cooper.Controllers
         private readonly ISocialAuth socialAuth;
         private readonly ILogger<AuthController> logger;
         private readonly ISmtpClient smtpClient;
+        private readonly IResetPasswordService resetService;
 
-        public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider, ILogger<AuthController> logger, ISmtpClient smtpClient)
+        private const string passwordResetURL = "https://cooper.serve.games/confirm;token=";
+
+        public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider, ILogger<AuthController> logger, ISmtpClient smtpClient, IResetPasswordService resetService)
         {
             userRepository = new UserRepository(jwtService, configProvider);
 
@@ -29,6 +32,7 @@ namespace Cooper.Controllers
             this.socialAuth = socialAuth;
             this.logger = logger;
             this.smtpClient = smtpClient;
+            this.resetService = resetService;
         }
 
         /// <summary>
@@ -112,16 +116,8 @@ namespace Cooper.Controllers
 
                 if (userRepository.IfEmailExists(email.Email))
                 {
-                    // Generate token
-                    ResetToken resetToken = new ResetToken();
-                    resetToken.Email = email.Email;
-                    resetToken.Token = Guid.NewGuid().ToString();
-                    userRepository.Create(resetToken);
-
-                    // Send email
-                    string url = "https://localhost:44396//confirm;token=" + resetToken.Token;
-                    smtpClient.SendMail(email.Email, "Cooper reset password", $"Password reset link: {url}");
-
+                    string token = resetService.CreateToken(email.Email);
+                    smtpClient.SendMail(email.Email, "Cooper reset password", $"Password reset link: {passwordResetURL}{token}");
                     logger.LogInformation("Password reset email was sent for email {0}.", email.Email);
                     result = Ok();
                 }
@@ -139,11 +135,11 @@ namespace Cooper.Controllers
         }
 
         /// <summary>
-        /// Send letter to reset password.
+        /// Reset password.
         /// </summary>
-        /// <param name="email">User email</param>
-        /// <response code="200">If letter was sent</response>
-        /// <response code="400">If letter was not sent</response>
+        /// <param name="resetPassword">Token with new password</param>
+        /// <response code="200">If password was reset</response>
+        /// <response code="400">If password was not reset</response>
         [HttpPost]
         [Route("reset")]
         [Consumes("application/json")]

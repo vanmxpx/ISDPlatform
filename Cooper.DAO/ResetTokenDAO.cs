@@ -45,8 +45,8 @@ namespace Cooper.DAO
         public IEnumerable<ResetTokenDb> GetAll()
         {
             return crud.Read(table, attributes).Select(item => {
-                EntityMapping.Map(item, out ResetTokenDb verify);
-                return verify;
+                EntityMapping.Map(item, out ResetTokenDb resetTokenDb);
+                return resetTokenDb;
             });
         }
 
@@ -72,18 +72,18 @@ namespace Cooper.DAO
 
         public ResetTokenDb Get(object id)
         {
-            ResetTokenDb verify = null;
+            ResetTokenDb resetTokenDb = null;
             List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
 
             if (entities.Any())
             {
-                EntityMapping.Map(entities[0], out verify);
+                EntityMapping.Map(entities[0], out resetTokenDb);
             }
 
-            return verify;
+            return resetTokenDb;
         }
 
-        public void Update(ResetTokenDb user)
+        public void Update(ResetTokenDb resetTokenDb)
         {
             //TODO: update
         }
