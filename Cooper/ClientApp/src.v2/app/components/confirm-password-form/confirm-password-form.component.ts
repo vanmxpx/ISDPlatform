@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -8,7 +8,9 @@ import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class ConfirmPasswordFormComponent {
 
+  @Input() public errorMessage: string;
   @Output() public resetPassword: EventEmitter<NgForm> = new EventEmitter<NgForm>();
+  @Output() public displayError: EventEmitter<any> = new EventEmitter<any>();
 
   private readonly emptyFieldWarning: string = 'This field is empty';
   private passwordConfirmationForm: FormGroup;
@@ -26,14 +28,19 @@ export class ConfirmPasswordFormComponent {
     this.resetPassword.emit(this.passwordConfirmationForm.value.Passwords.Password);
   }
 
+  public onErrorDisplay(): void {
+    this.displayError.emit(null);
+  }
+
   public getPasswordErrorMessage(): string {
     const fieldName = 'Passwords.Password';
 
     if (this.passwordConfirmationForm.get(fieldName).touched) {
-
       if (this.passwordConfirmationForm.get(fieldName).hasError('minlength')) {
+        this.onErrorDisplay();
         return 'Minimum 4 characters required!';
       } else if (this.passwordConfirmationForm.get(fieldName).hasError('required')) {
+        this.onErrorDisplay();
         return this.emptyFieldWarning;
       }
     }
@@ -47,8 +54,10 @@ export class ConfirmPasswordFormComponent {
     if (this.passwordConfirmationForm.get(fieldName).touched) {
 
       if (this.passwordConfirmationForm.get(fieldName).hasError('required')) {
+        this.onErrorDisplay();
         return this.emptyFieldWarning;
       } else if (this.passwordConfirmationForm.get(fieldName).hasError('passwordMismatch')) {
+        this.onErrorDisplay();
         return 'Passwords are not the same.';
       }
     }
@@ -67,4 +76,5 @@ export class ConfirmPasswordFormComponent {
       }
     }
   }
+
 }

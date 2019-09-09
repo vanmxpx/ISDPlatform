@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Subscription, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -21,11 +21,7 @@ export class ResetPasswordService {
       Email: email
     };
 
-    return this.httpClient.post('/auth/reset/send', body, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }).subscribe(() => {
+    return this.httpClient.post('/auth/reset/send', body).subscribe(() => {
       console.log('Password reset email was sent successfully to ', email);
       this.redirectToResetPage('The password reset email has been sent to your email!', false);
     },
@@ -36,7 +32,7 @@ export class ResetPasswordService {
       });
   }
 
-  public resetPassword(token: string, newPassword: string): Subscription {
+  public resetPassword(token: string, newPassword: string): Observable<any> {
     if (!token && !newPassword) {
       return null;
     }
@@ -46,14 +42,7 @@ export class ResetPasswordService {
       Password: newPassword
     };
 
-    return this.httpClient.post('/auth/reset', body).subscribe(() => {
-      console.log('Password was reset successfully.');
-      this.router.navigate(['/login']);
-    },
-      (err) => {
-        console.log('Password was not reset.');
-        console.log('Error: ', err);
-      });
+    return this.httpClient.post('/auth/reset', body);
   }
 
   public redirectToResetPage(message?: string, error?: boolean): void {

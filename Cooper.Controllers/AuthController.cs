@@ -149,7 +149,7 @@ namespace Cooper.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult ResetPassword(ResetPassword resetPassword)
         {
-            IActionResult result = BadRequest();
+            IActionResult result;
 
             if (ModelState.IsValid && resetPassword != null)
             {
@@ -165,11 +165,13 @@ namespace Cooper.Controllers
                 else
                 {
                     logger.LogInformation("Password was not reset, because token does not exist.");
+                    result = BadRequest("Token does not exist");
                 }
             }
             else
             {
                 logger.LogInformation("Password was not reset, because reset password is empty or invalid.");
+                result = BadRequest("Token or password is empty or invalid");
             }
 
             return result;

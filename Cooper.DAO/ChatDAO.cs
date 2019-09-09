@@ -38,7 +38,8 @@ namespace Cooper.DAO
 
             List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
 
-            if (entities.Any()) {
+            if (entities.Any())
+            {
                 EntityMapping.Map(entities[0], out chat);
             }
 
@@ -87,7 +88,7 @@ namespace Cooper.DAO
             EntityORM entity = EntityMapping.Map(chat, attributes);
 
             // Making sure that ID value is not touched.
-            entity.attributeValue.Remove("ID");     
+            entity.attributeValue.Remove("ID");
 
             long idChat = crud.Create(table, idColumn, entity);
 
@@ -115,7 +116,7 @@ namespace Cooper.DAO
 
             entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
 
-            bool ifUpdated = crud.Update(chat.Id, table, idColumn, entity);
+            bool ifUpdated = crud.Update(table, entity, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, chat.Id) });
 
             if (ifUpdated)
             {

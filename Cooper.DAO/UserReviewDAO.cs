@@ -16,7 +16,7 @@ namespace Cooper.DAO
         private string table;
         private string idColumn;
         private HashSet<string> attributes;
-        
+
         public UserReviewDAO(IConfigProvider configProvider)
         {
             crud = new CRUD(configProvider);
@@ -39,7 +39,8 @@ namespace Cooper.DAO
 
             List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
 
-            if (entities.Any()) {
+            if (entities.Any())
+            {
                 EntityMapping.Map(entities[0], out userReview);
             }
 
@@ -66,7 +67,7 @@ namespace Cooper.DAO
 
             List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes);
 
-            foreach (EntityORM entity in entities) 
+            foreach (EntityORM entity in entities)
             {
                 EntityMapping.Map(entity, out UserReviewDb userReview);
                 userReviews.Add(userReview);
@@ -114,9 +115,9 @@ namespace Cooper.DAO
             EntityORM entity = EntityMapping.Map(userReview, attributes);
 
             // Making sure that ID value is not touched.
-            entity.attributeValue.Remove("ID"); 
+            entity.attributeValue.Remove("ID");
 
-            bool ifUpdated = crud.Update(userReview.Id, table, idColumn, entity);
+            bool ifUpdated = crud.Update(table, entity, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, userReview.Id) });
 
             if (ifUpdated)
             {

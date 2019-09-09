@@ -38,7 +38,8 @@ namespace Cooper.DAO
 
             List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
 
-            if (entities.Any()) {
+            if (entities.Any())
+            {
                 EntityMapping.Map(entities[0], out statistics);
             }
 
@@ -111,7 +112,7 @@ namespace Cooper.DAO
 
             entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
 
-            bool ifUpdated = crud.Update(statistics.Id, table, idColumn, entity);
+            bool ifUpdated = crud.Update(table, entity, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, statistics.Id) });
 
             if (ifUpdated)
             {
