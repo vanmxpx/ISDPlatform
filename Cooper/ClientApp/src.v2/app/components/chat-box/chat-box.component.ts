@@ -8,6 +8,7 @@ import { Chat, Message } from '@models';
 })
 export class ChatBoxComponent {
 
+  public dike: Date = new Date();
   public messageContent: string;
 
   @Input() public currentSessionUserId: number;
@@ -22,6 +23,20 @@ export class ChatBoxComponent {
     }
 
     return '';
+  }
+
+  public getMessageDate(message: Message): string {
+    const date: Date = new Date(Date.parse(message.createDate.toString()));
+
+    const hours: number = date.getHours() % 13;
+    const minutes: number = date.getMinutes();
+    const seconds: number = date.getSeconds();
+
+    const partOfDay: string = (date.getHours() < 13) ? 'AM' : 'PM';
+
+    const result: string = `${hours}:${minutes}:${seconds} ${partOfDay}`;
+
+    return result;
   }
 
   public getSenderNickname(message: Message): string {
@@ -40,6 +55,7 @@ export class ChatBoxComponent {
     message.chatId = this.chat.id;
     message.senderId = this.currentSessionUserId;
     message.isRead = false;
+    message.createDate = new Date();
 
     this.sendMessage.emit(message);
 

@@ -53,7 +53,7 @@ img.message-avatar {
 .sender {
     display: flex;
     align-self: flex-start;
-    font-weight: 600px;
+    font-weight: 600;
     font-size: 14px;
     flex: 2;
 }
@@ -74,6 +74,11 @@ img.message-avatar {
     align-items: center;
 }
 
+.message-date {
+    font-size: 10px;
+    font-weight: 300;
+    margin-left: 10px;
+}
 
 .input-container {
     height: 80%;
