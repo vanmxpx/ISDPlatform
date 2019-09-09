@@ -1,42 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cooper.Services.Interfaces;
 
 namespace Cooper.ORM
 {
     public class DbTools
     {
-        private static string[] operators = new string[] { "=", ">=", "<=", ">", "<", "IS NULL", "IS NOT NULL" };
-
-        public struct WhereRequest
-        {
-            public readonly string variable_name;
-            public readonly RequestOperator request_operator;
-            public readonly WhereRequest[] and_requests;
-
-            public string variable_value;
-
-            public WhereRequest(string variable_name, RequestOperator request_operator, object variable_value, WhereRequest[] and_requests = null)
-            {
-                this.variable_name = variable_name;
-                this.request_operator = request_operator;
-                if (request_operator != RequestOperator.NULL && request_operator != RequestOperator.NOTNULL)
-                {
-                    this.variable_value = " " + variable_value.ToString();
-                }
-                else 
-                {
-                    this.variable_value = "";
-                }
-                this.and_requests = and_requests;
-            }
-        }
-        public static string GetOperatorString(RequestOperator request_operator)
-        {
-            return operators[(int)request_operator];
-        }
-
         public static string GetVariableAttribute(string attribute)
         {
             int start_pos = attribute.IndexOf("(");
@@ -48,61 +16,21 @@ namespace Cooper.ORM
             return attribute;
         }
 
-        public enum RequestOperator
+        public static string CreateSelectQuery(string table, HashSet<string> attributes, WhereRequest whereRequest = null)
         {
-            Equal = 0,
-            MoreOrEqual = 1,
-            LessOrEqual = 2,
-            More = 3,
-            Less = 4,
-            NULL = 5,
-            NOTNULL = 6
-        }
-
-        public static string CreateSelectQuery(string table, HashSet<string> attributes, WhereRequest[] whereRequests = null)
-        {
-            string where = CreateWhereRequest(whereRequests);
-            return String.Format("SELECT {0} FROM {1}{2}",
+            return string.Format("SELECT {0} FROM {1} {2}",
                 (attributes != null) ? string.Join(", ", attributes) : "*",
-                table, where);
+                table, whereRequest != null ? "WHERE " + whereRequest.ToString() : null);
         }
 
-        public static string CreateUpdateQuery(string table, EntityORM entity, DbTools.WhereRequest[] whereRequests = null)
+        public static string CreateUpdateQuery(string table, EntityORM entity, WhereRequest whereRequest = null)
         {
-            string where = CreateWhereRequest(whereRequests);
-            return String.Format("UPDATE {0} SET {1}{2}", table, string.Join(",", entity.attributeValue.Select(x => x.Key + "=" + x.Value).ToArray()), where);
+            return string.Format("UPDATE {0} SET {1} {2}", table, string.Join(",", entity.attributeValue.Select(x => x.Key + "=" + x.Value).ToArray()), whereRequest != null ? "WHERE " + whereRequest.ToString() : null);
         }
 
-        public static string CreateDeleteQuery(string table, WhereRequest[] whereRequests = null)
+        public static string CreateDeleteQuery(string table, WhereRequest whereRequest = null)
         {
-            string where = CreateWhereRequest(whereRequests);
-
-            return String.Format("DELETE FROM {0} {1}", table, where);
-        }
-
-        private static string CreateWhereRequest(WhereRequest[] whereRequests = null)
-        {
-            string where = "";
-            if (whereRequests != null)
-            {
-                where = " WHERE";
-                foreach (WhereRequest request in whereRequests)
-                {
-                    where += String.Format(" {0} {1}{2} ", request.variable_name, GetOperatorString(request.request_operator), request.variable_value);
-                    if (request.and_requests != null)
-                    {
-                        foreach (WhereRequest and_request in request.and_requests)
-                        {
-                            where += String.Format("AND {0} {1}{2} ", and_request.variable_name, GetOperatorString(and_request.request_operator), and_request.variable_value);
-                        }
-                    }
-                    where += "OR";
-                }
-                //Remove last OR
-                where = where.Remove(where.Length - 2);
-            }
-
-            return where;
+            return string.Format("DELETE FROM {0} {1}", table, whereRequest != null ? "WHERE " + whereRequest.ToString() : null);
         }
 
         public static string SanitizeString(string value)
@@ -128,9 +56,9 @@ namespace Cooper.ORM
             return (value) ? "\'y\'" : "\'n\'";
         }
 
-        public static string WrapString(string value)
+        public static string Wrapstring(string value)
         {
-            return String.Format("\'{0}\'", value);
+            return string.Format("\'{0}\'", value);
         }
     }
 }

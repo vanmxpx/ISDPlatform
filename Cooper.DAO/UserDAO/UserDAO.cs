@@ -133,7 +133,9 @@ namespace Cooper.DAO
                 return user;
             }
 
-            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(attribute_name, DbTools.RequestOperator.Equal, attribute_value) }));
+            var whereRequest = new WhereRequest(attribute_name, Operators.Equal, attribute_value.ToString());
+
+            List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes, whereRequest);
 
             if (entities.Any()) {
                 EntityMapping.Map(entities[0], out user);
@@ -252,9 +254,11 @@ namespace Cooper.DAO
             entity.attributeValue.Remove("ID");
             if (removePassword) { //Remove password field
                 entity.attributeValue.Remove("PASSWORD");
-            } 
+            }
 
-            bool ifUpdated = crud.Update(table, entity, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, user.Id) });
+            var whereRequest = new WhereRequest(idColumn, Operators.Equal, user.Id.ToString());
+
+            bool ifUpdated = crud.Update(table, entity, whereRequest);
 
             if (ifUpdated)
             {

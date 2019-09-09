@@ -47,7 +47,7 @@ namespace Cooper.DAO
         {
             List<UserDb> usersList = null;
             
-            DbTools.WhereRequest[] where_part = null;
+            WhereRequest whereRequest = null;
 
             string user1_attribute = String.Empty;
             string user2_attribute = String.Empty;
@@ -57,15 +57,9 @@ namespace Cooper.DAO
                 case ConnectionType.Subscribers:
                     {
                         user1_attribute = "IDUSER1";
-                        
 
-                        where_part = new DbTools.WhereRequest[]
-                        {
-                            new DbTools.WhereRequest(user1_attribute, DbTools.RequestOperator.Equal, userId, new DbTools.WhereRequest[] 
-                            {
-                                new DbTools.WhereRequest("BLACKLISTED", DbTools.RequestOperator.Equal, DbTools.WrapBoolean(false))
-                            })
-                        };
+                        whereRequest = new WhereRequest(user1_attribute, Operators.Equal, userId.ToString())
+                            .And("BLACKLISTED", Operators.Equal, DbTools.WrapBoolean(false));
 
                         user2_attribute = "IDUSER2";
 
@@ -75,13 +69,8 @@ namespace Cooper.DAO
                     {
                         user1_attribute = "IDUSER1";
 
-                        where_part = new DbTools.WhereRequest[]
-                        {
-                            new DbTools.WhereRequest(user1_attribute, DbTools.RequestOperator.Equal, userId, new DbTools.WhereRequest[]
-                            {
-                                new DbTools.WhereRequest("BLACKLISTED", DbTools.RequestOperator.Equal, DbTools.WrapBoolean(true))
-                            })
-                        };
+                        whereRequest = new WhereRequest(user1_attribute, Operators.Equal, userId.ToString())
+                            .And("BLACKLISTED", Operators.Equal, DbTools.WrapBoolean(true));
 
                         user2_attribute = "IDUSER2";
                         break;
@@ -90,13 +79,8 @@ namespace Cooper.DAO
                     {
                         user1_attribute = "IDUSER2";
 
-                        where_part = new DbTools.WhereRequest[]
-                        {
-                            new DbTools.WhereRequest(user1_attribute, DbTools.RequestOperator.Equal, userId, new DbTools.WhereRequest[]
-                            {
-                                new DbTools.WhereRequest("BLACKLISTED", DbTools.RequestOperator.Equal, DbTools.WrapBoolean(false))
-                            })
-                        };
+                        whereRequest = new WhereRequest(user1_attribute, Operators.Equal, userId.ToString())
+                            .And("BLACKLISTED", Operators.Equal, DbTools.WrapBoolean(false));
 
                         user2_attribute = "IDUSER1";
                         break;
@@ -105,13 +89,8 @@ namespace Cooper.DAO
                     {
                         user1_attribute = "IDUSER1";
 
-                        where_part = new DbTools.WhereRequest[]
-                        {
-                            new DbTools.WhereRequest(user1_attribute, DbTools.RequestOperator.Equal, userId, new DbTools.WhereRequest[]
-                            {
-                                new DbTools.WhereRequest("AREFRIENDS", DbTools.RequestOperator.Equal, DbTools.WrapBoolean(true))
-                            })
-                        };
+                        whereRequest = new WhereRequest(user1_attribute, Operators.Equal, userId.ToString())
+                            .And("AREFRIENDS", Operators.Equal, DbTools.WrapBoolean(true));
 
                         user2_attribute = "IDUSER2";
                         break;
@@ -120,7 +99,7 @@ namespace Cooper.DAO
                     break;                    
             }
             
-            List<EntityORM> userConnections = (List<EntityORM>)crud.Read(table, attributes, where_part);
+            List<EntityORM> userConnections = (List<EntityORM>)crud.Read(table, attributes, whereRequest);
 
             if (userConnections != null)
             {
@@ -154,16 +133,10 @@ namespace Cooper.DAO
 
                 UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
 
+                var whereRequest = new WhereRequest("IDUSER1", Operators.Equal, symmetricConnection.IdUser1.ToString())
+                    .And("IDUSER2", Operators.Equal, symmetricConnection.IdUser2.ToString());
 
-                var where_part = new DbTools.WhereRequest[]
-                {
-                    new DbTools.WhereRequest("IDUSER1", DbTools.RequestOperator.Equal, symmetricConnection.IdUser1, new DbTools.WhereRequest[]
-                    {
-                        new DbTools.WhereRequest("IDUSER2", DbTools.RequestOperator.Equal, symmetricConnection.IdUser2)
-                    })
-                };
-                
-                EntityORM entity = Get(table, attributes, where_part, transaction);
+                EntityORM entity = Get(table, attributes, whereRequest, transaction);
 
                 if (entity != null)
                 {
@@ -181,19 +154,13 @@ namespace Cooper.DAO
                     // Making sure that ID value is not touched.
                     symmetricConnection_newTyped.attributeValue.Remove("ID");
 
-                    Update(table, attributes, where_part, symmetricConnection_newTyped, transaction);
+                    Update(table, attributes, whereRequest, symmetricConnection_newTyped, transaction);
 
                     usersConnection.AreFriends = true;
                 }
 
-                where_part = new DbTools.WhereRequest[]
-                {
-                    new DbTools.WhereRequest("IDUSER1", DbTools.RequestOperator.Equal, usersConnection.IdUser1,
-                    new DbTools.WhereRequest[]
-                    {
-                        new DbTools.WhereRequest("IDUSER2", DbTools.RequestOperator.Equal, usersConnection.IdUser2)
-                    })
-                };
+                whereRequest = new WhereRequest("IDUSER1", Operators.Equal, symmetricConnection.IdUser1.ToString())
+                    .And("IDUSER2", Operators.Equal, symmetricConnection.IdUser2.ToString());
 
                 EntityORM usersConnection_newTyped = Mapping.EntityMapping.Map(usersConnection, attributes);
 
@@ -223,17 +190,10 @@ namespace Cooper.DAO
 
         private bool ConnectionExists(UsersConnectionDb usersConnection, OracleTransaction transaction)
         {
+            var  whereRequest = new WhereRequest("IDUSER1", Operators.Equal, usersConnection.IdUser1.ToString())
+                .And("IDUSER2", Operators.Equal, usersConnection.IdUser2.ToString());
 
-            var where_part = new DbTools.WhereRequest[]
-                {
-                    new DbTools.WhereRequest("IDUSER1", DbTools.RequestOperator.Equal, usersConnection.IdUser1,
-                    new DbTools.WhereRequest[]
-                    {
-                        new DbTools.WhereRequest("IDUSER2", DbTools.RequestOperator.Equal, usersConnection.IdUser2)
-                    })
-                };
-
-            EntityORM usersConnection_newTyped = Get(table, attributes, where_part, transaction);
+            EntityORM usersConnection_newTyped = Get(table, attributes, whereRequest, transaction);
 
             return usersConnection_newTyped != null;
         }
@@ -251,30 +211,17 @@ namespace Cooper.DAO
 
                 UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
 
-                var where_part = new DbTools.WhereRequest[]
-                {
-                    new DbTools.WhereRequest("IDUSER1", DbTools.RequestOperator.Equal, symmetricConnection.IdUser1,
-                    new DbTools.WhereRequest[]
-                    {
-                        new DbTools.WhereRequest("IDUSER2", DbTools.RequestOperator.Equal, symmetricConnection.IdUser2)
-                    })
-                };
+                var whereRequest = new WhereRequest("IDUSER1", Operators.Equal, symmetricConnection.IdUser1.ToString())
+                    .And("IDUSER2", Operators.Equal, symmetricConnection.IdUser2.ToString());
 
                 if (ConnectionExists(symmetricConnection, transaction))
                 {
                     isUnsubscribed = true;
-                    Delete(table, where_part, transaction);
+                    Delete(table, whereRequest, transaction);
                 }
 
-                where_part = new DbTools.WhereRequest[]
-                {
-                    new DbTools.WhereRequest("IDUSER1", DbTools.RequestOperator.Equal, usersConnection.IdUser1,
-                    new DbTools.WhereRequest[]
-                    {
-                        new DbTools.WhereRequest("IDUSER2", DbTools.RequestOperator.Equal, usersConnection.IdUser2)
-                    })
-                };
-
+                whereRequest = new WhereRequest("IDUSER1", Operators.Equal, usersConnection.IdUser1.ToString())
+                    .And("IDUSER2", Operators.Equal, usersConnection.IdUser2.ToString());
 
                 EntityORM usersConnection_newTyped = Mapping.EntityMapping.Map(usersConnection, attributes);
 
@@ -288,7 +235,7 @@ namespace Cooper.DAO
                         usersConnection.AreFriends = false;
                     }
 
-                    Update(table, attributes, where_part, usersConnection_newTyped, transaction);
+                    Update(table, attributes, whereRequest, usersConnection_newTyped, transaction);
                 }
                 else
                 {
@@ -320,21 +267,15 @@ namespace Cooper.DAO
         {
             bool isUnbanned = true;
 
-            var where_part = new DbTools.WhereRequest[]
-                {
-                    new DbTools.WhereRequest("IDUSER1", DbTools.RequestOperator.Equal, usersConnection.IdUser1,
-                    new DbTools.WhereRequest[]
-                    {
-                        new DbTools.WhereRequest("IDUSER2", DbTools.RequestOperator.Equal, usersConnection.IdUser2)
-                    })
-                };
+            var whereRequest = new WhereRequest("IDUSER1", Operators.Equal, usersConnection.IdUser1.ToString())
+                .And("IDUSER2", Operators.Equal, usersConnection.IdUser2.ToString());
 
             try
             {
                 Connection.Open();
                 transaction = Connection.BeginTransaction();
 
-                Delete(table, where_part, transaction);
+                Delete(table, whereRequest, transaction);
                 transaction.Commit();
             }
             catch (DbException ex)
@@ -360,29 +301,17 @@ namespace Cooper.DAO
                 Connection.Open();
                 transaction = Connection.BeginTransaction();
 
-                var where_part = new DbTools.WhereRequest[]
-                {
-                    new DbTools.WhereRequest("IDUSER1", DbTools.RequestOperator.Equal, usersConnection.IdUser1,
-                    new DbTools.WhereRequest[]
-                    {
-                        new DbTools.WhereRequest("IDUSER2", DbTools.RequestOperator.Equal, usersConnection.IdUser2)
-                    })
-                };
+                var whereRequest = new WhereRequest("IDUSER1", Operators.Equal, usersConnection.IdUser1.ToString())
+                    .And("IDUSER2", Operators.Equal, usersConnection.IdUser2.ToString());
 
-                Delete(table, where_part, transaction);
+                Delete(table, whereRequest, transaction);
 
                 UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
 
                 if (ConnectionExists(symmetricConnection, transaction))
                 {
-                    where_part = new DbTools.WhereRequest[]
-                    {
-                        new DbTools.WhereRequest("IDUSER1", DbTools.RequestOperator.Equal, symmetricConnection.IdUser1,
-                        new DbTools.WhereRequest[]
-                        {
-                            new DbTools.WhereRequest("IDUSER2", DbTools.RequestOperator.Equal, symmetricConnection.IdUser2)
-                        })
-                    };
+                    whereRequest = new WhereRequest("IDUSER1", Operators.Equal, symmetricConnection.IdUser1.ToString())
+                        .And("IDUSER2", Operators.Equal, symmetricConnection.IdUser2.ToString());
 
                     symmetricConnection.AreFriends = false;
 
@@ -391,7 +320,7 @@ namespace Cooper.DAO
                     // Making sure that ID value is not touched.
                     symmetricConnection_newTyped.attributeValue.Remove("ID");
 
-                    Update(table, attributes, where_part, symmetricConnection_newTyped, transaction);
+                    Update(table, attributes, whereRequest, symmetricConnection_newTyped, transaction);
                 }
 
                 transaction.Commit();
@@ -439,11 +368,11 @@ namespace Cooper.DAO
         /// <param name="attributes"></param>
         /// <param name="where_attributes"></param>
         /// <returns></returns>
-        private EntityORM Get(string table, HashSet<string> attributes, DbTools.WhereRequest[] where_part, OracleTransaction transaction)
+        private EntityORM Get(string table, HashSet<string> attributes, WhereRequest whereRequest, OracleTransaction transaction)
         {
             EntityORM entity = null;
             
-            string sqlExpression = DbTools.CreateSelectQuery(table, attributes, where_part);
+            string sqlExpression = DbTools.CreateSelectQuery(table, attributes, whereRequest);
 
             OracleCommand command = new OracleCommand(sqlExpression, Connection);
             command.Transaction = transaction;
@@ -464,9 +393,9 @@ namespace Cooper.DAO
             return entity;
         }
 
-        private void Delete(string table, DbTools.WhereRequest[] where_part, OracleTransaction transaction)
+        private void Delete(string table, WhereRequest whereRequest, OracleTransaction transaction)
         {
-            string sqlExpression = DbTools.CreateDeleteQuery(table, where_part);
+            string sqlExpression = DbTools.CreateDeleteQuery(table, whereRequest);
             
 
             OracleCommand command = new OracleCommand(sqlExpression, Connection);
@@ -474,9 +403,9 @@ namespace Cooper.DAO
             command.ExecuteNonQuery();
         }
 
-        private void Update(string table, HashSet<string> attributes, DbTools.WhereRequest[] where_part, EntityORM entity, OracleTransaction transaction)
+        private void Update(string table, HashSet<string> attributes, WhereRequest whereRequest, EntityORM entity, OracleTransaction transaction)
         {
-            string sqlExpression = DbTools.CreateUpdateQuery(table, entity, where_part);
+            string sqlExpression = DbTools.CreateUpdateQuery(table, entity, whereRequest);
             
             var oracleCommand = new OracleCommand(sqlExpression, Connection);
             oracleCommand.Transaction = transaction;

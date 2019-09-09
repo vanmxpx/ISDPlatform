@@ -37,7 +37,9 @@ namespace Cooper.DAO
         {
             UserReviewDb userReview = null;
 
-            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
+            var whereRequest = new WhereRequest(idColumn, Operators.Equal, id.ToString());
+
+            List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes, whereRequest);
 
             if (entities.Any()) {
                 EntityMapping.Map(entities[0], out userReview);
@@ -114,9 +116,11 @@ namespace Cooper.DAO
             EntityORM entity = EntityMapping.Map(userReview, attributes);
 
             // Making sure that ID value is not touched.
-            entity.attributeValue.Remove("ID"); 
+            entity.attributeValue.Remove("ID");
 
-            bool ifUpdated = crud.Update(table, entity, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, userReview.Id) });
+            var whereRequest = new WhereRequest(idColumn, Operators.Equal, userReview.Id.ToString());
+
+            bool ifUpdated = crud.Update(table, entity, whereRequest);
 
             if (ifUpdated)
             {
