@@ -13,6 +13,7 @@ $chats-list-width: 350px;
 
 div.chats-layout-container {
     display: flex;
+    overflow-y: hidden;
 }
     
 div.chats-list-container {
