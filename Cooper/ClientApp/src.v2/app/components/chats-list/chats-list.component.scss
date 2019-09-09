@@ -1,16 +1,18 @@
 .chat-list-container {    
     border: 1px solid gainsboro;
+    height: 500px;
+    min-width: 300px;
 }
 
 .image {
     height: 60px;
     width: 60px;
-    padding-left: 0px;
     border-radius: 50%;
 }
 
-.chat {
-    height: 500px;
+.chats-list {
+    height: 100%;
+    display: block;
     overflow-y: scroll;
     scroll-behavior: smooth;
 }

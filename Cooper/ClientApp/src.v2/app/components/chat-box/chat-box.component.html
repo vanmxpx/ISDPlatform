@@ -2,11 +2,14 @@
   <div class="messages-list-container">
     <mat-list class = "chat-list">
       <mat-list-item role="listitem" *ngFor="let message of chat.messages" class = "message">
-        <img matListAvatar onError="this.src='assets/imageKeeper/robot.png'" src={{getSenderAvatar(message)}}>
-            
+        
+        <div class="message-avatar-container">
+          <img matListAvatar onError="this.src='assets/imageKeeper/robot.png'" src={{getSenderAvatar(message)}} class="message-avatar">
+        </div>
+
         <mat-card class="message-text" >   
           <div class = "message-header">
-            <mat-card-title class = "sender">{{getSenderNickname(message)}}</mat-card-title>
+            <mat-card-title class = "sender"><b>{{getSenderNickname(message)}}</b></mat-card-title>
           </div>    
           
           <mat-card-title class = "message-content">
