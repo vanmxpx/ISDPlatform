@@ -1,16 +1,17 @@
+@import "../../constants.scss";
 
-$messages-box-height: 425px;
+$new-message-box-height: 80px;
 
 .chat-box-container {    
     border: 1px solid gainsboro;
 
-    height: 100%;
+    height: calc(100vh - #{$top-panel-height});
     min-width: 300px;
 }
 
 
 .messages-list-container {
-    height: $messages-box-height;
+    height: calc(100vh - #{$new-message-box-height} - #{$top-panel-height});
     border-bottom: 1px solid gainsboro;
 }
 
@@ -31,7 +32,7 @@ $messages-box-height: 425px;
 .message-text {
     padding: 5px;
     background-color: rgb(250,250,250);
-    margin-left: 5px;
+    margin: 12px 4px;
 }
 
 div.message-avatar-container {
@@ -52,13 +53,14 @@ img.message-avatar {
 .sender {
     display: flex;
     align-self: flex-start;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px;
+    font-weight: 600px;
+    font-size: 14px;
     flex: 2;
 }
 
 .message-content {
-    font-size:16px;
+    font-weight: 500px;
+    font-size: 14px;
     text-decoration: none!important;
     word-wrap: break-word;
     white-space: pre-wrap;
@@ -68,7 +70,7 @@ img.message-avatar {
 .new-message-container{
     display: flex;
     flex-direction: row;
-    height: calc(100% - 425px);
+    height: 80px;
     align-items: center;
 }
 

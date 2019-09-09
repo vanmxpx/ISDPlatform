@@ -1,3 +1,5 @@
+$chats-list-width: 350px;
+
 .backdrop{
 
     background-color:rgba(0,0,0,0.6);
@@ -12,38 +14,13 @@
 div.chats-layout-container {
     display: flex;
 }
-
-@media screen and (min-width: 1000px)
-{
-    div.empty-container {
-    width: 20%;
-    }
-
-    div.chats-list-container {
-        width: 25%;
-    }
-
-    div.chat-box-container {
-        width: 35%;
-
-    }
+    
+div.chats-list-container {
+    width: $chats-list-width;
 }
 
-@media screen and (max-width: 1000px)
-{
-    div.empty-container {
-    width: 0%;
-    }
-
-    div.chats-list-container {
-        width: 45%;
-    }
-
-    div.chat-box-container {
-        width: 55%;
-
-    }
+div.chat-box-container {
+    width: calc(100% - #{$chats-list-width});
 }
-
 
 

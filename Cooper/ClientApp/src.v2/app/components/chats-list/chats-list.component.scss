@@ -1,6 +1,8 @@
+@import "../../constants.scss";
+
 .chat-list-container {    
     border: 1px solid gainsboro;
-    height: 500px;
+    height: calc(100vh - #{$top-panel-height} - 50px);
     min-width: 300px;
 }
 
@@ -43,9 +45,18 @@
 }
 
 .chat-name {
-    margin: 0px;
     position: top;
     padding-top: 0px;
+
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.chat-last-message {
+    font-size: 14px;
+    font-weight: 400;
 }
 
 /* width */
