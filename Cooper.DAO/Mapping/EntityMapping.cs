@@ -7,6 +7,48 @@ namespace Cooper.DAO.Mapping
 {
     public class EntityMapping
     {
+        public static void Map(EntityORM entity, out ResetTokenDb resetToken)
+        {
+            resetToken = new ResetTokenDb();
+
+            foreach (KeyValuePair<string, object> aV in entity.attributeValue)
+            {
+                switch (aV.Key)  // entity attribute
+                {
+                    case "EMAIL":
+                        resetToken.Email = aV.Value.ToString();
+                        break;
+                    case "TOKEN":
+                        resetToken.Token = aV.Value.ToString();
+                        break;
+                }
+            }
+        }
+
+        public static EntityORM Map(ResetTokenDb resetToken, HashSet<string> attributes)
+        {
+            EntityORM entity = new EntityORM();
+
+            foreach (string attribute in attributes)
+            {
+                object value = null;
+
+                switch (attribute)
+                {
+                    case "EMAIL":
+                        value = $"\'{resetToken.Email}\'";
+                        break;
+                    case "TOKEN":
+                        value = $"\'{resetToken.Token}\'";
+                        break;
+                }
+
+                entity.attributeValue.Add(attribute, value);
+            }
+
+            return entity;
+        }
+
         public static void Map(EntityORM entity, out VerificationDb verify)
         {
             verify = new VerificationDb();
@@ -54,7 +96,7 @@ namespace Cooper.DAO.Mapping
 
             return entity;
         }
-        
+
 
         #region Game/entity mapping
 
@@ -145,7 +187,7 @@ namespace Cooper.DAO.Mapping
         #endregion
 
         #region User/entity mapping
-        
+
         ///<summary>
         ///Maps properties from EntityORM object to UserDb object
         ///</summary>
@@ -316,7 +358,7 @@ namespace Cooper.DAO.Mapping
                         value = (userConnection.AreFriends) ? "\'y\'" : "\'n\'";
                         break;
                     case "BLACKLISTED":
-                        value = (userConnection.BlackListed) ? "\'y\'": "\'n\'";
+                        value = (userConnection.BlackListed) ? "\'y\'" : "\'n\'";
                         break;
                     case "IDUSER1":
                         value = $"\'{ userConnection.IdUser1}\'";
@@ -486,7 +528,7 @@ namespace Cooper.DAO.Mapping
             return entity;
         }
         #endregion
-        
+
         #region Chat/entity mapping
         ///<summary>
         ///Maps properties from EntityORM object to ChatDb object
@@ -679,4 +721,3 @@ namespace Cooper.DAO.Mapping
     }
 
 }
-

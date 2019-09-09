@@ -17,6 +17,16 @@ namespace Cooper.Repositories.Mapping
             return verify_newType;
         }
 
+        public ResetTokenDb Map(ResetToken resetToken)
+        {
+            ResetTokenDb resetTokenDb = new ResetTokenDb();
+
+            resetTokenDb.Email = resetToken.Email;
+            resetTokenDb.Token = resetToken.Token;
+
+            return resetTokenDb;
+        }
+
         #region Game Mapping
 
         public Game Map(GameDb game)
@@ -70,7 +80,7 @@ namespace Cooper.Repositories.Mapping
         }
 
         #endregion
-        
+
         #region User Mapping
         public User Map(UserDb user)
         {
@@ -94,7 +104,7 @@ namespace Cooper.Repositories.Mapping
             #endregion
 
             #region Transfering interop attributes
-            
+
 
             #endregion
 
@@ -121,7 +131,7 @@ namespace Cooper.Repositories.Mapping
             user_newType.PlatformTheme = user.PlatformTheme;
 
             #endregion
-            
+
 
             return user_newType;
         }
@@ -231,7 +241,7 @@ namespace Cooper.Repositories.Mapping
         }
 
         #endregion
-        
+
         #region UserReview Mapping
 
         public UserReview Map(UserReviewDb userReview)
@@ -281,7 +291,7 @@ namespace Cooper.Repositories.Mapping
         }
 
         #endregion
-        
+
         #region Chat Mapping
         public Chat Map(ChatDb chat)
         {

@@ -12,6 +12,7 @@ namespace Cooper.Repositories
     {
         private readonly IUserDAO userDAO;
         private readonly VerificationDAO verifyDAO;
+        private readonly ResetTokenDAO resetTokenDAO;
         private readonly ModelsMapper mapper;
         private readonly IJwtHandlerService jwtService;
 
@@ -19,6 +20,7 @@ namespace Cooper.Repositories
         {
             userDAO = new UserDAO(configProvider);
             verifyDAO = new VerificationDAO(configProvider);
+            resetTokenDAO = new ResetTokenDAO(configProvider);
             mapper = new ModelsMapper();
 
             this.jwtService = jwtService;
@@ -69,8 +71,7 @@ namespace Cooper.Repositories
 
         public bool IfResetTokenExists(string token)
         {
-            // TODO DAO
-            return true;
+            return resetTokenDAO.IfTokenExists(token);
         }
 
         #endregion
@@ -178,6 +179,12 @@ namespace Cooper.Repositories
             return verifyDAO.Save(verifydb);
         }
 
+        public long Create(ResetToken resetToken)
+        {
+            ResetTokenDb resetTokenDb = mapper.Map(resetToken);
+            return resetTokenDAO.Save(resetTokenDb);
+        }
+
         /// <summary>
         /// Creates a new user With help of social media.
         /// </summary>
@@ -206,7 +213,11 @@ namespace Cooper.Repositories
 
         public void ResetPassword(string token, string newPassword)
         {
-            // TODO RESET PASSWORD
+            string email = resetTokenDAO.GetEmailByToken(token);
+            UserDb user = userDAO.GetByEmail(email);
+            user.Password = newPassword;
+            userDAO.Update(user);
+            resetTokenDAO.Delete(token);
         }
 
         public void Delete(long id)

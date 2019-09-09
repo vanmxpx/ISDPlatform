@@ -1,4 +1,5 @@
 ﻿using Cooper.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 using NLog;
 using Oracle.ManagedDataAccess.Client;
 using System;
