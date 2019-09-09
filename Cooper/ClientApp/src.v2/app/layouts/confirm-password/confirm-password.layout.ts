@@ -11,8 +11,7 @@ export class ConfirmPasswordLayoutComponent {
 
   private token: string;
 
-  constructor(private resetPasswordService: ResetPasswordService, private route: ActivatedRoute
-    /*private authService: AuthentificationService, private router: Router*/ ) {
+  constructor(private resetPasswordService: ResetPasswordService, private route: ActivatedRoute) {
     this.route.params.subscribe((params) => {
       if (params.token) {
         this.token = params.token;
@@ -20,10 +19,6 @@ export class ConfirmPasswordLayoutComponent {
         this.token = '';
       }
     });
-    console.log('token: ' + this.token);
-    // if (this.authService.isAuthentificated()) {
-    //   this.router.navigate(['/platform/home']);
-    // }
   }
 
   public resetPassword(newPassword: string): void {

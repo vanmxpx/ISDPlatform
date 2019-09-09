@@ -8,8 +8,9 @@ import { NgForm } from '@angular/forms';
 })
 export class ResetPasswordFormComponent {
 
-  @Input() public failedReset: boolean;
-  @Input() public failedResetMessage: string;
+  @Input() public notified: boolean;
+  @Input() public failed: boolean;
+  @Input() public message: string;
   @Output() public resetPassword: EventEmitter<NgForm> = new EventEmitter<NgForm>();
 
   public onResetPasswordClicked(form: NgForm): void {

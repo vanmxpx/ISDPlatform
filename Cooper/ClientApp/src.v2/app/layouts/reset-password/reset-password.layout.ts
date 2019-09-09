@@ -10,18 +10,26 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ResetPasswordLayoutComponent implements OnInit {
 
-  public failedReset: boolean = false;
-  public failedResetMessage: string;
+  public notified: boolean;
+  public failed: boolean;
+  public message: string;
 
   constructor(private resetPasswordService: ResetPasswordService, private route: ActivatedRoute) { }
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      if (params.failedReset) {
-        this.failedReset = params.failedReset;
-        this.failedResetMessage = params.failed;
+      if (params.failed) {
+        this.failed = params.failed;
+        this.message = params.msg;
       } else {
-        this.failedReset = false;
+        this.failed = false;
+      }
+
+      if (params.notified) {
+        this.notified = params.notified;
+        this.message = params.msg;
+      } else {
+        this.notified = false;
       }
     });
   }
