@@ -1,8 +1,9 @@
 export { LoginFormComponent } from './login-form/login-form.component';
 export { RegistrationFormComponent } from './registration-form/registration-form.component';
 export { ResetPasswordFormComponent } from './reset-password-form/reset-password-form.component';
+export { ConfirmPasswordFormComponent } from './confirm-password-form/confirm-password-form.component';
 
-export { PosterComponent} from './poster/poster.component';
+export { PosterComponent } from './poster/poster.component';
 
 export { UserConnectionsListComponent } from './user-connections-list/user-connections-list.component';
 

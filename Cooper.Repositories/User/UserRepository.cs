@@ -30,7 +30,7 @@ namespace Cooper.Repositories
         {
             return userDAO.IfNicknameExists(nickname);
         }
-        
+
         public bool IfEmailExists(string email)
         {
             return userDAO.IfEmailExists(email);
@@ -59,12 +59,18 @@ namespace Cooper.Repositories
         public bool CheckVerifyByEmail(string email)
         {
             var result = userDAO.GetByEmail(email);
-            return (result != null)? result.Email.Contains("@") : false;
+            return (result != null) ? result.Email.Contains("@") : false;
         }
 
         public string GetVerifyEmail(string token)
         {
             return verifyDAO.Get(token)?.Email;
+        }
+
+        public bool IfResetTokenExists(string token)
+        {
+            // TODO DAO
+            return true;
         }
 
         #endregion
@@ -73,7 +79,7 @@ namespace Cooper.Repositories
         #region Main methods
 
         #region Get Methods
-        
+
         public IEnumerable<User> GetAll()
         {
             List<UserDb> users = (List<UserDb>)userDAO.GetAll();
@@ -107,7 +113,7 @@ namespace Cooper.Repositories
         public User GetByEmail(string email)
         {
             UserDb user = userDAO.GetByEmail(email);
-            
+
             User user_newTyped = null;
 
             if (user != null)
@@ -121,7 +127,7 @@ namespace Cooper.Repositories
         public User GetByJWToken(string token)
         {
             string nickname = jwtService.GetPayloadAttributeValue("username", token);
-            
+
             return GetByNickname(nickname);
         }
 
@@ -138,7 +144,8 @@ namespace Cooper.Repositories
             return user_newTyped;
         }
 
-        public Login GetLogin(string email) {
+        public Login GetLogin(string email)
+        {
             Login login = new Login();
             var user = userDAO.GetByEmail(email);
             login.Username = user.Nickname;
@@ -147,7 +154,7 @@ namespace Cooper.Repositories
             return login;
         }
         #endregion
-        
+
         /// <summary>
         /// Creates a new user by traditional site registration procedure.
         /// </summary>
@@ -164,7 +171,7 @@ namespace Cooper.Repositories
             return userDAO.Save(userDb);
         }
 
-        public long Create(Verification verify) 
+        public long Create(Verification verify)
         {
             VerificationDb verifydb = mapper.Map(verify);
 
@@ -195,6 +202,11 @@ namespace Cooper.Repositories
             var user = userDAO.GetByEmail(token);
             user.Email = email;
             userDAO.Update(user);
+        }
+
+        public void ResetPassword(string token, string newPassword)
+        {
+            // TODO RESET PASSWORD
         }
 
         public void Delete(long id)

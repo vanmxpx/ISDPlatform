@@ -88,7 +88,7 @@ namespace Cooper.DAO
                     return false;
                 }
             }
-            
+
             return true;
         }
 
@@ -110,14 +110,14 @@ namespace Cooper.DAO
             string attribute = "NICKNAME";
 
             nickname = $"\'{nickname}\'";       // tuning string for sql query
-            
+
             return GetByUniqueAttribute(nickname, attribute);
         }
 
         public UserDb GetByEmail(string email)
         {
             string attribute = "EMAIL";
-            
+
             email = $"\'{email}\'";       // tuning string for sql query
 
             return GetByUniqueAttribute(email, attribute);
@@ -135,7 +135,8 @@ namespace Cooper.DAO
 
             List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(attribute_name, DbTools.RequestOperator.Equal, attribute_value) }));
 
-            if (entities.Any()) {
+            if (entities.Any())
+            {
                 EntityMapping.Map(entities[0], out user);
             }
 
@@ -169,7 +170,7 @@ namespace Cooper.DAO
 
             return users;
         }
-        
+
         #region Interop properties info reading
         private List<long> GetConnectionsList(long id)
         {
@@ -209,7 +210,7 @@ namespace Cooper.DAO
         #endregion
 
         #endregion
-            
+
         public long Save(UserDb user)
         {
             EntityORM entity = EntityMapping.Map(user, attributes);
@@ -250,9 +251,10 @@ namespace Cooper.DAO
 
             // Making sure that ID value is not touched.
             entity.attributeValue.Remove("ID");
-            if (removePassword) { //Remove password field
+            if (removePassword)
+            { //Remove password field
                 entity.attributeValue.Remove("PASSWORD");
-            } 
+            }
 
             bool ifUpdated = crud.Update(user.Id, table, idColumn, entity);
 
