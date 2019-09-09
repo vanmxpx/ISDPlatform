@@ -16,3 +16,5 @@ export {SessionService} from './session/session.service';
 export {RegistrationService} from './registration/registration.service';
 
 export {CooperInterceptor} from './interceptor/cooper.interceptor';
+
+export { MediaserverService } from './mediaserver/mediaserver.service';

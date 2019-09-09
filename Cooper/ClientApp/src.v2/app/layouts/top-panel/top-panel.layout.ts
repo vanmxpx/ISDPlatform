@@ -31,4 +31,9 @@ export class TopPanelLayoutComponent {
   public setDefaultLang(): void {
     this.translate.setDefaultLang(this.currentLanguage);
   }
+  public onExitButtonClick(): void {
+    localStorage.removeItem('JwtCooper');
+    document.location.reload();
+  }
+
 }

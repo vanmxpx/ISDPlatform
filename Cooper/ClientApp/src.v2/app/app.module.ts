@@ -16,23 +16,23 @@ import { MatTableModule } from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CooperInterceptor } from '@services';
 import { GrowlModule } from 'primeng/primeng';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AuthGuard } from '@guards';
+import {MatIconModule} from '@angular/material/icon';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { AuthGuard, ExitGuard } from '@guards';
 import { SafePipe } from '@pipes';
 import {
   LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent } from '@layouts';
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent, UploadLayoutComponent } from '@layouts';
 import {
   LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
-  GameListItemComponent, GameCardComponent, NavigationComponent, UserInfoComponent, MyProfileComponent, GamesListComponent,
-  AvatarCardComponent} from '@components';
+  GameListItemComponent, GameCardComponent, NavigationComponent, UploadComponent, UserInfoComponent, MyProfileComponent, GamesListComponent,
+  AvatarCardComponent, LanguageSelectComponent} from '@components';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatSelectModule } from '@angular/material/select';
-import { LanguageSelectComponent } from './components/language-select/language-select.component';
 import { LanguageNamePipe } from '@pipes';
+import { MatDialogModule } from '@angular/material';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
@@ -80,7 +80,9 @@ export function HttpLoaderFactory(http: HttpClient): any {
     NavigationComponent,
     AvatarCardComponent,
     LanguageSelectComponent,
-    LanguageNamePipe
+    LanguageNamePipe,
+    UploadComponent,
+    UploadLayoutComponent
 ],
   imports: [
     BrowserModule,
@@ -95,6 +97,7 @@ export function HttpLoaderFactory(http: HttpClient): any {
     MatButtonModule,
     MatCardModule,
     MatListModule,
+    MatDialogModule,
     DynamiSocialLoginModule,
     GrowlModule,
     MatIconModule,
@@ -123,10 +126,12 @@ export function HttpLoaderFactory(http: HttpClient): any {
       useClass: CooperInterceptor,
       multi: true // give the possibility of various interceptors
     },
-    AuthGuard
+    AuthGuard,
+    ExitGuard,
 
   ],
-  bootstrap: [AppComponent]
+  entryComponents: [UploadLayoutComponent],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
 export class PizzaPartyAppModule { }
