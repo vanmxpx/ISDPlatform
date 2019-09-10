@@ -17,9 +17,12 @@ export class ChatsListComponent implements OnInit {
   @Output() public closeNewMessageBlock: EventEmitter<void> = new EventEmitter<void>();
 
   public ngOnInit(): void {
+    setTimeout(() => {
     if (this.chatsList.length > 0) {
       this.loadChat.emit(this.chatsList[0]);
     }
+    }, 1000);
+
   }
 
   public onChatItemClick(chat: Chat): void {

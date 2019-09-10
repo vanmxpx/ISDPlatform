@@ -19,7 +19,6 @@ export class ChatBoxComponent implements OnInit {
   public notFoundUserError: boolean = false;
   public notFoundUserErrorContent: string = 'User is not found';
 
-
   @Input() public currentSessionUserId: number;
   @Input() public chat: Chat;
   @Input() public newMessageBlockOpened: boolean;
@@ -28,9 +27,9 @@ export class ChatBoxComponent implements OnInit {
   @Output() public createChat: EventEmitter<Chat> = new EventEmitter<Chat>();
 
   public ngOnInit(): void {
-    const objDiv = document.getElementById('chat-list') as HTMLElement;
-
-    objDiv.scrollTop = objDiv.scrollHeight;
+    setTimeout(() => {
+      const objDiv = document.getElementById('chatList') as HTMLElement;
+      objDiv.scrollTop = objDiv.scrollHeight; }, 1000);
   }
 
   public getSenderAvatar(message: Message): string {
