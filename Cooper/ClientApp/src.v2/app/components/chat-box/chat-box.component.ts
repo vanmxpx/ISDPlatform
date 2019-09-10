@@ -28,7 +28,7 @@ export class ChatBoxComponent implements OnInit {
 
   public ngOnInit(): void {
     setTimeout(() => {
-      this.updateMessagesScrollBar()}, 1000);
+      this.updateMessagesScrollBar();}, 1000);
   }
 
   private updateMessagesScrollBar(): void {
