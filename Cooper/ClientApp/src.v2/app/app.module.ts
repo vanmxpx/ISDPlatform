@@ -25,7 +25,7 @@ import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
 
 import {LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
   GamesListComponent, GameListItemComponent, UploadComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
-   NavigationComponent, AvatarCardComponent, ChatModalWindowComponent, ChatsListComponent, ChatBoxComponent,
+   NavigationComponent, AvatarCardComponent, ChatsListComponent, ChatBoxComponent,
     MessagePanelComponent} from '@components';
 import { MatDialogModule } from '@angular/material';
 
@@ -71,7 +71,6 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     GameCardComponent,
     NavigationComponent,
     AvatarCardComponent,
-  ChatModalWindowComponent,
   ChatsListComponent,
   ChatBoxComponent,
   MessagePanelComponent,

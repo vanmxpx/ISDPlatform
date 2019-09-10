@@ -21,11 +21,17 @@
 
 .chat-item {
     margin: 0px;
+    border-radius: 0px;
 }
 
 .chat-item:hover {
     background-color: rgb(243, 243, 243);
     cursor: pointer;
+}
+
+.new-message-item {
+    margin: 0px;
+    background-color: rgb(235, 235, 235);
 }
 
 .row {

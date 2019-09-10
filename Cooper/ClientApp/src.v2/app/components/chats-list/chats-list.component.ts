@@ -11,8 +11,10 @@ const fieldPermissibleMaxLength: number = 30;
 export class ChatsListComponent implements OnInit {
 
   @Input() public currentSessionUserId: number;
+  @Input() public newMessageBlockOpened: boolean;
   @Input() public chatsList: Chat[];
   @Output() public loadChat: EventEmitter<Chat> = new EventEmitter<Chat>();
+  @Output() public closeNewMessageBlock: EventEmitter<void> = new EventEmitter<void>();
 
   public ngOnInit(): void {
     if (this.chatsList.length > 0) {
@@ -21,6 +23,9 @@ export class ChatsListComponent implements OnInit {
   }
 
   public onChatItemClick(chat: Chat): void {
+
+    this.closeNewMessageBlock.emit();
+
     this.loadChat.emit(chat);
   }
 

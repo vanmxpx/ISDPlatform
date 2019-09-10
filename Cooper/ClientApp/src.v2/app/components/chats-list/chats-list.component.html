@@ -1,5 +1,27 @@
 <div class="chat-list-container">
   <ul class="list-group chats-list">
+
+    <li class="list-group-item new-message-item" *ngIf="newMessageBlockOpened">
+        <div class="row">
+
+            <div class="column left">
+              <img class="image" src="assets/imageKeeper/robot.png">
+            </div>
+            
+            <div class="column right">
+
+              <div class="row chat-name">
+                <span>New message</span>
+              </div>
+              
+              <div class="row chat-last-message">
+                Enter your message
+              </div>
+            </div>
+
+        </div>
+    </li>
+
     <li *ngFor="let chat of chatsList" class="list-group-item chat-item" (click)="onChatItemClick(chat)">
         <div class="row">
 

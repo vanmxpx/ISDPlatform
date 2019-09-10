@@ -10,10 +10,11 @@ import {Chat, Message} from '@models';
 })
 export class PersonalChatsLayoutComponent {
 
-  public modalWindowVisibility: boolean = false;
+  public modalWindowVisibility: boolean = true;
   public chatsList: Chat[];
   public currentChat: Chat;
   public currentSessionUserId: number;
+  public newMessageBlockOpened: boolean = false;
 
   private hubConnection: HubConnection;
 
@@ -57,9 +58,15 @@ export class PersonalChatsLayoutComponent {
   });
   }
 
-  public changeModalWindowVisibility(): void {
+  public openNewMessageBlock(): void {
 
-    this.modalWindowVisibility = !this.modalWindowVisibility;
+    this.newMessageBlockOpened = true;
+
+  }
+
+  public closeNewMessageBlock(): void {
+
+    this.newMessageBlockOpened = false;
 
   }
 
@@ -72,6 +79,7 @@ export class PersonalChatsLayoutComponent {
   }
 
   public async createChatAsync(chat: Chat): Promise<any> {
+
     chat.participants[0] = await this.userService.getUserByNickname(chat.participants[0].nickname);
 
     if (!chat.participants[0]) {

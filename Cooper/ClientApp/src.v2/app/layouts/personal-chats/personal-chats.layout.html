@@ -2,13 +2,15 @@
     
     <div class="chats-list-container">
         <coop-message-panel
-        (openModalWindow) = "changeModalWindowVisibility($event)"
+        (openNewMessageBlock)="openNewMessageBlock($event)"
         ></coop-message-panel>
-
+        
         <coop-chats-list
         [currentSessionUserId]="currentSessionUserId"
         [chatsList] = "chatsList"
+        [newMessageBlockOpened] = "newMessageBlockOpened"
         (loadChat)="loadChat($event)"
+        (closeNewMessageBlock)="closeNewMessageBlock($event)"
         ></coop-chats-list>
     </div>
 
@@ -16,20 +18,13 @@
         
         <coop-chat-box
         [chat]="currentChat"
+        [visibility] = "modalWindowVisibility"
         [currentSessionUserId]="currentSessionUserId"
+        [newMessageBlockOpened] = "newMessageBlockOpened"
         (sendMessage)="sendMessage($event)"
+        (createChat)="createChat($event)"
         ></coop-chat-box>
     </div>
 
     
 </div>
-
-<div class="backdrop" [style.display]="modalWindowVisibility?'block':'none'"></div>
-<div>
-    <coop-chat-modal-window 
-    [visibility]="modalWindowVisibility"
-    (closeModalWindow)="changeModalWindowVisibility($event)"
-    (createChat)="createChat($event)"
-    ></coop-chat-modal-window>
-</div>
-

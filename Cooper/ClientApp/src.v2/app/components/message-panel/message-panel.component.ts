@@ -7,9 +7,9 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 export class MessagePanelComponent {
 
-  @Output() public openModalWindow: EventEmitter<void> = new EventEmitter<void>();
+  @Output() public openNewMessageBlock: EventEmitter<void> = new EventEmitter<void>();
 
   public onNewMessageButtonClicked(): void {
-    this.openModalWindow.emit();
+    this.openNewMessageBlock.emit();
   }
 }

@@ -9,6 +9,27 @@ $new-message-box-height: 80px;
     min-width: 300px;
 }
 
+.nick-entering-container {
+    height: calc(100vh - #{$new-message-box-height} - #{$top-panel-height});
+    border-bottom: 1px solid gainsboro;
+}
+
+.nick-input-container {
+    color: gray;
+    height: 50px;
+    border: 1px solid gainsboro;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+.input {
+    width: 95%;
+    margin-left: 2px;
+    outline: none;
+    border: none;
+	-moz-appearance: none;
+}
 
 .messages-list-container {
     height: calc(100vh - #{$new-message-box-height} - #{$top-panel-height});

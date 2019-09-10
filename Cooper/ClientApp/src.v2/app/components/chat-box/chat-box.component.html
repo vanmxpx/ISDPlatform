@@ -1,6 +1,18 @@
 <div class="chat-box-container">
-  <div class="messages-list-container">
-    <mat-list class = "chat-list">
+  <div class="nick-entering-container" *ngIf="newMessageBlockOpened">
+    <div class="nick-input-container">
+      Receiver: 
+      <input matInput type="text" id="nickname" placeholder="Enter user's nickname" class="input"/>
+    </div>
+    <div class="empty-block">
+        <mat-error *ngIf="emptyMessageFieldError">{{emptyMessageErrorContent}}</mat-error>
+        <mat-error *ngIf="emptyNicknameFieldError">{{emptyNicknameErrorContent}}</mat-error>
+        <mat-error *ngIf="notFoundUserError">{{notFoundUserErrorContent}}</mat-error>
+    </div>
+  </div>
+
+  <div class="messages-list-container" *ngIf="!newMessageBlockOpened">
+    <mat-list id = "chat-list" class = "chat-list">
       <mat-list-item role="listitem" *ngFor="let message of chat.messages" class = "message">
         
         <div class="message-avatar-container">
@@ -17,7 +29,7 @@
           <mat-card-title class = "message-content">
             {{message.content}}
           </mat-card-title>
-                
+                {{dike}}
         </mat-card>
 
       </mat-list-item>
