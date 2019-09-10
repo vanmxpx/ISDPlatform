@@ -28,8 +28,12 @@ export class ChatBoxComponent implements OnInit {
 
   public ngOnInit(): void {
     setTimeout(() => {
+      this.updateMessagesScrollBar()}, 1000);
+  }
+
+  private updateMessagesScrollBar(): void {
       const objDiv = document.getElementById('chatList') as HTMLElement;
-      objDiv.scrollTop = objDiv.scrollHeight; }, 1000);
+      objDiv.scrollTop = objDiv.scrollHeight;
   }
 
   public getSenderAvatar(message: Message): string {
@@ -118,5 +122,6 @@ export class ChatBoxComponent implements OnInit {
     }
 
     (document.getElementById('box') as HTMLInputElement).value = '';
+    this.updateMessagesScrollBar();
   }
 }
