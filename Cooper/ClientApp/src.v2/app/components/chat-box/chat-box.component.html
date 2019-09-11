@@ -7,12 +7,12 @@
     <div class="empty-block">
         <mat-error *ngIf="emptyMessageFieldError">{{emptyMessageErrorContent}}</mat-error>
         <mat-error *ngIf="emptyNicknameFieldError">{{emptyNicknameErrorContent}}</mat-error>
-        <mat-error *ngIf="userNotFoundError">{{notFoundUserErrorContent}}</mat-error>
+        <mat-error *ngIf="userNotFoundError">{{userNotFoundErrorContent}}</mat-error>
     </div>
   </div>
 
   <div class="messages-list-container" *ngIf="!newMessageBlockOpened">
-    <mat-list id="chatList" class = "chat-list">
+    <mat-list id="chatList" class = "chat-list" *ngIf="chat">
       <mat-list-item role="listitem" *ngFor="let message of chat.messages" class = "message">
         
         <div class="message-avatar-container">
@@ -36,7 +36,7 @@
 
     </mat-list>
   </div>
-
+  
     <div class="new-message-container">
 
       <div class="input-container">

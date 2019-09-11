@@ -18,7 +18,7 @@ export class ChatsListComponent implements OnInit {
 
   public ngOnInit(): void {
     setTimeout(() => {
-    if (this.chatsList.length > 0) {
+    if (this.chatsList && this.chatsList.length > 0) {
       this.loadChat.emit(this.chatsList[0]);
     }
     }, 1000);

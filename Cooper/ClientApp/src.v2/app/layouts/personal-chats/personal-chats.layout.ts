@@ -10,9 +10,9 @@ import {Chat, Message, User} from '@models';
 })
 export class PersonalChatsLayoutComponent {
 
-  public userNotFoundError: boolean = true;
-  public chatsList: Chat[];
-  public currentChat: Chat;
+  public userNotFoundError: boolean = false;
+  public chatsList: Chat[] = null;
+  public currentChat: Chat = null;
   public currentSessionUserId: number;
   public currentSessionUser: User;
   public newMessageBlockOpened: boolean = false;
@@ -25,16 +25,28 @@ export class PersonalChatsLayoutComponent {
   }
 
   public async fetchChatData(): Promise<any> {
-    this.chatsList = await this.chatService.getPersonalChats();
 
-    if (this.chatsList && this.chatsList.length > 0) {
-      this.currentChat = this.chatsList[0];
+    try {
+      this.currentSessionUser = await this.sessionService.getSessionUserData();
+
+      setTimeout(() => {
+      this.currentSessionUserId = this.currentSessionUser.id;
+      }, 200);
+    } catch (e) {
+      console.log('Error: {0}', e);
     }
 
-    this.currentSessionUserId = this.sessionService.GetSessionUserId();
-    this.currentSessionUser = await this.sessionService.getSessionUserData();
+    try {
+      this.chatsList = await this.chatService.getPersonalChats();
+    } catch (e) {
+      console.log('Error: {0}', e);
+    }
 
-    this.loadChat(this.chatsList[0]);
+    if (this.chatsList && this.chatsList.length > 0) {
+
+      this.loadChat(this.chatsList[0]);
+    }
+
   }
 
   public connectWebSockets(): void {
@@ -52,12 +64,23 @@ export class PersonalChatsLayoutComponent {
     .catch((err) => console.log('Error while establishing connection :(' + err));
 
     this.hubConnection.on('BroadcastMessage', (newMessage: Message) => {
+        this.setCurrentChat(newMessage.chatId);
         this.currentChat.messages = this.currentChat.messages.concat(newMessage);
     });
 
     this.hubConnection.on('BroadcastChat', (newChat: Chat) => {
       this.chatsList = this.chatsList.concat(newChat);
+      this.setCurrentChat(newChat.id);
   });
+  }
+
+  public setCurrentChat(chatId: number): void {
+    this.chatsList.forEach((element) => {
+      this.newMessageBlockOpened = false;
+      if (element.id === chatId) {
+        this.loadChat(element);
+      }
+    });
   }
 
   public openNewMessageBlock(): void {
@@ -82,18 +105,20 @@ export class PersonalChatsLayoutComponent {
 
   public async sendMsgThroughSpecialBlockAsync(chat: Chat): Promise<any> {
 
-    chat.participants[0] = await this.userService.getUserByNickname(chat.participants[0].nickname);
-
-    if (!chat.participants[0]) {
+    try {
+      chat.participants[0] = await this.userService.getUserByNickname(chat.participants[0].nickname);
+    } catch (e) {
+      console.log('Error: {0}', e);
       this.userNotFoundError = true;
       return;
     }
 
     const participants: User[] = [chat.participants[0], this.currentSessionUser];
 
-    chat.messages[0].senderId = this.currentSessionUserId;
+    chat.messages[0].senderId = this.currentSessionUser.id;
 
     this.chatService.sendMessage(chat.messages[chat.messages.length - 1], participants );
+
   }
 
   public sendMessage(message: Message): void {
