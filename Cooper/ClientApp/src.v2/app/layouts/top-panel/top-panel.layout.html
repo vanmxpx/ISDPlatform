@@ -8,7 +8,7 @@
     [currentLanguage]="currentLanguage" 
     (langChangeEvent)="onLangChangeEvent($event)">
   </coop-language-select>
-  <button mat-icon-button class="top-panel-exit" onclick="onExitButtonClick()">
+  <button mat-icon-button class="top-panel-exit" (click)="onExitButtonClick()">
     <mat-icon >exit_to_app</mat-icon>
   </button>
   
