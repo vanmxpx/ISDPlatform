@@ -1,13 +1,17 @@
 
 export {AuthentificationService} from './authentification/authentification.service';
 
-export {UserService} from './user.service';
+export { LocalizationService } from './localization/localization.service';
+
+export {UserService} from './user/user.service';
 
 export {UsersSocialConnectionsService} from './users-social-connections.service';
 
-export {GamesService} from './games.service';
+export {UsersInteractionService} from './users-iteration/users-interaction.service';
 
-export {SessionService} from './session.service';
+export {GamesService} from './games/games.service';
+
+export {SessionService} from './session/session.service';
 
 export {RegistrationService} from './registration/registration.service';
 

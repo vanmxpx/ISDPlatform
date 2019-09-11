@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Game } from '@models';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'coop-game-card',
@@ -9,5 +10,7 @@ import { Game } from '@models';
 export class GameCardComponent {
 
   @Input() public game: Game;
+
+  constructor(public translate: TranslateService) { }
 
 }

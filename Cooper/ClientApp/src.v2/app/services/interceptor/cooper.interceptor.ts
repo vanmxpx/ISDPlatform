@@ -5,8 +5,7 @@ import { environment } from '@environment/environment';
 export class CooperInterceptor implements HttpInterceptor {
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let reqWithNewUrl = req.clone({setHeaders: { 'Content-Type': 'application/json' }});
-        if (!req.url.startsWith(environment.BASE_URL)) {
-
+        if (!req.url.startsWith(environment.BASE_URL) && (!req.url.startsWith('/assets/i18n'))) {
             reqWithNewUrl = req.clone({ url: environment.BASE_URL + req.url });
         } else {
             reqWithNewUrl = req.clone();

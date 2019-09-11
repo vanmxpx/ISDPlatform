@@ -39,7 +39,8 @@ namespace Cooper.Services
             VerificationDb unverify;
             string now = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss");
             //Get all users that don't verify email
-            var unverified = crud.Read(tokens_table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest("ENDVERIFYDATE", DbTools.RequestOperator.Less, $"TO_TIMESTAMP(\'{now}\', 'DD.MM.YYYY HH24:MI:SS')") });
+            var whereRequest = new WhereRequest("ENDVERIFYDATE", Operators.Less, $"TO_TIMESTAMP(\'{now}\', 'DD.MM.YYYY HH24:MI:SS')");
+            var unverified = crud.Read(tokens_table, attributes, whereRequest);
             var allTokens = crud.Read($"{users_table} u INNER JOIN {tokens_table} t ON u.EMAIL = t.TOKEN", token_attribute).Select(item => item.attributeValue["TOKEN"]).ToList();
             foreach (var entity in unverified) {
                 EntityMapping.Map(entity, out unverify);
