@@ -11,7 +11,22 @@
     </div>
   </div>
 
+  
+  <div class="companion-panel" *ngIf="!newMessageBlockOpened && chat">
+      <div>
+          <img src={{get()}} onError="this.src='assets/imageKeeper/robot.png'"  class="companion-image">
+      </div>
+
+      <div class="companion-name">
+        <span>{{getCompanionName()}}</span>
+      </div>
+    </div>
+
   <div class="messages-list-container" *ngIf="!newMessageBlockOpened">
+
+    
+    
+
     <mat-list id="chatList" class = "chat-list" *ngIf="chat">
       <mat-list-item role="listitem" *ngFor="let message of chat.messages" class = "message">
         

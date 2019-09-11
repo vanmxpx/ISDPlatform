@@ -1,6 +1,7 @@
 @import "../../constants.scss";
 
 $new-message-box-height: 80px;
+$companion-panel-height: 80px;
 
 .chat-box-container {    
     border: 1px solid gainsboro;
@@ -32,7 +33,7 @@ $new-message-box-height: 80px;
 }
 
 .messages-list-container {
-    height: calc(100vh - #{$new-message-box-height} - #{$top-panel-height});
+    height: calc(100vh - #{$new-message-box-height} - #{$companion-panel-height} - #{$top-panel-height});
     border-bottom: 1px solid gainsboro;
 }
 
@@ -157,3 +158,26 @@ button.send-button {
   ::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
+
+.companion-panel {
+    height: $companion-panel-height;
+    border-bottom: 1px solid gainsboro;
+    padding: 10px 5px;
+
+    display: flex;
+    flex-direction: row;
+
+}
+
+.companion-image {
+    margin-left: 10px;
+    height: 65px;
+    width: 65px;
+    border-radius: 50%;
+}
+
+.companion-name {
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: 600;
+}

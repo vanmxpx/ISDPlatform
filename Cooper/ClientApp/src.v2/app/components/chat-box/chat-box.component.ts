@@ -120,4 +120,16 @@ export class ChatBoxComponent implements OnInit {
 
     (document.getElementById('box') as HTMLInputElement).value = '';
   }
+
+  public get(): string {
+    return (this.currentSessionUserId === this.chat.participants[0].id) ?
+     this.chat.participants[1].photoURL : this.chat.participants[0].photoURL;
+
+  }
+
+  public getCompanionName(): string {
+    return (this.currentSessionUserId === this.chat.participants[0].id) ?
+    (this.chat.participants[1].name !== '' ? this.chat.participants[1].name : this.chat.participants[1].nickname) :
+    (this.chat.participants[0].name !== '' ? this.chat.participants[0].name : this.chat.participants[0].nickname);
+  }
 }
