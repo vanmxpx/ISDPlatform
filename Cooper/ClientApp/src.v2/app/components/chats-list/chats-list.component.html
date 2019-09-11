@@ -31,14 +31,21 @@
             
             <div class="column right">
 
-              <div class="row chat-name">
-                <span>{{getChatName(chat)}}</span>
+              <div class="row">
+                <div class="column chat-name">
+                  <span>{{getChatName(chat)}}</span>
+                </div>
+
+                <div class="date column">
+                    <span align="right">{{getLastMessageSentTime(chat)}}</span>
+                </div>
               </div>
               
               <div class="row chat-last-message">
-                <i *ngIf="currentSessionUserId===chat.messages[chat.messages.length-1].senderId">You: &nbsp;</i>
+                <i *ngIf="chat && currentSessionUserId===chat.messages[chat.messages.length-1].senderId">You: &nbsp;</i>
                 {{getLastMessageInChat(chat)}}
               </div>
+
             </div>
 
         </div>
