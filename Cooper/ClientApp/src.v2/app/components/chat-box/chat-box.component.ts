@@ -50,10 +50,18 @@ export class ChatBoxComponent implements OnInit {
     const date: Date = new Date(Date.parse(message.createDate.toString()));
 
     const hours: number = (date.getHours() === 12) ? date.getHours() : date.getHours() % 12;
-    const minutes: number = date.getMinutes();
-    const seconds: number = date.getSeconds();
+    let minutes: string = date.getMinutes().toString();
+    let seconds: string = date.getSeconds().toString();
 
     const partOfDay: string = (date.getHours() < 13) ? 'AM' : 'PM';
+
+    if (minutes.length === 1) {
+      minutes = '0' + minutes;
+    }
+
+    if (seconds.length === 1) {
+      seconds = '0' + seconds;
+    }
 
     const result: string = `${hours}:${minutes}:${seconds} ${partOfDay}`;
 
