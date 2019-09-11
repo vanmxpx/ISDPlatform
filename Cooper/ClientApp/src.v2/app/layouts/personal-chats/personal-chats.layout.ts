@@ -65,11 +65,18 @@ export class PersonalChatsLayoutComponent {
 
     this.hubConnection.on('BroadcastMessage', (newMessage: Message) => {
         this.setCurrentChat(newMessage.chatId);
+
         this.currentChat.messages = this.currentChat.messages.concat(newMessage);
     });
 
     this.hubConnection.on('BroadcastChat', (newChat: Chat) => {
-      this.chatsList = this.chatsList.concat(newChat);
+
+      if (this.currentChat) {
+        this.chatsList = this.chatsList.concat(newChat);
+      } else {
+        this.chatsList = [newChat];
+      }
+
       this.setCurrentChat(newChat.id);
   });
   }
