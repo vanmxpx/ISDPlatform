@@ -5,13 +5,14 @@
 	color: $top-panel-color;
 	font-size: 14px;
 	line-height: 1.5;
-	padding: 3px;
+	padding: 0px;
+	justify-content: space-between;
 	align-items: center;
 	display: flex;
 	position: fixed;
 	top: 0;
 	left: 0;
-	z-index: 9999;
+	z-index: 1000;
 	width: 100%;
 	box-shadow: 1px 5px 10px  rgba(67, 67, 70, 0.4);
 }
@@ -44,7 +45,20 @@ a {
 	position: center;
 	width: 2%;
 	height: 2%;
-	margin-left: auto;
 	margin-right: 5px;
 	cursor: pointer;
 }
+.top-language-select{
+	font-weight: 500;
+	margin-left: auto;
+	z-index: 100000;
+	color: $top-panel-color;
+}
+ .top-language-select .select-option .mat-select-value {
+    color: $top-panel-color; 
+}
+.top-language-select .mat-select-arrow{
+    color: $top-panel-color; 
+}
+
+

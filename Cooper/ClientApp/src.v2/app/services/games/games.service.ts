@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 import { Game } from '@models';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GamesService {
 
-  private static readonly getGamesUrl: string = '/games';
+  constructor(private httpClient: HttpClient, public translate: TranslateService) { }
 
+  private static readonly getGamesUrl: string = '/games';
   public mockedGames: Game[] = [
       {
         name: 'fortnite',
@@ -146,6 +148,4 @@ export class GamesService {
     const url = GamesService.getGamesUrl + '/get?name=' + name;
     return this.httpClient.get<Game>(url);
   }
-
-  constructor(private httpClient: HttpClient) { }
 }

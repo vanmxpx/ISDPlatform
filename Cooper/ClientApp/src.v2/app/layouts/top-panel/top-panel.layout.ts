@@ -1,22 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { CoopNavBarItem } from '@models';
+import { LocalizationService } from '@services';
 
 @Component({
   selector: 'coop-top-panel-layout',
   templateUrl: './top-panel.layout.html',
-  styleUrls: ['./top-panel.layout.scss']
+  styleUrls: ['./top-panel.layout.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class TopPanelLayoutComponent {
 
+export class TopPanelLayoutComponent {
+  public languageKeys: string[] = this.localizationService.languageKeys;
+  public languages: any = this.localizationService.languages;
+  public currentLanguage: string = this.localizationService.getCurrentLanguage();
   public navigationItems: CoopNavBarItem[] = [
-    {label: 'Home', link: '/platform/home'},
-    {label: 'Games', link: '/platform/games'},
-    {label: 'Chats', link: '#'},
-    {label: 'My profile', link: '#'},
-    {label: 'Forum', link: '#'},
-    {label: 'Vacancies', link: '#'}
+    {label: 'TOP-PANEL.HOME', link: '/platform/home'},
+    {label: 'TOP-PANEL.GAMES', link: '/platform/games'},
+    {label: 'TOP-PANEL.CHATS', link: '#'},
+    {label: 'TOP-PANEL.MY-PROFILE', link: '#'},
+    {label: 'TOP-PANEL.FORUM', link: '#'},
+    {label: 'TOP-PANEL.VACANCIES', link: '#'}
   ];
 
+  constructor(public translate: TranslateService, public localizationService: LocalizationService) {
+   }
+   public onLangChangeEvent(lang: string): void {
+    this.localizationService.onLanguageChanged(lang);
+  }
+  public setDefaultLang(): void {
+    this.translate.setDefaultLang(this.currentLanguage);
+  }
   public onExitButtonClick(): void {
     localStorage.removeItem('JwtCooper');
     document.location.reload();

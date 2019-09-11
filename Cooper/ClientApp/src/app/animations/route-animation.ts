@@ -1,5 +1,4 @@
-import {trigger,transition, style, query,group,animateChild, animate, keyframes, state} from '@angular/animations';
-import { RouterOutlet } from '@angular/router';
+import {trigger, transition, style, query, group, animateChild, animate, keyframes, state} from '@angular/animations';
 
 export const fader =
   trigger('routeAnimations', [
@@ -11,8 +10,8 @@ export const fader =
 
 export const joystickAnimation =
 trigger('joystickTrigger', [
-  state('isSignIn', style({transform:'translateX(-100%)'}) ),
-  state('isSignUp', style({transform:'translateX(0%)'}) ),
+  state('isSignIn', style({transform: 'translateX(-100%)'}) ),
+  state('isSignUp', style({transform: 'translateX(0%)'}) ),
   transition('* => isSignIn', translateJoystickTo('left') ),
   transition('* => isSignUp', translateJoystickTo('right') ),
   transition('isSignUp => *', translateJoystickTo('left') ),
@@ -21,8 +20,8 @@ trigger('joystickTrigger', [
 
 export const panelAnimation =
 trigger('panelTrigger', [
-  state('isSignIn', style({transform:'scaleX(2)'}) ),
-  state('isSignUp', style({transform:'scaleX(1)'}) ),
+  state('isSignIn', style({transform: 'scaleX(2)'}) ),
+  state('isSignUp', style({transform: 'scaleX(1)'}) ),
   transition('* => isSignIn', translatePanelTo('left') ),
   transition('* => isSignUp', translatePanelTo('right') ),
   transition('isSignUp => *', translatePanelTo('left') ),
@@ -30,10 +29,10 @@ trigger('panelTrigger', [
 ]) ;
 
 export const logoAnimation = trigger('logoTrigger', [
-  state('isSignIn', style({ 
-    transform:'translateY(150%)'
+  state('isSignIn', style({
+    transform: 'translateY(150%)'
   }) ),
-  state('isSignUp', style({transform:'translateY(0%) '}) ),
+  state('isSignUp', style({transform: 'translateY(0%) '}) ),
   transition('* => isSignIn', translateLogoTo('middle') ),
   transition('* => isSignUp', translateLogoTo('top') ),
   transition('isSignUp => *', translateLogoTo('middle') ),
@@ -42,19 +41,18 @@ export const logoAnimation = trigger('logoTrigger', [
 
 function translateJoystickTo(direction) {
   const optional = { optional: true };
-  if(direction === 'left') {
+  if (direction === 'left') {
     return [
       query(':self', [
         style({
           transform: 'translateX(0%) ',
-          
         })
       ], optional),
         query(':self', [
           animate('600ms ease', style({ transform: 'translateX(-100%)'}))
         ], optional)
     ];
-  } else if(direction === 'right') {
+  } else if (direction === 'right') {
     return [
       query(':self', [
         style({
@@ -69,7 +67,7 @@ function translateJoystickTo(direction) {
 }
 function translatePanelTo(direction) {
   const optional = { optional: true };
-  if(direction === 'right') {
+  if (direction === 'right') {
     return [
       query(':self', [
         style({
@@ -80,7 +78,7 @@ function translatePanelTo(direction) {
           animate('600ms ease', style({ transform: 'scaleX(1)'}))
         ], optional)
     ];
-  } else if(direction === 'left') {
+  } else if (direction === 'left') {
     return [
       query(':self', [
         style({
@@ -96,22 +94,20 @@ function translatePanelTo(direction) {
 function translateLogoTo(direction) {
 
   const optional = { optional: true };
-  if(direction === 'top') {
+  if (direction === 'top') {
     return [
       query(':self', [
         style({
-        
         })
       ], optional),
         query(':self', [
           animate('600ms ease', style({ transform: 'translateY(0%)'}))
         ], optional)
     ];
-  } else if(direction === 'middle') {
+  } else if (direction === 'middle') {
     return [
       query(':self', [
         style({
-          
         })
       ], optional),
         query(':self', [

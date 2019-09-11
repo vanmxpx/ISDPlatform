@@ -1,25 +1,34 @@
-<div align="center">
+<div align="center" >
 
   <form class="coop-form personal-data-form" #loginForm="ngForm" (ngSubmit)="onSignInClicked(loginForm)">
-
-
-    <div class="div--color div--positioning div--font">Sign In</div>
+     
+    
+    <div class="div-color div-positioning div-font">{{'LOGIN-FORM.TITLE' | translate}}
+      <div class="login-select">
+      <coop-language-select 
+      [languageKeys]="languageKeys" 
+      [languages]="languages" 
+      [currentLanguage]="currentLanguage" 
+      (langChangeEvent)="onLangChanged($event)">
+    </coop-language-select>
+    </div>
+    </div>
 
     <mat-form-field class="mat-form-field">
-      <input matInput type="email" [(ngModel)]="username" name="username" placeholder="Enter your nickname" />
+      <input matInput type="email" [(ngModel)]="username" name="username" placeholder="{{'LOGIN-FORM.PLACEHOLDER-NICKNAME'|translate}}" />
     </mat-form-field>
 
     <mat-form-field class="mat-form-field">
-      <input matInput type="password" [(ngModel)]="password" name="password" placeholder="Enter your password"/>
+      <input matInput type="password" [(ngModel)]="password" name="password" placeholder="{{'LOGIN-FORM.PLACEHOLDER-PASSWORD'|translate}}"/>
     </mat-form-field>
     <mat-error *ngIf="failedLogin">{{failedLoginMessage}}</mat-error>
 
-    <button class="button--colors button--sizes button--font button--margin" type="submit">Sign in</button>
+    <button class="button-colors button-sizes button-font button-margin" type="submit">{{'LOGIN-FORM.TITLE' | translate}}</button>
 
     <div class="text-help">
         <p>
-          also you can <a routerLink="../registration" routerLinkActive="active">Sign up</a>
-          <br>or sign in by:
+          {{'LOGIN-FORM.TEXT-HELP' | translate}} <a routerLink="../registration" routerLinkActive="active">{{'LOGIN-FORM.LINK-TO-SIGN-UP' | translate}}</a>
+          <br>{{'LOGIN-FORM.TEXT-HELP-BR' | translate}}
         </p>
       </div>
       

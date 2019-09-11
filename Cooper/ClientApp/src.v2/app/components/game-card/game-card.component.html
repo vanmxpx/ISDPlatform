@@ -2,7 +2,7 @@
   <mat-card class="game-card__card" mat-ripple routerLink="{{game.link}}">
     <img class="game-card__game-image" mat-card-image onError="this.src='assets/imageKeeper/robot.png'" src={{game.logoURL}}>
     <mat-card-title class = "game-card__game-item-attr">{{game.name}}</mat-card-title>
-    <mat-card-subtitle class = "game-card__game-item-attr">{{game.genre}}</mat-card-subtitle>
+    <mat-card-subtitle class = "game-card__game-item-attr">{{'GAMES.GENRES.' + game.genre | translate}}</mat-card-subtitle>
     <mat-card-content class="game-card__description">
       <p>
         {{game.description}}
