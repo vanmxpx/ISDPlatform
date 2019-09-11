@@ -38,6 +38,9 @@ export class PersonalChatsLayoutComponent {
 
     try {
       this.chatsList = await this.chatService.getPersonalChats();
+      setTimeout(() => {
+        this.sortChats();
+      }, 200);
     } catch (e) {
       console.log('Error: {0}', e);
     }
@@ -64,21 +67,53 @@ export class PersonalChatsLayoutComponent {
     .catch((err) => console.log('Error while establishing connection :(' + err));
 
     this.hubConnection.on('BroadcastMessage', (newMessage: Message) => {
-        this.setCurrentChat(newMessage.chatId);
+        if (this.isOwnChat(newMessage.chatId)) {
 
-        this.currentChat.messages = this.currentChat.messages.concat(newMessage);
+          this.setCurrentChat(newMessage.chatId);
+
+          this.currentChat.messages = this.currentChat.messages.concat(newMessage);
+
+          this.sortChats();
+        }
     });
 
     this.hubConnection.on('BroadcastChat', (newChat: Chat) => {
+      if (this.isOwnNewChat(newChat)) {
 
-      if (this.currentChat) {
-        this.chatsList = this.chatsList.concat(newChat);
-      } else {
-        this.chatsList = [newChat];
+        if (this.currentChat) {
+          this.chatsList = this.chatsList.concat(newChat);
+        } else {
+          this.chatsList = [newChat];
+        }
+
+        this.sortChats();
+        this.setCurrentChat(newChat.id);
+
       }
-
-      this.setCurrentChat(newChat.id);
   });
+
+  }
+
+  private isOwnChat(chatId: number): boolean {
+
+    for (const i in this.chatsList) {
+      if (this.chatsList[i].id === chatId) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private isOwnNewChat(chat: Chat): boolean {
+
+    for (const participant of chat.participants) {
+      if (participant.id === this.currentSessionUserId) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public setCurrentChat(chatId: number): void {
@@ -94,6 +129,17 @@ export class PersonalChatsLayoutComponent {
 
     this.newMessageBlockOpened = true;
 
+  }
+
+  private sortChats(): void {
+    this.chatsList.sort((chat1, chat2): number => {
+        const date1: Date = new Date(Date.parse(chat1.messages[chat1.messages.length - 1].createDate.toString()));
+        const date2: Date = new Date(Date.parse(chat2.messages[chat2.messages.length - 1].createDate.toString()));
+
+        if (date1 > date2) { return -1; }
+        if (date1 < date2) { return 1; }
+        return 0;
+    });
   }
 
   public closeNewMessageBlock(): void {
