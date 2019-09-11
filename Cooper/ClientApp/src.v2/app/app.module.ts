@@ -25,9 +25,13 @@ import {
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent, UploadLayoutComponent, HomeLayoutComponent,
   PersonalChatsLayoutComponent } from '@layouts';
+
+import {
   LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
-  GameListItemComponent, GameCardComponent, NavigationComponent, UploadComponent, UserInfoComponent, MyProfileComponent, GamesListComponent,
-  AvatarCardComponent, LanguageSelectComponent} from '@components';
+  GamesListComponent, GameListItemComponent, UploadComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
+  NavigationComponent, AvatarCardComponent, ChatsListComponent, ChatBoxComponent,
+  MessagePanelComponent, LanguageSelectComponent} from '@components';
+
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatSelectModule } from '@angular/material/select';

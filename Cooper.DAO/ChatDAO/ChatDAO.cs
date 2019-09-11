@@ -162,7 +162,7 @@ namespace Cooper.DAO
 
             entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
 
-            bool ifUpdated = crud.Update(table, entity, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, chat.Id) });
+            bool ifUpdated = crud.Update(table, entity, new WhereRequest(idColumn, Operators.Equal, chat.Id.ToString()));
 
             if (ifUpdated)
             {
