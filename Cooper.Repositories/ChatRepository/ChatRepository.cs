@@ -10,7 +10,7 @@ namespace Cooper.Repositories
 {
     public class ChatRepository : IChatRepository
     {
-        private readonly ChatDAO chatDAO;
+        private readonly IChatDAO chatDAO;
         private readonly ModelsMapper mapper;
         private readonly IMessageRepository messageRepository;
         private readonly IRepository<User> userRepository;
@@ -50,19 +50,36 @@ namespace Cooper.Repositories
             return personalChats_newTyped;
         }
 
+        public Chat GetOnetoOneChatByParticipants(IList<User> participants)
+        {
+            if (participants == null || participants.Count != 2)
+            {
+                return null;
+            }
+
+            IList<long> participantsId = new List<long>(capacity: 2);
+
+            for (int i = 0; i < participants.Count; i++)
+            {
+                participantsId.Add(participants[i].Id);
+            }
+
+            ChatDb chat = chatDAO.GetOnetoOneChatByParticipantsId(participantsId);
+            
+            Chat chat_newTyped = null;
+            if (chat != null)
+            {
+                chat_newTyped = mapper.Map(chat);
+            }
+
+            return chat_newTyped;
+        }
+
         public long Create(Chat chat)
         {
             ChatDb chatDb = mapper.Map(chat);
             
             long chatId = chatDAO.Save(chatDb);
-
-            if (chatId != 0)
-            {
-                Message firstChatMsg = chat.Messages[0];
-                firstChatMsg.ChatId = chatId;
-
-                messageRepository.Create(firstChatMsg);
-            }
 
             return chatId;
         }

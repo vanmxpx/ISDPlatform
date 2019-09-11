@@ -54,37 +54,56 @@ namespace Cooper.Controllers
             return Ok(chats);
         }
 
+
+        public class Body
+        {
+            public Message message;
+            public IList<User> participants;
+        }
         [HttpPost("send-message")]
         [Authorize]
-        public IActionResult Post([FromBody]Message message)
+        public IActionResult Post([FromBody]Body body)
         {
+            Message message = body.message;
+            IList<User> participants = body.participants;
+
             if ((message.Content == null) || (message.Content == ""))
             {
                 return BadRequest();
             }
 
-            message.Id = messageRepository.Create(message);
-            hubContext.Clients.All.BroadcastMessage(message);
-
-            return Ok();
-        }
-
-        [HttpPost("create-chat")]
-        [Authorize]
-        public IActionResult Post([FromBody]Chat chat)
-        {
-            long chatId = chatRepository.Create(chat);
-
-            if (chatId == 0)
+            if (message.ChatId == 0)
             {
-                return BadRequest();
+                Chat chat = chatRepository.GetOnetoOneChatByParticipants(participants);
+
+                if (chat == null)
+                {
+                    chat = new Chat() { Participants = participants };
+                    chat.Id = chatRepository.Create(chat);
+
+                    message.ChatId = chat.Id;
+                    message.Id = messageRepository.Create(message);
+
+                    chat.Messages = new List<Message>() { message };
+
+                    hubContext.Clients.All.BroadcastChat(chat);
+                }
+                else
+                {
+                    message.ChatId = chat.Id;
+                    message.Id = messageRepository.Create(message);
+
+                    hubContext.Clients.All.BroadcastMessage(message);
+                }
+
+            }
+            else
+            {
+                message.Id = messageRepository.Create(message);
+                hubContext.Clients.All.BroadcastMessage(message);
             }
 
-            chat.Id = chatId;
-
-            hubContext.Clients.All.BroadcastChat(chat);
-
-            return Ok(chatId);
+            return Ok(message);
         }
 
         // DELETE api/<controller>/5

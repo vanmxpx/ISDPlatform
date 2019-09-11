@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {ChatService, SessionService, UserService} from '@services';
 import { HubConnection, HubConnectionBuilder, HttpTransportType, LogLevel} from '@aspnet/signalr';
-import {Chat, Message} from '@models';
+import {Chat, Message, User} from '@models';
 
 @Component({
   selector: 'coop-personal-chats',
@@ -10,10 +10,11 @@ import {Chat, Message} from '@models';
 })
 export class PersonalChatsLayoutComponent {
 
-  public modalWindowVisibility: boolean = true;
+  public userNotFoundError: boolean = true;
   public chatsList: Chat[];
   public currentChat: Chat;
   public currentSessionUserId: number;
+  public currentSessionUser: User;
   public newMessageBlockOpened: boolean = false;
 
   private hubConnection: HubConnection;
@@ -31,6 +32,7 @@ export class PersonalChatsLayoutComponent {
     }
 
     this.currentSessionUserId = this.sessionService.GetSessionUserId();
+    this.currentSessionUser = await this.sessionService.getSessionUserData();
 
     this.loadChat(this.chatsList[0]);
   }
@@ -74,26 +76,27 @@ export class PersonalChatsLayoutComponent {
     this.currentChat = chat;
   }
 
-  public  createChat(chat: Chat): void {
-    this.createChatAsync(chat);
+  public  sendMsgThroughSpecialBlock(chat: Chat): void {
+    this.sendMsgThroughSpecialBlockAsync(chat);
   }
 
-  public async createChatAsync(chat: Chat): Promise<any> {
+  public async sendMsgThroughSpecialBlockAsync(chat: Chat): Promise<any> {
 
     chat.participants[0] = await this.userService.getUserByNickname(chat.participants[0].nickname);
 
     if (!chat.participants[0]) {
+      this.userNotFoundError = true;
       return;
     }
-    this.modalWindowVisibility = false;
 
-    chat.participants.push(await this.sessionService.getSessionUserData());
+    const participants: User[] = [chat.participants[0], this.currentSessionUser];
+
     chat.messages[0].senderId = this.currentSessionUserId;
 
-    this.chatService.createChat(chat);
+    this.chatService.sendMessage(chat.messages[chat.messages.length - 1], participants );
   }
 
   public sendMessage(message: Message): void {
-    this.chatService.createMessage(message);
+    this.chatService.sendMessage(message, this.currentChat.participants);
   }
 }

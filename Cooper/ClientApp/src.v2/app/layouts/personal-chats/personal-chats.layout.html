@@ -18,11 +18,11 @@
         
         <coop-chat-box
         [chat]="currentChat"
-        [visibility] = "modalWindowVisibility"
         [currentSessionUserId]="currentSessionUserId"
         [newMessageBlockOpened] = "newMessageBlockOpened"
+        [userNotFoundError] = "userNotFoundError"
         (sendMessage)="sendMessage($event)"
-        (createChat)="createChat($event)"
+        (createChat)="sendMsgThroughSpecialBlock($event)"
         ></coop-chat-box>
     </div>
 

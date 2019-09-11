@@ -16,19 +16,18 @@ export class ChatBoxComponent implements OnInit {
   public emptyNicknameFieldError: boolean = false;
   public emptyNicknameErrorContent: string = 'Please, point message recipient before sending a message';
 
-  public notFoundUserError: boolean = false;
-  public notFoundUserErrorContent: string = 'User is not found';
+  public userNotFoundErrorContent: string = 'User is not found';
 
   @Input() public currentSessionUserId: number;
   @Input() public chat: Chat;
   @Input() public newMessageBlockOpened: boolean;
-  @Input() public visibility: boolean;
+  @Input() public userNotFoundError: boolean;
   @Output() public sendMessage: EventEmitter<Message> = new EventEmitter<Message>();
   @Output() public createChat: EventEmitter<Chat> = new EventEmitter<Chat>();
 
   public ngOnInit(): void {
     setTimeout(() => {
-      this.updateMessagesScrollBar();}, 1000);
+      this.updateMessagesScrollBar(); }, 1000);
   }
 
   private updateMessagesScrollBar(): void {
@@ -73,12 +72,12 @@ export class ChatBoxComponent implements OnInit {
   public hideErrors(): void {
     this.emptyMessageFieldError = false;
     this.emptyNicknameFieldError = false;
-    this.notFoundUserError = false;
+    this.userNotFoundError = false;
   }
 
   public createMessage(messageContent: string): void {
 
-    this.hideErrors();
+    // this.hideErrors();
 
     const message: Message = new Message();
     message.content = messageContent.trimRight();
@@ -108,12 +107,6 @@ export class ChatBoxComponent implements OnInit {
       chat.participants.push(user);
 
       this.createChat.emit(chat);
-
-      setTimeout(() => {if (!this.visibility) {
-        this.hideErrors();
-      } else {
-        this.notFoundUserError = true;
-      } }, 2000);
 
     } else {
 

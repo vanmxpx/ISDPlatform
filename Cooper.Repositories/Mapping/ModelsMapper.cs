@@ -279,12 +279,15 @@ namespace Cooper.Repositories.Mapping
             chat_newType.ChatName = chat.ChatName;
             #endregion
 
-            chat_newType.Participants = new List<User>(capacity: chat.Participants.Count);
-
-            foreach (var userId in chat.Participants)
+            if (chat.Participants != null)
             {
-                User user = new User() { Id = userId };
-                chat_newType.Participants.Add(user);
+                chat_newType.Participants = new List<User>(capacity: chat.Participants.Count);
+
+                foreach (var userId in chat.Participants)
+                {
+                    User user = new User() { Id = userId };
+                    chat_newType.Participants.Add(user);
+                }
             }
 
             return chat_newType;

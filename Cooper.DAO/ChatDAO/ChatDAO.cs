@@ -92,6 +92,29 @@ namespace Cooper.DAO
 
         }
 
+        public ChatDb GetOnetoOneChatByParticipantsId(IList<long> participantsId)
+        {
+            ChatDb chat = null;
+
+            string sqlExpression = "SELECT chat.id, chat.chatname FROM CHATS chat " +
+                                    "INNER JOIN " +
+                                    "(SELECT record1.idchat, record1.iduser FROM USERSCHATS record1 " +
+                                    "WHERE " +
+                                    "(SELECT COUNT(IDCHAT) FROM USERSCHATS record2 " +
+                                    $"WHERE record1.idchat = record2.idchat AND (IDUSER = {participantsId[0]} OR IDUSER = {participantsId[1]})) = 2 AND ROWNUM = 1) " +
+                                    "record on chat.id = record.idchat ";
+
+            IList<EntityORM> chats = ExecuteQuery(attributes, sqlExpression);
+
+
+            if (chats != null && chats.Count == 1)   // we must have only one one-to-one chat
+            {
+                Mapping.EntityMapping.Map(chats[0], out chat);
+            }
+
+            return chat;
+        }
+
         public long Save(ChatDb chat)
         {
             EntityORM entity = EntityMapping.Map(chat, attributes);
