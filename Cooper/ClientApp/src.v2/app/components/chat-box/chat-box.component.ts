@@ -27,7 +27,7 @@ export class ChatBoxComponent implements OnInit {
 
   public ngOnInit(): void {
     setTimeout(() => {
-      this.updateMessagesScrollBar(); }, 1000);
+      this.updateMessagesScrollBar(); }, 2000);
   }
 
   private updateMessagesScrollBar(): void {
@@ -48,7 +48,7 @@ export class ChatBoxComponent implements OnInit {
   public getMessageDate(message: Message): string {
     const date: Date = new Date(Date.parse(message.createDate.toString()));
 
-    const hours: number = date.getHours() % 13;
+    const hours: number = (date.getHours() === 12) ? date.getHours() : date.getHours() % 12;
     const minutes: number = date.getMinutes();
     const seconds: number = date.getSeconds();
 
@@ -77,7 +77,7 @@ export class ChatBoxComponent implements OnInit {
 
   public createMessage(messageContent: string): void {
 
-    // this.hideErrors();
+    this.hideErrors();
 
     const message: Message = new Message();
     message.content = messageContent.trimRight();
@@ -112,9 +112,11 @@ export class ChatBoxComponent implements OnInit {
 
       message.chatId = this.chat.id;
       this.sendMessage.emit(message);
+
+      setTimeout(() => {
+        this.updateMessagesScrollBar(); }, 1000);
     }
 
     (document.getElementById('box') as HTMLInputElement).value = '';
-    this.updateMessagesScrollBar();
   }
 }

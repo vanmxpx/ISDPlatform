@@ -72,6 +72,8 @@ namespace Cooper.Controllers
                 return BadRequest();
             }
 
+            message.CreateDate = System.DateTime.Now;
+
             if (message.ChatId == 0)
             {
                 Chat chat = chatRepository.GetOnetoOneChatByParticipants(participants);

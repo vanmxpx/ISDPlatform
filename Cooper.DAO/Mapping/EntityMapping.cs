@@ -471,7 +471,7 @@ namespace Cooper.DAO.Mapping
                         value = $"\'{message.Content}\'";
                         break;
                     case "CREATEDATE":
-                        value = $"\'{message.CreateDate.ToString("dd-MMM-yyyy")}\'";
+                        value = $"TO_DATE(\'{message.CreateDate.ToString("dd-MMM-yyyy HH:mm:ss")}\', \'DD/MM/YYYY HH24:MI:SS\')";
                         break;
                     case "ISREAD":
                         value = (message.IsRead) ? "\'y\'" : "\'n\'" ;
