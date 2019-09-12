@@ -10,6 +10,12 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Cooper.Controllers
 {
+    public class MessageJSONDeserializedBody
+    {
+        public Message message;
+        public IList<User> participants;
+    }
+
     [Route("api/chats")]
     [ApiExplorerSettings(IgnoreApi = true)]
     public class ChatController : ControllerBase
@@ -33,7 +39,7 @@ namespace Cooper.Controllers
         [HttpGet("one-to-one-chats")]
         [ProducesResponseType(200, Type = typeof(Chat))]
         [ProducesResponseType(404)]
-        public IActionResult GetChatByUserId()
+        public IActionResult GetOneToOneChats()
         {
             string userToken = Request.GetUserToken();
 
@@ -55,14 +61,9 @@ namespace Cooper.Controllers
         }
 
 
-        public class Body
-        {
-            public Message message;
-            public IList<User> participants;
-        }
         [HttpPost("send-message")]
         [Authorize]
-        public IActionResult Post([FromBody]Body body)
+        public IActionResult Post([FromBody]MessageJSONDeserializedBody body)
         {
             Message message = body.message;
             IList<User> participants = body.participants;
