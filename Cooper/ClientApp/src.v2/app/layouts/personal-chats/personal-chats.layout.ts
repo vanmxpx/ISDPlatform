@@ -118,9 +118,8 @@ export class PersonalChatsLayoutComponent {
 
   public setCurrentChat(chatId: number): void {
     this.chatsList.forEach((element) => {
-      this.newMessageBlockOpened = false;
       if (element.id === chatId) {
-        this.loadChat(element);
+        this.currentChat = element;
       }
     });
   }
@@ -149,6 +148,7 @@ export class PersonalChatsLayoutComponent {
   }
 
   public loadChat(chat: Chat): void {
+    this.newMessageBlockOpened = false;
     this.currentChat = chat;
   }
 
