@@ -8,8 +8,6 @@ import { Chat, Message, User } from '@models';
 })
 export class ChatBoxComponent implements OnInit {
 
-  public messageContent: string;
-
   public emptyMessageFieldError: boolean = false;
   public emptyMessageErrorContent: string = 'Please, enter your message first';
 
@@ -17,6 +15,9 @@ export class ChatBoxComponent implements OnInit {
   public emptyNicknameErrorContent: string = 'Please, point message recipient before sending a message';
 
   public userNotFoundErrorContent: string = 'User is not found';
+
+  public username: string;
+  public messageContent: string;
 
   @Input() public currentSessionUserId: number;
   @Input() public chat: Chat;
@@ -84,23 +85,22 @@ export class ChatBoxComponent implements OnInit {
     this.userNotFoundError = false;
   }
 
-  public createMessage(messageContent: string): void {
+  public createMessage(): void {
 
     this.hideErrors();
 
     const message: Message = new Message();
-    message.content = messageContent.trimRight();
+    message.content = this.messageContent.trimRight();
     message.senderId = this.currentSessionUserId;
     message.isRead = false;
     message.createDate = new Date();
 
     if (this.newMessageBlockOpened) {
-      const username = (document.getElementById('nickname') as HTMLInputElement).value;
 
-      if (!messageContent) {
+      if (!this.messageContent) {
         this.emptyMessageFieldError = true;
         return;
-      } else if (!username) {
+      } else if (!this.username) {
         this.emptyNicknameFieldError = true;
         return;
       }
@@ -111,11 +111,13 @@ export class ChatBoxComponent implements OnInit {
       chat.messages.push(message);
 
       const user: User = new User();
-      user.nickname = username;
+      user.nickname = this.username;
       chat.participants = [];
       chat.participants.push(user);
 
       this.createChat.emit(chat);
+
+      this.username = '';
 
     } else {
 
@@ -126,10 +128,10 @@ export class ChatBoxComponent implements OnInit {
         this.updateMessagesScrollBar(); }, 1000);
     }
 
-    (document.getElementById('box') as HTMLInputElement).value = '';
+    this.messageContent = '';
   }
 
-  public get(): string {
+  public getCompanionImage(): string {
     return (this.currentSessionUserId === this.chat.participants[0].id) ?
      this.chat.participants[1].photoURL : this.chat.participants[0].photoURL;
 

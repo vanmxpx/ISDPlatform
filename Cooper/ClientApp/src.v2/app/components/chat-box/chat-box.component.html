@@ -2,7 +2,7 @@
   <div class="nick-entering-container" *ngIf="newMessageBlockOpened">
     <div class="nick-input-container">
       Receiver: 
-      <input matInput type="text" id="nickname" placeholder="Enter user's nickname" class="input"/>
+      <input [(ngModel)]="username" type="text" placeholder="Enter user's nickname" class="input"/>
     </div>
     <div class="empty-block">
         <mat-error *ngIf="emptyMessageFieldError">{{emptyMessageErrorContent}}</mat-error>
@@ -14,7 +14,7 @@
   
   <div class="companion-panel" *ngIf="!newMessageBlockOpened && chat">
       <div>
-          <img src={{get()}} onError="this.src='assets/imageKeeper/robot.png'"  class="companion-image">
+          <img src={{getCompanionImage()}} onError="this.src='assets/imageKeeper/robot.png'"  class="companion-image">
       </div>
 
       <div class="companion-name">
@@ -55,12 +55,12 @@
     <div class="new-message-container">
 
       <div class="input-container">
-        <textarea id='box' #box placeholder="Enter your message..."
-        class="text-area" (keyup.enter)="createMessage(box.value)"></textarea>
+        <textarea [(ngModel)]="messageContent" placeholder="Enter your message..."
+        class="text-area" (keyup.enter)="createMessage()"></textarea>
       </div>
 
       <div class="send-button-container">
-        <button class="send-button" mat-icon-button type="text" (click) = "createMessage(box.value)" required>
+        <button class="send-button" mat-icon-button type="text" (click) = "createMessage()" required>
           SEND
         </button>
       </div>
