@@ -42,12 +42,23 @@ namespace Cooper.Repositories
 
                     chat_newTyped.Participants = ((IUserRepository)userRepository).GetUsersById(chat.Participants);
 
+                    DefineOneToOneChatProperties(chat_newTyped, userId);
+                    
                     personalChats_newTyped.Add(chat_newTyped);
                 }
                 
             }
             
             return personalChats_newTyped;
+        }
+
+        private void DefineOneToOneChatProperties(Chat chat, long userId)
+        {
+            chat.PhotoURL = (userId == chat.Participants[0].Id) ? chat.Participants[1].PhotoURL : chat.Participants[0].PhotoURL;
+
+            chat.ChatName = (userId == chat.Participants[0].Id) ? 
+                (chat.Participants[1].Name == "") ? chat.Participants[1].Nickname : chat.Participants[1].Name :
+                (chat.Participants[0].Name == "") ? chat.Participants[0].Nickname : chat.Participants[0].Name;
         }
 
         public Chat GetOnetoOneChatByParticipants(IList<User> participants)

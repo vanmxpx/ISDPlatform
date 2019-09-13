@@ -44,17 +44,9 @@ export class ChatsListComponent implements OnInit {
     this.loadChat.emit(chat);
   }
 
-  public getChatImage(chat: Chat): string {
-
-      return (this.currentSessionUserId === chat.participants[0].id) ? chat.participants[1].photoURL : chat.participants[0].photoURL;
-
-  }
-
   public getChatName(chat: Chat): string {
 
-    let chatHeader = (this.currentSessionUserId === chat.participants[0].id) ?
-      (chat.participants[1].name !== '' ? chat.participants[1].name : chat.participants[1].nickname) :
-      (chat.participants[0].name !== '' ? chat.participants[0].name : chat.participants[0].nickname);
+    let chatHeader = chat.chatName;
 
     if (chatHeader.length > fieldPermissibleMaxLength) {
       chatHeader = chatHeader.slice(0, fieldPermissibleMaxLength - 3) + '...';

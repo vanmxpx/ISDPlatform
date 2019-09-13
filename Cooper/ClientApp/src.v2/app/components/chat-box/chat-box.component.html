@@ -14,11 +14,11 @@
   
   <div class="companion-panel" *ngIf="!newMessageBlockOpened && chat">
       <div>
-          <img src={{getCompanionImage()}} onError="this.src='assets/imageKeeper/robot.png'"  class="companion-image">
+          <img src={{chat.photoURL}} onError="this.src='assets/imageKeeper/robot.png'"  class="companion-image">
       </div>
 
       <div class="companion-name">
-        <span>{{getCompanionName()}}</span>
+        <span>{{chat.chatName}}</span>
       </div>
     </div>
 
