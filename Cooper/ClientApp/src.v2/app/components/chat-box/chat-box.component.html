@@ -38,7 +38,7 @@
           <div class = "message-header">
             <mat-card-title class = "sender"><b>{{getSenderNickname(message)}}</b></mat-card-title>
 
-            <mat-card-title class="message-date">{{getMessageDate(message)}}</mat-card-title>
+            <mat-card-title class="message-date">{{message.createDate | messageTime}}</mat-card-title>
           </div>    
           
           <mat-card-title class = "message-content">

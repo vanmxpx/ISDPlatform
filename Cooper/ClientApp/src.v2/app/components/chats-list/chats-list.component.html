@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="date column">
-                    <span align="right">{{getLastMessageSentTime(chat)}}</span>
+                    <span align="right">{{chat.messages[chat.messages.length - 1].createDate | messageDateTime}}</span>
                 </div>
               </div>
               

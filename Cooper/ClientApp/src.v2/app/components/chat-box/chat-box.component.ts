@@ -47,28 +47,6 @@ export class ChatBoxComponent implements OnInit {
     return '';
   }
 
-  public getMessageDate(message: Message): string {
-    const date: Date = new Date(Date.parse(message.createDate.toString()));
-
-    const hours: number = (date.getHours() === 12) ? date.getHours() : date.getHours() % 12;
-    let minutes: string = date.getMinutes().toString();
-    let seconds: string = date.getSeconds().toString();
-
-    const partOfDay: string = (date.getHours() < 13) ? 'AM' : 'PM';
-
-    if (minutes.length === 1) {
-      minutes = '0' + minutes;
-    }
-
-    if (seconds.length === 1) {
-      seconds = '0' + seconds;
-    }
-
-    const result: string = `${hours}:${minutes}:${seconds} ${partOfDay}`;
-
-    return result;
-  }
-
   public getSenderNickname(message: Message): string {
     for (const user of this.chat.participants) {
       if (user.id === message.senderId) {

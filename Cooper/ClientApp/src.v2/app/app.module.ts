@@ -37,6 +37,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatSelectModule } from '@angular/material/select';
 import { LanguageNamePipe } from '@pipes';
 import { MatDialogModule } from '@angular/material';
+import { MessageTimePipe } from './pipes/chat-pipes/message-time.pipe';
+import { MessageDateTimePipe } from './pipes/chat-pipes/message-date-time.pipe';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
@@ -91,7 +93,9 @@ export function HttpLoaderFactory(http: HttpClient): any {
     LanguageNamePipe,
   MessagePanelComponent,
   UploadComponent,
-  UploadLayoutComponent
+  UploadLayoutComponent,
+  MessageTimePipe,
+  MessageDateTimePipe
 ],
   imports: [
     BrowserModule,
