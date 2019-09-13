@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 import { Chat, Message, User } from '@models';
 
 @Component({
@@ -6,7 +6,7 @@ import { Chat, Message, User } from '@models';
   templateUrl: './chat-box.component.html',
   styleUrls: ['./chat-box.component.scss']
 })
-export class ChatBoxComponent implements OnInit {
+export class ChatBoxComponent implements OnInit, OnChanges {
 
   public emptyMessageFieldError: boolean = false;
   public emptyNicknameFieldError: boolean = false;
@@ -24,12 +24,20 @@ export class ChatBoxComponent implements OnInit {
   public ngOnInit(): void {
     setTimeout(() => {
       if (this.chat) {
-      this.updateMessagesScrollBar(); } }, 2000);
+        this.updateMessagesScrollBar();
+      }}, 2000);
+  }
+
+  public ngOnChanges(): void {
+    setTimeout(() => {
+    if (this.chat) {
+      this.updateMessagesScrollBar();
+    }}, 200);
   }
 
   private updateMessagesScrollBar(): void {
-      const objDiv = document.getElementById('chatList') as HTMLElement;
-      objDiv.scrollTop = objDiv.scrollHeight;
+    const objDiv = document.getElementById('chatList') as HTMLElement;
+    objDiv.scrollTop = objDiv.scrollHeight;
   }
 
   public getSenderAvatar(message: Message): string {
