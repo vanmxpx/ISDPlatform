@@ -505,6 +505,9 @@ namespace Cooper.DAO.Mapping
                     case "CHATNAME":
                         chat.ChatName = aV.Value.ToString();
                         break;
+                    case "PHOTOURL":
+                        chat.PhotoURL = aV.Value.ToString();
+                        break;
                     default:
                         break;
                 }
@@ -526,6 +529,9 @@ namespace Cooper.DAO.Mapping
                 {
                     case "CHATNAME":
                         value = $"\'{chat.ChatName}\'";
+                        break;
+                    case "PHOTOURL":
+                        value = $"\'{chat.PhotoURL}\'";
                         break;
                     default:
                         break;

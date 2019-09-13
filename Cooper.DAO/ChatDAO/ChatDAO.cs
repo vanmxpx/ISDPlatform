@@ -31,7 +31,7 @@ namespace Cooper.DAO
             idColumn = "ID";
             attributes = new HashSet<string>()
             {
-                "ID", "CHATNAME"
+                "ID", "CHATNAME", "PHOTOURL"
             };
         }
         

@@ -6,6 +6,7 @@ namespace Cooper.DAO.Models
     {
 
         public string ChatName { get; set; }
+        public string PhotoURL { get; set; }
 
         public List<long> Participants { get; set; }
         public List<long> Messages { get; set; }

@@ -277,6 +277,7 @@ namespace Cooper.Repositories.Mapping
 
             chat_newType.Id = chat.Id;
             chat_newType.ChatName = chat.ChatName;
+            chat_newType.PhotoURL = chat.PhotoURL;
             #endregion
 
             if (chat.Participants != null)
@@ -300,6 +301,7 @@ namespace Cooper.Repositories.Mapping
 
             chat_newType.Id = chat.Id;
             chat_newType.ChatName = chat.ChatName;
+            chat_newType.PhotoURL = chat.PhotoURL;
 
             if (chat.Participants != null)
             {
