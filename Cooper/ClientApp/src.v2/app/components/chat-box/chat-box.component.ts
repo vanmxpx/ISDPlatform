@@ -9,12 +9,7 @@ import { Chat, Message, User } from '@models';
 export class ChatBoxComponent implements OnInit {
 
   public emptyMessageFieldError: boolean = false;
-  public emptyMessageErrorContent: string = 'Please, enter your message first';
-
   public emptyNicknameFieldError: boolean = false;
-  public emptyNicknameErrorContent: string = 'Please, point message recipient before sending a message';
-
-  public userNotFoundErrorContent: string = 'User is not found';
 
   public username: string;
   public messageContent: string;
@@ -68,20 +63,21 @@ export class ChatBoxComponent implements OnInit {
     this.hideErrors();
 
     const message: Message = new Message();
-    message.content = this.messageContent.trimRight();
     message.senderId = this.currentSessionUserId;
     message.isRead = false;
     message.createDate = new Date();
 
     if (this.newMessageBlockOpened) {
 
-      if (!this.messageContent) {
-        this.emptyMessageFieldError = true;
-        return;
-      } else if (!this.username) {
+      if (!this.username) {
         this.emptyNicknameFieldError = true;
         return;
+      } else if (!this.messageContent) {
+        this.emptyMessageFieldError = true;
+        return;
       }
+
+      message.content = this.messageContent.trimRight();
 
       const chat: Chat = new Chat();
 
@@ -95,10 +91,15 @@ export class ChatBoxComponent implements OnInit {
 
       this.createChat.emit(chat);
 
-      this.username = '';
+      setTimeout(() => {
+        if (!this.userNotFoundError) {
+          this.username = '';
+        }
+      }, 2000);
 
     } else {
 
+      message.content = this.messageContent.trimRight();
       message.chatId = this.chat.id;
       this.sendMessage.emit(message);
 

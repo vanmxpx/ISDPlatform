@@ -1,13 +1,13 @@
 <div class="chat-box-container">
   <div class="nick-entering-container" *ngIf="newMessageBlockOpened">
     <div class="nick-input-container">
-      Receiver: 
-      <input [(ngModel)]="username" type="text" placeholder="Enter user's nickname" class="input"/>
+      {{'CHATS.CHAT-BOX.RECEIVER'|translate}}:
+      <input [(ngModel)]="username" type="text" placeholder="{{'CHATS.CHAT-BOX.NICKNAME-INPUT'|translate}}" class="input"/>
     </div>
     <div class="empty-block">
-        <mat-error *ngIf="emptyMessageFieldError">{{emptyMessageErrorContent}}</mat-error>
-        <mat-error *ngIf="emptyNicknameFieldError">{{emptyNicknameErrorContent}}</mat-error>
-        <mat-error *ngIf="userNotFoundError">{{userNotFoundErrorContent}}</mat-error>
+        <mat-error *ngIf="emptyNicknameFieldError">{{'CHATS.CHAT-BOX.ERROR.EMPTY-NICKNAME'|translate}}</mat-error>
+        <mat-error *ngIf="emptyMessageFieldError">{{'CHATS.CHAT-BOX.ERROR.EMPTY-MESSAGE-BLOCK'|translate}}</mat-error>
+        <mat-error *ngIf="userNotFoundError">{{'CHATS.CHAT-BOX.ERROR.USER-NOT-FOUND'|translate}}</mat-error>
     </div>
   </div>
 
@@ -55,13 +55,13 @@
     <div class="new-message-container">
 
       <div class="input-container">
-        <textarea [(ngModel)]="messageContent" placeholder="Enter your message..."
-        class="text-area" (keyup.enter)="createMessage()"></textarea>
+        <textarea [(ngModel)]="messageContent" placeholder="{{'CHATS.CHAT-BOX.MESSAGE-INPUT'|translate}}"
+          class="text-area" (keyup.enter)="createMessage()"></textarea>
       </div>
 
       <div class="send-button-container">
         <button class="send-button" mat-icon-button type="text" (click) = "createMessage()" required>
-          SEND
+          {{'CHATS.CHAT-BOX.SEND-BUTTON'|translate}}
         </button>
       </div>
 

@@ -11,11 +11,11 @@
             <div class="column right">
 
               <div class="row chat-name">
-                <span>New message</span>
+                <span>{{'CHATS.CHAT-LIST.NEW-MESSAGE'|translate}}</span>
               </div>
               
               <div class="row chat-last-message">
-                Enter your message
+                {{'CHATS.CHAT-LIST.NEW-MESSAGE-TEXT'|translate}}
               </div>
             </div>
 
@@ -42,7 +42,7 @@
               </div>
               
               <div class="row chat-last-message">
-                <i *ngIf="chat && currentSessionUserId===chat.messages[chat.messages.length-1].senderId">You: &nbsp;</i>
+                <i *ngIf="chat && currentSessionUserId===chat.messages[chat.messages.length-1].senderId">{{'CHATS.CHAT-LIST.MESSAGE-PREFIX'|translate}}: &nbsp;</i>
                 {{getLastMessageInChat(chat)}}
               </div>
 

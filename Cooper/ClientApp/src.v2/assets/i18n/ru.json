@@ -24,5 +24,27 @@
             "Action": "Экшн",
             "Strategy": "Стратегия"           
         }
+    },
+
+    "CHATS" : {
+        "MESSAGE-PANEL": {
+            "HEADER": "Чаты"
+        },
+        "CHAT-LIST": {
+            "MESSAGE-PREFIX": "Вы",
+            "NEW-MESSAGE": "Новое сообщение",
+            "NEW-MESSAGE-TEXT": "Введите ваше сообщение"
+        },
+        "CHAT-BOX": {
+            "RECEIVER": "Получатель",
+            "NICKNAME-INPUT": "Введите имя получателя",
+            "MESSAGE-INPUT": "Введите ваше сообщение...",
+            "SEND-BUTTON": "Отправить",
+            "ERROR": {
+                "EMPTY-NICKNAME": "Перед отправкой сообщения, пожалуйста, укажите получателя",
+                "EMPTY-MESSAGE-BLOCK": "Введите, пожалуйста, ваше сообщение",
+                "USER-NOT-FOUND": "Пользователь не найден"
+            }
+        }
     }
 }
