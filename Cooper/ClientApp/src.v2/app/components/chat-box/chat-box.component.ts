@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 import { Chat, Message, User } from '@models';
+import {MessageContentPipe} from '@pipes';
 
 @Component({
   selector: 'coop-chat-box',
@@ -13,6 +14,8 @@ export class ChatBoxComponent implements OnInit, OnChanges {
 
   public username: string;
   public messageContent: string;
+
+  private messageContentPipe: MessageContentPipe = new MessageContentPipe();
 
   @Input() public currentSessionUserId: number;
   @Input() public chat: Chat;
@@ -85,7 +88,7 @@ export class ChatBoxComponent implements OnInit, OnChanges {
         return;
       }
 
-      message.content = this.messageContent.trimRight();
+      message.content = this.messageContentPipe.transform(this.messageContent);
 
       const chat: Chat = new Chat();
 

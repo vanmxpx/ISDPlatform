@@ -42,7 +42,11 @@
               </div>
               
               <div class="row chat-last-message">
-                <i *ngIf="chat && currentSessionUserId===chat.messages[chat.messages.length-1].senderId">{{'CHATS.CHAT-LIST.MESSAGE-PREFIX'|translate}}: &nbsp;</i>
+                
+                <i *ngIf="chat && currentSessionUserId===chat.messages[chat.messages.length-1].senderId">
+                  {{'CHATS.CHAT-LIST.MESSAGE-PREFIX'|translate}}: &nbsp;
+                </i>
+
                 {{getLastMessageInChat(chat)}}
               </div>
 
