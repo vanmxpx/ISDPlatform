@@ -1,0 +1,55 @@
+
+  .sign-up-button {
+
+    background: gray;
+    color: #fff;
+
+    align-self: center;
+    width: 200px;
+    padding: 16px;
+    border-radius: 4px;
+
+    margin: 32px 16px 8px 16px;
+
+    font-family: 'Comic Sans Ms';
+    font-size: 18px;
+  }
+
+  .header-text {
+    font-size: 28px;
+    font-weight: bold;
+
+    text-align: left;
+    margin-bottom: 16px;
+
+    color: #646464;
+  }
+
+  .mat-form-field {
+    width:100%;
+    margin-top: 5px;
+  }
+
+  .text-help {
+    color: rgba(86, 88, 92, 100);
+    margin-top: 5%;
+    font-family: 'Comic Sans Ms'
+  }
+  
+  .socials-container {
+    display: inline-block;
+    align-self: center;
+  
+    width: 45%;
+  }
+  
+  .social-icon{
+    width: 25%;
+    height: auto;
+    
+  }
+  
+  .personal-data-form {
+    border: 1px solid rgb(168, 168, 168);
+    border-radius: 8px;
+  }

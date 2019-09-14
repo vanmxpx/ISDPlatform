@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthentificationService } from '@services';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SocialNetwork } from '@enums';
+import { AuthentificationService, LocalizationService } from '@services';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'coop-login-layout',
@@ -12,8 +13,12 @@ import { SocialNetwork } from '@enums';
 export class LoginLayoutComponent implements OnInit {
 
   public failedLogin: boolean = false;
+  public languageKeys: string[] = this.localizationService.languageKeys;
+  public languages: any = this.localizationService.languages;
+  public currentLanguage: string = this.localizationService.getCurrentLanguage();
 
-  constructor(private authService: AuthentificationService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private authService: AuthentificationService, private route: ActivatedRoute,
+              private router: Router, public translate: TranslateService, private localizationService: LocalizationService) { }
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -34,5 +39,12 @@ export class LoginLayoutComponent implements OnInit {
 
   public socialSignIn(platform: SocialNetwork): void {
     this.authService.socialSignIn(platform);
+  }
+
+  public onLangChanged(lang: string): void {
+    this.localizationService.onLanguageChanged(lang);
+  }
+  public setDefaultLang(): void {
+    this.translate.setDefaultLang(this.currentLanguage);
   }
 }

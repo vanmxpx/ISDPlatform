@@ -1,4 +1,4 @@
-  .h1--color {
+  .h1-color {
     color: #646464;
   }
 
@@ -8,20 +8,20 @@
     margin-left: 40px;
   }
   
-  .games-list--padding {
+  .games-list-padding {
     padding: 40px 200px
   }
 
-  .row__image-col--align {
+  .row__image-col-align {
     text-align:center;
   }
 
-  .image-col__game-image--size-squared {
+  .image-col__game-image-size-squared {
     width: 200px;
     height: 200px;
   }
   
-  .row__action-col--align {
+  .row__action-col-align {
     text-align: center;
     margin: auto 0px;
   }

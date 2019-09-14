@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {AuthGuard} from '@guards';
+import {AuthGuard, ExitGuard} from '@guards';
 import {LoginLayoutComponent, RegistrationLayoutComponent, PlatformLayoutComponent,
   PageNotFoundLayoutComponent, GameLayoutComponent, GamesLayoutComponent, ProfileLayoutComponent,
   HomeLayoutComponent, ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent} from '@layouts';
@@ -14,7 +14,7 @@ const routes: Routes = [
   {path: 'platform', component: PlatformLayoutComponent, canActivate: [AuthGuard],
    children:  [
     {path: 'games', component: GamesLayoutComponent},
-    {path: 'game/:id', component: GameLayoutComponent},
+    {path: 'games/:link', component: GameLayoutComponent, canDeactivate: [ExitGuard]},
     {path: 'profile/:nickname', component: ProfileLayoutComponent},
     {path: 'home', component: HomeLayoutComponent},
   ]},

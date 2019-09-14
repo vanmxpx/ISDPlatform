@@ -9,11 +9,17 @@ export { UserConnectionsListComponent } from './user-connections-list/user-conne
 
 export { UserInfoComponent } from './user-info/user-info.component';
 
-export { MyProfileComponent } from './my-profile/my-profile.component';
-export { NavigationComponent } from './navigation/navigation.component';
+export {GamesListComponent} from './games-list/games-list.component';
 
-export { GamesListComponent } from './games-list/games-list.component';
+export {MyProfileComponent} from './my-profile/my-profile.component';
+
+export {LanguageSelectComponent} from './language-select/language-select.component';
+
+export {NavigationComponent} from './navigation/navigation.component';
+
 export { GameCardComponent } from './game-card/game-card.component';
 export { GameListItemComponent } from './game-list-item/game-list-item.component';
 
-export { AvatarCardComponent } from './avatar-card/avatar-card.component';
+export {AvatarCardComponent} from './avatar-card/avatar-card.component';
+
+export {UploadComponent} from './upload-form/upload-form.component';

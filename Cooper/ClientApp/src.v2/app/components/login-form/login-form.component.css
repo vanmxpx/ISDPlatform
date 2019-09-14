@@ -3,7 +3,7 @@
   color: #fff;
 }
 
-.button-sizes {
+.button--sizes {
   align-self: center;
   width: 200px;
   padding: 16px;
@@ -11,7 +11,7 @@
 }
 
 .button-margin {
-  margin: 24px 16px 8px 16px;
+  margin: 32px 16px 8px 16px;
 }
 
 .button-font {
@@ -34,7 +34,7 @@
 }
 
 .mat-form-field {
-  width: 100%;
+  width:100%;
   margin-top: 5px;
 }
 
@@ -47,15 +47,22 @@
 .socials-container {
   display: inline-block;
   align-self: center;
+
   width: 45%;
 }
 
-.social-icon {
+.social-icon{
   width: 25%;
-  height: auto;
+  height: auto;    
 }
 
 .personal-data-form {
   border: 1px solid rgb(168, 168, 168);
   border-radius: 8px;
+}
+
+.login-select{
+  display: inline-flex;
+  float: right;
+  font-size: 15px;
 }

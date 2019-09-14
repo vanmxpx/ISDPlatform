@@ -5,5 +5,6 @@ namespace Cooper.Repositories
     public interface IUserRepository
     {
         User GetByJWToken(string token);
+        void UpdateAvatar(string url, long userId);
     }
 }

@@ -17,7 +17,7 @@ namespace Cooper.Repositories
             gameDAO = new GameDAO(configProvider);
             mapper = new ModelsMapper();
         }
-
+        
         public IEnumerable<Game> GetAll()
         {
             List<GameDb> games = (List<GameDb>)gameDAO.GetAll();
@@ -45,7 +45,7 @@ namespace Cooper.Repositories
             }
             else if (obj is long id)
             {
-                game = gameDAO.Get(id);
+               game = gameDAO.Get(id);
             }
             else
             {

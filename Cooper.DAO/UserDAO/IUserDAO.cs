@@ -22,5 +22,6 @@ namespace Cooper.DAO
         void Delete(object id);
         void Update(UserDb user, bool removePassword);
         void Update(UserDb user);
+        void UpdateAvatar(string url, long userId);
     }
 }

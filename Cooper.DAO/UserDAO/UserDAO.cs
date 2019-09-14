@@ -88,7 +88,7 @@ namespace Cooper.DAO
                     return false;
                 }
             }
-
+        
             return true;
         }
 
@@ -110,14 +110,14 @@ namespace Cooper.DAO
             string attribute = "NICKNAME";
 
             nickname = $"\'{nickname}\'";       // tuning string for sql query
-
+            
             return GetByUniqueAttribute(nickname, attribute);
         }
 
         public UserDb GetByEmail(string email)
         {
             string attribute = "EMAIL";
-
+            
             email = $"\'{email}\'";       // tuning string for sql query
 
             return GetByUniqueAttribute(email, attribute);
@@ -133,7 +133,9 @@ namespace Cooper.DAO
                 return user;
             }
 
-            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(attribute_name, DbTools.RequestOperator.Equal, attribute_value) }));
+            var whereRequest = new WhereRequest(attribute_name, Operators.Equal, attribute_value.ToString());
+
+            List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes, whereRequest);
 
             if (entities.Any())
             {
@@ -170,7 +172,7 @@ namespace Cooper.DAO
 
             return users;
         }
-
+        
         #region Interop properties info reading
         private List<long> GetConnectionsList(long id)
         {
@@ -210,7 +212,7 @@ namespace Cooper.DAO
         #endregion
 
         #endregion
-
+            
         public long Save(UserDb user)
         {
             EntityORM entity = EntityMapping.Map(user, attributes);
@@ -251,12 +253,16 @@ namespace Cooper.DAO
 
             // Making sure that ID value is not touched.
             entity.attributeValue.Remove("ID");
+
             if (removePassword)
-            { //Remove password field
+            {
+                //Remove password field
                 entity.attributeValue.Remove("PASSWORD");
             }
 
-            bool ifUpdated = crud.Update(table, entity, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, user.Id) });
+            var whereRequest = new WhereRequest(idColumn, Operators.Equal, user.Id.ToString());
+
+            bool ifUpdated = crud.Update(table, entity, whereRequest);
 
             if (ifUpdated)
             {
@@ -265,6 +271,25 @@ namespace Cooper.DAO
             else
             {
                 logger.Info($"Updating user with id={user.Id} was failed.");
+            }
+        }
+
+        public void UpdateAvatar(string url, long userId)
+        {
+            EntityORM entity = new EntityORM();
+            entity.attributeValue.Add(DbTools.GetVariableAttribute("PHOTOURL"), $"'{url}'");
+
+            var whereRequest = new WhereRequest(idColumn, Operators.Equal, userId.ToString());
+
+            bool ifUpdated = crud.Update(table, entity, whereRequest);
+
+            if (ifUpdated)
+            {
+                logger.Info($"User avatar with id={userId} was successfully updated.");
+            }
+            else
+            {
+                logger.Info($"Updating user avatar with id={userId} was failed.");
             }
         }
 

@@ -4,7 +4,7 @@
         <coop-poster></coop-poster>
     </div>
 
-    <div class = "col-md-8 col-xs-12">     
+    <div class = "col-md-8 col-xs-12">   
       <div class = "row headContainer">
         <div class = "col-md-2"></div>
           <div class = "col-md-8 centralContentContainer">
@@ -14,10 +14,15 @@
                 (signIn)="signIn($event)" 
                 (socialSignIn)="socialSignIn($event)"
                 (forgotPassword)="forgotPassword($event)"
+                [languageKeys]="languageKeys" 
+                [languages]="languages" 
+                [currentLanguage]="currentLanguage"
+                (langChangeEvent)="onLangChanged($event)"
                 ></coop-login-form>
             </div>
           </div>
-          <div class = "col-md-2"></div>
+          <div class = "col-md-2">
+          </div>
         </div>
     </div>
 

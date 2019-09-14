@@ -1,7 +1,7 @@
 ﻿using Cooper.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NLog;
 using System;
 using System.Text;
 
@@ -9,9 +9,9 @@ namespace Cooper.Services
 {
     public class JwtHandlerService : IJwtHandlerService
     {
-        private readonly ILogger logger;
+        private readonly ILogger<JwtHandlerService> logger;
 
-        public JwtHandlerService(ILogger logger)
+        public JwtHandlerService(ILogger<JwtHandlerService> logger)
         {
             this.logger = logger;
         }
@@ -36,15 +36,15 @@ namespace Cooper.Services
             }
             catch (JsonReaderException ex)
             {
-                logger.Error(ex.Message);
+                logger.LogInformation(ex.Message);
             }
             catch (NullReferenceException ex)
             {
-                logger.Error(ex.Message);
+                logger.LogInformation(ex.Message);
             }
             catch (Exception ex)
             {
-                logger.Error(ex.Message);
+                logger.LogInformation(ex.Message);
             }
 
             return value;

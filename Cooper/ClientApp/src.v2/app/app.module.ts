@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { DynamiSocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from 'ng-dynami-social-login';
@@ -18,19 +18,25 @@ import { CooperInterceptor } from '@services';
 import { GrowlModule } from 'primeng/primeng';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AuthGuard } from '@guards';
+import { AuthGuard, ExitGuard } from '@guards';
 import { SafePipe } from '@pipes';
 import {
   LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent,
-  ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent
+  ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent, UploadLayoutComponent
 } from '@layouts';
 import {
   LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
   GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
-  NavigationComponent, ResetPasswordFormComponent, ConfirmPasswordFormComponent, AvatarCardComponent
+  NavigationComponent, ResetPasswordFormComponent, ConfirmPasswordFormComponent, AvatarCardComponent,
+  UploadComponent, LanguageSelectComponent
 } from '@components';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MatSelectModule } from '@angular/material/select';
+import { LanguageNamePipe } from '@pipes';
+import { MatDialogModule } from '@angular/material';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
@@ -48,6 +54,11 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
   );
   return config;
 }
+
+export function HttpLoaderFactory(http: HttpClient): any {
+  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,8 +71,6 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
     HomeLayoutComponent,
-    ResetPasswordLayoutComponent,
-    ConfirmPasswordLayoutComponent,
     SafePipe,
     LoginFormComponent,
     RegistrationFormComponent,
@@ -75,8 +84,14 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     NavigationComponent,
     AvatarCardComponent,
     ResetPasswordFormComponent,
-    ConfirmPasswordFormComponent
-  ],
+    ConfirmPasswordFormComponent,
+    LanguageSelectComponent,
+    LanguageNamePipe,
+    UploadComponent,
+    UploadLayoutComponent,
+    ResetPasswordLayoutComponent,
+    ConfirmPasswordLayoutComponent
+],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -90,6 +105,7 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     MatButtonModule,
     MatCardModule,
     MatListModule,
+    MatDialogModule,
     DynamiSocialLoginModule,
     GrowlModule,
     MatIconModule,
@@ -98,7 +114,15 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
     MatGridListModule,
     MatRippleModule,
     MatProgressBarModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    MatSelectModule
   ],
   providers: [
     {
@@ -110,10 +134,13 @@ export function getAuthServiceConfigs(): AuthServiceConfig {
       useClass: CooperInterceptor,
       multi: true // give the possibility of various interceptors
     },
-    AuthGuard
+    AuthGuard,
+    ExitGuard,
 
   ],
-  bootstrap: [AppComponent]
+
+  entryComponents: [UploadLayoutComponent],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
 export class PizzaPartyAppModule { }

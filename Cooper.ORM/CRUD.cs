@@ -59,12 +59,12 @@ namespace Cooper.ORM
             return insertId;
         }
 
-        public IEnumerable<EntityORM> Read(string table, HashSet<string> attributes, DbTools.WhereRequest[] whereRequests = null)
+        public IEnumerable<EntityORM> Read(string table, HashSet<string> attributes, WhereRequest whereRequest = null)
         {
             List<EntityORM> entities = new List<EntityORM>();
             try
             {
-                string sqlExpression = DbTools.CreateSelectQuery(table, attributes, whereRequests);
+                string sqlExpression = DbTools.CreateSelectQuery(table, attributes, whereRequest);
 
                 dbConnect.OpenConnection();
                 OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
@@ -93,12 +93,12 @@ namespace Cooper.ORM
             return entities;
         }
 
-        public bool Update(string table, EntityORM entity, DbTools.WhereRequest[] whereRequests = null)
+        public bool Update(string table, EntityORM entity, WhereRequest whereRequest = null)
         {
             try
             {
                 dbConnect.OpenConnection();
-                string sqlExpression = DbTools.CreateUpdateQuery(table, entity, whereRequests);
+                string sqlExpression = DbTools.CreateUpdateQuery(table, entity, whereRequest);
                 dbConnect.ExecuteNonQuery(sqlExpression);
             }
             catch (DbException ex)

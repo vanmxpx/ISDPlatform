@@ -23,7 +23,6 @@ namespace Cooper.Repositories
             verifyDAO = new VerificationDAO(configProvider);
             resetTokenDAO = new ResetTokenDAO(configProvider);
             mapper = new ModelsMapper();
-
             this.jwtService = jwtService;
         }
 
@@ -33,7 +32,7 @@ namespace Cooper.Repositories
         {
             return userDAO.IfNicknameExists(nickname);
         }
-
+        
         public bool IfEmailExists(string email)
         {
             return userDAO.IfEmailExists(email);
@@ -62,7 +61,8 @@ namespace Cooper.Repositories
         public bool CheckVerifyByEmail(string email)
         {
             var result = userDAO.GetByEmail(email);
-            return (result != null) ? result.Email.Contains("@") : false;
+
+            return (result != null)? result.Email.Contains("@") : false;
         }
 
         public string GetVerifyEmail(string token)
@@ -129,7 +129,7 @@ namespace Cooper.Repositories
         public User GetByJWToken(string token)
         {
             string nickname = jwtService.GetPayloadAttributeValue("username", token);
-
+            
             return GetByNickname(nickname);
         }
 
@@ -220,6 +220,11 @@ namespace Cooper.Repositories
             user.Password = newPassword;
             userDAO.Update(user);
             resetTokenDAO.Delete(token);
+        }
+
+        public void UpdateAvatar(string url, long userId)
+        {
+            userDAO.UpdateAvatar(url, userId);
         }
 
         public void Delete(long id)

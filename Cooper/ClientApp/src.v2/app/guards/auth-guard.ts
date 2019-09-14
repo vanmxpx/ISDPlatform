@@ -7,7 +7,7 @@ export class AuthGuard implements CanActivate {
   }
 
   // tslint:disable-next-line: variable-name
-  public canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  public canActivate(_: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
     const token: string = localStorage.getItem('JwtCooper');
 

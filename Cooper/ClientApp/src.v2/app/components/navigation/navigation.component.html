@@ -1,5 +1,5 @@
       <ul class="coop-navigation nav navbar-nav">
         <li *ngFor="let item of items" class="nav-item">
-          <a class="my-navigate" routerLink="{{item.link}}">{{item.label}}</a>
+          <a class="my-navigate" routerLink="{{item.link}}">{{item.label | translate}}</a>
         </li>
       </ul>
