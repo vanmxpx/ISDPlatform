@@ -96,7 +96,7 @@ namespace Cooper.DAO
         {
             ChatDb chat = null;
 
-            string sqlExpression = "SELECT chat.id, chat.chatname FROM CHATS chat " +
+            string sqlExpression = "SELECT chat.id, chat.chatname, chat.photourl FROM CHATS chat " +
                                     "INNER JOIN " +
                                     "(SELECT record1.idchat, record1.iduser FROM USERSCHATS record1 " +
                                     "WHERE " +

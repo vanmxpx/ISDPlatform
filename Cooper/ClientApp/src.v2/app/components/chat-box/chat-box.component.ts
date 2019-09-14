@@ -110,7 +110,7 @@ export class ChatBoxComponent implements OnInit, OnChanges {
 
     } else {
 
-      message.content = this.messageContent.trimRight();
+      message.content = this.messageContentPipe.transform(this.messageContent);
       message.chatId = this.chat.id;
       this.sendMessage.emit(message);
 
