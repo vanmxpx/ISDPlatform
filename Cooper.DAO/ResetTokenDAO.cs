@@ -73,7 +73,10 @@ namespace Cooper.DAO
         public ResetTokenDb Get(object id)
         {
             ResetTokenDb resetTokenDb = null;
-            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, id) }));
+
+            var whereRequest = new WhereRequest(idColumn, Operators.Equal, id.ToString());
+
+            List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes, whereRequest);
 
             if (entities.Any())
             {
@@ -119,7 +122,9 @@ namespace Cooper.DAO
                 return resetTokenDb;
             }
 
-            List<EntityORM> entities = (List<EntityORM>)(crud.Read(table, attributes, new DbTools.WhereRequest[] { new DbTools.WhereRequest(attribute_name, DbTools.RequestOperator.Equal, attribute_value) }));
+            var whereRequest = new WhereRequest(idColumn, Operators.Equal, attribute_value.ToString());
+
+            List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes, whereRequest);
 
             if (entities.Any())
             {
