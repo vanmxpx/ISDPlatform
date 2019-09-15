@@ -44,7 +44,8 @@
                 "EMPTY-NICKNAME": "Please, point message recipient before sending a message",
                 "EMPTY-MESSAGE-BLOCK": "Please, enter your message first",
                 "USER-NOT-FOUND": "User is not found"
-            }
+            },
+            "SELECT-CHAT-TIP": "Please select a chat to start messaging"
         }
     }
 }

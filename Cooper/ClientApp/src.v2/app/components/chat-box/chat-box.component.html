@@ -24,9 +24,6 @@
 
   <div class="messages-list-container" *ngIf="!newMessageBlockOpened">
 
-    
-    
-
     <mat-list id="chatList" class = "chat-list" *ngIf="chat">
       <mat-list-item role="listitem" *ngFor="let message of chat.messages" class = "message">
         
@@ -71,6 +68,6 @@
 
 <div class="non-opened-chat" *ngIf="!chat">
   <div>
-<span>Please select chat to start messaging</span>
+<span>{{'CHATS.CHAT-BOX.SELECT-CHAT-TIP'|translate}}</span>
 </div>
 </div>
