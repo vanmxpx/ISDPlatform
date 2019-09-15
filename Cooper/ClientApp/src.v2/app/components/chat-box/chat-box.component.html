@@ -1,4 +1,4 @@
-<div class="chat-box-container">
+<div class="chat-box-container" *ngIf="chat">
   <div class="nick-entering-container" *ngIf="newMessageBlockOpened">
     <div class="nick-input-container">
       {{'CHATS.CHAT-BOX.RECEIVER'|translate}}:
@@ -67,4 +67,10 @@
 
     </div>
 
+</div>
+
+<div class="non-opened-chat" *ngIf="!chat">
+  <div>
+<span>Please select chat to start messaging</span>
+</div>
 </div>

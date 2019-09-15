@@ -45,11 +45,6 @@ export class PersonalChatsLayoutComponent {
       console.log('Error: {0}', e);
     }
 
-    if (this.chatsList && this.chatsList.length > 0) {
-
-      this.loadChat(this.chatsList[0]);
-    }
-
   }
 
   public connectWebSockets(): void {
@@ -72,8 +67,9 @@ export class PersonalChatsLayoutComponent {
           const chat: Chat = this.getChatById(newMessage.chatId);
           chat.messages = chat.messages.concat(newMessage);
 
-          const isNotCurrentChat: boolean = chat.id !== this.currentChat.id;
-          const isCurrentButNotOpenedChat: boolean = chat.id === this.currentChat.id && this.newMessageBlockOpened;
+          const isNotCurrentChat: boolean = (this.currentChat) ? chat.id !== this.currentChat.id : true;
+          const isCurrentButNotOpenedChat: boolean = (this.currentChat) ?
+          chat.id === this.currentChat.id && this.newMessageBlockOpened : true;
 
           if ((isNotCurrentChat || isCurrentButNotOpenedChat) && newMessage.senderId !== this.currentSessionUserId) {
             chat.unreadMessagesAmount++;
@@ -97,10 +93,6 @@ export class PersonalChatsLayoutComponent {
         }
 
         this.sortChats();
-
-        if (this.chatsList.length === 1) {
-          this.currentChat = newChat;
-        }
 
       }
   });

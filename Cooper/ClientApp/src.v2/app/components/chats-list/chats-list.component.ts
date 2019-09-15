@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import {Chat} from '@models';
 
 const fieldPermissibleMaxLength: number = 20;
@@ -8,7 +8,7 @@ const fieldPermissibleMaxLength: number = 20;
   templateUrl: './chats-list.component.html',
   styleUrls: ['./chats-list.component.scss']
 })
-export class ChatsListComponent implements OnInit {
+export class ChatsListComponent {
 
   @Input() public currentSessionUserId: number;
   @Input() public newMessageBlockOpened: boolean;
@@ -16,15 +16,6 @@ export class ChatsListComponent implements OnInit {
   @Output() public loadChat: EventEmitter<Chat> = new EventEmitter<Chat>();
   @Output() public closeNewMessageBlock: EventEmitter<void> = new EventEmitter<void>();
   @Output() public readMessages: EventEmitter<Chat> = new EventEmitter<Chat>();
-
-  public ngOnInit(): void {
-    setTimeout(() => {
-    if (this.chatsList && this.chatsList.length > 0) {
-      this.loadChat.emit(this.chatsList[0]);
-    }
-    }, 1000);
-
-  }
 
   public onChatItemClick(chat: Chat): void {
 

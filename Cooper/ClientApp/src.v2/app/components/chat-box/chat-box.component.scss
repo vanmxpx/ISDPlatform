@@ -10,6 +10,21 @@ $companion-panel-height: 80px;
     min-width: 300px;
 }
 
+.non-opened-chat {
+    border: 1px solid gainsboro;
+    color: gray;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: Arial, Helvetica, sans-serif;
+
+    height: calc(100vh - #{$top-panel-height});
+    min-width: 300px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .nick-entering-container {
     height: calc(100vh - #{$new-message-box-height} - #{$top-panel-height});
     border-bottom: 1px solid gainsboro;
