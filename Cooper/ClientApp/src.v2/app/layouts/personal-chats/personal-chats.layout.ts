@@ -70,7 +70,14 @@ export class PersonalChatsLayoutComponent {
         if (this.isOwnChat(newMessage.chatId)) {
 
           const chat: Chat = this.getChatById(newMessage.chatId);
-          chat.messages = this.currentChat.messages.concat(newMessage);
+          chat.messages = chat.messages.concat(newMessage);
+
+          const isNotCurrentChat: boolean = chat.id !== this.currentChat.id;
+          const isCurrentButNotOpenedChat: boolean = chat.id === this.currentChat.id && this.newMessageBlockOpened;
+
+          if ((isNotCurrentChat || isCurrentButNotOpenedChat) && newMessage.senderId !== this.currentSessionUserId) {
+            chat.unreadMessagesAmount++;
+          }
 
           this.sortChats();
 
@@ -103,6 +110,14 @@ export class PersonalChatsLayoutComponent {
   public loadChat(chat: Chat): void {
     this.newMessageBlockOpened = false;
     this.currentChat = chat;
+  }
+
+  public readMessages(chat: Chat): void {
+    if (chat.unreadMessagesAmount !== 0) {
+      chat.unreadMessagesAmount = 0;
+
+      this.chatService.readNewMessages(chat);
+    }
   }
 
   public openNewMessageBlock(): void {

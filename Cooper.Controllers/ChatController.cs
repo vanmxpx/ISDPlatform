@@ -47,7 +47,7 @@ namespace Cooper.Controllers
 
             if (user == null)
             {
-                return StatusCode(500); //  connection to database failed
+                return StatusCode(500, "Connection to database failed");
             }
 
             IList<Chat> chats = chatRepository.GetPersonalChatsByUserId(user.Id);
@@ -108,6 +108,27 @@ namespace Cooper.Controllers
 
             return Ok(message);
         }
+
+        [HttpPost("read-messages")]
+        [Authorize]
+        public IActionResult Post([FromBody]Chat chat)
+        {
+
+            if (chat == null)
+            {
+                return BadRequest();
+            }
+
+            bool messagesRead = messageRepository.ReadNewMessages(chat);
+
+            if (!messagesRead)
+            {
+                return StatusCode(500,"Connection to database failed");
+            }
+
+            return Ok();
+        }
+
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]

@@ -23,7 +23,7 @@
     </li>
 
     <li *ngFor="let chat of chatsList" class="list-group-item chat-item" (click)="onChatItemClick(chat)">
-        <div class="row">
+        <div class="row chat-container">
 
             <div class="column left">
               <img class="image" src={{chat.photoURL}} onError="this.src='assets/imageKeeper/robot.png'">
@@ -31,7 +31,7 @@
             
             <div class="column right">
 
-              <div class="row">
+              <div class="row chat-header">
                 <div class="column chat-name">
                   <span>{{getChatName(chat)}}</span>
                 </div>
@@ -41,13 +41,20 @@
                 </div>
               </div>
               
-              <div class="row chat-last-message">
+              <div class="row message-container" *ngIf="chat">
                 
-                <i *ngIf="chat && currentSessionUserId===chat.messages[chat.messages.length-1].senderId">
-                  {{'CHATS.CHAT-LIST.MESSAGE-PREFIX'|translate}}: &nbsp;
-                </i>
+                <div class="column chat-last-message">
+                  <i *ngIf="currentSessionUserId===chat.messages[chat.messages.length-1].senderId">
+                    {{'CHATS.CHAT-LIST.MESSAGE-PREFIX'|translate}}: &nbsp;
+                  </i>
+                  {{getLastMessageInChat(chat)}}
+                </div>
 
-                {{getLastMessageInChat(chat)}}
+                <div class="column unread-messages-container">
+                  <div class="unread-messages-amount" *ngIf="chat.unreadMessagesAmount !== 0">
+                    {{chat.unreadMessagesAmount}}
+                  </div>
+                </div>
               </div>
 
             </div>

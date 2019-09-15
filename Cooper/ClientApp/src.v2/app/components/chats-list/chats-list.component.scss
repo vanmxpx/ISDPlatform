@@ -3,13 +3,7 @@
 .chat-list-container {    
     border: 1px solid gainsboro;
     height: calc(100vh - #{$top-panel-height} - 50px);
-    min-width: 300px;
-}
-
-.image {
-    height: 60px;
-    width: 60px;
-    border-radius: 50%;
+    width: 350px;
 }
 
 .chats-list {
@@ -22,6 +16,7 @@
 .chat-item {
     margin: 0px;
     border-radius: 0px;
+    width:100%;
 }
 
 .chat-item:hover {
@@ -35,6 +30,7 @@
 }
 
 .row {
+    width: 100%;
     display: flex;
   }
 
@@ -50,10 +46,17 @@
     width: 75%;
 }
 
-.chat-name {
-    width: 75%;
+.image {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
 }
 
+.chat-header {
+
+    height: 20px;
+    margin-top: 5px;
+}
 
 .date {
     text-align: right;
@@ -63,18 +66,40 @@
 }
 
 .chat-name {
+    width: 75%;
     position: top;
     padding-top: 0px;
 
-    margin-top: 4px;
-    margin-bottom: 4px;
     font-size: 14px;
     font-weight: 500;
+}
+
+.message-container {
+    height: 25px;
+    display: flex;
+    align-items: flex-end;
 }
 
 .chat-last-message {
     font-size: 14px;
     font-weight: 400;
+    width: 80%;
+}
+
+.unread-messages-container {
+    width: 20%;
+    text-align: center;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.unread-messages-amount {
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    padding: 2px 7px;
+    background-color: rgb(0, 180, 0);
+    border-radius: 50%;
 }
 
 /* width */

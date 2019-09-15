@@ -59,6 +59,13 @@ namespace Cooper.Repositories
             chat.ChatName = (userId == chat.Participants[0].Id) ? 
                 (chat.Participants[1].Name == "") ? chat.Participants[1].Nickname : chat.Participants[1].Name :
                 (chat.Participants[0].Name == "") ? chat.Participants[0].Nickname : chat.Participants[0].Name;
+
+            chat.UnreadMessagesAmount = 0;
+
+            for (int i = chat.Messages.Count-1; i != -1 && !chat.Messages[i].IsRead && chat.Messages[i].SenderId != userId; i--)
+            {
+                chat.UnreadMessagesAmount++;
+            }
         }
 
         public Chat GetOnetoOneChatByParticipants(IList<User> participants)

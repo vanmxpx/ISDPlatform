@@ -21,10 +21,19 @@ export class ChatService {
     const body = {message, participants};
 
     return this.httpClient.post(chatsUrl + '/send-message', body).subscribe(() => {
-      console.log('Message with id {0} was succesfully sended.', message.id);
+      console.log(`Message with id ${message.id} was succesfully sended.`);
     },
       (err) => {
-        console.log('Error: {0}', err);
+        console.log(`Error: ${err}`);
+      });
+  }
+
+  public readNewMessages(chat: Chat): void {
+    this.httpClient.post(chatsUrl + '/read-messages', chat).subscribe(() => {
+      console.log(`Messages from chat with id ${chat.id} were succesfully readed.`);
+    },
+      (err) => {
+        console.log(`Error: ${err}`);
       });
   }
 }

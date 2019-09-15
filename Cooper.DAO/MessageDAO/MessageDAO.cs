@@ -59,6 +59,22 @@ namespace Cooper.DAO
             return messages;
         }
 
+        public bool ReadNewMessages(IList<long> messages)
+        {
+            string sqlExpression = $"UPDATE {table} SET ISREAD=\'y\' ";
+
+            for (int i = 0; i < messages.Count; i++)
+            {
+                sqlExpression += (i == 0) ? "WHERE" : "OR";
+
+                sqlExpression += $" ID = {messages[i]} ";
+            }
+
+            bool areRead = ExecuteQuery(sqlExpression);
+
+            return areRead;
+        }
+        
         public long Save(MessageDb message)
         {
             EntityORM entity = EntityMapping.Map(message, attributes);
@@ -152,6 +168,31 @@ namespace Cooper.DAO
             }
 
             return entities;
+        }
+
+        private bool ExecuteQuery(string sqlExpression)
+        {
+            bool isExecuted = true;
+
+            try
+            {
+                dbConnect.OpenConnection();
+                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
+
+                command.ExecuteNonQuery();
+
+            }
+            catch (DbException ex)
+            {
+                logger.Info("Exception.Message: {0}", ex.Message);
+                isExecuted = false;
+            }
+            finally
+            {
+                dbConnect.CloseConnection();
+            }
+
+            return isExecuted;
         }
     }
 }

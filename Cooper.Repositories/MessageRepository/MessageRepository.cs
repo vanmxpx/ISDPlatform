@@ -9,7 +9,7 @@ namespace Cooper.Repositories
 {
     public class MessageRepository : IMessageRepository
     {
-        private readonly MessageDAO messageDAO;
+        private readonly IMessageDAO messageDAO;
         private readonly ModelsMapper mapper;
 
         public MessageRepository(IConfigProvider configProvider)
@@ -36,6 +36,29 @@ namespace Cooper.Repositories
             }
 
             return messages_newType;
+        }
+
+        public bool ReadNewMessages(Chat chat)
+        {
+            bool areRead = false;
+            ChatDb chat_newTyped = mapper.Map(chat);
+
+            var messages = new List<long>(capacity: chat.Messages.Count);
+            
+            for (int i = chat.Messages.Count-1; i != -1 && !chat.Messages[i].IsRead; i--)
+            {
+                messages.Add(chat.Messages[i].Id);
+            }
+            if (messages.Count == 0)
+            {
+                areRead = true;
+            }
+            else
+            {
+                areRead = messageDAO.ReadNewMessages(messages);
+            }
+
+            return areRead;
         }
 
         public long Create(Message message)

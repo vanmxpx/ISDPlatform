@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import {Chat} from '@models';
 
-const fieldPermissibleMaxLength: number = 30;
+const fieldPermissibleMaxLength: number = 20;
 
 @Component({
   selector: 'coop-chats-list',
@@ -15,6 +15,7 @@ export class ChatsListComponent implements OnInit {
   @Input() public chatsList: Chat[];
   @Output() public loadChat: EventEmitter<Chat> = new EventEmitter<Chat>();
   @Output() public closeNewMessageBlock: EventEmitter<void> = new EventEmitter<void>();
+  @Output() public readMessages: EventEmitter<Chat> = new EventEmitter<Chat>();
 
   public ngOnInit(): void {
     setTimeout(() => {
@@ -30,6 +31,8 @@ export class ChatsListComponent implements OnInit {
     this.closeNewMessageBlock.emit();
 
     this.loadChat.emit(chat);
+
+    this.readMessages.emit(chat);
   }
 
   public getChatName(chat: Chat): string {
