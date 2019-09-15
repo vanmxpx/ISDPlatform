@@ -30,8 +30,7 @@ export class MessageDateTimePipe implements PipeTransform {
       messageDateTime = `${dayOfMonth}.${month}.${year}`;
 
     } else if (dateNow.getMonth() !== date.getMonth() ||
-                dateNow.getDate() - date.getDate() > 6 ||
-                dateNow.getDay() < date.getDay()) {
+                dateNow.getDate() - date.getDate() > 6) {
 
       const month: string = this.monthNames[date.getMonth()];
       const dayOfMonth: string = date.getDate().toString();
