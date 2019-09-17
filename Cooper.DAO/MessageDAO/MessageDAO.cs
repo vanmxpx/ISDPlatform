@@ -58,8 +58,10 @@ namespace Cooper.DAO
         {
             string sqlExpression = String.Format("UPDATE {0} SET ISREAD=\'y\' WHERE ID IN ({1})", table, String.Join(',', messages));
 
-            bool areRead = ExecuteQuery(sqlExpression);
-
+            bool areRead = crud.Update(
+                table,
+                new EntityORM() { attributeValue = { { "ISREAD", "\'y\'" } } },
+                new WhereRequest("ID", Operators.In, String.Join(',', messages)));
             return areRead;
         }
         
@@ -110,31 +112,6 @@ namespace Cooper.DAO
             }
 
             return isUpdated;
-        }
-
-        private bool ExecuteQuery(string sqlExpression)
-        {
-            bool isExecuted = true;
-
-            try
-            {
-                dbConnect.OpenConnection();
-                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
-
-                command.ExecuteNonQuery();
-
-            }
-            catch (DbException ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-                isExecuted = false;
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
-            }
-
-            return isExecuted;
         }
     }
 }

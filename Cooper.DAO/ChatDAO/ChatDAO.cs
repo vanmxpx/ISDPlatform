@@ -53,7 +53,7 @@ namespace Cooper.DAO
                 personalChats = new List<ChatDb>(capacity: chatsEntities.Count);
                 var chatsIndexes = new Dictionary<long, int>(capacity: chatsEntities.Count);    // helping collection
 
-                for (int i = 0; i  < chatsEntities.Count; i++)
+                for (int i = 0; i < chatsEntities.Count; i++)
                 {
                     ChatDb chat;
                     Mapping.EntityMapping.Map(chatsEntities[i], out chat);
@@ -64,16 +64,13 @@ namespace Cooper.DAO
                     chatsIndexes.Add(chat.Id, i);
                 }
 
-                var user_attribute = new HashSet<string> { "IDUSER", "IDCHAT" };
-                sqlExpression = "SELECT IDUSER, IDCHAT FROM USERSCHATS ";
+                var user_attributes = new HashSet<string> { "IDUSER", "IDCHAT" };
+                string[] chatsId = personalChats.Select(t => t.Id.ToString()).ToArray();
 
-                for (int i = 0; i < personalChats.Count; i++)
-                {
-                    sqlExpression += (i == 0) ? "WHERE " : "OR ";
-                    sqlExpression += $"IDCHAT = {personalChats[i].Id} ";
-                }
-
-                IList<EntityORM> participantsEntities = ExecuteQuery(user_attribute, sqlExpression);
+                IList<EntityORM> participantsEntities = crud.Read(
+                    table: "USERSCHATS",
+                    attributes: user_attributes,
+                    whereRequest: new WhereRequest("IDCHAT", Operators.In, chatsId)) as List<EntityORM>;
 
                 if (participantsEntities != null)
                 {
@@ -102,7 +99,7 @@ namespace Cooper.DAO
                                     "WHERE " +
                                     "(SELECT COUNT(IDCHAT) FROM USERSCHATS record2 " +
                                     $"WHERE record1.idchat = record2.idchat AND (IDUSER = {participantsId[0]} OR IDUSER = {participantsId[1]})) = 2 " +
-                                    "AND ROWNUM = 1 AND CHATS.ID = record1.IDCHAT) ";
+                                    "AND CHATS.ID = record1.IDCHAT) ";
 
             IList<EntityORM> chats = ExecuteQuery(attributes, sqlExpression);
 
