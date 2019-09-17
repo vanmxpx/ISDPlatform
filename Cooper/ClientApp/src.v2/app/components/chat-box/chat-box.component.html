@@ -1,4 +1,4 @@
-<div class="chat-box-container" *ngIf="chat">
+<div class="chat-box-container" *ngIf="chat || newMessageBlockOpened">
   <div class="nick-entering-container" *ngIf="newMessageBlockOpened">
     <div class="nick-input-container">
       {{'CHATS.CHAT-BOX.RECEIVER'|translate}}:
@@ -66,8 +66,8 @@
 
 </div>
 
-<div class="non-opened-chat" *ngIf="!chat">
+<div class="non-opened-chat" *ngIf="!chat && !newMessageBlockOpened">
   <div>
-<span>{{'CHATS.CHAT-BOX.SELECT-CHAT-TIP'|translate}}</span>
-</div>
+    <span>{{'CHATS.CHAT-BOX.SELECT-CHAT-TIP'|translate}}</span>
+  </div>
 </div>

@@ -44,7 +44,7 @@ namespace Cooper.DAO
                 "ID"
             };
 
-            string sqlExpression = String.Format("SELECT IDCHAT as ID FROM {0} INNER JOIN USERSCHATS ON {0}.ID = USERSCHATS.IDCHAT WHERE IDUSER = {1}", table, userId);
+            string sqlExpression = String.Format("SELECT ID FROM {0} WHERE EXISTS ( SELECT IDCHAT FROM USERSCHATS WHERE {0}.ID = USERSCHATS.IDCHAT AND IDUSER = {1})", table, userId);
 
             IList<EntityORM> chatsEntities = ExecuteQuery(chatAttributes, sqlExpression);
 
@@ -96,13 +96,13 @@ namespace Cooper.DAO
         {
             ChatDb chat = null;
 
-            string sqlExpression = "SELECT chat.id, chat.chatname, chat.photourl FROM CHATS chat " +
-                                    "INNER JOIN " +
+            string sqlExpression = "SELECT ID, CHATNAME, PHOTOURL FROM CHATS " +
+                                    "WHERE EXISTS " +
                                     "(SELECT record1.idchat, record1.iduser FROM USERSCHATS record1 " +
                                     "WHERE " +
                                     "(SELECT COUNT(IDCHAT) FROM USERSCHATS record2 " +
-                                    $"WHERE record1.idchat = record2.idchat AND (IDUSER = {participantsId[0]} OR IDUSER = {participantsId[1]})) = 2 AND ROWNUM = 1) " +
-                                    "record on chat.id = record.idchat ";
+                                    $"WHERE record1.idchat = record2.idchat AND (IDUSER = {participantsId[0]} OR IDUSER = {participantsId[1]})) = 2 " +
+                                    "AND ROWNUM = 1 AND CHATS.ID = record1.IDCHAT) ";
 
             IList<EntityORM> chats = ExecuteQuery(attributes, sqlExpression);
 

@@ -13,8 +13,8 @@ export class MessageDateTimePipe implements PipeTransform {
   ];
 
   public dayNames: string[] = [
-    'Mon', 'Tue', 'Wed',
-    'Thu', 'Fri', 'Sat', 'Sun'
+    'Sun', 'Mon', 'Tue', 'Wed',
+    'Thu', 'Fri', 'Sat'
   ];
 
   public transform(value: Date): string {
@@ -39,7 +39,7 @@ export class MessageDateTimePipe implements PipeTransform {
 
     } else if (dateNow.getDay() !== date.getDay()) {
 
-      const dayOfWeek: string = this.dayNames[date.getDay() - 1];
+      const dayOfWeek: string = this.dayNames[date.getDay()];
 
       messageDateTime = `${dayOfWeek}`;
 

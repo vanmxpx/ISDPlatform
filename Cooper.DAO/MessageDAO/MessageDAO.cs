@@ -39,12 +39,7 @@ namespace Cooper.DAO
         {
             IList<MessageDb> messages = null;
 
-            var whereAttributes = new Dictionary<string, object>()
-            {
-                {"IDCHAT", chatId }
-            };
-
-            IList<EntityORM> entities = Get(table, attributes, whereAttributes);
+            IList<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes, new WhereRequest("IDCHAT", Operators.Equal, chatId.ToString()));
 
             if (entities != null)
             {
@@ -61,14 +56,7 @@ namespace Cooper.DAO
 
         public bool ReadNewMessages(IList<long> messages)
         {
-            string sqlExpression = $"UPDATE {table} SET ISREAD=\'y\' ";
-
-            for (int i = 0; i < messages.Count; i++)
-            {
-                sqlExpression += (i == 0) ? "WHERE" : "OR";
-
-                sqlExpression += $" ID = {messages[i]} ";
-            }
+            string sqlExpression = String.Format("UPDATE {0} SET ISREAD=\'y\' WHERE ID IN ({1})", table, String.Join(',', messages));
 
             bool areRead = ExecuteQuery(sqlExpression);
 
@@ -122,52 +110,6 @@ namespace Cooper.DAO
             }
 
             return isUpdated;
-        }
-
-        private IList<EntityORM> Get(string table, HashSet<string> attributes, Dictionary<string, object> where_attributes)
-        {
-            IList<EntityORM> entities = null;
-
-            try
-            {
-                dbConnect.OpenConnection();
-
-                string where_part = string.Join(" AND ", where_attributes.Select(x => string.Format("{0}={1}", x.Key, x.Value)));
-                string sqlExpression = String.Format("SELECT * FROM {0} WHERE {1}", table, where_part);
-
-                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
-
-                OracleDataReader reader = command.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    entities = new List<EntityORM>();
-
-                    do
-                    {
-                        var entity = new EntityORM();
-
-                        foreach (string attribute in attributes)
-                        {
-                            object value = reader[attribute];
-                            entity.attributeValue.Add(attribute, value);
-                        }
-                        entities.Add(entity);
-
-                    } while (reader.Read());
-                }
-
-            }
-            catch (DbException ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
-            }
-
-            return entities;
         }
 
         private bool ExecuteQuery(string sqlExpression)
