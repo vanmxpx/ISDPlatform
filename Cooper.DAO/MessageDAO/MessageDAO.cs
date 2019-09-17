@@ -56,8 +56,6 @@ namespace Cooper.DAO
 
         public bool ReadNewMessages(IList<long> messages)
         {
-            string sqlExpression = String.Format("UPDATE {0} SET ISREAD=\'y\' WHERE ID IN ({1})", table, String.Join(',', messages));
-
             bool areRead = crud.Update(
                 table,
                 new EntityORM() { attributeValue = { { "ISREAD", "\'y\'" } } },
