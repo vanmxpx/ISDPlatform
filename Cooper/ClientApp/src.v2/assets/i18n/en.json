@@ -24,6 +24,29 @@
             "Action": "Action",
             "Strategy": "Strategy"           
         }
+    },
+
+    "CHATS" : {
+        "MESSAGE-PANEL": {
+            "HEADER": "Conversations"
+        },
+        "CHAT-LIST": {
+            "MESSAGE-PREFIX": "You",
+            "NEW-MESSAGE": "New message",
+            "NEW-MESSAGE-TEXT": "Enter your message"
+        },
+        "CHAT-BOX": {
+            "RECEIVER": "Receiver",
+            "NICKNAME-INPUT": "Enter user's nickname",
+            "MESSAGE-INPUT": "Enter your message...",
+            "SEND-BUTTON": "SEND",
+            "ERROR": {
+                "EMPTY-NICKNAME": "Please, point message recipient before sending a message",
+                "EMPTY-MESSAGE-BLOCK": "Please, enter your message first",
+                "USER-NOT-FOUND": "User is not found"
+            },
+            "SELECT-CHAT-TIP": "Please select a chat to start messaging"
+        }
     }
 }
 

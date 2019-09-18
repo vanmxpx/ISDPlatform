@@ -1,0 +1,123 @@
+@import "../../constants.scss";
+
+.chat-list-container {    
+    border: 1px solid gainsboro;
+    height: calc(100vh - #{$top-panel-height} - 50px);
+    width: 350px;
+}
+
+.chats-list {
+    height: 100%;
+    display: block;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.chat-item {
+    margin: 0px;
+    border-radius: 0px;
+    width:100%;
+}
+
+.chat-item:hover {
+    background-color: rgb(243, 243, 243);
+    cursor: pointer;
+}
+
+.new-message-item {
+    margin: 0px;
+    background-color: rgb(235, 235, 235);
+}
+
+.row {
+    width: 100%;
+    display: flex;
+  }
+
+.column {
+    float: left;
+}
+
+.left {
+    width: 25%;
+}
+
+.right {
+    width: 75%;
+}
+
+.image {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+}
+
+.chat-header {
+
+    height: 20px;
+    margin-top: 5px;
+}
+
+.date {
+    text-align: right;
+    font-weight: 300;
+    font-size: 10px;
+    width: 25%;
+}
+
+.chat-name {
+    width: 75%;
+    position: top;
+    padding-top: 0px;
+
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.message-container {
+    height: 25px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.chat-last-message {
+    font-size: 14px;
+    font-weight: 400;
+    width: 80%;
+}
+
+.unread-messages-container {
+    width: 20%;
+    text-align: center;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.unread-messages-amount {
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    padding: 2px 7px;
+    background-color: rgb(57, 185, 57);
+    border-radius: 50%;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 3px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }

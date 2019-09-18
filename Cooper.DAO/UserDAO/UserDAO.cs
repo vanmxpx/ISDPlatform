@@ -171,7 +171,34 @@ namespace Cooper.DAO
 
             return users;
         }
-        
+
+        public IList<UserDb> GetUsersById(IList<long> usersId)
+        {
+            var whereFiter = new WhereRequest(idColumn, Operators.Equal, usersId[0].ToString());
+
+            for (int i = 1; i < usersId.Count; i++)
+            {
+                whereFiter = whereFiter.Or(idColumn, Operators.Equal, usersId[i].ToString());
+            }
+
+            IList<UserDb> users = null;
+
+            IList<EntityORM> entities = crud.Read(table, attributes, whereFiter) as List<EntityORM>;
+
+            if (entities != null)
+            {
+                users = new List<UserDb>(capacity: entities.Count);
+                foreach (EntityORM entity in entities)             
+                {
+                    EntityMapping.Map(entity, out UserDb user);
+                    users.Add(user);
+                }
+            }
+
+            return users;
+
+        }
+
         #region Interop properties info reading
         private List<long> GetConnectionsList(long id)
         {
@@ -275,7 +302,7 @@ namespace Cooper.DAO
             EntityORM entity = new EntityORM();
             entity.attributeValue.Add(DbTools.GetVariableAttribute("PHOTOURL"), $"'{url}'");
 
-            bool ifUpdated = crud.Update(table, entity, new DbTools.WhereRequest[] { new DbTools.WhereRequest(idColumn, DbTools.RequestOperator.Equal, userId) });
+            bool ifUpdated = crud.Update(table, entity, new WhereRequest(idColumn, Operators.Equal, userId.ToString()));
 
             if (ifUpdated)
             {

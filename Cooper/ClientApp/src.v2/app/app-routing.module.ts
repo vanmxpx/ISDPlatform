@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {AuthGuard, ExitGuard} from '@guards';
 import {LoginLayoutComponent, RegistrationLayoutComponent, PlatformLayoutComponent,
-  PageNotFoundLayoutComponent, GameLayoutComponent, GamesLayoutComponent, ProfileLayoutComponent, HomeLayoutComponent} from '@layouts';
+  PageNotFoundLayoutComponent, GameLayoutComponent, GamesLayoutComponent, ProfileLayoutComponent,
+   HomeLayoutComponent, PersonalChatsLayoutComponent} from '@layouts';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -14,6 +15,7 @@ const routes: Routes = [
     {path: 'games/:link', component: GameLayoutComponent, canDeactivate: [ExitGuard]},
     {path: 'profile/:nickname', component: ProfileLayoutComponent},
     {path: 'home', component: HomeLayoutComponent},
+    {path: 'chats', component: PersonalChatsLayoutComponent}
   ]},
   {path: '**', component: PageNotFoundLayoutComponent}
 ];

@@ -1,0 +1,73 @@
+<div class="chat-box-container" *ngIf="chat || newMessageBlockOpened">
+  <div class="nick-entering-container" *ngIf="newMessageBlockOpened">
+    <div class="nick-input-container">
+      {{'CHATS.CHAT-BOX.RECEIVER'|translate}}:
+      <input [(ngModel)]="username" type="text" placeholder="{{'CHATS.CHAT-BOX.NICKNAME-INPUT'|translate}}" class="input"/>
+    </div>
+    <div class="empty-block">
+        <mat-error *ngIf="emptyNicknameFieldError">{{'CHATS.CHAT-BOX.ERROR.EMPTY-NICKNAME'|translate}}</mat-error>
+        <mat-error *ngIf="emptyMessageFieldError">{{'CHATS.CHAT-BOX.ERROR.EMPTY-MESSAGE-BLOCK'|translate}}</mat-error>
+        <mat-error *ngIf="userNotFoundError">{{'CHATS.CHAT-BOX.ERROR.USER-NOT-FOUND'|translate}}</mat-error>
+    </div>
+  </div>
+
+  
+  <div class="companion-panel" *ngIf="!newMessageBlockOpened && chat">
+      <div>
+          <img src={{chat.photoURL}} onError="this.src='assets/imageKeeper/robot.png'"  class="companion-image">
+      </div>
+
+      <div class="companion-name">
+        <span>{{chat.chatName}}</span>
+      </div>
+    </div>
+
+  <div class="messages-list-container" *ngIf="!newMessageBlockOpened">
+
+    <mat-list id="chatList" class = "chat-list" *ngIf="chat">
+      <mat-list-item role="listitem" *ngFor="let message of chat.messages" class = "message">
+        
+        <div class="message-avatar-container">
+          <img matListAvatar onError="this.src='assets/imageKeeper/robot.png'" src={{getSenderAvatar(message)}} class="message-avatar">
+        </div>
+
+        <mat-card class="message-text" >   
+          <div class = "message-header">
+            <mat-card-title class = "sender"><b>{{getSenderNickname(message)}}</b></mat-card-title>
+
+            <mat-card-title class="message-date">{{message.createDate | messageTime}}</mat-card-title>
+          </div>    
+          
+          <mat-card-title class = "message-content">
+            {{message.content}}
+          </mat-card-title>
+                {{dike}}
+        </mat-card>
+
+      </mat-list-item>
+
+    </mat-list>
+  </div>
+  
+    <div class="new-message-container">
+
+      <div class="input-container">
+        <textarea [(ngModel)]="messageContent" placeholder="{{'CHATS.CHAT-BOX.MESSAGE-INPUT'|translate}}"
+          class="text-area" (keyup.enter)="createMessage()"></textarea>
+      </div>
+
+      <div class="send-button-container">
+        <button class="send-button" mat-icon-button type="text" (click) = "createMessage()" required>
+          {{'CHATS.CHAT-BOX.SEND-BUTTON'|translate}}
+        </button>
+      </div>
+
+    </div>
+
+</div>
+
+<div class="non-opened-chat" *ngIf="!chat && !newMessageBlockOpened">
+  <div>
+    <span>{{'CHATS.CHAT-BOX.SELECT-CHAT-TIP'|translate}}</span>
+  </div>
+</div>

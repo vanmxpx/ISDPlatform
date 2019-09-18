@@ -21,5 +21,10 @@ export { GameCardComponent } from './game-card/game-card.component';
 export { GameListItemComponent } from './game-list-item/game-list-item.component';
 
 export {AvatarCardComponent} from './avatar-card/avatar-card.component';
-
 export {UploadComponent} from './upload-form/upload-form.component';
+
+export {ChatsListComponent} from './chats-list/chats-list.component';
+
+export {ChatBoxComponent} from './chat-box/chat-box.component';
+
+export { MessagePanelComponent } from './message-panel/message-panel.component';

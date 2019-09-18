@@ -360,14 +360,7 @@ namespace Cooper.DAO
 
             command.ExecuteNonQuery();
         }
-
-        /// <summary>
-        ///  Gets the record which satisfy sql-expression with WHERE keyword. In the other way returns null.
-        /// </summary>
-        /// <param name="table"></param>
-        /// <param name="attributes"></param>
-        /// <param name="where_attributes"></param>
-        /// <returns></returns>
+        
         private EntityORM Get(string table, HashSet<string> attributes, WhereRequest whereRequest, OracleTransaction transaction)
         {
             EntityORM entity = null;

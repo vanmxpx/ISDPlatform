@@ -4,15 +4,11 @@ namespace Cooper.Models
 {
     public class Chat : Entity
     {
-        #region Main attributes
         public string ChatName { get; set; }
-        #endregion
+        public string PhotoURL { get; set; }
+        public int UnreadMessagesAmount { get;set; }
 
-        #region Interop attributes
-
-        public List<User> UsersList { get; set; }
-        public List<Message> MessagesList { get; set; }
-
-        #endregion
+        public IList<User> Participants { get; set; }
+        public IList<Message> Messages { get; set; }
     }
 }
