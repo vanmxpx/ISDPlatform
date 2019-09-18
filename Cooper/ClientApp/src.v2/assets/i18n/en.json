@@ -69,6 +69,14 @@
         "SUBSCRIBERS": "Subscribers",
         "SUBSCRIPTIONS": "Subscriptions",
         "GAMES": "Games"	
+    },
+    "NOT-FOUND-PAGE": {
+        "TEXT": "Page not found.",
+        "LINK-TEXT": "Go to the home page."
+    },
+    "HOME-PAGE": {
+        "TEXT": "Home page hasn't been implemented yet.",
+        "LINK-TEXT": "Go to my page"
     }
 }
 
