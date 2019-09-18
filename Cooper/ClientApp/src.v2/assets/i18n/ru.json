@@ -8,6 +8,17 @@
         "PLACEHOLDER-NICKNAME": "Введите свой ник"
     },
 
+    "REGISTRATION-FORM" : {
+        "TITLE": "Регистрация",
+        "TEXT-HELP": "также Вы можете",
+        "TEXT-HELP-BR": "с помощью:",
+        "LINK-TO-SIGN-IN": "войти",
+        "PLACEHOLDER-EMAIL": "Введите ваш e-mail адрес",
+        "PLACEHOLDER-NICKNAME": "Введите свой ник",
+        "PLACEHOLDER-PASSWORD": "Введите свой пароль",
+        "PLACEHOLDER-REPEAT-PASSWORD": "Повторите ввод пароля"
+    },
+
     "TOP-PANEL" : {
         "HOME": "Главная",
         "GAMES": "Игры",
@@ -47,5 +58,16 @@
             },
             "SELECT-CHAT-TIP": "Пожалуйста, выберите переписку для общения"
         }
+    },
+    "PROFILE": {
+        "NAME": "Имя",
+        "EMAIL": "Электронная почта",
+        "BIO": "О себе",
+        "EDIT-BUTTON": "Редактировать профиль",
+        "SAVE-BUTTON": "Сохранить профиль",
+        "FRIENDS": "Друзья",
+        "SUBSCRIBERS": "Подписчики",
+        "SUBSCRIPTIONS": "Подписки",
+        "GAMES": "Игры"
     }
 }

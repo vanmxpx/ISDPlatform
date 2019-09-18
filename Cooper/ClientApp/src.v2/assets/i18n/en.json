@@ -8,6 +8,17 @@
         "PLACEHOLDER-NICKNAME": "Enter your nickname"
     },
 
+    "REGISTRATION-FORM" : {
+        "TITLE": "Sign Up",
+        "TEXT-HELP": "also you can",
+        "TEXT-HELP-BR": "by:",
+        "LINK-TO-SIGN-IN": "Sign in",
+        "PLACEHOLDER-EMAIL": "Enter your email",
+        "PLACEHOLDER-NICKNAME": "Enter your nickname",
+        "PLACEHOLDER-PASSWORD": "Enter your password",
+        "PLACEHOLDER-REPEAT-PASSWORD": "Repeat your password"
+    },
+
     "TOP-PANEL" : {
         "HOME": "Home",
         "GAMES": "Games",
@@ -47,6 +58,17 @@
             },
             "SELECT-CHAT-TIP": "Please select a chat to start messaging"
         }
+    },
+    "PROFILE": {
+        "NAME": "Name",
+        "EMAIL": "E-mail",
+        "BIO": "Bio",
+        "EDIT-BUTTON": "Edit profile",
+        "SAVE-BUTTON": "Save profile",
+        "FRIENDS": "Friends",
+        "SUBSCRIBERS": "Subscribers",
+        "SUBSCRIPTIONS": "Subscriptions",
+        "GAMES": "Games"	
     }
 }
 

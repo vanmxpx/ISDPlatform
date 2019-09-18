@@ -4,7 +4,7 @@
         <mat-tab-group mat-stretch-tabs>
           <mat-tab>  
             <ng-template mat-tab-label>
-              <span matBadge="{{friendsAmount}}" matBadgeOverlap="false">Friends</span>
+              <span matBadge="{{friendsAmount}}" matBadgeOverlap="false">{{'PROFILE.FRIENDS'|translate}}</span>
             </ng-template>
             <mat-card-content >
               <mat-action-list class = "user-interaction-list">
@@ -18,7 +18,7 @@
       
             <mat-tab>
                 <ng-template mat-tab-label>
-                  <span matBadge="{{subscribersAmount}}" matBadgeOverlap="false">Subscribers</span>
+                  <span matBadge="{{subscribersAmount}}" matBadgeOverlap="false">{{'PROFILE.SUBSCRIBERS'|translate}}</span>
                 </ng-template> 
                 <mat-card-content>
                   <mat-action-list class = "user-interaction-list">
@@ -32,7 +32,7 @@
 
           <mat-tab> 
             <ng-template mat-tab-label>
-              <span matBadge="{{subscriptionsAmount}}" matBadgeOverlap="false">Subscriptions</span>
+              <span matBadge="{{subscriptionsAmount}}" matBadgeOverlap="false">{{'PROFILE.SUBSCRIPTIONS'|translate}}</span>
             </ng-template>
             <mat-card-content>
               <mat-action-list class = "user-interaction-list">
