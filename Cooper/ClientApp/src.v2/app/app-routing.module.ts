@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {AuthGuard, ExitGuard} from '@guards';
 import {LoginLayoutComponent, RegistrationLayoutComponent, PlatformLayoutComponent,
   PageNotFoundLayoutComponent, GameLayoutComponent, GamesLayoutComponent, ProfileLayoutComponent,
-   HomeLayoutComponent, PersonalChatsLayoutComponent} from '@layouts';
+   HomeLayoutComponent, PersonalChatsLayoutComponent, GameLoadErrorLayoutComponent} from '@layouts';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -17,6 +17,7 @@ const routes: Routes = [
     {path: 'home', component: HomeLayoutComponent},
     {path: 'chats', component: PersonalChatsLayoutComponent}
   ]},
+  {path: 'proxy/:link', component: GameLoadErrorLayoutComponent},
   {path: '**', component: PageNotFoundLayoutComponent}
 ];
 

@@ -24,7 +24,7 @@ import {
   LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
   RegistrationLayoutComponent, PageNotFoundLayoutComponent, UploadLayoutComponent, HomeLayoutComponent,
-  PersonalChatsLayoutComponent } from '@layouts';
+  PersonalChatsLayoutComponent, GameLoadErrorLayoutComponent } from '@layouts';
 
 import {
   LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
@@ -35,7 +35,7 @@ import {
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatSelectModule } from '@angular/material/select';
-import { LanguageNamePipe } from '@pipes';
+import { LanguageNamePipe, GameLinkPipe } from '@pipes';
 import { MatDialogModule } from '@angular/material';
 import { MessageTimePipe } from './pipes/chat-pipes/message-time.pipe';
 import { MessageDateTimePipe } from './pipes/chat-pipes/message-date-time.pipe';
@@ -75,6 +75,7 @@ export function HttpLoaderFactory(http: HttpClient): any {
     HomeLayoutComponent,
     PersonalChatsLayoutComponent,
     SafePipe,
+    GameLoadErrorLayoutComponent,
 
     LoginFormComponent,
     RegistrationFormComponent,
@@ -95,7 +96,8 @@ export function HttpLoaderFactory(http: HttpClient): any {
   UploadComponent,
   UploadLayoutComponent,
   MessageTimePipe,
-  MessageDateTimePipe
+  MessageDateTimePipe,
+  GameLinkPipe,
 ],
   imports: [
     BrowserModule,

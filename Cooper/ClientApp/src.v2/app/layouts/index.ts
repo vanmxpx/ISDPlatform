@@ -18,3 +18,5 @@ export { HomeLayoutComponent } from './home/home.layout';
 export {PersonalChatsLayoutComponent} from './personal-chats/personal-chats.layout';
 
 export { UploadLayoutComponent } from './upload-form/upload-form.layout';
+
+export {GameLoadErrorLayoutComponent} from './game-load-error/game-load-error.layout';
