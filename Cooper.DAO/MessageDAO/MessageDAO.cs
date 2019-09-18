@@ -59,7 +59,7 @@ namespace Cooper.DAO
             bool areRead = crud.Update(
                 table,
                 new EntityORM() { attributeValue = { { "ISREAD", "\'y\'" } } },
-                new WhereRequest("ID", Operators.In, String.Join(',', messages)));
+                new WhereRequest("ID", Operators.In, messages.ToArray()));
             return areRead;
         }
         

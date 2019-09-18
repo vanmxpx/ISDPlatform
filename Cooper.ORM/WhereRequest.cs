@@ -19,6 +19,11 @@ namespace Cooper.ORM
             whereRequest.Append(GenerateStringForOperator(attributeName, op, attributeValues));
         }
 
+        public WhereRequest(string attributeName, Operators op, params long[] attributeValues)
+        {
+            whereRequest.Append(GenerateStringForOperator(attributeName, op, attributeValues));
+        }
+
         public WhereRequest(WhereRequest where)
         {
             whereRequest.Append($"({where.ToString()})");
@@ -48,7 +53,7 @@ namespace Cooper.ORM
             return this;
         }
 
-        private string GenerateStringForOperator(string attributeName, Operators op, params string[] attributeValues)
+        private string GenerateStringForOperator(string attributeName, Operators op, params object[] attributeValues)
         {
             var stringForOperator = new StringBuilder();
             stringForOperator.Append(attributeName);
