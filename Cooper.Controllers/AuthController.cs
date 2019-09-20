@@ -15,10 +15,14 @@ namespace Cooper.Controllers
         private readonly UserRepository userRepository;
         private readonly IConfigProvider configProvider;
         private readonly ISocialAuth socialAuth;
+        private readonly ISessionService sessionService;
 
-        public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider)
+        public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider,
+            ISessionService sessionService)
         {
             userRepository = new UserRepository(jwtService, configProvider);
+
+            this.sessionService = sessionService;
 
             this.configProvider = configProvider;
             this.socialAuth = socialAuth;

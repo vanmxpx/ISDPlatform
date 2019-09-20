@@ -14,25 +14,22 @@ namespace Cooper.DAO
 {
     public class UsersConnectionDAO : IUsersConnectionDAO
     {
-        private readonly DbConnect dbConnect;
-        private readonly OracleConnection Connection;
         private readonly Logger logger;
         private readonly ICRUD crud;
         private readonly IUserDAO userDAO;
-        private OracleTransaction transaction = null;
+        private readonly ISessionService sessionService;
 
         private string idColumn;
         private string table;
         private HashSet<string> attributes;
 
-        public UsersConnectionDAO(IConfigProvider configProvider)
+        public UsersConnectionDAO(IConfigProvider configProvider, ISessionService sessionService)
         {
             crud = new CRUD(configProvider);
-            dbConnect = new DbConnect(configProvider);
-            Connection = dbConnect.GetConnection();
             logger = LogManager.GetLogger("CooperLoger");
-
             userDAO = new UserDAO(configProvider);
+
+            this.sessionService = sessionService;
 
             table = "USERSCONNECTIONS";
             idColumn = "ID";
@@ -99,7 +96,7 @@ namespace Cooper.DAO
                     break;                    
             }
             
-            List<EntityORM> userConnections = (List<EntityORM>)crud.Read(table, attributes, whereRequest);
+            List<EntityORM> userConnections = (List<EntityORM>)Read(table, attributes, whereRequest);
 
             if (userConnections != null)
             {
@@ -124,11 +121,7 @@ namespace Cooper.DAO
             try
             {
 
-                Connection.Open();
-                transaction = Connection.BeginTransaction();
-
-
-                if (ConnectionExists(usersConnection, transaction))
+                if (ConnectionExists(usersConnection))
                     return false;
 
                 UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
@@ -136,7 +129,7 @@ namespace Cooper.DAO
                 var whereRequest = new WhereRequest("IDUSER1", Operators.Equal, symmetricConnection.IdUser1.ToString())
                     .And("IDUSER2", Operators.Equal, symmetricConnection.IdUser2.ToString());
 
-                EntityORM entity = Get(table, attributes, whereRequest, transaction);
+                EntityORM entity = Get(table, attributes, whereRequest);
 
                 if (entity != null)
                 {
@@ -154,7 +147,7 @@ namespace Cooper.DAO
                     // Making sure that ID value is not touched.
                     symmetricConnection_newTyped.attributeValue.Remove("ID");
 
-                    Update(table, attributes, whereRequest, symmetricConnection_newTyped, transaction);
+                    Update(table, attributes, whereRequest, symmetricConnection_newTyped);
 
                     usersConnection.AreFriends = true;
                 }
@@ -167,33 +160,24 @@ namespace Cooper.DAO
                 // Making sure that ID value is not touched.
                 usersConnection_newTyped.attributeValue.Remove("ID");
 
-                Create(table, usersConnection_newTyped, transaction);
-
-                transaction.Commit();
+                Create(table, usersConnection_newTyped);
             }
             catch (DbException ex)
             {
                 logger.Info("Creating subscription user with id={1} on user with id={0} failed: {2}", usersConnection.IdUser1, usersConnection.IdUser2, ex.Message);
 
-                if (transaction != null)
-                {
-                    transaction.Rollback();
-                }
-            }
-            finally
-            {
-                Connection.Close();
+                isCreated = false;
             }
 
             return isCreated;
         }
 
-        private bool ConnectionExists(UsersConnectionDb usersConnection, OracleTransaction transaction)
+        private bool ConnectionExists(UsersConnectionDb usersConnection)
         {
             var  whereRequest = new WhereRequest("IDUSER1", Operators.Equal, usersConnection.IdUser1.ToString())
                 .And("IDUSER2", Operators.Equal, usersConnection.IdUser2.ToString());
 
-            EntityORM usersConnection_newTyped = Get(table, attributes, whereRequest, transaction);
+            EntityORM usersConnection_newTyped = Get(table, attributes, whereRequest);
 
             return usersConnection_newTyped != null;
         }
@@ -206,18 +190,16 @@ namespace Cooper.DAO
 
             try
             {
-                Connection.Open();
-                transaction = Connection.BeginTransaction();
 
                 UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
 
                 var whereRequest = new WhereRequest("IDUSER1", Operators.Equal, symmetricConnection.IdUser1.ToString())
                     .And("IDUSER2", Operators.Equal, symmetricConnection.IdUser2.ToString());
 
-                if (ConnectionExists(symmetricConnection, transaction))
+                if (ConnectionExists(symmetricConnection))
                 {
                     isUnsubscribed = true;
-                    Delete(table, whereRequest, transaction);
+                    Delete(table, whereRequest);
                 }
 
                 whereRequest = new WhereRequest("IDUSER1", Operators.Equal, usersConnection.IdUser1.ToString())
@@ -228,20 +210,19 @@ namespace Cooper.DAO
                 // Making sure that ID value is not touched.
                 usersConnection_newTyped.attributeValue.Remove("ID");
 
-                if (ConnectionExists(usersConnection, transaction))
+                if (ConnectionExists(usersConnection))
                 {
                     if (isUnsubscribed)
                     {
                         usersConnection.AreFriends = false;
                     }
 
-                    Update(table, attributes, whereRequest, usersConnection_newTyped, transaction);
+                    Update(table, attributes, whereRequest, usersConnection_newTyped);
                 }
                 else
                 {
-                    Create(table, usersConnection_newTyped, transaction);
+                    Create(table, usersConnection_newTyped);
                 }
-                transaction.Commit();
 
             }
             catch (DbException ex)
@@ -249,15 +230,6 @@ namespace Cooper.DAO
                 logger.Info("Banning user with id={1} by user with id={0} failed: {2}", usersConnection.IdUser1, usersConnection.IdUser2, ex.Message);
                 
                 isBanned = false;
-
-                if (transaction != null)
-                {
-                    transaction.Rollback();
-                }
-            }
-            finally
-            {
-                Connection.Close();
             }
 
             return isBanned;
@@ -272,20 +244,12 @@ namespace Cooper.DAO
 
             try
             {
-                Connection.Open();
-                transaction = Connection.BeginTransaction();
-
-                Delete(table, whereRequest, transaction);
-                transaction.Commit();
+                Delete(table, whereRequest);
             }
             catch (DbException ex)
             {
                 logger.Info("Unbanning user with id={1} by user with id={0} failed: {2}", usersConnection.IdUser1, usersConnection.IdUser2, ex.Message);
                 isUnbanned = false;
-            }
-            finally
-            {
-                Connection.Close();
             }
 
 
@@ -298,17 +262,15 @@ namespace Cooper.DAO
             
             try
             {
-                Connection.Open();
-                transaction = Connection.BeginTransaction();
 
                 var whereRequest = new WhereRequest("IDUSER1", Operators.Equal, usersConnection.IdUser1.ToString())
                     .And("IDUSER2", Operators.Equal, usersConnection.IdUser2.ToString());
 
-                Delete(table, whereRequest, transaction);
+                Delete(table, whereRequest);
 
                 UsersConnectionDb symmetricConnection = new UsersConnectionDb() { IdUser1 = usersConnection.IdUser2, IdUser2 = usersConnection.IdUser1 };
 
-                if (ConnectionExists(symmetricConnection, transaction))
+                if (ConnectionExists(symmetricConnection))
                 {
                     whereRequest = new WhereRequest("IDUSER1", Operators.Equal, symmetricConnection.IdUser1.ToString())
                         .And("IDUSER2", Operators.Equal, symmetricConnection.IdUser2.ToString());
@@ -320,10 +282,9 @@ namespace Cooper.DAO
                     // Making sure that ID value is not touched.
                     symmetricConnection_newTyped.attributeValue.Remove("ID");
 
-                    Update(table, attributes, whereRequest, symmetricConnection_newTyped, transaction);
+                    Update(table, attributes, whereRequest, symmetricConnection_newTyped);
                 }
-
-                transaction.Commit();
+                
                 logger.Info($"User with id={usersConnection.IdUser1} has succesfully unsubscribed from user with id={usersConnection.IdUser2}");
             }
             catch (DbException ex)
@@ -331,21 +292,12 @@ namespace Cooper.DAO
                 logger.Info("Unsubcription user with id={0} from user with id={1} failed: {2}", usersConnection.IdUser1, usersConnection.IdUser2, ex.Message);
 
                 isUnsubscribed = false;
-
-                if (transaction != null)
-                {
-                    transaction.Rollback();
-                }
-            }
-            finally
-            {
-                Connection.Close();
             }
 
             return isUnsubscribed;
         }
 
-        public void Create(string table, EntityORM entity, OracleTransaction transaction)
+        public void Create(string table, EntityORM entity)
         {
 
             #region Creating SQL expression text
@@ -354,21 +306,21 @@ namespace Cooper.DAO
                 String.Join(",", entity.attributeValue.Keys),
                 String.Join(",", entity.attributeValue.Values));
             #endregion
-            
-            OracleCommand command = new OracleCommand(sqlExpression, Connection);
-            command.Transaction = transaction;
+
+            OracleCommand command = new OracleCommand(sqlExpression, (OracleConnection)sessionService.GetConnection());
+            command.Transaction = (OracleTransaction)sessionService.GetTransaction();
 
             command.ExecuteNonQuery();
         }
         
-        private EntityORM Get(string table, HashSet<string> attributes, WhereRequest whereRequest, OracleTransaction transaction)
+        private EntityORM Get(string table, HashSet<string> attributes, WhereRequest whereRequest)
         {
             EntityORM entity = null;
             
             string sqlExpression = DbTools.CreateSelectQuery(table, attributes, whereRequest);
 
-            OracleCommand command = new OracleCommand(sqlExpression, Connection);
-            command.Transaction = transaction;
+            OracleCommand command = new OracleCommand(sqlExpression, (OracleConnection)sessionService.GetConnection());
+            command.Transaction = (OracleTransaction)sessionService.GetTransaction();
 
             OracleDataReader reader = command.ExecuteReader();
 
@@ -386,24 +338,53 @@ namespace Cooper.DAO
             return entity;
         }
 
-        private void Delete(string table, WhereRequest whereRequest, OracleTransaction transaction)
+        private void Delete(string table, WhereRequest whereRequest)
         {
             string sqlExpression = DbTools.CreateDeleteQuery(table, whereRequest);
             
 
-            OracleCommand command = new OracleCommand(sqlExpression, Connection);
-            command.Transaction = transaction;
+            OracleCommand command = new OracleCommand(sqlExpression, (OracleConnection)sessionService.GetConnection());
+            command.Transaction = (OracleTransaction)sessionService.GetTransaction();
             command.ExecuteNonQuery();
         }
 
-        private void Update(string table, HashSet<string> attributes, WhereRequest whereRequest, EntityORM entity, OracleTransaction transaction)
+        private void Update(string table, HashSet<string> attributes, WhereRequest whereRequest, EntityORM entity)
         {
             string sqlExpression = DbTools.CreateUpdateQuery(table, entity, whereRequest);
             
-            var oracleCommand = new OracleCommand(sqlExpression, Connection);
-            oracleCommand.Transaction = transaction;
+            var oracleCommand = new OracleCommand(sqlExpression, (OracleConnection)sessionService.GetConnection());
+            oracleCommand.Transaction = (OracleTransaction)sessionService.GetTransaction();
 
             oracleCommand.ExecuteNonQuery();
+        }
+
+        public IEnumerable<EntityORM> Read(string table, HashSet<string> attributes, WhereRequest whereRequest = null)
+        {
+            List<EntityORM> entities = new List<EntityORM>();
+            try
+            {
+                string sqlExpression = DbTools.CreateSelectQuery(table, attributes, whereRequest);
+                
+                OracleCommand command = new OracleCommand(sqlExpression, (OracleConnection)sessionService.GetConnection());
+
+                OracleDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    EntityORM entity = new EntityORM();
+                    foreach (string attribute in attributes)
+                    {
+                        entity.attributeValue.Add(DbTools.GetVariableAttribute(attribute), reader[attribute]);
+                    }
+
+                    entities.Add(entity);
+                }
+            }
+            catch (DbException ex)
+            {
+                logger.Info("Exception.Message: {0}", ex.Message);
+            }
+
+            return entities;
         }
 
     }
