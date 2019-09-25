@@ -4,13 +4,16 @@ using System.Text;
 using System.Data;
 using Cooper.Services.Interfaces;
 using Oracle.ManagedDataAccess.Client;
+using System.Threading;
 
 namespace Cooper.Services
 {
     public class OracleSessionFactory : ISessionFactory, IOracleSessionFactory
     {
         private const int defaultConnectionsAmount = 10;
+        private const int maxConnectionsAmount = 100;
         private readonly IConfigProvider configProvider;
+        private int connectionsAmount = defaultConnectionsAmount;
         private Queue<ISession> sessions;
 
         public OracleSessionFactory(IConfigProvider configProvider)
@@ -30,7 +33,19 @@ namespace Cooper.Services
 
             if (!sessions.TryDequeue(out session))
             {
-                session = new OracleSession(configProvider, this);
+                if (connectionsAmount < maxConnectionsAmount)
+                {
+                    session = new OracleSession(configProvider, this);
+                    connectionsAmount++;
+                }
+                else
+                {
+                    Thread.Sleep(10);
+                    while (sessions.Count > 0)
+                    {
+                        return FactoryMethod();
+                    }
+                }
             }
 
             return session;
