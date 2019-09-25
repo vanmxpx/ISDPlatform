@@ -6,11 +6,11 @@ using Cooper.Services.Interfaces;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class SessionServiceExtension
+    public static class OracleFactoryExtension
     {
-        public static void AddDatabaseSessionService(this IServiceCollection services)
+        public static void AddOracleSessionFactory(this IServiceCollection services)
         {
-            services.AddScoped<ISessionService, OracleSessionService>();
+            services.AddSingleton<ISessionFactory, OracleSessionFactory>();
         }
     }
 }

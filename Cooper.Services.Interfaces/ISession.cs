@@ -5,12 +5,11 @@ using System.Data;
 
 namespace Cooper.Services.Interfaces
 {
-    public interface ISessionService
+    public interface ISession
     {
         void StartSession();
-        void EndSession();
-        void Commit();
-        void Rollback();
+        void Commit(bool endSession);
+        void Rollback(bool endSession);
         IDbTransaction GetTransaction();
         IDbConnection GetConnection();
     }

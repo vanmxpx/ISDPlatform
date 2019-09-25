@@ -17,19 +17,23 @@ namespace Cooper.DAO
         private readonly Logger logger;
         private readonly ICRUD crud;
         private readonly IUserDAO userDAO;
-        private readonly ISessionService sessionService;
+        private readonly ISession session;
 
         private string idColumn;
         private string table;
         private HashSet<string> attributes;
 
-        public UsersConnectionDAO(IConfigProvider configProvider, ISessionService sessionService)
+        private readonly OracleConnection oracleConnection;
+
+        public UsersConnectionDAO(IConfigProvider configProvider, ISession session)
         {
             crud = new CRUD(configProvider);
             logger = LogManager.GetLogger("CooperLoger");
             userDAO = new UserDAO(configProvider);
 
-            this.sessionService = sessionService;
+            oracleConnection = (OracleConnection)session.GetConnection();
+
+            this.session = session;
 
             table = "USERSCONNECTIONS";
             idColumn = "ID";
@@ -95,20 +99,34 @@ namespace Cooper.DAO
                 default:
                     break;                    
             }
-            
-            List<EntityORM> userConnections = (List<EntityORM>)Read(table, attributes, whereRequest);
 
-            if (userConnections != null)
+            try
             {
-                usersList = new List<UserDb>();
+                oracleConnection.Open();
 
-                foreach (var usersConnection in userConnections)
+
+                List<EntityORM> userConnections = (List<EntityORM>)Read(table, attributes, whereRequest);
+                if (userConnections != null)
                 {
-                    long relatedUserId = Convert.ToInt64(usersConnection.attributeValue[user2_attribute]);
-                    UserDb user = userDAO.Get(relatedUserId);
+                    usersList = new List<UserDb>();
 
-                    usersList.Add(user);
+                    foreach (var usersConnection in userConnections)
+                    {
+                        long relatedUserId = Convert.ToInt64(usersConnection.attributeValue[user2_attribute]);
+                        UserDb user = userDAO.Get(relatedUserId);
+
+                        usersList.Add(user);
+                    }
                 }
+            }
+            catch (DbException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+
+                oracleConnection.Close();
             }
 
             return usersList;
@@ -307,8 +325,8 @@ namespace Cooper.DAO
                 String.Join(",", entity.attributeValue.Values));
             #endregion
 
-            OracleCommand command = new OracleCommand(sqlExpression, (OracleConnection)sessionService.GetConnection());
-            command.Transaction = (OracleTransaction)sessionService.GetTransaction();
+            OracleCommand command = new OracleCommand(sqlExpression, (OracleConnection)session.GetConnection());
+            command.Transaction = (OracleTransaction)session.GetTransaction();
 
             command.ExecuteNonQuery();
         }
@@ -319,8 +337,8 @@ namespace Cooper.DAO
             
             string sqlExpression = DbTools.CreateSelectQuery(table, attributes, whereRequest);
 
-            OracleCommand command = new OracleCommand(sqlExpression, (OracleConnection)sessionService.GetConnection());
-            command.Transaction = (OracleTransaction)sessionService.GetTransaction();
+            OracleCommand command = new OracleCommand(sqlExpression, (OracleConnection)session.GetConnection());
+            command.Transaction = (OracleTransaction)session.GetTransaction();
 
             OracleDataReader reader = command.ExecuteReader();
 
@@ -343,8 +361,8 @@ namespace Cooper.DAO
             string sqlExpression = DbTools.CreateDeleteQuery(table, whereRequest);
             
 
-            OracleCommand command = new OracleCommand(sqlExpression, (OracleConnection)sessionService.GetConnection());
-            command.Transaction = (OracleTransaction)sessionService.GetTransaction();
+            OracleCommand command = new OracleCommand(sqlExpression, (OracleConnection)session.GetConnection());
+            command.Transaction = (OracleTransaction)session.GetTransaction();
             command.ExecuteNonQuery();
         }
 
@@ -352,8 +370,8 @@ namespace Cooper.DAO
         {
             string sqlExpression = DbTools.CreateUpdateQuery(table, entity, whereRequest);
             
-            var oracleCommand = new OracleCommand(sqlExpression, (OracleConnection)sessionService.GetConnection());
-            oracleCommand.Transaction = (OracleTransaction)sessionService.GetTransaction();
+            var oracleCommand = new OracleCommand(sqlExpression, (OracleConnection)session.GetConnection());
+            oracleCommand.Transaction = (OracleTransaction)session.GetTransaction();
 
             oracleCommand.ExecuteNonQuery();
         }
@@ -365,7 +383,7 @@ namespace Cooper.DAO
             {
                 string sqlExpression = DbTools.CreateSelectQuery(table, attributes, whereRequest);
                 
-                OracleCommand command = new OracleCommand(sqlExpression, (OracleConnection)sessionService.GetConnection());
+                OracleCommand command = new OracleCommand(sqlExpression, oracleConnection);
 
                 OracleDataReader reader = command.ExecuteReader();
                 while (reader.Read())

@@ -15,9 +15,9 @@ namespace Cooper.Repositories
         private readonly IUsersConnectionDAO userConnectionsDAO;
         private readonly ModelsMapper mapper;
 
-        public UsersConnectionRepository(IConfigProvider configProvider, ISessionService sessionService)
+        public UsersConnectionRepository(IConfigProvider configProvider, ISession session)
         {
-            userConnectionsDAO = new UsersConnectionDAO(configProvider, sessionService);
+            userConnectionsDAO = new UsersConnectionDAO(configProvider, session);
             mapper = new ModelsMapper();
         }
         public List<User> GetSpecifiedTypeUsersList(long userId, ConnectionType specifiedType)

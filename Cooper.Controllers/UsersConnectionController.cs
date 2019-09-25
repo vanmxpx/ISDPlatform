@@ -15,15 +15,15 @@ namespace Cooper.Controllers
     {
         private readonly IUsersConnectionRepository userConnectionsRepository;
         private readonly IUsersConnectionService userConnectionService;
-        private readonly ISessionService sessionService;
+        private readonly ISession session;
 
         public UsersConnectionController(IConfigProvider configProvider, IUsersConnectionService userConnectionService,
-            ISessionService sessionService)
+            ISessionFactory sessionFactory)
         {
-            userConnectionsRepository = new UsersConnectionRepository(configProvider, sessionService);
-            this.userConnectionService = userConnectionService;
+            session = sessionFactory.FactoryMethod();
 
-            this.sessionService = sessionService;
+            userConnectionsRepository = new UsersConnectionRepository(configProvider, session);
+            this.userConnectionService = userConnectionService;
         }
 
         [HttpGet("blacklist"), Authorize]
@@ -45,9 +45,8 @@ namespace Cooper.Controllers
         [ProducesResponseType(404)]
         public IActionResult GetUserSubscribersList(long userId)
         {
-            sessionService.StartSession();
             List<User> subscribersList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Subscribers);
-            sessionService.EndSession();
+            
             return Ok(subscribersList);
         }
 
@@ -56,10 +55,8 @@ namespace Cooper.Controllers
         [ProducesResponseType(404)]
         public IActionResult GetUserSubscriptionsList(long userId)
         {
-            sessionService.StartSession();
             List<User> subscriptionsList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Subscriptions);
-            sessionService.EndSession();
-
+            
             return Ok(subscriptionsList);
         }
 
@@ -68,9 +65,7 @@ namespace Cooper.Controllers
         [ProducesResponseType(404)]
         public IActionResult GetUserFriendsList(long userId)
         {
-            sessionService.StartSession();
             List<User> friendsList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Friends);
-            sessionService.EndSession();
 
             return Ok(friendsList);
         }
@@ -94,20 +89,18 @@ namespace Cooper.Controllers
                 return BadRequest();
             }
 
-            sessionService.StartSession();
+            session.StartSession();
 
             bool isSubscribed = userConnectionsRepository.CreateSubscription(usersConnection);
 
             if (isSubscribed)
             {
-                sessionService.Commit();
+                session.Commit(endSession: true);
             }
             else
             {
-                sessionService.Rollback();
+                session.Rollback(endSession: true);
             }
-
-            sessionService.EndSession();
 
             return Ok(isSubscribed);
         }
@@ -130,21 +123,19 @@ namespace Cooper.Controllers
             {
                 return BadRequest();
             }
-
-            sessionService.StartSession();
+            
+            session.StartSession();
 
             bool isBanned = userConnectionsRepository.BanUser(usersConnection);
             
             if (isBanned)
             {
-                sessionService.Commit();
+                session.Commit(endSession: true);
             }
             else
             {
-                sessionService.Rollback();
+                session.Rollback(endSession: true);
             }
-
-            sessionService.EndSession();
 
             return Ok(isBanned);
         }
@@ -166,20 +157,18 @@ namespace Cooper.Controllers
                 return BadRequest();
             }
 
-            sessionService.StartSession();
+            session.StartSession();
 
             bool isUnbanned = userConnectionsRepository.UnbanUser(usersConnection);
             
             if (isUnbanned)
             {
-                sessionService.Commit();
+                session.Commit(endSession: true);
             }
             else
             {
-                sessionService.Rollback();
+                session.Rollback(endSession: true);
             }
-
-            sessionService.EndSession();
 
             return Ok(isUnbanned);
         }
@@ -196,18 +185,18 @@ namespace Cooper.Controllers
                 return BadRequest();
             }
 
+            session.StartSession();
+
             bool isUnsubscribed = userConnectionsRepository.Unsubscribe(usersConnection);
 
             if (isUnsubscribed)
             {
-                sessionService.Commit();
+                session.Commit(endSession: true);
             }
             else
             {
-                sessionService.Rollback();
+                session.Rollback(endSession: true);
             }
-
-            sessionService.EndSession();
 
 
             return Ok(isUnsubscribed);

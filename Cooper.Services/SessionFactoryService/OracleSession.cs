@@ -7,15 +7,18 @@ using Cooper.Services.Interfaces;
 
 namespace Cooper.Services
 {
-    public class OracleSessionService : ISessionService
+    public class OracleSession : ISession
     {
-        readonly OracleConnection connection;
-        OracleTransaction transaction;
+        private readonly OracleConnection connection;
+        private OracleTransaction transaction;
+        private IOracleSessionFactory sessionFactory;
 
-        public OracleSessionService(IConfigProvider configProvider)
+        public OracleSession(IConfigProvider configProvider, IOracleSessionFactory sessionFactory)
         {
             string connectionString = configProvider.ConnectionStrings.LocalDatabase;
             connection = new OracleConnection(connectionString);
+
+            this.sessionFactory = sessionFactory;
         }
 
         public void StartSession()
@@ -23,17 +26,28 @@ namespace Cooper.Services
             connection.Open();
             transaction = connection.BeginTransaction();
         }
-        public void EndSession()
+        private void EndSession()
         {
             connection.Close();
+            sessionFactory.ReturnSession(this);
         }
-        public void Commit()
+        public void Commit(bool endSession)
         {
             transaction.Commit();
+
+            if (endSession)
+            {
+                EndSession();
+            }
         }
-        public void Rollback()
+        public void Rollback(bool endSession)
         {
             transaction.Rollback();
+
+            if (endSession)
+            {
+                EndSession();
+            }
         }
         public IDbTransaction GetTransaction()
         {

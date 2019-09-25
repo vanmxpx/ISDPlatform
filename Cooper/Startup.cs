@@ -69,7 +69,7 @@ namespace Cooper
                 c.IncludeXmlComments(xmlPath);
             });
 
-            services.AddDatabaseSessionService();
+            services.AddOracleSessionFactory();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
