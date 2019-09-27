@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Text;
 using System.Data;
 using Cooper.Services.Interfaces;
@@ -14,12 +15,12 @@ namespace Cooper.Services
         private const int maxConnectionsAmount = 100;
         private readonly IConfigProvider configProvider;
         private int connectionsAmount = defaultConnectionsAmount;
-        private Queue<ISession> sessions;
+        private ConcurrentQueue<ISession> sessions;
 
         public OracleSessionFactory(IConfigProvider configProvider)
         {
             this.configProvider = configProvider;
-            sessions = new Queue<ISession>();
+            sessions = new ConcurrentQueue<ISession>();
 
             for (int i = 0; i < defaultConnectionsAmount; i++)
             {
@@ -40,11 +41,11 @@ namespace Cooper.Services
                 }
                 else
                 {
-                    Thread.Sleep(10);
-                    while (sessions.Count > 0)
+                    while (sessions.Count == 0)
                     {
-                        return FactoryMethod();
+                        Thread.Sleep(100);
                     }
+                    return FactoryMethod();
                 }
             }
 
