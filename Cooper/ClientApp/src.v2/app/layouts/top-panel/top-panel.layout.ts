@@ -17,7 +17,7 @@ export class TopPanelLayoutComponent {
   public navigationItems: CoopNavBarItem[] = [
     {label: 'TOP-PANEL.HOME', link: '/platform/home'},
     {label: 'TOP-PANEL.GAMES', link: '/platform/games'},
-    {label: 'TOP-PANEL.CHATS', link: '#'},
+    {label: 'TOP-PANEL.CHATS', link: '/platform/chats'},
     {label: 'TOP-PANEL.MY-PROFILE', link: '#'},
     {label: 'TOP-PANEL.FORUM', link: '#'},
     {label: 'TOP-PANEL.VACANCIES', link: '#'}

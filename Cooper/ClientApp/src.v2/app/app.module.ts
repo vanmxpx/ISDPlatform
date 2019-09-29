@@ -23,20 +23,23 @@ import { SafePipe } from '@pipes';
 import {
   LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent, HomeLayoutComponent,
-  ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent, UploadLayoutComponent
-} from '@layouts';
+
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent, UploadLayoutComponent, HomeLayoutComponent,
+  ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent, PersonalChatsLayoutComponent } from '@layouts';
+
 import {
   LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
-  GamesListComponent, GameListItemComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
-  NavigationComponent, ResetPasswordFormComponent, ConfirmPasswordFormComponent, AvatarCardComponent,
-  UploadComponent, LanguageSelectComponent
-} from '@components';
+  GamesListComponent, GameListItemComponent, UploadComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
+  NavigationComponent, AvatarCardComponent, ChatsListComponent, ChatBoxComponent,
+  MessagePanelComponent, LanguageSelectComponent, ResetPasswordFormComponent, ConfirmPasswordFormComponent} from '@components';
+
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatSelectModule } from '@angular/material/select';
 import { LanguageNamePipe } from '@pipes';
 import { MatDialogModule } from '@angular/material';
+import { MessageTimePipe } from './pipes/chat-pipes/message-time.pipe';
+import { MessageDateTimePipe } from './pipes/chat-pipes/message-date-time.pipe';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
@@ -71,7 +74,9 @@ export function HttpLoaderFactory(http: HttpClient): any {
     PlatformLayoutComponent,
     PageNotFoundLayoutComponent,
     HomeLayoutComponent,
+    PersonalChatsLayoutComponent,
     SafePipe,
+
     LoginFormComponent,
     RegistrationFormComponent,
     PosterComponent,
@@ -90,7 +95,16 @@ export function HttpLoaderFactory(http: HttpClient): any {
     UploadComponent,
     UploadLayoutComponent,
     ResetPasswordLayoutComponent,
-    ConfirmPasswordLayoutComponent
+    ConfirmPasswordLayoutComponent,
+    ChatsListComponent,
+    ChatBoxComponent,
+    LanguageSelectComponent,
+    LanguageNamePipe,
+  MessagePanelComponent,
+  UploadComponent,
+  UploadLayoutComponent,
+  MessageTimePipe,
+  MessageDateTimePipe
 ],
   imports: [
     BrowserModule,

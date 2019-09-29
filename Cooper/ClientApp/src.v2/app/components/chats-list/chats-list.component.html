@@ -1,0 +1,65 @@
+<div class="chat-list-container">
+  <ul class="list-group chats-list">
+
+    <li class="list-group-item new-message-item" *ngIf="newMessageBlockOpened">
+        <div class="row">
+
+            <div class="column left">
+              <img class="image" src="assets/imageKeeper/robot.png">
+            </div>
+            
+            <div class="column right">
+
+              <div class="row chat-name">
+                <span>{{'CHATS.CHAT-LIST.NEW-MESSAGE'|translate}}</span>
+              </div>
+              
+              <div class="row chat-last-message">
+                {{'CHATS.CHAT-LIST.NEW-MESSAGE-TEXT'|translate}}
+              </div>
+            </div>
+
+        </div>
+    </li>
+
+    <li *ngFor="let chat of chatsList" class="list-group-item chat-item" (click)="onChatItemClick(chat)">
+        <div class="row chat-container">
+
+            <div class="column left">
+              <img class="image" src={{chat.photoURL}} onError="this.src='assets/imageKeeper/robot.png'">
+            </div>
+            
+            <div class="column right">
+
+              <div class="row chat-header">
+                <div class="column chat-name">
+                  <span>{{getChatName(chat)}}</span>
+                </div>
+
+                <div class="date column">
+                    <span align="right">{{chat.messages[chat.messages.length - 1].createDate | messageDateTime}}</span>
+                </div>
+              </div>
+              
+              <div class="row message-container" *ngIf="chat">
+                
+                <div class="column chat-last-message">
+                  <i *ngIf="currentSessionUserId===chat.messages[chat.messages.length-1].senderId">
+                    {{'CHATS.CHAT-LIST.MESSAGE-PREFIX'|translate}}: &nbsp;
+                  </i>
+                  {{getLastMessageInChat(chat)}}
+                </div>
+
+                <div class="column unread-messages-container">
+                  <div class="unread-messages-amount" *ngIf="chat.unreadMessagesAmount !== 0">
+                    {{chat.unreadMessagesAmount}}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+        </div>
+      </li>
+    </ul>
+</div>

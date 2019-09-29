@@ -97,7 +97,6 @@ namespace Cooper.DAO.Mapping
             return entity;
         }
 
-
         #region Game/entity mapping
 
         ///<summary>
@@ -470,10 +469,10 @@ namespace Cooper.DAO.Mapping
                         message.Id = Convert.ToInt64(aV.Value);
                         break;
                     case "IDSENDER":
-                        message.IdSender = Convert.ToInt64(aV.Value);
+                        message.SenderId = Convert.ToInt64(aV.Value);
                         break;
                     case "IDCHAT":
-                        message.IdChat = Convert.ToInt64(aV.Value);
+                        message.ChatId = Convert.ToInt64(aV.Value);
                         break;
                     case "CONTENT":
                         message.Content = aV.Value.ToString();
@@ -504,19 +503,19 @@ namespace Cooper.DAO.Mapping
                 switch (attribute)
                 {
                     case "IDSENDER":
-                        value = message.IdSender;
+                        value = message.SenderId;
                         break;
                     case "IDCHAT":
-                        value = message.IdChat;
+                        value = message.ChatId;
                         break;
                     case "CONTENT":
                         value = $"\'{message.Content}\'";
                         break;
                     case "CREATEDATE":
-                        value = $"\'{message.CreateDate.ToString("dd-MMM-yyyy")}\'";
+                        value = $"TO_DATE(\'{message.CreateDate.ToString("dd-MMM-yyyy HH:mm:ss")}\', \'DD/MM/YYYY HH24:MI:SS\')";
                         break;
                     case "ISREAD":
-                        value = (message.IsRead) ? "\'y\'" : "\'n\'";
+                        value = (message.IsRead) ? "\'y\'" : "\'n\'" ;
                         break;
                     default:
                         break;
@@ -547,6 +546,9 @@ namespace Cooper.DAO.Mapping
                     case "CHATNAME":
                         chat.ChatName = aV.Value.ToString();
                         break;
+                    case "PHOTOURL":
+                        chat.PhotoURL = aV.Value.ToString();
+                        break;
                     default:
                         break;
                 }
@@ -568,6 +570,9 @@ namespace Cooper.DAO.Mapping
                 {
                     case "CHATNAME":
                         value = $"\'{chat.ChatName}\'";
+                        break;
+                    case "PHOTOURL":
+                        value = $"\'{chat.PhotoURL}\'";
                         break;
                     default:
                         break;

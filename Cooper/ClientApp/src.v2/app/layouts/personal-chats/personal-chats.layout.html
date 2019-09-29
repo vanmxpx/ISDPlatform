@@ -1,0 +1,32 @@
+<div class="chats-layout-container">
+    
+    <div class="chats-list-container">
+        <coop-message-panel
+        (openNewMessageBlock)="openNewMessageBlock($event)"
+        ></coop-message-panel>
+        
+        <coop-chats-list
+        [currentSessionUserId]="currentSessionUserId"
+        [chatsList] = "chatsList"
+        [newMessageBlockOpened] = "newMessageBlockOpened"
+        (loadChat)="loadChat($event)"
+        (closeNewMessageBlock)="closeNewMessageBlock($event)"
+        (readMessages)="readMessages($event)"
+        ></coop-chats-list>
+    </div>
+
+    
+    <div class="chat-box-container">
+        
+        <coop-chat-box
+        [chat]="currentChat"
+        [currentSessionUserId]="currentSessionUserId"
+        [newMessageBlockOpened] = "newMessageBlockOpened"
+        [userNotFoundError] = "userNotFoundError"
+        (sendMessage)="sendMessage($event)"
+        (createChat)="sendMsgThroughSpecialBlock($event)"
+        ></coop-chat-box>
+    </div>
+
+    
+</div>

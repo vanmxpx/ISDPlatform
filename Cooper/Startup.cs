@@ -1,4 +1,3 @@
-using Cooper.Repositories.CommonChats;
 using Cooper.SignalR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -38,7 +37,6 @@ namespace Cooper
 
             var controllersAssembly = Assembly.Load("Cooper.Controllers");
             services.AddMvc().AddApplicationPart(controllersAssembly).AddControllersAsServices();
-            services.AddSingleton<ICommonChatRepository, CommonChatRepository>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -102,7 +100,7 @@ namespace Cooper
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<ChatHub>("/chatCommon");
+                routes.MapHub<ChatHub>("/chat");
             });
            
             app.UseSpa(spa =>

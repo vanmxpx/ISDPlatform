@@ -12,6 +12,7 @@ namespace Cooper.DAO
         bool CheckCredentials(string nickname, string password);
 
         UserDb Get(object id);
+        IList<UserDb> GetUsersById(IList<long> usersId);
         UserDb GetByNickname(string nickname);
         UserDb GetByEmail(string email);
         UserDb GetByUniqueAttribute(object attribute_value, string attribute_name);

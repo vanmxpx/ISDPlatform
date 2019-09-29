@@ -1,0 +1,17 @@
+$chats-list-width: 350px;
+
+
+div.chats-layout-container {
+    display: flex;
+    overflow-y: hidden;
+}
+    
+div.chats-list-container {
+    width: $chats-list-width;
+}
+
+div.chat-box-container {
+    width: calc(100% - #{$chats-list-width});
+}
+
+
