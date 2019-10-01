@@ -2,17 +2,17 @@
 
   <form [formGroup]="registrationForm" class="coop-form personal-data-form" autocomplete="off" (submit)="onSignUpClicked()">
     
-    <div class="header-text">Sign Up</div>
+    <div class="header-text">{{'REGISTRATION-FORM.TITLE'|translate}}</div>
     
     <mat-form-field class="mat-form-field">
-      <input matInput placeholder="Enter your email" formControlName="Email" [(ngModel)]="Nickname" type = "email"/>
+      <input matInput placeholder="{{'REGISTRATION-FORM.PLACEHOLDER-EMAIL'|translate}}" formControlName="Email" [(ngModel)]="Nickname" type = "email"/>
     </mat-form-field>
     <mat-error *ngIf="registrationForm.controls.Email.invalid">
       {{getEmailErrorMessage()}}
     </mat-error>
 
     <mat-form-field class="mat-form-field">
-      <input matInput placeholder="Enter your nickname" formControlName="Nickname" [(ngModel)]="nick" type = "text"/>
+      <input matInput placeholder="{{'REGISTRATION-FORM.PLACEHOLDER-NICKNAME'|translate}}" formControlName="Nickname" [(ngModel)]="nick" type = "text"/>
     </mat-form-field>
     <mat-error *ngIf="registrationForm.controls.Nickname.invalid">
       {{getNicknameErrorMessage()}}
@@ -20,26 +20,26 @@
     
     <div formGroupName="Passwords">
       <mat-form-field class="mat-form-field">
-          <input matInput placeholder="Enter your password" formControlName="Password" [(ngModel)]="password" type = "password"/>
+          <input matInput placeholder="{{'REGISTRATION-FORM.PLACEHOLDER-PASSWORD'|translate}}" formControlName="Password" [(ngModel)]="password" type = "password"/>
       </mat-form-field>
       <mat-error *ngIf="registrationForm.controls.Passwords.controls.Password.invalid">
         {{getPasswordErrorMessage()}}
       </mat-error>
 
       <mat-form-field class="mat-form-field">
-          <input matInput placeholder="Repeat your password" formControlName="ConfirmPassword" [(ngModel)]="reppassword" type = "password"/>
+          <input matInput placeholder="{{'REGISTRATION-FORM.PLACEHOLDER-REPEAT-PASSWORD'|translate}}" formControlName="ConfirmPassword" [(ngModel)]="reppassword" type = "password"/>
       </mat-form-field> 
       <mat-error *ngIf="registrationForm.controls.Passwords.controls.ConfirmPassword.invalid">
         {{getConfirmPasswordErrorMessage()}}
       </mat-error>
       </div>
   
-  <button class = "sign-up-button" type="submit" [disabled]="!registrationForm.valid">Sign up</button>
+  <button class = "sign-up-button" type="submit" [disabled]="!registrationForm.valid">{{'REGISTRATION-FORM.TITLE'|translate}}</button>
   
   <div class="text-help">
     <p>
-      also you can <a routerLink="../login" routerLinkActive="active">Sign in</a>
-      <br>or sign up by:
+      {{'REGISTRATION-FORM.TEXT-HELP'|translate}} <a routerLink="../login" routerLinkActive="active">{{'REGISTRATION-FORM.LINK-TO-SIGN-IN'|translate}}</a>
+      <br>{{'REGISTRATION-FORM.TEXT-HELP-BR'|translate}}
     </p>
   </div>
   

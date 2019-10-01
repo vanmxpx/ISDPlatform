@@ -19,6 +19,7 @@ export class GamesLayoutComponent implements OnInit {
   public isLoading: boolean = true;
   public selectedTab: GameListTabs = GameListTabs.Cards;
   public GameTabs: typeof GameListTabs = GameListTabs;
+
   constructor(private gameService: GamesService, public translate: TranslateService) { }
   public ngOnInit(): void {
     this.fetchData();

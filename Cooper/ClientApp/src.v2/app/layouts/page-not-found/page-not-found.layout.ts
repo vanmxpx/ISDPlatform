@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {Router} from '@angular/router';
-import {SessionService} from '@services';
 
 @Component({
   selector: 'coop-page-not-found-layout',
@@ -9,10 +8,10 @@ import {SessionService} from '@services';
 })
 export class PageNotFoundLayoutComponent {
 
-  constructor(private sessionService: SessionService, private router: Router) {
+  constructor(private router: Router) {
   }
 
  public goToProfilePage(): void {
-   this.router.navigate(['/platform/profile/' + this.sessionService.GetSessionUserNickname()]);
+   this.router.navigate(['/platform/home']);
  }
 }

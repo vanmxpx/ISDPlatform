@@ -6,22 +6,22 @@ namespace Cooper.Services
 {
     class GmailSmtpClient : ISmtpClient
     {
-        public string SmtpServerName {get;} = "smtp.gmail.com";
+        public string SmtpServerName { get; } = "smtp.gmail.com";
 
-        readonly string from;
-        readonly string password;
-        const string url = "https://cooper.serve.games/confirm?token=";
+        private readonly string from;
+        private readonly string password;
 
-        public GmailSmtpClient(IConfigProvider configProvider) {
+        public GmailSmtpClient(IConfigProvider configProvider)
+        {
             from = configProvider.GmailProvider.From;
             password = configProvider.GmailProvider.Password;
         }
-        
-        public void SendMail(string to, string subject, string body, string token)
+
+        public void SendMail(string to, string subject, string body)
         {
             MailMessage msg = new MailMessage(from, to);
             msg.Subject = subject;
-            msg.Body = $"{body}\nYour activation link: {url}{token}";
+            msg.Body = $"{body}";
 
             SmtpClient smtp = new SmtpClient(SmtpServerName, 587);
             smtp.EnableSsl = true;

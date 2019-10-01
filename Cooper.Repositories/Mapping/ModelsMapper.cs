@@ -18,6 +18,17 @@ namespace Cooper.Repositories.Mapping
             return verify_newType;
         }
 
+        public ResetTokenDb Map(ResetToken resetToken)
+        {
+            ResetTokenDb resetTokenDb = new ResetTokenDb();
+
+            resetTokenDb.Email = resetToken.Email;
+            resetTokenDb.Token = resetToken.Token;
+
+            return resetTokenDb;
+        }
+
+
         #region Game Mapping
 
         public Game Map(GameDb game)
@@ -71,7 +82,7 @@ namespace Cooper.Repositories.Mapping
         }
 
         #endregion
-        
+
         #region User Mapping
         public User Map(UserDb user)
         {
@@ -95,7 +106,6 @@ namespace Cooper.Repositories.Mapping
             #endregion
 
             #region Transfering interop attributes
-            
 
             #endregion
 
@@ -122,7 +132,6 @@ namespace Cooper.Repositories.Mapping
             user_newType.PlatformTheme = user.PlatformTheme;
 
             #endregion
-            
 
             return user_newType;
         }
@@ -187,15 +196,13 @@ namespace Cooper.Repositories.Mapping
         public Message Map(MessageDb message)
         {
             Message message_newType = new Message();
- 
+
             message_newType.Id = message.Id;
             message_newType.Content = message.Content;
             message_newType.CreateDate = message.CreateDate;
             message_newType.IsRead = message.IsRead;
-
             message_newType.ChatId = message.ChatId;
             message_newType.SenderId = message.SenderId;
-            
 
             return message_newType;
         }
@@ -203,21 +210,19 @@ namespace Cooper.Repositories.Mapping
         public MessageDb Map(Message message)
         {
             MessageDb message_newType = new MessageDb();
-            
+
             message_newType.Id = message.Id;
             message_newType.Content = message.Content;
             message_newType.CreateDate = message.CreateDate;
             message_newType.IsRead = message.IsRead;
-            
             message_newType.ChatId = message.ChatId;
             message_newType.SenderId = message.SenderId;
-            
 
             return message_newType;
         }
 
         #endregion
-        
+
         #region UserReview Mapping
 
         public UserReview Map(UserReviewDb userReview)
@@ -267,7 +272,7 @@ namespace Cooper.Repositories.Mapping
         }
 
         #endregion
-        
+
         #region Chat Mapping
         public Chat Map(ChatDb chat)
         {
@@ -297,7 +302,6 @@ namespace Cooper.Repositories.Mapping
         public ChatDb Map(Chat chat)
         {
             ChatDb chat_newType = new ChatDb();
-            
 
             chat_newType.Id = chat.Id;
             chat_newType.ChatName = chat.ChatName;
