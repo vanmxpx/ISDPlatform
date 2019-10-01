@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'coop-confirm-password-form',
@@ -15,7 +16,7 @@ export class ConfirmPasswordFormComponent {
   private readonly emptyFieldWarning: string = 'This field is empty';
   private passwordConfirmationForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, public translate: TranslateService) {
     this.passwordConfirmationForm = this.formBuilder.group({
       Passwords: this.formBuilder.group({
         Password: ['', [Validators.required, Validators.minLength(4)]],

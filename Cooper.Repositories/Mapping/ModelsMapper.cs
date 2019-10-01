@@ -196,28 +196,28 @@ namespace Cooper.Repositories.Mapping
         public Message Map(MessageDb message)
         {
             Message message_newType = new Message();
- 
+
             message_newType.Id = message.Id;
             message_newType.Content = message.Content;
             message_newType.CreateDate = message.CreateDate;
             message_newType.IsRead = message.IsRead;
             message_newType.ChatId = message.ChatId;
             message_newType.SenderId = message.SenderId;
-            
+
             return message_newType;
         }
 
         public MessageDb Map(Message message)
         {
             MessageDb message_newType = new MessageDb();
-            
+
             message_newType.Id = message.Id;
             message_newType.Content = message.Content;
             message_newType.CreateDate = message.CreateDate;
-            message_newType.IsRead = message.IsRead;         
+            message_newType.IsRead = message.IsRead;
             message_newType.ChatId = message.ChatId;
             message_newType.SenderId = message.SenderId;
-            
+
             return message_newType;
         }
 
@@ -302,7 +302,7 @@ namespace Cooper.Repositories.Mapping
         public ChatDb Map(Chat chat)
         {
             ChatDb chat_newType = new ChatDb();
-            
+
             chat_newType.Id = chat.Id;
             chat_newType.ChatName = chat.ChatName;
             chat_newType.PhotoURL = chat.PhotoURL;
@@ -420,3 +420,4 @@ namespace Cooper.Repositories.Mapping
 
         #endregion
     }
+}

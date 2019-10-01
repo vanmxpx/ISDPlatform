@@ -69,13 +69,18 @@ namespace Cooper.Repositories
             return verifyDAO.Get(token)?.Email;
         }
 
+        public bool IfResetTokenExists(string token)
+        {
+            return resetTokenDAO.IfTokenExists(token);
+        }
+
         #endregion
 
 
         #region Main methods
 
         #region Get Methods
-        
+
         public IEnumerable<User> GetAll()
         {
             List<UserDb> users = (List<UserDb>)userDAO.GetAll();
