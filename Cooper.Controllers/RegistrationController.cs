@@ -18,6 +18,8 @@ namespace Cooper.Controllers
         private readonly ITokenCleaner cleaner;
         private readonly ISocialAuth socialAuth;
 
+        private const string emailConfirmURL = "https://cooper.serve.games/confirm?token=";
+
         public RegistrationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider, ISocialAuth socialAuth, ITokenCleaner cleaner, ISmtpClient smtpClient)
         {
             userRepository = new UserRepository(jwtHandler, configProvider);
@@ -68,7 +70,7 @@ namespace Cooper.Controllers
 
                     userRepository.Create(verify);
                     cleaner.TryToStart();
-                    smtpClient.SendMail(verify.Email, "Register confirmation", "", verify.Token);
+                    smtpClient.SendMail(verify.Email, "Register confirmation", $"Your activation link: {emailConfirmURL}{verify.Token}");
                     result = Ok(userRepository.Create(user));
                 }
             }

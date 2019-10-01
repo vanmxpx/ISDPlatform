@@ -16,7 +16,7 @@ namespace Cooper.DAO
         private string table;
         private string idColumn;
         private HashSet<string> attributes;
-        
+
         public UserReviewDAO(IConfigProvider configProvider)
         {
             crud = new CRUD(configProvider);
@@ -41,7 +41,8 @@ namespace Cooper.DAO
 
             List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes, whereRequest);
 
-            if (entities.Any()) {
+            if (entities.Any())
+            {
                 EntityMapping.Map(entities[0], out userReview);
             }
 
@@ -68,7 +69,7 @@ namespace Cooper.DAO
 
             List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes);
 
-            foreach (EntityORM entity in entities) 
+            foreach (EntityORM entity in entities)
             {
                 EntityMapping.Map(entity, out UserReviewDb userReview);
                 userReviews.Add(userReview);

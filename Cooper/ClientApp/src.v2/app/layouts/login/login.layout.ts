@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
-import { AuthentificationService, LocalizationService } from '@services';
-// import { fader } from '../../../animations/route-animation';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {SocialNetwork} from '@enums';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SocialNetwork } from '@enums';
+import { AuthentificationService, LocalizationService } from '@services';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -11,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './login.layout.html',
   styleUrls: ['./login.layout.css']
 })
-export class LoginLayoutComponent {
+export class LoginLayoutComponent implements OnInit {
 
   public failedLogin: boolean = false;
   public languageKeys: string[] = this.localizationService.languageKeys;
@@ -19,8 +18,9 @@ export class LoginLayoutComponent {
   public currentLanguage: string = this.localizationService.getCurrentLanguage();
 
   constructor(private authService: AuthentificationService, private route: ActivatedRoute,
-              private router: Router, public translate: TranslateService, private localizationService: LocalizationService) {
+              private router: Router, public translate: TranslateService, private localizationService: LocalizationService) { }
 
+  public ngOnInit(): void {
     this.route.params.subscribe((params) => {
       console.log(params);
       if (params.failedLogin) {
@@ -40,6 +40,7 @@ export class LoginLayoutComponent {
   public socialSignIn(platform: SocialNetwork): void {
     this.authService.socialSignIn(platform);
   }
+
   public onLangChanged(lang: string): void {
     this.localizationService.onLanguageChanged(lang);
   }

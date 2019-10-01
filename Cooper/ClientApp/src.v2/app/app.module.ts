@@ -16,21 +16,22 @@ import { MatTableModule } from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CooperInterceptor } from '@services';
 import { GrowlModule } from 'primeng/primeng';
-import {MatIconModule} from '@angular/material/icon';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AuthGuard, ExitGuard } from '@guards';
 import { SafePipe } from '@pipes';
 import {
   LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
+
   RegistrationLayoutComponent, PageNotFoundLayoutComponent, UploadLayoutComponent, HomeLayoutComponent,
-  PersonalChatsLayoutComponent } from '@layouts';
+  ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent, PersonalChatsLayoutComponent } from '@layouts';
 
 import {
   LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
   GamesListComponent, GameListItemComponent, UploadComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
   NavigationComponent, AvatarCardComponent, ChatsListComponent, ChatBoxComponent,
-  MessagePanelComponent, LanguageSelectComponent} from '@components';
+  MessagePanelComponent, LanguageSelectComponent, ResetPasswordFormComponent, ConfirmPasswordFormComponent} from '@components';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -87,6 +88,14 @@ export function HttpLoaderFactory(http: HttpClient): any {
     GameCardComponent,
     NavigationComponent,
     AvatarCardComponent,
+    ResetPasswordFormComponent,
+    ConfirmPasswordFormComponent,
+    LanguageSelectComponent,
+    LanguageNamePipe,
+    UploadComponent,
+    UploadLayoutComponent,
+    ResetPasswordLayoutComponent,
+    ConfirmPasswordLayoutComponent,
     ChatsListComponent,
     ChatBoxComponent,
     LanguageSelectComponent,
@@ -143,6 +152,7 @@ export function HttpLoaderFactory(http: HttpClient): any {
     ExitGuard,
 
   ],
+
   entryComponents: [UploadLayoutComponent],
   bootstrap: [ AppComponent ]
 })

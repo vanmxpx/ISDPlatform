@@ -35,7 +35,8 @@ namespace Cooper.ORM
 
         public static string SanitizeString(string value)
         {
-            if (value == null) { 
+            if (value == null)
+            { 
                 return null;
             }
             return value.Replace("'", "").Replace("\"", "");

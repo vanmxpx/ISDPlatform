@@ -1,11 +1,12 @@
 {
-    "LOGIN-FORM" : {
-        "TITLE": "Вхід",
-        "TEXT-HELP": "також Ви маєте змогу",
-        "TEXT-HELP-BR": "або увійти за допомогою:",
-        "LINK-TO-SIGN-UP": "зареєструватися",
-        "PLACEHOLDER-PASSWORD": "Введіть свій пароль",
-        "PLACEHOLDER-NICKNAME": "Введіть свій нік"
+    "LOGIN-FORM": {
+      "FORGOT-PASSWORD": "Забули пароль?",
+      "TITLE": "Вхід",
+      "TEXT-HELP": "також Ви маєте змогу",
+      "TEXT-HELP-BR": "або увійти за допомогою:",
+      "LINK-TO-SIGN-UP": "зареєструватися",
+      "PLACEHOLDER-PASSWORD": "Введіть свій пароль",
+      "PLACEHOLDER-NICKNAME": "Введіть свій нік"
     },
 
     "REGISTRATION-FORM" : {

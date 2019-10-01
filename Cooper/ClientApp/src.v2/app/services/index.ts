@@ -17,6 +17,8 @@ export {RegistrationService} from './registration/registration.service';
 
 export {CooperInterceptor} from './interceptor/cooper.interceptor';
 
+export {ResetPasswordService} from './reset-password/reset-password.service';
+
 export {ChatService} from './chat.service';
 
 export { MediaserverService } from './mediaserver/mediaserver.service';

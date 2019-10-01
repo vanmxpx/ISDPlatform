@@ -13,6 +13,7 @@ namespace Cooper.Repositories
     {
         private readonly IUserDAO userDAO;
         private readonly VerificationDAO verifyDAO;
+        private readonly ResetTokenDAO resetTokenDAO;
         private readonly ModelsMapper mapper;
         private readonly IJwtHandlerService jwtService;
 
@@ -20,8 +21,8 @@ namespace Cooper.Repositories
         {
             userDAO = new UserDAO(configProvider);
             verifyDAO = new VerificationDAO(configProvider);
+            resetTokenDAO = new ResetTokenDAO(configProvider);
             mapper = new ModelsMapper();
-
             this.jwtService = jwtService;
         }
 
@@ -68,13 +69,18 @@ namespace Cooper.Repositories
             return verifyDAO.Get(token)?.Email;
         }
 
+        public bool IfResetTokenExists(string token)
+        {
+            return resetTokenDAO.IfTokenExists(token);
+        }
+
         #endregion
 
 
         #region Main methods
 
         #region Get Methods
-        
+
         public IEnumerable<User> GetAll()
         {
             List<UserDb> users = (List<UserDb>)userDAO.GetAll();
@@ -193,6 +199,13 @@ namespace Cooper.Repositories
             return verifyDAO.Save(verifydb);
         }
 
+        
+        public long Create(ResetToken resetToken)
+        {
+            ResetTokenDb resetTokenDb = mapper.Map(resetToken);
+            return resetTokenDAO.Save(resetTokenDb);
+        }
+
         /// <summary>
         /// Creates a new user With help of social media.
         /// </summary>
@@ -223,6 +236,16 @@ namespace Cooper.Repositories
             user.Email = email;
             userDAO.Update(user);
         }
+
+        public void ResetPassword(string token, string newPassword)
+        {
+            string email = resetTokenDAO.GetEmailByToken(token);
+            UserDb user = userDAO.GetByEmail(email);
+            user.Password = newPassword;
+            userDAO.Update(user);
+            resetTokenDAO.Delete(token);
+        }
+
 
         public void Delete(long id)
         {

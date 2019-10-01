@@ -1,11 +1,12 @@
 {
-    "LOGIN-FORM" : {
-        "TITLE": "Sign In",
-        "TEXT-HELP": "also you can",
-        "TEXT-HELP-BR": "or sign in by:",
-        "LINK-TO-SIGN-UP": "Sign up",
-        "PLACEHOLDER-PASSWORD": "Enter your password",
-        "PLACEHOLDER-NICKNAME": "Enter your nickname"
+    "LOGIN-FORM": {
+      "FORGOT-PASSWORD": "Forgot your password?",
+      "LINK-TO-SIGN-UP": "Sign up",
+      "PLACEHOLDER-NICKNAME": "Enter your nickname",
+      "PLACEHOLDER-PASSWORD": "Enter your password",
+      "TEXT-HELP": "also you can",
+      "TEXT-HELP-BR": "or sign in by:",
+      "TITLE": "Sign In"
     },
 
     "REGISTRATION-FORM" : {
