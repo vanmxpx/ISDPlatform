@@ -40,7 +40,8 @@ namespace Cooper.DAO
 
             List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes, whereRequest);
 
-            if (entities.Any()) {
+            if (entities.Any())
+            {
                 EntityMapping.Map(entities[0], out statistics);
             }
 

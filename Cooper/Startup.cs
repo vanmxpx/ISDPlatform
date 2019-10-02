@@ -54,6 +54,7 @@ namespace Cooper
             services.AddUserConnectionService();
             services.AddTokenCleanerService();
             services.AddSocialAuthService();
+            services.AddResetPasswordService();
             services.AddMediaserverService();
 
             services.AddSwaggerGen(c =>

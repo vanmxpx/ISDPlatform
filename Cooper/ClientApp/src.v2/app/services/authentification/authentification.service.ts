@@ -98,7 +98,7 @@ export class AuthentificationService {
     this.router.navigate(['/login', {failedLogin: true}]);
   }
 
-  public createBody(userData: any, isAuth: boolean): void {
+  public createBody(userData: any, isAuth: boolean): any {
     let body;
     if (isAuth) {
       body = {

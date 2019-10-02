@@ -84,7 +84,7 @@ namespace Cooper.DAO
                     return false;
                 }
             }
-            
+        
             return true;
         }
 
@@ -133,7 +133,8 @@ namespace Cooper.DAO
 
             List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes, whereRequest);
 
-            if (entities.Any()) {
+            if (entities.Any())
+            {
                 EntityMapping.Map(entities[0], out user);
             }
 
@@ -240,7 +241,10 @@ namespace Cooper.DAO
 
             // Making sure that ID value is not touched.
             entity.attributeValue.Remove("ID");
-            if (removePassword) { //Remove password field
+
+            if (removePassword)
+            {
+                //Remove password field
                 entity.attributeValue.Remove("PASSWORD");
             }
 

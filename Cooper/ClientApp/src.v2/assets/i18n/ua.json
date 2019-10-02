@@ -1,11 +1,23 @@
 {
-    "LOGIN-FORM" : {
-        "TITLE": "Вхід",
+    "LOGIN-FORM": {
+      "FORGOT-PASSWORD": "Забули пароль?",
+      "TITLE": "Вхід",
+      "TEXT-HELP": "також Ви маєте змогу",
+      "TEXT-HELP-BR": "або увійти за допомогою:",
+      "LINK-TO-SIGN-UP": "зареєструватися",
+      "PLACEHOLDER-PASSWORD": "Введіть свій пароль",
+      "PLACEHOLDER-NICKNAME": "Введіть свій нік"
+    },
+
+    "REGISTRATION-FORM" : {
+        "TITLE": "Реєстрація",
         "TEXT-HELP": "також Ви маєте змогу",
-        "TEXT-HELP-BR": "або увійти за допомогою:",
-        "LINK-TO-SIGN-UP": "зареєструватися",
+        "TEXT-HELP-BR": "за допомогою:",
+        "LINK-TO-SIGN-IN": "увійти",
+        "PLACEHOLDER-EMAIL": "Введіть вашу e-mail адресу",
+        "PLACEHOLDER-NICKNAME": "Введіть свій нікнейм",
         "PLACEHOLDER-PASSWORD": "Введіть свій пароль",
-        "PLACEHOLDER-NICKNAME": "Введіть свій нік"
+        "PLACEHOLDER-REPEAT-PASSWORD": "Повторіть введення пароля"
     },
 
     "TOP-PANEL" : {
@@ -47,5 +59,25 @@
             },
             "SELECT-CHAT-TIP": "Будь ласка, виберіть діалог для листування"
         }
+    },
+    "PROFILE": {
+        "NAME": "Ім'я",
+        "EMAIL": "Електронна адреса",
+        "BIO": "Про себе",
+        "EDIT-BUTTON": "Редагувати профіль",
+        "SAVE-BUTTON": "Зберегти профіль",
+        "FRIENDS": "Друзі",
+        "SUBSCRIBERS": "Підписники",
+        "SUBSCRIPTIONS": "Підписки",
+        "GAMES": "Ігри"	
+    },
+    
+    "NOT-FOUND-PAGE": {
+        "TEXT": "Сторінка не знайдена.",
+        "LINK-TEXT": "Перейти на головну сторінку."
+    },
+    "HOME-PAGE": {
+        "TEXT": "Домашня сторінка перебуває в розробці.",
+        "LINK-TEXT": "Перейти на сторінку користувача"
     }
 }

@@ -1,11 +1,23 @@
 {
-    "LOGIN-FORM" : {
-        "TITLE": "Sign In",
+    "LOGIN-FORM": {
+      "FORGOT-PASSWORD": "Forgot your password?",
+      "LINK-TO-SIGN-UP": "Sign up",
+      "PLACEHOLDER-NICKNAME": "Enter your nickname",
+      "PLACEHOLDER-PASSWORD": "Enter your password",
+      "TEXT-HELP": "also you can",
+      "TEXT-HELP-BR": "or sign in by:",
+      "TITLE": "Sign In"
+    },
+
+    "REGISTRATION-FORM" : {
+        "TITLE": "Sign Up",
         "TEXT-HELP": "also you can",
-        "TEXT-HELP-BR": "or sign in by:",
-        "LINK-TO-SIGN-UP": "Sign up",
+        "TEXT-HELP-BR": "by:",
+        "LINK-TO-SIGN-IN": "Sign in",
+        "PLACEHOLDER-EMAIL": "Enter your email",
+        "PLACEHOLDER-NICKNAME": "Enter your nickname",
         "PLACEHOLDER-PASSWORD": "Enter your password",
-        "PLACEHOLDER-NICKNAME": "Enter your nickname"
+        "PLACEHOLDER-REPEAT-PASSWORD": "Repeat your password"
     },
 
     "TOP-PANEL" : {
@@ -47,6 +59,25 @@
             },
             "SELECT-CHAT-TIP": "Please select a chat to start messaging"
         }
+    },
+    "PROFILE": {
+        "NAME": "Name",
+        "EMAIL": "E-mail",
+        "BIO": "Bio",
+        "EDIT-BUTTON": "Edit profile",
+        "SAVE-BUTTON": "Save profile",
+        "FRIENDS": "Friends",
+        "SUBSCRIBERS": "Subscribers",
+        "SUBSCRIPTIONS": "Subscriptions",
+        "GAMES": "Games"	
+    },
+    "NOT-FOUND-PAGE": {
+        "TEXT": "Page not found.",
+        "LINK-TEXT": "Go to the home page."
+    },
+    "HOME-PAGE": {
+        "TEXT": "Home page hasn't been implemented yet.",
+        "LINK-TEXT": "Go to my page"
     }
 }
 

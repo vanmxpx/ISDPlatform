@@ -1,10 +1,13 @@
 ﻿using Cooper.Controllers.ViewModels;
+using Cooper.Models;
 using Cooper.ORM;
 using Cooper.Repositories;
 using Cooper.Services.Authorization;
 using Cooper.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace Cooper.Controllers
 {
@@ -13,17 +16,24 @@ namespace Cooper.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserRepository userRepository;
-        private readonly ISocialAuth socialAuth;
-        private readonly Cooper.Services.Interfaces.ISession session;
         private readonly IConfigProvider configProvider;
+        private readonly ISocialAuth socialAuth;
+        private readonly ILogger<AuthController> logger;
+        private readonly ISmtpClient smtpClient;
+        private readonly IResetPasswordService resetService;
 
-        public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider, ISessionFactory sessionFactory)
+        private const string passwordResetURL = "https://cooper.serve.games/confirm;token=";
+
+        public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider,
+            ILogger<AuthController> logger, ISmtpClient smtpClient, IResetPasswordService resetService)
         {
-            session = sessionFactory.FactoryMethod();
-            userRepository = new UserRepository(jwtService, session);
+            userRepository = new UserRepository(jwtService, configProvider);
 
             this.configProvider = configProvider;
             this.socialAuth = socialAuth;
+            this.logger = logger;
+            this.smtpClient = smtpClient;
+            this.resetService = resetService;
         }
 
         /// <summary>
@@ -45,7 +55,11 @@ namespace Cooper.Controllers
         {
             IActionResult result = Unauthorized();
 
-            if (login == null)
+            if (!ModelState.IsValid)
+            {
+                result = BadRequest();
+            }
+            else if (login == null)
             {
                 result = BadRequest();
             }
@@ -78,7 +92,88 @@ namespace Cooper.Controllers
                 }
             }
 
-            session.EndSession();
+            return result;
+        }
+
+        /// <summary>
+        /// Send letter to reset password.
+        /// </summary>
+        /// <param name="email">User email</param>
+        /// <response code="200">If letter was sent</response>
+        /// <response code="400">If letter was not sent</response>
+        [HttpPost]
+        [Route("reset/send")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult SendLetter(TargetEmail email)
+        {
+            IActionResult result = BadRequest();
+
+            if (ModelState.IsValid && email != null)
+            {
+                email.Email = DbTools.SanitizeString(email.Email);
+
+                if (userRepository.IfEmailExists(email.Email))
+                {
+                    string token = resetService.CreateToken(email.Email);
+                    smtpClient.SendMail(email.Email, "Cooper reset password", $"Password reset link: {passwordResetURL}{token}");
+                    logger.LogInformation("Password reset email was sent for email {0}.", email.Email);
+                    result = Ok();
+                }
+                else
+                {
+                    logger.LogWarning("Password reset email was not sent, because the passed email does not exist.");
+                }
+            }
+            else
+            {
+                logger.LogWarning("Password reset email was not sent, because the passed email was empty.");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Reset password.
+        /// </summary>
+        /// <param name="resetPassword">Token with new password</param>
+        /// <response code="200">If password was reset</response>
+        /// <response code="400">If password was not reset</response>
+        [HttpPost]
+        [Route("reset")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult ResetPassword(ResetPassword resetPassword)
+        {
+            IActionResult result;
+
+            if (ModelState.IsValid && resetPassword != null)
+            {
+                resetPassword.Token = DbTools.SanitizeString(resetPassword.Token);
+                resetPassword.Password = DbTools.SanitizeString(resetPassword.Password);
+
+                if (userRepository.IfResetTokenExists(resetPassword.Token))
+                {
+                    userRepository.ResetPassword(resetPassword.Token, resetPassword.Password);
+                    logger.LogInformation("Password was reset successfully.");
+                    result = Ok();
+                }
+                else
+                {
+                    logger.LogInformation("Password was not reset, because token does not exist.");
+                    result = BadRequest("Token does not exist");
+                }
+            }
+            else
+            {
+                logger.LogInformation("Password was not reset, because reset password is empty or invalid.");
+                result = BadRequest("Token or password is empty or invalid");
+            }
+
             return result;
         }
     }

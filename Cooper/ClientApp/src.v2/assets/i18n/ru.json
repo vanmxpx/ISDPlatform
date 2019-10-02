@@ -1,11 +1,23 @@
 {
-    "LOGIN-FORM" : {
-        "TITLE": "Вход",
+    "LOGIN-FORM": {
+      "FORGOT-PASSWORD": "Забыли пароль?",
+      "TITLE": "Вход",
+      "TEXT-HELP": "также Вы можете",
+      "TEXT-HELP-BR": "или войти с помощью:",
+      "LINK-TO-SIGN-UP": "зарегистрироваться",
+      "PLACEHOLDER-PASSWORD": "Введите свой пароль",
+      "PLACEHOLDER-NICKNAME": "Введите свой ник"
+    },
+
+    "REGISTRATION-FORM" : {
+        "TITLE": "Регистрация",
         "TEXT-HELP": "также Вы можете",
-        "TEXT-HELP-BR": "или войти с помощью:",
-        "LINK-TO-SIGN-UP": "зарегистрироваться",
+        "TEXT-HELP-BR": "с помощью:",
+        "LINK-TO-SIGN-IN": "войти",
+        "PLACEHOLDER-EMAIL": "Введите ваш e-mail адрес",
+        "PLACEHOLDER-NICKNAME": "Введите свой ник",
         "PLACEHOLDER-PASSWORD": "Введите свой пароль",
-        "PLACEHOLDER-NICKNAME": "Введите свой ник"
+        "PLACEHOLDER-REPEAT-PASSWORD": "Повторите ввод пароля"
     },
 
     "TOP-PANEL" : {
@@ -47,5 +59,25 @@
             },
             "SELECT-CHAT-TIP": "Пожалуйста, выберите переписку для общения"
         }
+    },
+    "PROFILE": {
+        "NAME": "Имя",
+        "EMAIL": "Электронная почта",
+        "BIO": "О себе",
+        "EDIT-BUTTON": "Редактировать профиль",
+        "SAVE-BUTTON": "Сохранить профиль",
+        "FRIENDS": "Друзья",
+        "SUBSCRIBERS": "Подписчики",
+        "SUBSCRIPTIONS": "Подписки",
+        "GAMES": "Игры"
+    },
+    
+    "NOT-FOUND-PAGE": {
+        "TEXT": "Страница не найдена.",
+        "LINK-TEXT": "Перейти на главную страницу."
+    },
+    "HOME-PAGE": {
+        "TEXT": "Домашняя страница еще не была реализована.",
+        "LINK-TEXT": "Перейти на страницу профиля"
     }
 }

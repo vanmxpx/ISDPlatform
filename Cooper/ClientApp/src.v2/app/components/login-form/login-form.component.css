@@ -1,69 +1,68 @@
-  .button-colors {
-    background: gray;
-    color: #fff;
-  }
+.button-colors {
+  background: gray;
+  color: #fff;
+}
 
-  .button--sizes {
-    align-self: center;
-    width: 200px;
-    padding: 16px;
-    border-radius: 4px;
-  }
+.button--sizes {
+  align-self: center;
+  width: 200px;
+  padding: 16px;
+  border-radius: 4px;
+}
 
-  .button-margin {
-    margin: 32px 16px 8px 16px;
-  }
+.button-margin {
+  margin: 32px 16px 8px 16px;
+}
 
-  .button-font {
-    font-family: 'Comic Sans Ms';
-    font-size: 18px;
-  }
+.button-font {
+  font-family: 'Comic Sans Ms';
+  font-size: 18px;
+}
 
-  .div-font {
-    font-size: 28px;
-    font-weight: bold;
-  }
+.div-font {
+  font-size: 28px;
+  font-weight: bold;
+}
 
-  .div-positioning {
-    text-align: left;
-    margin-bottom: 16px;
-  }
+.div-positioning {
+  text-align: left;
+  margin-bottom: 16px;
+}
 
-  .div-color {
-    color: #646464;
-  }
-  
-  .mat-form-field {
-    width:100%;
-    margin-top: 5px;
-  }
+.div-color {
+  color: #646464;
+}
 
-  .text-help {
-    color: rgba(86, 88, 92, 100);
-    margin-top: 5%;
-    font-family: 'Comic Sans Ms'
-  }
-  
-  .socials-container {
-    display: inline-block;
-    align-self: center;
-  
-    width: 45%;
-  }
-  
-  .social-icon{
-    width: 25%;
-    height: auto;    
-  }
+.mat-form-field {
+  width:100%;
+  margin-top: 5px;
+}
 
-  .personal-data-form {
-    border: 1px solid rgb(168, 168, 168);
-    border-radius: 8px;
-  }
+.text-help {
+  color: rgba(86, 88, 92, 100);
+  margin-top: 5%;
+  font-family: 'Comic Sans Ms'
+}
 
-  .login-select{
-    display: inline-flex;
-    float: right;
-    font-size: 15px;
-  }
+.socials-container {
+  display: inline-block;
+  align-self: center;
 
+  width: 45%;
+}
+
+.social-icon{
+  width: 25%;
+  height: auto;    
+}
+
+.personal-data-form {
+  border: 1px solid rgb(168, 168, 168);
+  border-radius: 8px;
+}
+
+.login-select{
+  display: inline-flex;
+  float: right;
+  font-size: 15px;
+}
