@@ -17,12 +17,15 @@ namespace Cooper.Services
         private int connectionsAmount = defaultConnectionsAmount;
         private ConcurrentQueue<ISession> sessions;
         private ConcurrentQueue<ManualResetEvent> eventsQueue;
-        private Dictionary<ManualResetEvent, ISession> reservedSessions = new Dictionary<ManualResetEvent, ISession>();
+        private Dictionary<ManualResetEvent, ISession> reservedSessions;
 
         public OracleSessionFactory(IConfigProvider configProvider)
         {
             this.configProvider = configProvider;
+
             sessions = new ConcurrentQueue<ISession>();
+            reservedSessions = new Dictionary<ManualResetEvent, ISession>();
+            eventsQueue = new ConcurrentQueue<ManualResetEvent>();
 
             for (int i = 0; i < defaultConnectionsAmount; i++)
             {
@@ -32,9 +35,8 @@ namespace Cooper.Services
 
         public ISession FactoryMethod()
         {
-            ISession session;
 
-            if (!sessions.TryDequeue(out session))
+            if (!sessions.TryDequeue(out ISession session))
             {
                 if (connectionsAmount < maxConnectionsAmount)
                 {
@@ -46,13 +48,10 @@ namespace Cooper.Services
                     ManualResetEvent evObj = new ManualResetEvent(false);
 
                     eventsQueue.Enqueue(evObj);
-
                     evObj.WaitOne();
 
                     session = reservedSessions[evObj];
-
                     reservedSessions.Remove(evObj);
-
                     evObj.Close();
 
                 }
@@ -63,9 +62,7 @@ namespace Cooper.Services
 
         public void ReturnSession(ISession session)
         {
-            ManualResetEvent evObj;
-
-            if (!eventsQueue.TryDequeue(out evObj))
+            if (eventsQueue.TryDequeue(out ManualResetEvent evObj))
             {
                 reservedSessions.Add(evObj, session);
 

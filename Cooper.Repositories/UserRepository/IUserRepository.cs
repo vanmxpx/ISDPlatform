@@ -6,6 +6,6 @@ namespace Cooper.Repositories
     {
         User GetByJWToken(string token);
         IList<User> GetUsersById(IList<long> UsersId);
-        void UpdateAvatar(string url, long userId);
+        bool UpdateAvatar(string url, long userId);
     }
 }

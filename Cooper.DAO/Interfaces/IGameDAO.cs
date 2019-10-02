@@ -9,7 +9,7 @@ namespace Cooper.DAO
         GameDb Get(long id);
         GameDb GetByName(string name);
         long Save(GameDb entity);
-        void Delete(object id);
-        void Update(GameDb entity);
+        bool Delete(object id);
+        bool Update(GameDb entity);
     }
 }

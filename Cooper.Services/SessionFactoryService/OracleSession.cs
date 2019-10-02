@@ -23,10 +23,17 @@ namespace Cooper.Services
 
         public void StartSession()
         {
-            connection.Open();
-            transaction = connection.BeginTransaction();
+            if (connection.State != ConnectionState.Open)
+            {
+                connection.Open();
+            }
+
+            if (transaction == null)
+            {
+                transaction = connection.BeginTransaction();
+            }
         }
-        private void EndSession()
+        public void EndSession()
         {
             connection.Close();
             sessionFactory.ReturnSession(this);
@@ -57,6 +64,23 @@ namespace Cooper.Services
         {
             return connection;
         }
-        
+
+        public object ExecuteNonQuery(string query, bool getId = false)
+        {
+            object result = null;
+
+            OracleCommand command = new OracleCommand(query, connection)
+            {
+                Transaction = transaction
+            };
+            command.Parameters.Add(new OracleParameter("id", OracleDbType.Decimal, ParameterDirection.ReturnValue));
+            command.ExecuteNonQuery();
+
+            if (getId)
+                result = command.Parameters["id"].Value;
+
+            return result;
+        }
+
     }
 }

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Oracle.ManagedDataAccess.Client;
 using System.Data.Common;
+using System.Data;
 
 namespace Cooper.DAO
 {
@@ -15,17 +16,17 @@ namespace Cooper.DAO
     {
         private readonly CRUD crud;
         private readonly Logger logger;
-        private readonly DbConnect dbConnect;
+        private readonly ISession session;
 
         private string table;
         private string idColumn;
         private HashSet<string> attributes;
 
-        public ChatDAO(IConfigProvider configProvider)
+        public ChatDAO(ISession session)
         {
-            crud = new CRUD(configProvider);
+            crud = new CRUD(session);
+            this.session = session;
             logger = LogManager.GetCurrentClassLogger();
-            dbConnect =  new DbConnect(configProvider);
 
             table = "CHATS";
             idColumn = "ID";
@@ -138,11 +139,11 @@ namespace Cooper.DAO
             return idChat;
         }
 
-        public void Delete(long id)
+        public bool Delete(long id)
         {
-            bool ifDeleted = crud.Delete(id, table, idColumn);
+            bool isDeleted = crud.Delete(id, table, idColumn);
 
-            if (ifDeleted)
+            if (isDeleted)
             {
                 logger.Info($"Game with id={id} was successfully deleted from table {table}.");
             }
@@ -151,17 +152,18 @@ namespace Cooper.DAO
                 logger.Info($"Deleting chat with id={id} was failed.");
             }
 
+            return isDeleted;
         }
 
-        public void Update(ChatDb chat)
+        public bool Update(ChatDb chat)
         {
             EntityORM entity = EntityMapping.Map(chat, attributes);
 
             entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
 
-            bool ifUpdated = crud.Update(table, entity, new WhereRequest(idColumn, Operators.Equal, chat.Id.ToString()));
+            bool isUpdated = crud.Update(table, entity, new WhereRequest(idColumn, Operators.Equal, chat.Id.ToString()));
 
-            if (ifUpdated)
+            if (isUpdated)
             {
                 logger.Info($"Game with id={chat.Id} was successfully updated.");
             }
@@ -169,16 +171,27 @@ namespace Cooper.DAO
             {
                 logger.Info($"Updating chat with id={chat.Id} was failed.");
             }
+
+            return isUpdated;
         }
 
         private IList<EntityORM> ExecuteQuery(HashSet<string> attributes, string sqlExpression)
         {
+            // TODO: It may be better to move it to CRUD
+
             IList<EntityORM> entities = null;
 
             try
             {
-                dbConnect.OpenConnection();
-                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
+                var connection = (OracleConnection)session.GetConnection();
+
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                OracleCommand command = new OracleCommand(sqlExpression, connection);
+                command.Transaction = (OracleTransaction)session.GetTransaction();
 
                 OracleDataReader reader = command.ExecuteReader();
 
@@ -205,10 +218,6 @@ namespace Cooper.DAO
             catch (DbException ex)
             {
                 logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
             }
 
             return entities;

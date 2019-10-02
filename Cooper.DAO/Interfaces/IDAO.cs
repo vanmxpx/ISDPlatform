@@ -7,7 +7,7 @@ namespace Cooper.DAO
         IEnumerable<Entity> GetAll();
         Entity Get(object id);
         long Save(Entity entity);
-        void Delete(object id);
-        void Update(Entity entity);
+        bool Delete(object id);
+        bool Update(Entity entity);
     }
 }

@@ -18,9 +18,9 @@ namespace Cooper.DAO
         private string idColumn;
         private HashSet<string> attributes;
 
-        public GameReviewDAO(IConfigProvider configProvider)
+        public GameReviewDAO(ISession session)
         {
-            crud = new CRUD(configProvider);
+            crud = new CRUD(session);
             logger = LogManager.GetLogger("CooperLoger");
 
             table = "GAMESREVIEWS";
@@ -96,11 +96,11 @@ namespace Cooper.DAO
             return idGameReview;
         }
 
-        public void Delete(long id)
+        public bool Delete(long id)
         {
-            bool ifDeleted = crud.Delete(id, table, idColumn);
+            bool isDeleted = crud.Delete(id, table, idColumn);
 
-            if (ifDeleted)
+            if (isDeleted)
             {
                 logger.Info($"Game review with id={id} was successfully deleted from table {table}.");
             }
@@ -109,9 +109,10 @@ namespace Cooper.DAO
                 logger.Info($"Deleting gameReview with id={id} was failed.");
             }
 
+            return isDeleted;
         }
 
-        public void Update(GameReviewDb gameReview)
+        public bool Update(GameReviewDb gameReview)
         {
             EntityORM entity = EntityMapping.Map(gameReview, attributes);
 
@@ -119,9 +120,9 @@ namespace Cooper.DAO
 
             var whereRequest = new WhereRequest(idColumn, Operators.Equal, gameReview.Id.ToString());
 
-            bool ifUpdated = crud.Update(table, entity, whereRequest);
+            bool isUpdated = crud.Update(table, entity, whereRequest);
 
-            if (ifUpdated)
+            if (isUpdated)
             {
                 logger.Info($"Game review with id={gameReview.Id} was successfully updated.");
             }
@@ -129,6 +130,8 @@ namespace Cooper.DAO
             {
                 logger.Info($"Updating gameReview with id={gameReview.Id} was failed.");
             }
+
+            return isUpdated;
         }
 
     }

@@ -16,10 +16,10 @@ namespace Cooper.Repositories
         private readonly ModelsMapper mapper;
         private readonly IJwtHandlerService jwtService;
 
-        public UserRepository(IJwtHandlerService jwtService, IConfigProvider configProvider)
+        public UserRepository(IJwtHandlerService jwtService, ISession session)
         {
-            userDAO = new UserDAO(configProvider);
-            verifyDAO = new VerificationDAO(configProvider);
+            userDAO = new UserDAO(session);
+            verifyDAO = new VerificationDAO(session);
             mapper = new ModelsMapper();
 
             this.jwtService = jwtService;
@@ -205,33 +205,43 @@ namespace Cooper.Repositories
             return userDAO.Save(userDb);
         }
 
-        public void Update(User user)
+        public bool Update(User user)
         {
             UserDb userDb = mapper.Map(user);
 
-            userDAO.Update(userDb, removePassword: true);
+            bool isUpdated = userDAO.Update(userDb, removePassword: true);
+
+            return isUpdated;
         }
 
-        public void UpdateAvatar(string url, long userId)
+        public bool UpdateAvatar(string url, long userId)
         {
-            userDAO.UpdateAvatar(url, userId);
+            bool isUpdated = userDAO.UpdateAvatar(url, userId);
+
+            return isUpdated;
         }
 
-        public void ConfirmEmail(string token, string email)
+        public bool ConfirmEmail(string token, string email)
         {
             var user = userDAO.GetByEmail(token);
             user.Email = email;
-            userDAO.Update(user);
+            bool isConfirmed = userDAO.Update(user);
+
+            return isConfirmed;
         }
 
-        public void Delete(long id)
+        public bool Delete(long id)
         {
-            userDAO.Delete(id);
+            bool isDeleted = userDAO.Delete(id);
+
+            return isDeleted;
         }
 
-        public void DeleteToken(string token)
+        public bool DeleteToken(string token)
         {
-            verifyDAO.Delete(token);
+            bool isDeleted = verifyDAO.Delete(token);
+
+            return isDeleted;
         }
 
         #endregion

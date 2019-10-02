@@ -13,12 +13,14 @@ namespace Cooper.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserRepository userRepository;
-        private readonly IConfigProvider configProvider;
         private readonly ISocialAuth socialAuth;
+        private readonly Cooper.Services.Interfaces.ISession session;
+        private readonly IConfigProvider configProvider;
 
-        public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider)
+        public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider, ISessionFactory sessionFactory)
         {
-            userRepository = new UserRepository(jwtService, configProvider);
+            session = sessionFactory.FactoryMethod();
+            userRepository = new UserRepository(jwtService, session);
 
             this.configProvider = configProvider;
             this.socialAuth = socialAuth;
@@ -43,11 +45,7 @@ namespace Cooper.Controllers
         {
             IActionResult result = Unauthorized();
 
-            if (!ModelState.IsValid)
-            {
-                result = BadRequest();
-            }
-            else if (login == null)
+            if (login == null)
             {
                 result = BadRequest();
             }
@@ -80,6 +78,7 @@ namespace Cooper.Controllers
                 }
             }
 
+            session.EndSession();
             return result;
         }
     }

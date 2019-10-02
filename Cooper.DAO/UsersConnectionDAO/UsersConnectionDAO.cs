@@ -25,14 +25,14 @@ namespace Cooper.DAO
 
         private readonly OracleConnection oracleConnection;
 
-        public UsersConnectionDAO(IConfigProvider configProvider, ISession session)
+        public UsersConnectionDAO(ISession session)
         {
-            crud = new CRUD(configProvider);
+            crud = new CRUD(session);
             logger = LogManager.GetLogger("CooperLoger");
-            userDAO = new UserDAO(configProvider);
 
             oracleConnection = (OracleConnection)session.GetConnection();
 
+            userDAO = new UserDAO(session);
             this.session = session;
 
             table = "USERSCONNECTIONS";
@@ -102,10 +102,8 @@ namespace Cooper.DAO
 
             try
             {
-                oracleConnection.Open();
 
-
-                List<EntityORM> userConnections = (List<EntityORM>)Read(table, attributes, whereRequest);
+                List<EntityORM> userConnections = (List<EntityORM>)crud.Read(table, attributes, whereRequest);
                 if (userConnections != null)
                 {
                     usersList = new List<UserDb>();
@@ -147,7 +145,7 @@ namespace Cooper.DAO
                 var whereRequest = new WhereRequest("IDUSER1", Operators.Equal, symmetricConnection.IdUser1.ToString())
                     .And("IDUSER2", Operators.Equal, symmetricConnection.IdUser2.ToString());
 
-                EntityORM entity = Get(table, attributes, whereRequest);
+                EntityORM entity = crud.Read(table, attributes, whereRequest).ToList<EntityORM>()[0];
 
                 if (entity != null)
                 {
@@ -165,7 +163,7 @@ namespace Cooper.DAO
                     // Making sure that ID value is not touched.
                     symmetricConnection_newTyped.attributeValue.Remove("ID");
 
-                    Update(table, attributes, whereRequest, symmetricConnection_newTyped);
+                    crud.Update(table, symmetricConnection_newTyped, whereRequest);
 
                     usersConnection.AreFriends = true;
                 }
@@ -178,7 +176,7 @@ namespace Cooper.DAO
                 // Making sure that ID value is not touched.
                 usersConnection_newTyped.attributeValue.Remove("ID");
 
-                Create(table, usersConnection_newTyped);
+                crud.Create(table, idColumn, usersConnection_newTyped, false);
             }
             catch (DbException ex)
             {
@@ -195,7 +193,7 @@ namespace Cooper.DAO
             var  whereRequest = new WhereRequest("IDUSER1", Operators.Equal, usersConnection.IdUser1.ToString())
                 .And("IDUSER2", Operators.Equal, usersConnection.IdUser2.ToString());
 
-            EntityORM usersConnection_newTyped = Get(table, attributes, whereRequest);
+            EntityORM usersConnection_newTyped = crud.Read(table, attributes, whereRequest).ToList<EntityORM>()[0];
 
             return usersConnection_newTyped != null;
         }
@@ -235,11 +233,11 @@ namespace Cooper.DAO
                         usersConnection.AreFriends = false;
                     }
 
-                    Update(table, attributes, whereRequest, usersConnection_newTyped);
+                    crud.Update(table, usersConnection_newTyped, whereRequest);
                 }
                 else
                 {
-                    Create(table, usersConnection_newTyped);
+                    crud.Create(table, idColumn, usersConnection_newTyped, false);
                 }
 
             }
@@ -300,7 +298,7 @@ namespace Cooper.DAO
                     // Making sure that ID value is not touched.
                     symmetricConnection_newTyped.attributeValue.Remove("ID");
 
-                    Update(table, attributes, whereRequest, symmetricConnection_newTyped);
+                    crud.Update(table, symmetricConnection_newTyped, whereRequest);
                 }
                 
                 logger.Info($"User with id={usersConnection.IdUser1} has succesfully unsubscribed from user with id={usersConnection.IdUser2}");
@@ -315,95 +313,19 @@ namespace Cooper.DAO
             return isUnsubscribed;
         }
 
-        public void Create(string table, EntityORM entity)
-        {
-
-            #region Creating SQL expression text
-            string sqlExpression = String.Format("INSERT INTO {0} ({1}) VALUES ({2})",
-                table,
-                String.Join(",", entity.attributeValue.Keys),
-                String.Join(",", entity.attributeValue.Values));
-            #endregion
-
-            OracleCommand command = new OracleCommand(sqlExpression, (OracleConnection)session.GetConnection());
-            command.Transaction = (OracleTransaction)session.GetTransaction();
-
-            command.ExecuteNonQuery();
-        }
-        
-        private EntityORM Get(string table, HashSet<string> attributes, WhereRequest whereRequest)
-        {
-            EntityORM entity = null;
-            
-            string sqlExpression = DbTools.CreateSelectQuery(table, attributes, whereRequest);
-
-            OracleCommand command = new OracleCommand(sqlExpression, (OracleConnection)session.GetConnection());
-            command.Transaction = (OracleTransaction)session.GetTransaction();
-
-            OracleDataReader reader = command.ExecuteReader();
-
-            if (reader.Read())
-            {
-                entity = new EntityORM();
-
-                foreach (string attribute in attributes)
-                {
-                    object value = reader[attribute];
-                    entity.attributeValue.Add(attribute, value);
-                }
-            }
-
-            return entity;
-        }
-
         private void Delete(string table, WhereRequest whereRequest)
         {
-            string sqlExpression = DbTools.CreateDeleteQuery(table, whereRequest);
-            
+            // DELETE this method when you'll implement it in crud
 
-            OracleCommand command = new OracleCommand(sqlExpression, (OracleConnection)session.GetConnection());
-            command.Transaction = (OracleTransaction)session.GetTransaction();
+            string sqlExpression = DbTools.CreateDeleteQuery(table, whereRequest);
+
+            OracleCommand command = new OracleCommand(sqlExpression, (OracleConnection)session.GetConnection())
+            {
+                Transaction = (OracleTransaction)session.GetTransaction()
+            };
+
             command.ExecuteNonQuery();
         }
-
-        private void Update(string table, HashSet<string> attributes, WhereRequest whereRequest, EntityORM entity)
-        {
-            string sqlExpression = DbTools.CreateUpdateQuery(table, entity, whereRequest);
-            
-            var oracleCommand = new OracleCommand(sqlExpression, (OracleConnection)session.GetConnection());
-            oracleCommand.Transaction = (OracleTransaction)session.GetTransaction();
-
-            oracleCommand.ExecuteNonQuery();
-        }
-
-        public IEnumerable<EntityORM> Read(string table, HashSet<string> attributes, WhereRequest whereRequest = null)
-        {
-            List<EntityORM> entities = new List<EntityORM>();
-            try
-            {
-                string sqlExpression = DbTools.CreateSelectQuery(table, attributes, whereRequest);
-                
-                OracleCommand command = new OracleCommand(sqlExpression, oracleConnection);
-
-                OracleDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    EntityORM entity = new EntityORM();
-                    foreach (string attribute in attributes)
-                    {
-                        entity.attributeValue.Add(DbTools.GetVariableAttribute(attribute), reader[attribute]);
-                    }
-
-                    entities.Add(entity);
-                }
-            }
-            catch (DbException ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-
-            return entities;
-        }
-
+     
     }
 }

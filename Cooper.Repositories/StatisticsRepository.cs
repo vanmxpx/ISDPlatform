@@ -12,9 +12,9 @@ namespace Cooper.Repositories
         private readonly GameStatisticsDAO statisticsDAO;
         private readonly ModelsMapper mapper;
 
-        public StatisticsRepository(IConfigProvider configProvider)
+        public StatisticsRepository(ISession session)
         {
-            statisticsDAO = new GameStatisticsDAO(configProvider);
+            statisticsDAO = new GameStatisticsDAO(session);
             mapper = new ModelsMapper();
         }
 
@@ -86,16 +86,20 @@ namespace Cooper.Repositories
             return statisticsDAO.Save(statisticsDb);
         }
 
-        public void Update(Statistics statistics)
+        public bool Update(Statistics statistics)
         {
             StatisticsDb statisticsDb = mapper.Map(statistics);
 
-            statisticsDAO.Update(statisticsDb);
+            bool isUpdated = statisticsDAO.Update(statisticsDb);
+
+            return isUpdated;
         }
 
-        public void Delete(long id)
+        public bool Delete(long id)
         {
-            statisticsDAO.Delete(id);
+            bool isDeleted = statisticsDAO.Delete(id);
+
+            return isDeleted;
         }
     }
 }

@@ -12,5 +12,7 @@ namespace Cooper.Services.Interfaces
         void Rollback(bool endSession);
         IDbTransaction GetTransaction();
         IDbConnection GetConnection();
+        void EndSession();
+        object ExecuteNonQuery(string query, bool getId = false);
     }
 }

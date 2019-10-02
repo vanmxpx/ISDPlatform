@@ -12,9 +12,9 @@ namespace Cooper.Repositories
         private readonly GameDAO gameDAO;
         private readonly ModelsMapper mapper;
 
-        public GameRepository(IConfigProvider configProvider)
+        public GameRepository(ISession session)
         {
-            gameDAO = new GameDAO(configProvider);
+            gameDAO = new GameDAO(session);
             mapper = new ModelsMapper();
         }
         
@@ -67,16 +67,20 @@ namespace Cooper.Repositories
             return gameDAO.Save(gameDb);
         }
 
-        public void Update(Game game)
+        public bool Update(Game game)
         {
             GameDb gameDb = mapper.Map(game);
 
-            gameDAO.Update(gameDb);
+            bool isUpdated = gameDAO.Update(gameDb);
+
+            return isUpdated;
         }
 
-        public void Delete(long id)
+        public bool Delete(long id)
         {
-            gameDAO.Delete(id);
+            bool isDeleted = gameDAO.Delete(id);
+
+            return isDeleted;
         }
     }
 }

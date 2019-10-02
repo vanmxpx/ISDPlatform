@@ -11,9 +11,9 @@ namespace Cooper.Repositories
 
         long Create(Chat chat);
 
-        void Update(Chat chat);
+        bool Update(Chat chat);
 
-        void Delete(long chatId);
+        bool Delete(long chatId);
 
         Chat GetOnetoOneChatByParticipants(IList<User> participants);
     }

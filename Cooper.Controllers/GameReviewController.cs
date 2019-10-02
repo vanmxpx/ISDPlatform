@@ -11,23 +11,33 @@ namespace Cooper.Controllers
     public class GameReviewController : ControllerBase
     {
         private readonly GameReviewRepository gameReviewRepository;
+        private readonly ISession session;
 
-        public GameReviewController(IConfigProvider configProvider)
+        public GameReviewController(ISessionFactory sessionFactory)
         {
-            gameReviewRepository = new GameReviewRepository(configProvider);
+            session = sessionFactory.FactoryMethod();
+            gameReviewRepository = new GameReviewRepository(session);
         }
 
         // GET: api/<controller>
         [HttpGet("{id}")]
         public IEnumerable<GameReview> GetReviewsForGame(long Id)
         {
-            return gameReviewRepository.GetReviewsForGame(Id);
+            var reviews = gameReviewRepository.GetReviewsForGame(Id);
+
+            session.EndSession();
+
+            return reviews;
         }
 
         [HttpGet]
-        public IEnumerable<GameReview> GetUserReviews(long userId)
+        public IEnumerable<GameReview> GetGameReviews(long userId)
         {
-            return gameReviewRepository.GetReviewsFromUser(userId);
+            var reviews = gameReviewRepository.GetReviewsFromUser(userId);
+
+            session.EndSession();
+
+            return reviews;
         }
 
         // GET api/<controller>/5
@@ -43,32 +53,58 @@ namespace Cooper.Controllers
         [ProducesResponseType(201)]
         public IActionResult Post([FromBody]GameReview gameReview)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            
+            IActionResult result;
+
+            session.StartSession();
+
+            bool isSuccessfull = true;
 
             if (gameReview.Id == 0)
             {
                 long id = gameReviewRepository.Create(gameReview);
                 gameReview.Id = id;
 
-                return Ok(gameReview);
+                isSuccessfull &= (gameReview.Id != 0);
             }
             else
             {
-                gameReviewRepository.Update(gameReview);
-
-                return Ok(gameReview);
+                isSuccessfull = gameReviewRepository.Update(gameReview);
             }
+
+            if (isSuccessfull)
+            {
+                session.Commit(endSession: true);
+                result = Ok(gameReview);
+            }
+            else
+            {
+                session.Rollback(endSession: true);
+                result = StatusCode(500, "Connection to database failed");
+            }
+
+            return result;
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            gameReviewRepository.Delete(id);
-            return Ok();
+            IActionResult result;
+            bool isDeleted = gameReviewRepository.Delete(id);
+
+            if (isDeleted)
+            {
+                session.Commit(endSession: true);
+                result = Ok();
+            }
+            else
+            {
+                session.Rollback(endSession: true);
+                result = StatusCode(500, "Connection to database failed");
+            }
+
+            return result;
         }
     }
 }

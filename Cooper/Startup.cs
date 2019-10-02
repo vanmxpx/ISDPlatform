@@ -47,6 +47,7 @@ namespace Cooper
 
             services.AddJWTHandler();
             services.AddConfigurationProvider(Configuration);
+            services.AddOracleSessionFactory();
             services.AddJWTAuthorization();
 
             services.AddSmtpClientExtensionService();
@@ -69,7 +70,6 @@ namespace Cooper
                 c.IncludeXmlComments(xmlPath);
             });
 
-            services.AddOracleSessionFactory();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

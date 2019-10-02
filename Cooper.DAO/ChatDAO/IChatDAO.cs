@@ -13,8 +13,8 @@ namespace Cooper.DAO
 
         long Save(ChatDb chat);
 
-        void Delete(long id);
+        bool Delete(long id);
 
-        void Update(ChatDb chat);
+        bool Update(ChatDb chat);
     }
 }
