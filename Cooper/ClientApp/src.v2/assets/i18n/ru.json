@@ -70,7 +70,8 @@
         "FRIENDS": "Друзья",
         "SUBSCRIBERS": "Подписчики",
         "SUBSCRIPTIONS": "Подписки",
-        "GAMES": "Игры"
+        "GAMES": "Игры",
+        "SETTINGS": "Настройки"
     },
     
     "NOT-FOUND-PAGE": {
@@ -92,6 +93,10 @@
         "RESET-PASS": "Сброс пароля",
         "DELETE-ACCOUNT": "Удаление аккаунта",
         "ENTER-EMAIL": "Введите новый Email",
-        "CHANGE-EMAIL": "Изменить Email"
+        "CHANGE-EMAIL": "Изменить Email",
+        "CONFIRMATION-DELETE": "Вы уверены?",
+        "YES": "Да",
+        "NO": "Нет",
+        "EDIT-EMAIL": "Редактировать"
     }
 }

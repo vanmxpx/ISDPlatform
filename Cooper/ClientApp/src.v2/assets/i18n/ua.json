@@ -70,7 +70,8 @@
         "FRIENDS": "Друзі",
         "SUBSCRIBERS": "Підписники",
         "SUBSCRIPTIONS": "Підписки",
-        "GAMES": "Ігри"	
+        "GAMES": "Ігри"	,
+        "SETTINGS": "Налаштування"
     },
     
     "NOT-FOUND-PAGE": {
@@ -92,6 +93,10 @@
         "RESET-PASS": "Забули пароль",
         "DELETE-ACCOUNT": "Видалення акаунту",
         "ENTER-EMAIL": "Введіть новий Email",
-        "CHANGE-EMAIL": "Змінити Email"
+        "CHANGE-EMAIL": "Змінити Email",
+        "CONFIRMATION-DELETE": "Ви впевнені?",
+        "YES": "Так",
+        "NO": "Ні",
+        "EDIT-EMAIL": "Редагувати"
     }
 }

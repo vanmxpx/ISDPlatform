@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {Router} from '@angular/router';
 import { User } from '@models';
 
 @Component({
@@ -13,6 +14,8 @@ export class MyProfileComponent {
   @Input() public profile: User;
 
   @Output() public userUpdated: EventEmitter<User> = new EventEmitter<User>();
+
+  constructor(private router: Router) {}
 
   public onEditButtonClicked(): void {
     this.editMode = true;
@@ -30,4 +33,7 @@ export class MyProfileComponent {
     this.editMode = false;
   }
 
+  public settingsRedirect(): void {
+    this.router.navigate(['/platform/settings']);
+  }
 }

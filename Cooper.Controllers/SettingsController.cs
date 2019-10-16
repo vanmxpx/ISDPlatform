@@ -23,14 +23,16 @@ namespace Cooper.Controllers
             userRepository = new UserRepository(jwtHandlerService, configProvider);
         }
 
+        public class NewEmail {
+            public string newEmail { get; set; }
+        }
+
         [HttpPost]
         [Route("email")]
-        [Consumes("application/json")]
-        [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult ChangeEmail(string newEmail)
+        public IActionResult ChangeEmail([FromBody]TargetEmail newEmail)
         {
             IActionResult result;
             string userToken = Request.GetUserToken();
@@ -38,9 +40,9 @@ namespace Cooper.Controllers
 
             if (user != null)
             {
-                user.Email = newEmail;
+                user.Email = newEmail.Email;
                 userRepository.Update(user);
-                result = Ok("Email changed successful!");
+                result = Ok();
             }
             else
             {
@@ -51,7 +53,6 @@ namespace Cooper.Controllers
         }
 
         [Route("delete")]
-        [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -64,7 +65,7 @@ namespace Cooper.Controllers
             if (user != null)
             {
                 userRepository.Delete(user.Id);
-                result = Ok("Account deleted!");
+                result = Ok();
             }
             else
             {
@@ -76,7 +77,6 @@ namespace Cooper.Controllers
 
         [HttpPost]
         [Route("social")]
-        [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -99,7 +99,7 @@ namespace Cooper.Controllers
                         user.FacebookId = login.ID;
                     }
                     userRepository.Update(user);
-                    result = Ok($"Social {login.Provider} connected successful!");
+                    result = Ok();
                 }
                 else
                 {

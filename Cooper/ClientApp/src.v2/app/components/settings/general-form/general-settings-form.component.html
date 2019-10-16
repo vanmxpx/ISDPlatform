@@ -1,19 +1,19 @@
 <div class="general_settings">
-  <h4 class="container-title">Email address</h4>
+  <h4 class="container-title">{{'SETTINGS.EMAIL-ADDRESS'|translate}}</h4>
   <div class="email-container container">
-    <span>{{ email }}</span><span (click)="this.editEmail()" class="clickable edit-email">Edit email</span>
+    <span>{{ email }}</span><span (click)="this.editEmail()" class="clickable edit-email">{{'SETTINGS.EDIT-EMAIL'|translate}}</span>
   </div>
-  <h4 class="container-title">Sign in with other social networks</h4>
+  <h4 class="container-title">{{'SETTINGS.SOCIAL-SIGN-IN'|translate}}</h4>
   <div class="container">
     <div class="clickable" (click)="linkSocialAccount.emit(socialNetwork.Google)"><img src="assets/imageKeeper/google-icon.png" class="social-icon" /><span>{{ googleStatus }}</span></div>
     <div class="clickable" (click)="linkSocialAccount.emit(socialNetwork.Facebook)"><img src="assets/imageKeeper/facebook-icon.png" class="social-icon" /><span>{{ facebookStatus }}</span></div>
   </div>
-  <h4 class="container-title">Password</h4>
+  <h4 class="container-title">{{'SETTINGS.PASSWORD'|translate}}</h4>
   <div class="container">
-    <button (click)="this.resetPassword.emit()" class="reset-password-button">Reset password</button>
+    <button (click)="this.resetPassword.emit()" class="reset-password-button">{{'SETTINGS.RESET-PASS'|translate}}</button>
   </div>
-  <h4 class="container-title">Account</h4>
+  <h4 class="container-title">{{'SETTINGS.ACCOUNT'|translate}}</h4>
   <div class="delete-acc-container container">
-    <span (click)="this.deleteAccount.emit()" class="warning clickable">Delete account</span>
+    <span (click)="this.deleteAccount.emit()" class="warning clickable">{{'SETTINGS.DELETE-ACCOUNT'|translate}}</span>
   </div>
 </div>

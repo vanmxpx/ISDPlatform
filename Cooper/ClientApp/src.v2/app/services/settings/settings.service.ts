@@ -30,25 +30,17 @@ export class SettingsService {
   }
 
   public changeEmail(newEmail: string): void {
-    this.http.post(settingsUrl + 'email', { newEmail }).subscribe(
-        (response) => {
-            console.log(response);
-            this.updateAccountEvent.emit();
-        },
+    this.http.post(settingsUrl + 'email', {email: newEmail}).subscribe(
         () => {
-            console.log('Error: Can\'t change email!');
+            this.updateAccountEvent.emit();
         }
       );
   }
 
   public deleteAccount(): void {
     this.http.post(settingsUrl + 'delete', '').subscribe(
-        (response) => {
-            console.log(response);
-            this.updateAccountEvent.emit();
-        },
         () => {
-            console.log('Error: Can\'t delete account!');
+            this.updateAccountEvent.emit();
         }
       );
   }
@@ -57,12 +49,8 @@ export class SettingsService {
     const body = this.createBody(userData, null, true);
 
     this.http.post(settingsUrl + 'social', body).subscribe(
-      (response) => {
-          console.log(response);
-          this.updateAccountEvent.emit();
-      },
       () => {
-          console.log('Error: Can\'t connect social!');
+          this.updateAccountEvent.emit();
       }
     );
   }

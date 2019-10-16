@@ -102,6 +102,8 @@ namespace Cooper.Repositories.Mapping
             user_newType.Description = user.Description;
             user_newType.PlatformLanguage = user.PlatformLanguage;
             user_newType.PlatformTheme = user.PlatformTheme;
+            user_newType.GoogleId = user.GoogleId;
+            user_newType.FacebookId = user.FacebookId;
 
             #endregion
 
@@ -130,6 +132,8 @@ namespace Cooper.Repositories.Mapping
             user_newType.EndBanDate = user.EndBanDate;
             user_newType.PlatformLanguage = user.PlatformLanguage;
             user_newType.PlatformTheme = user.PlatformTheme;
+            user_newType.GoogleId = user.GoogleId;
+            user_newType.FacebookId = user.FacebookId;
 
             #endregion
 

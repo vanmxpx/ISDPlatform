@@ -37,6 +37,8 @@ export class SessionService {
     this.sessionProfile.nickname === profile.nickname &&
     this.sessionProfile.name === profile.name &&
     this.sessionProfile.email === profile.email &&
-    this.sessionProfile.description === profile.description;
+    this.sessionProfile.description === profile.description &&
+    this.sessionProfile.googleId === profile.googleId &&
+    this.sessionProfile.facebookId === profile.facebookId;
   }
 }

@@ -14,8 +14,8 @@ import { SettingsService } from '@services';
 })
 
 export class SettingsLayoutComponent implements OnInit {
-  public googleStatus: string = 'Not connected';
-  public facebookStatus: string = 'Not connected';
+  public googleStatus: string;
+  public facebookStatus: string;
   public profile: User;
 
   constructor(private settingsService: SettingsService, private sessionService: SessionService,
@@ -28,7 +28,15 @@ export class SettingsLayoutComponent implements OnInit {
 
   public updateProfile(): void {
     console.log('updating profile...');
-    this.sessionService.getSessionUserData().then((user) => this.profile = user);
+    this.sessionService.getSessionUserData().then((user) => {
+      this.profile = user;
+      this.googleStatus = this.socialCheck(this.profile.googleId);
+      this.facebookStatus = this.socialCheck(this.profile.facebookId);
+    });
+  }
+
+  private socialCheck(value: string): string {
+    return (!value) ? 'Not connected' : 'Connected';
   }
 
   public resetPassword(): void {
@@ -54,7 +62,7 @@ export class SettingsLayoutComponent implements OnInit {
       const dialogRef = this.dialog.open(ChangeEmailComponent);
       dialogRef.afterClosed().subscribe(
         (newEmail) => {
-          if (newEmail !== '') {
+          if (newEmail) {
             this.settingsService.changeEmail(newEmail);
           }
         });

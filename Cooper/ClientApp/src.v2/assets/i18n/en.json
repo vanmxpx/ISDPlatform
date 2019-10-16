@@ -70,7 +70,8 @@
         "FRIENDS": "Friends",
         "SUBSCRIBERS": "Subscribers",
         "SUBSCRIPTIONS": "Subscriptions",
-        "GAMES": "Games"	
+        "GAMES": "Games",
+        "SETTINGS": "Settings"	
     },
     "NOT-FOUND-PAGE": {
         "TEXT": "Page not found.",
@@ -91,7 +92,11 @@
         "RESET-PASS": "Reset password",
         "DELETE-ACCOUNT": "Delete account",
         "ENTER-EMAIL": "Enter new Email",
-        "CHANGE-EMAIL": "Change Email"
+        "CHANGE-EMAIL": "Change Email",
+        "CONFIRMATION-DELETE": "Are you sure?",
+        "YES": "Yes",
+        "NO": "No",
+        "EDIT-EMAIL": "Edit email"
     }
 }
 
