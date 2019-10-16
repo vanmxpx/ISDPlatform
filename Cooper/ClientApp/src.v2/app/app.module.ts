@@ -26,13 +26,15 @@ import {
 
   RegistrationLayoutComponent, PageNotFoundLayoutComponent, UploadLayoutComponent, HomeLayoutComponent,
 
-  ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent, PersonalChatsLayoutComponent, GameLoadErrorLayoutComponent } from '@layouts';
+  ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent, PersonalChatsLayoutComponent, GameLoadErrorLayoutComponent, SettingsLayoutComponent } from '@layouts';
+
 
 import {
   LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,
   GamesListComponent, GameListItemComponent, UploadComponent, UserInfoComponent, MyProfileComponent, GameCardComponent,
   NavigationComponent, AvatarCardComponent, ChatsListComponent, ChatBoxComponent,
-  MessagePanelComponent, LanguageSelectComponent, ResetPasswordFormComponent, ConfirmPasswordFormComponent} from '@components';
+  MessagePanelComponent, LanguageSelectComponent, ResetPasswordFormComponent, ConfirmPasswordFormComponent,
+  SocialRegisterComponent, SettingsComponent, GeneralSettingsComponent, ChangeEmailComponent, DeleteAccountComponent } from '@components';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -76,6 +78,7 @@ export function HttpLoaderFactory(http: HttpClient): any {
     PageNotFoundLayoutComponent,
     HomeLayoutComponent,
     PersonalChatsLayoutComponent,
+    SettingsLayoutComponent,
     SafePipe,
     GameLoadErrorLayoutComponent,
 
@@ -102,9 +105,14 @@ export function HttpLoaderFactory(http: HttpClient): any {
     ChatBoxComponent,
     LanguageSelectComponent,
     LanguageNamePipe,
+    SettingsComponent,
+    GeneralSettingsComponent,
   MessagePanelComponent,
   UploadComponent,
   UploadLayoutComponent,
+  SocialRegisterComponent,
+  ChangeEmailComponent,
+  DeleteAccountComponent,
   MessageTimePipe,
   MessageDateTimePipe,
   GameLinkPipe,
@@ -156,7 +164,7 @@ export function HttpLoaderFactory(http: HttpClient): any {
 
   ],
 
-  entryComponents: [UploadLayoutComponent],
+  entryComponents: [UploadLayoutComponent, SocialRegisterComponent, ChangeEmailComponent, DeleteAccountComponent],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

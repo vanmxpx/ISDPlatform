@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'ng-dynami-social-login';
@@ -19,6 +19,7 @@ const socialProvider = {
   providedIn: 'root'
 })
 export class AuthentificationService {
+  public registerEvent: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private router: Router, private http: HttpClient, private socialAuthService: AuthService) {
    }
@@ -58,7 +59,7 @@ export class AuthentificationService {
   }
 
   private transferSocialDataToServer(userData: any): void {
-    let body = this.createBody(userData, true);
+    const body = this.createBody(userData, null, true);
 
     this.http.post(authUrl, body).subscribe(
       (response) => {
@@ -67,25 +68,29 @@ export class AuthentificationService {
       (err) => {
         if (err.error === 'Auth') {
           // Register
-          body = this.createBody(userData, false);
-          this.http.post(registrationUrl, body).subscribe(
-            () => {
-              // Try to login 1 time
-              body = this.createBody(userData, true);
-              this.http.post(authUrl, body).subscribe(
-                (response) => {
-                  this.onPassedAuth((response as LoginAttemptResponse).token);
-                },
-                () => {
-                  this.redirectToLoginPage();
-                }
-              );
-            }
-          );
+          this.registerEvent.emit(userData);
         } else {
           this.redirectToLoginPage();
         }
       }
+    );
+  }
+
+  public socialRegister(userData: any, nickname: string): void {
+    let body = this.createBody(userData, nickname, false);
+    this.http.post(registrationUrl, body).subscribe(
+      () => {
+      // Try to login 1 time
+      body = this.createBody(userData, nickname, true);
+      this.http.post(authUrl, body).subscribe(
+        (response) => {
+          this.onPassedAuth((response as LoginAttemptResponse).token);
+        },
+        () => {
+          this.redirectToLoginPage();
+        }
+      );
+    }
     );
   }
 
@@ -98,7 +103,7 @@ export class AuthentificationService {
     this.router.navigate(['/login', {failedLogin: true}]);
   }
 
-  public createBody(userData: any, isAuth: boolean): any {
+  public createBody(userData: any, nickname: string, isAuth: boolean): any {
     let body;
     if (isAuth) {
       body = {
@@ -111,7 +116,8 @@ export class AuthentificationService {
       body = {
         Name: userData.name,
         Email: userData.email,
-        Nickname: userData.id,
+        Id: userData.id,
+        Nickname: nickname,
         Password: userData.token,
         Provider: userData.provider,
         PhotoURL: userData.image

@@ -1,7 +1,7 @@
 <div>
   <main>
       <div class="col-md-1"></div>
-
+      
       <div class="col-md-2">
           <coop-avatar-card
           (click)="openDialog()"
@@ -18,6 +18,9 @@
           <coop-user-info
           *ngIf = "!isOwnProfile"
           [profile] = "profile"
+          [isSubscription] = "isSubscription"
+          (subscribe)="onSubscribe($event)"
+          (unsubscribe)="onUnsubscribe($event)"
           ></coop-user-info>
       </div>
 

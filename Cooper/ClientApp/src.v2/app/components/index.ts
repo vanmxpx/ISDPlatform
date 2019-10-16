@@ -28,3 +28,13 @@ export {ChatsListComponent} from './chats-list/chats-list.component';
 export {ChatBoxComponent} from './chat-box/chat-box.component';
 
 export { MessagePanelComponent } from './message-panel/message-panel.component';
+
+export { SettingsComponent } from './settings/settings-form/settings-form.component';
+
+export { GeneralSettingsComponent } from './settings/general-form/general-settings-form.component';
+
+export { SocialRegisterComponent } from './social-register-form/social-register-form.component';
+
+export { ChangeEmailComponent } from './change-email-form/change-email-form.component';
+
+export { DeleteAccountComponent } from './delete-account-form/delete-account-form.component';

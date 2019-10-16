@@ -11,6 +11,7 @@
 
     "REGISTRATION-FORM" : {
         "TITLE": "Реєстрація",
+        "NEXT": "Далi",
         "TEXT-HELP": "також Ви маєте змогу",
         "TEXT-HELP-BR": "за допомогою:",
         "LINK-TO-SIGN-IN": "увійти",
@@ -69,7 +70,8 @@
         "FRIENDS": "Друзі",
         "SUBSCRIBERS": "Підписники",
         "SUBSCRIPTIONS": "Підписки",
-        "GAMES": "Ігри"	
+        "GAMES": "Ігри"	,
+        "SETTINGS": "Налаштування"
     },
     
     "NOT-FOUND-PAGE": {
@@ -79,5 +81,22 @@
     "HOME-PAGE": {
         "TEXT": "Домашня сторінка перебуває в розробці.",
         "LINK-TEXT": "Перейти на сторінку користувача"
+    },
+    "SETTINGS": {
+        "ACCOUNT": "Аккаунт",
+        "LANGUAGE": "Мова",
+        "EMAIL-ADDRESS": "Поштова адреса",
+        "SOCIAL-SIGN-IN": "Увійти за допомогою інших соціальних мереж",
+        "NOT-CONNECTED": "Не підключений",
+        "CONNECTED": "Підключений",
+        "PASSWORD": "Пароль",
+        "RESET-PASS": "Забули пароль",
+        "DELETE-ACCOUNT": "Видалення акаунту",
+        "ENTER-EMAIL": "Введіть новий Email",
+        "CHANGE-EMAIL": "Змінити Email",
+        "CONFIRMATION-DELETE": "Ви впевнені?",
+        "YES": "Так",
+        "NO": "Ні",
+        "EDIT-EMAIL": "Редагувати"
     }
 }

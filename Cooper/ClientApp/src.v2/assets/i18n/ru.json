@@ -11,6 +11,7 @@
 
     "REGISTRATION-FORM" : {
         "TITLE": "Регистрация",
+        "NEXT": "Далее",
         "TEXT-HELP": "также Вы можете",
         "TEXT-HELP-BR": "с помощью:",
         "LINK-TO-SIGN-IN": "войти",
@@ -69,7 +70,8 @@
         "FRIENDS": "Друзья",
         "SUBSCRIBERS": "Подписчики",
         "SUBSCRIPTIONS": "Подписки",
-        "GAMES": "Игры"
+        "GAMES": "Игры",
+        "SETTINGS": "Настройки"
     },
     
     "NOT-FOUND-PAGE": {
@@ -79,5 +81,22 @@
     "HOME-PAGE": {
         "TEXT": "Домашняя страница еще не была реализована.",
         "LINK-TEXT": "Перейти на страницу профиля"
+    },
+    "SETTINGS": {
+        "ACCOUNT": "Аккаунт",
+        "LANGUAGE": "Язык",
+        "EMAIL-ADDRESS": "Email адрес",
+        "SOCIAL-SIGN-IN": "Войти с помощью других социальных сетей",
+        "NOT-CONNECTED": "Не подключён",
+        "CONNECTED": "Подключён",
+        "PASSWORD": "Пароль",
+        "RESET-PASS": "Сброс пароля",
+        "DELETE-ACCOUNT": "Удаление аккаунта",
+        "ENTER-EMAIL": "Введите новый Email",
+        "CHANGE-EMAIL": "Изменить Email",
+        "CONFIRMATION-DELETE": "Вы уверены?",
+        "YES": "Да",
+        "NO": "Нет",
+        "EDIT-EMAIL": "Редактировать"
     }
 }

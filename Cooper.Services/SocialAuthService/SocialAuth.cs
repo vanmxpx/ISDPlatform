@@ -1,3 +1,5 @@
+using Cooper.DAO;
+using Cooper.DAO.Models;
 using Cooper.Services.Interfaces;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
@@ -9,10 +11,13 @@ namespace Cooper.Services
 {
     class SocialAuth : ISocialAuth
     {
+        private readonly IUserDAO userDAO;
         private readonly string FacebookAppID, FacebookSecretKey;
         private readonly string getFacebookSecretKey;
         private delegate bool authorizerDelegate(string token, string id);
+        private delegate UserDb getUserDelegate(string id);
         private Dictionary<string, authorizerDelegate> CheckAuth = new Dictionary<string, authorizerDelegate>();
+        private Dictionary<string, getUserDelegate> GetUser = new Dictionary<string, getUserDelegate>();
 
         public SocialAuth(IConfigProvider configProvider)
         {
@@ -23,11 +28,21 @@ namespace Cooper.Services
 
             CheckAuth.Add("facebook", IsFacebookAuth);
             CheckAuth.Add("google", IsGoogleAuth);
+
+            userDAO = new UserDAO(configProvider);
+
+            GetUser.Add("facebook", userDAO.GetByFacebook);
+            GetUser.Add("google", userDAO.GetByGoogle);
         }
 
         public bool getCheckAuth(string provider, string token, string id)
         {
             return CheckAuth[provider](token, id);
+        }
+
+        public string tryGetUserNickname(string provider, string id)
+        {
+            return GetUser[provider](id)?.Nickname;
         }
 
         private bool IsFacebookAuth(string token, string user_id)

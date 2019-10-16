@@ -1,0 +1,1 @@
+<coop-settings-form *ngIf="this.profile != null" [email]="this.profile.email" [googleStatus]="this.googleStatus" [facebookStatus]="this.facebookStatus" (changeEmail)="changeEmail()" (resetPassword)="resetPassword()" (deleteAccount)="deleteAccount()" (linkSocialAccount)="linkSocialAccount($event)"></coop-settings-form>

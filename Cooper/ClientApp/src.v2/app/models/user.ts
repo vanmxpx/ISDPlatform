@@ -5,6 +5,8 @@ export class User {
     public email: string;
     public description: string;
     public photoURL: string;
+    public googleId: string;
+    public facebookId: string;
 
     // IsVerified: boolean;
     // IsCreator: boolean;

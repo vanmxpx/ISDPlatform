@@ -69,13 +69,13 @@ namespace Cooper.Controllers
 
                 if (login.Provider != null && socialAuth.getCheckAuth(login.Provider, login.Password, login.ID))
                 {
-                    if ((login.Username = userRepository.GetByEmail(login.Username)?.Nickname) != null)
+                    if ((login.Username = socialAuth.tryGetUserNickname(login.Provider, login.ID)) != null)
                     {
                         result = Ok(new { Token = new TokenFactory(login, configProvider).GetTokenString() });
                     }
                     else
                     {
-                        result = BadRequest();
+                        result = BadRequest("Auth");
                     }
                 }
                 else if (login.Provider == null)

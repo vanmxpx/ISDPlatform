@@ -14,4 +14,12 @@
     <h5>{{'PROFILE.BIO'|translate}}:</h5>
     <p class="card-field">{{profile.description}}</p>
   </mat-card-content>
+
+  <div *ngIf="isSubscription" (click)="onUnsubscribeButtonClicked()">
+    <button mat-raised-button class="my-button">Unsubscribe</button>
+  </div>
+  
+  <div *ngIf="!isSubscription" (click)="onSubscribeButtonClicked()">
+    <button mat-raised-button class="my-button">Subscribe</button>
+  </div>
 </div>
