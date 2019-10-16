@@ -20,14 +20,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AuthGuard, ExitGuard } from '@guards';
 import { SafePipe } from '@pipes';
-import {
-  LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
+import { LoginLayoutComponent, GameLayoutComponent, GamesLayoutComponent,
   PlatformLayoutComponent, ProfileLayoutComponent, TopPanelLayoutComponent,
-
-  RegistrationLayoutComponent, PageNotFoundLayoutComponent, UploadLayoutComponent, HomeLayoutComponent,
-
-  ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent, PersonalChatsLayoutComponent, GameLoadErrorLayoutComponent, SettingsLayoutComponent } from '@layouts';
-
+  RegistrationLayoutComponent, PageNotFoundLayoutComponent, UploadLayoutComponent,
+   HomeLayoutComponent, ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent,
+    PersonalChatsLayoutComponent, GameLoadErrorLayoutComponent, SettingsLayoutComponent } from '@layouts';
 
 import {
   LoginFormComponent, RegistrationFormComponent, PosterComponent, UserConnectionsListComponent,

@@ -24,6 +24,3 @@ export { UploadLayoutComponent } from './upload-form/upload-form.layout';
 export {GameLoadErrorLayoutComponent} from './game-load-error/game-load-error.layout';
 
 export { SettingsLayoutComponent } from './settings/settings.layout';
-
-
-
