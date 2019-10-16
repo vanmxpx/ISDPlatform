@@ -1,18 +1,15 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-
+import { TranslateService } from '@ngx-translate/core';
+import { LocalizationService } from '@services';
 
 @Component({
-  selector: 'cooper-root',
+  selector: 'coop-root',
  templateUrl: './app.component.html',
- styleUrls: ['./app.component.css']
-})
+ styleUrls: ['./app.component.css'],
 
+})
 export class AppComponent {
-  constructor(){
+  constructor(public translate: TranslateService, private localizationService: LocalizationService) {
+    this.localizationService.switchLanguage();
   }
 }
-
-
-
-

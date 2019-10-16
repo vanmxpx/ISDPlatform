@@ -21,16 +21,16 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-    "@app": ["src.v2/app/"],
-    "@components": ["src.v2/app/components/"],
-    "@helpers": ["src.v2/app/helpers/"],
-    "@layouts": ["src.v2/app/layouts/"],
-    "@models": ["src.v2/app/models/"],
-    "@pipes": ["src.v2/app/pipes/"],
-    "@services": ["src.v2/app/services/"],
-    "@guards": ["src.v2/app/guards/"],
-    "@enums": ["src.v2/app/enums/"],
-    "@environment/*": ["src.v2/environments/*"]
+    "@app": ["src/app/"],
+    "@components": ["src/app/components/"],
+    "@helpers": ["src/app/helpers/"],
+    "@layouts": ["src/app/layouts/"],
+    "@models": ["src/app/models/"],
+    "@pipes": ["src/app/pipes/"],
+    "@services": ["src/app/services/"],
+    "@guards": ["src/app/guards/"],
+    "@enums": ["src/app/enums/"],
+    "@environment/*": ["src/environments/*"]
     }
   }
 }

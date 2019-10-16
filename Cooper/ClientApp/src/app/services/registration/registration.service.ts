@@ -1,27 +1,26 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+
+const registrationUrl = '/registration';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegistrationService {
 
-  readonly registrationUrl = '/registration';
-
   constructor(private router: Router, private http: HttpClient) { }
 
-  public register(body) {
+  public register(body: any): void {
 
-    this.http.post(this.registrationUrl, body).subscribe(
-      (res: any) => {
-        this.router.navigate(['/myPage', 'my']);
+    this.http.post(registrationUrl, body).subscribe(
+      () => {
+        this.router.navigate(['/login']);
         },
-      err => {
+      (err) => {
         console.log(err);
       }
     );
     }
-
 
 }
