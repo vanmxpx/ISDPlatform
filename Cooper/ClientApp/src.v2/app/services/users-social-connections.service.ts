@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of, Observable, pipe, Subscription } from 'rxjs';
+import { of, Observable} from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { User } from '@models';
 import { timeout, catchError } from 'rxjs/operators';
@@ -69,13 +69,13 @@ export class UsersSocialConnectionsService {
     return response;
   }
 
-  public subscribe(userId: number): Observable<boolean> {
+  public subscribeOnUser(userId: number): Observable<boolean> {
     return this.http.post<boolean>(userSocialConnectionUrl + `/subscribe/${userId}`, {})
     .pipe(
       catchError(this.handleError<boolean>(`subscription on user with id = ${userId}`, false)));
   }
 
-  public unsubscribe(userId: number): Observable<boolean> {
+  public unsubscribeFromUser(userId: number): Observable<boolean> {
     return this.http.delete<boolean>(userSocialConnectionUrl + `/${userId}`)
     .pipe(
       catchError(this.handleError<boolean>(`unsubscription from user with id = ${userId}`, false)));

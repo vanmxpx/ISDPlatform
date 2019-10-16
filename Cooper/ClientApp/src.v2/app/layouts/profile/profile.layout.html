@@ -19,8 +19,8 @@
           *ngIf = "!isOwnProfile"
           [profile] = "profile"
           [isSubscription] = "isSubscription"
-          (subscribe)="subscribe($event)"
-          (unsubscribe)="unsubscribe($event)"
+          (subscribe)="onSubscribe($event)"
+          (unsubscribe)="onUnsubscribe($event)"
           ></coop-user-info>
       </div>
 
