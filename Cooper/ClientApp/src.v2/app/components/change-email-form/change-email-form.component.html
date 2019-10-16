@@ -1,0 +1,6 @@
+<div mat-dialog-content class="register_float_form">
+    <mat-form-field class="mat-form-field">
+        <input matInput type="text" [(ngModel)]="email" placeholder="{{'SETTINGS.ENTER-EMAIL'|translate}}">
+    </mat-form-field>
+    <button class="button--colors button--sizes button--font button--margin" type="button" (click)="emailChange()">{{'SETTINGS.CHANGE-EMAIL'|translate}}</button>
+</div>

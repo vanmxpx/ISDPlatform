@@ -1,0 +1,47 @@
+.settings {
+  margin-top: 30px
+}
+
+.social-icon{
+  width: 64px;
+  height: auto;
+  margin-right: 20px;   
+}
+
+.container-title {
+  width: 100%;
+  color: #999;
+  font-weight: 100; 
+  border-bottom: 1px solid #f2f2f2;
+  margin: 0;
+  padding: 10px;
+}
+
+.container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 98%;
+}
+
+.reset-password-button {
+  background: gray;
+  color: #fff;
+  align-self: center;
+  width: 200px;
+  padding: 16px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.edit-email {
+  margin-left: 40px;
+  font-size: 12px;
+}
+
+.warning {
+  color: red;
+}
+
+.clickable {
+  cursor: pointer;
+}

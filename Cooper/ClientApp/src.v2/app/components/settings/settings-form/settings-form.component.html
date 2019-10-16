@@ -1,0 +1,10 @@
+<div class="settings">
+  <ul class="settings_menu_switcher">
+    <li [ngClass]="{settings_menu_item_now: this.nowMenu == '0'}" class="clickable remove_dots settings_menu_item" (click)="setMenu(0)">Account</li>
+    <li [ngClass]="{settings_menu_item_now: this.nowMenu == '1'}" class="clickable remove_dots settings_menu_item" (click)="setMenu(1)">Privacy</li>
+  </ul>
+  <div class="settings_content" [ngSwitch]="nowMenu">
+    <coop-general-form *ngSwitchCase='0' [email]="this.email" [googleStatus]="this.googleStatus" [facebookStatus]="this.facebookStatus" (changeEmail)="this.changeEmail.emit()" (resetPassword)="this.resetPassword.emit()" (deleteAccount)="this.deleteAccount.emit()" (linkSocialAccount)="this.linkSocialAccount.emit($event)"></coop-general-form>
+    <ng-template *ngSwitchCase='1'><a>test</a>sdsd</ng-template>
+  </div>
+</div>

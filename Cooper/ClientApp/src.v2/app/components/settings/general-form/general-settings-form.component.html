@@ -1,0 +1,19 @@
+<div class="general_settings">
+  <h4 class="container-title">Email address</h4>
+  <div class="email-container container">
+    <span>{{ email }}</span><span (click)="this.editEmail()" class="clickable edit-email">Edit email</span>
+  </div>
+  <h4 class="container-title">Sign in with other social networks</h4>
+  <div class="container">
+    <div class="clickable" (click)="linkSocialAccount.emit(socialNetwork.Google)"><img src="assets/imageKeeper/google-icon.png" class="social-icon" /><span>{{ googleStatus }}</span></div>
+    <div class="clickable" (click)="linkSocialAccount.emit(socialNetwork.Facebook)"><img src="assets/imageKeeper/facebook-icon.png" class="social-icon" /><span>{{ facebookStatus }}</span></div>
+  </div>
+  <h4 class="container-title">Password</h4>
+  <div class="container">
+    <button (click)="this.resetPassword.emit()" class="reset-password-button">Reset password</button>
+  </div>
+  <h4 class="container-title">Account</h4>
+  <div class="delete-acc-container container">
+    <span (click)="this.deleteAccount.emit()" class="warning clickable">Delete account</span>
+  </div>
+</div>

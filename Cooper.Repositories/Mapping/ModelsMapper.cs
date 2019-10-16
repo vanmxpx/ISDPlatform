@@ -146,6 +146,16 @@ namespace Cooper.Repositories.Mapping
             user_newType.Password = user.Password;
             user_newType.PhotoURL = user.PhotoURL;
 
+            switch (user.Provider)
+            {
+                case "google":
+                    user_newType.GoogleId = user.Id;
+                    break;
+                case "facebook":
+                    user_newType.FacebookId = user.Id;
+                    break;
+            }
+
             return user_newType;
         }
 

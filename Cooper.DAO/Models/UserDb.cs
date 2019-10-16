@@ -19,6 +19,8 @@ namespace Cooper.DAO.Models
         public string Description { get; set; }
         public string PlatformLanguage { get; set; }
         public string PlatformTheme { get; set; }
+        public string GoogleId { get; set; }
+        public string FacebookId { get; set; }
 
         #endregion
 

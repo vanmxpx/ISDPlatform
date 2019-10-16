@@ -8,7 +8,7 @@ import {SocialNetwork} from '@enums';
   styleUrls: ['./registration-form.component.css']
 })
 export class RegistrationFormComponent {
-
+  public socialNetwork: typeof SocialNetwork = SocialNetwork;
   private registrationForm: FormGroup;
   private emptyFieldWarning: string = 'This field is empty';
 
