@@ -36,12 +36,12 @@ namespace Cooper.DAO
             {
                 "ID", "NAME", "NICKNAME", "EMAIL", "PASSWORD", "PHOTOURL",
                 "ISVERIFIED", "ISCREATOR", "ISBANNED", "ENDBANDATE", "DESCRIPTION",
-                "PLATFORMLANGUAGE", "PLATFORMTHEME"
+                "PLATFORMLANGUAGE", "PLATFORMTHEME", "GOOGLEID", "FACEBOOKID"
             };
 
             unique_attributes = new HashSet<string>()
             {
-                "ID", "NICKNAME", "EMAIL"
+                "ID", "NICKNAME", "EMAIL", "GOOGLEID", "FACEBOOKID"
             };
         }
 
@@ -121,6 +121,24 @@ namespace Cooper.DAO
             email = $"\'{email}\'";       // tuning string for sql query
 
             return GetByUniqueAttribute(email, attribute);
+        }
+
+        public UserDb GetByFacebook(string id)
+        {
+            string attribute = "FACEBOOKID";
+
+            id = $"\'{id}\'";
+
+            return GetByUniqueAttribute(id, attribute);
+        }
+
+        public UserDb GetByGoogle(string id)
+        {
+            string attribute = "GOOGLEID";
+
+            id = $"\'{id}\'";
+
+            return GetByUniqueAttribute(id, attribute);
         }
 
         public UserDb GetByUniqueAttribute(object attribute_value, string attribute_name)

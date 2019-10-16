@@ -11,6 +11,7 @@
 
     "REGISTRATION-FORM" : {
         "TITLE": "Sign Up",
+        "NEXT": "Next",
         "TEXT-HELP": "also you can",
         "TEXT-HELP-BR": "by:",
         "LINK-TO-SIGN-IN": "Sign in",
@@ -69,7 +70,8 @@
         "FRIENDS": "Friends",
         "SUBSCRIBERS": "Subscribers",
         "SUBSCRIPTIONS": "Subscriptions",
-        "GAMES": "Games"	
+        "GAMES": "Games",
+        "SETTINGS": "Settings"	
     },
     "NOT-FOUND-PAGE": {
         "TEXT": "Page not found.",
@@ -78,6 +80,23 @@
     "HOME-PAGE": {
         "TEXT": "Home page hasn't been implemented yet.",
         "LINK-TEXT": "Go to my page"
+    },
+    "SETTINGS": {
+        "ACCOUNT": "Account",
+        "LANGUAGE": "Language",
+        "EMAIL-ADDRESS": "Email address",
+        "SOCIAL-SIGN-IN": "Sign in with other social networks",
+        "NOT-CONNECTED": "Not connected",
+        "CONNECTED": "Connected",
+        "PASSWORD": "Password",
+        "RESET-PASS": "Reset password",
+        "DELETE-ACCOUNT": "Delete account",
+        "ENTER-EMAIL": "Enter new Email",
+        "CHANGE-EMAIL": "Change Email",
+        "CONFIRMATION-DELETE": "Are you sure?",
+        "YES": "Yes",
+        "NO": "No",
+        "EDIT-EMAIL": "Edit email"
     }
 }
 

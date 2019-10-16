@@ -20,3 +20,5 @@ export { ConfirmPasswordLayoutComponent } from './confirm-password/confirm-passw
 export { PersonalChatsLayoutComponent } from './personal-chats/personal-chats.layout';
 
 export { UploadLayoutComponent } from './upload-form/upload-form.layout';
+
+export { SettingsLayoutComponent } from './settings/settings.layout';

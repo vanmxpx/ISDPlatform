@@ -46,6 +46,7 @@
   <div *ngIf="!editMode" (click)="onEditButtonClicked()">
       <button mat-raised-button class="my-button">{{'PROFILE.EDIT-BUTTON'|translate}}</button>
   </div>
+  <button mat-raised-button class="my-button small-margin-top" (click)="settingsRedirect()">{{'PROFILE.SETTINGS'|translate}}</button>
 
   <div *ngIf="editMode" (click)="onSaveButtonClicked()">
       <button mat-raised-button class="my-button">{{'PROFILE.SAVE-BUTTON'|translate}}</button>

@@ -14,6 +14,8 @@ namespace Cooper.DAO
         UserDb Get(object id);
         IList<UserDb> GetUsersById(IList<long> usersId);
         UserDb GetByNickname(string nickname);
+        UserDb GetByFacebook(string id);
+        UserDb GetByGoogle(string id);
         UserDb GetByEmail(string email);
         UserDb GetByUniqueAttribute(object attribute_value, string attribute_name);
         UserDb GetExtended(long id);

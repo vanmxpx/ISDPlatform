@@ -237,6 +237,12 @@ namespace Cooper.DAO.Mapping
                     case "PLATFORMTHEME":
                         user.PlatformTheme = aV.Value.ToString();
                         break;
+                    case "FACEBOOKID":
+                        user.FacebookId = aV.Value.ToString();
+                        break;
+                    case "GOOGLEID":
+                        user.GoogleId = aV.Value.ToString();
+                        break;
                     default:
                         break;
                 }
@@ -292,6 +298,12 @@ namespace Cooper.DAO.Mapping
                         break;
                     case "PLATFORMTHEME":
                         value = $"\'{user.PlatformTheme}\'";
+                        break;
+                    case "FACEBOOKID":
+                        value = $"\'{user.FacebookId}\'";
+                        break;
+                    case "GOOGLEID":
+                        value = $"\'{user.GoogleId}\'";
                         break;
                     default:
                         break;

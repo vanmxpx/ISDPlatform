@@ -9,7 +9,7 @@ import {TranslateService} from '@ngx-translate/core';
   styleUrls: ['./login-form.component.css']
 })
 export class LoginFormComponent {
-
+  public socialNetwork: typeof SocialNetwork = SocialNetwork;
   public failedLoginMessage: string = 'Invalid username or password.';
 
   @Output() public settingDefaultLang: EventEmitter<string> = new EventEmitter<string>();

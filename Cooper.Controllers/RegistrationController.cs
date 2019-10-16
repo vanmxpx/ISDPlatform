@@ -44,6 +44,7 @@ namespace Cooper.Controllers
         {
             IActionResult result = BadRequest();
             // TODO: send the proper explanation for bad-request.
+            user.Id = DbTools.SanitizeString(user.Id);
             user.Nickname = DbTools.SanitizeString(user.Nickname);
             user.Email = DbTools.SanitizeString(user.Email);
 
@@ -52,13 +53,16 @@ namespace Cooper.Controllers
                 && !userRepository.IfEmailExists(user.Email))
             {
                 user.Password = DbTools.SanitizeString(user.Password);
-                if (user.Provider != null && socialAuth.getCheckAuth(user.Provider, user.Password, user.Nickname))
+                if (user.Provider != null && socialAuth.getCheckAuth(user.Provider, user.Password, user.Id))
                 {
-                    if (user.Password.Length > 300)
+                    if (socialAuth.tryGetUserNickname(user.Provider, user.Id) == null)
                     {
-                        user.Password = user.Password.Substring(0, 300);
+                        if (user.Password.Length > 300)
+                        {
+                            user.Password = user.Password.Substring(0, 300);
+                        }
+                        result = Ok(userRepository.Create(user));
                     }
-                    result = Ok(userRepository.Create(user));
                 }
                 else if (user.Provider == null)
                 {

@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SocialNetwork } from '@enums';
 import { AuthentificationService, LocalizationService } from '@services';
 import { TranslateService } from '@ngx-translate/core';
+import { MatDialog } from '@angular/material/dialog';
+import { SocialRegisterComponent } from '@components';
 
 @Component({
   selector: 'coop-login-layout',
@@ -18,7 +20,8 @@ export class LoginLayoutComponent implements OnInit {
   public currentLanguage: string = this.localizationService.getCurrentLanguage();
 
   constructor(private authService: AuthentificationService, private route: ActivatedRoute,
-              private router: Router, public translate: TranslateService, private localizationService: LocalizationService) { }
+              private router: Router, public translate: TranslateService, private localizationService: LocalizationService,
+              public dialog: MatDialog) { }
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -31,6 +34,18 @@ export class LoginLayoutComponent implements OnInit {
     if (this.authService.isAuthentificated()) {
       this.router.navigate(['/platform/home']);
     }
+
+    this.authService.registerEvent.subscribe(
+      (userData) => {
+        const dialogRef = this.dialog.open(SocialRegisterComponent);
+        dialogRef.afterClosed().subscribe(
+          (nickname) => {
+            if (nickname !== '') {
+              this.authService.socialRegister(userData, nickname);
+            }
+          });
+      }
+    );
   }
 
   public signIn(form: NgForm): void {

@@ -1,0 +1,7 @@
+<div mat-dialog-content class="register_float_form">
+    <h1>{{'REGISTRATION-FORM.TITLE'|translate}}</h1>
+    <mat-form-field class="mat-form-field">
+        <input matInput type="text" [(ngModel)]="nickname" placeholder="{{'LOGIN-FORM.PLACEHOLDER-NICKNAME'|translate}}">
+    </mat-form-field>
+    <button class="button--colors button--sizes button--font button--margin" type="button" (click)="socialRegister()">{{'REGISTRATION-FORM.NEXT'|translate}}</button>
+</div>

@@ -18,11 +18,13 @@ namespace Cooper.Models
         public DateTime EndBanDate { get; set; }
         public string PlatformLanguage { get; set; }
         public string PlatformTheme { get; set; }
-        #endregion 
+        public string GoogleId { get; set; }
+        public string FacebookId { get; set; }
+        #endregion
 
         #region Interop attributes
-        
-        
+
+
         public List<Game> GamesList { get; set; }
         public List<Chat> ChatsList { get; set; }
         public List<Message> MessagesList { get; set; }
