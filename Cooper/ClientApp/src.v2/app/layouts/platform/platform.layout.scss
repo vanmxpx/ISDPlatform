@@ -1,5 +1,20 @@
 @import "../../constants.scss";
 
-.main-container{
-    margin-top: $top-panel-height;
+.platform {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.top-panel {
+    display: block;
+    height: $top-panel-height;
+    width: 100%;
+}
+
+.main-container {
+    display: block;
+    width: 100%;
 }
