@@ -8,7 +8,7 @@ import {UsersSocialConnectionsService} from '@services';
 })
 export class SessionService {
 
-  private sessionProfile: User;
+  public sessionProfile: User;
   private subscriptionsList: User[];
 
   constructor(private httpClient: HttpClient,
@@ -34,6 +34,18 @@ export class SessionService {
   public GetSessionUserId(): number {
 
     return this.sessionProfile.id;
+  }
+
+  public GetSessionUser(): User {
+    const user = new User();
+    user.id = this.sessionProfile.id;
+    user.email = this.sessionProfile.email;
+    user.description = this.sessionProfile.description;
+    user.name = this.sessionProfile.name;
+    user.nickname = this.sessionProfile.nickname;
+    user.photoURL = this.sessionProfile.photoURL;
+
+    return user;
   }
 
   public isSubscription(userId: number): boolean {

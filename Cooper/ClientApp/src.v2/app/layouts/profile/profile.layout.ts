@@ -123,10 +123,67 @@ export class ProfileLayoutComponent implements OnInit, OnDestroy {
   }
 
   public subscribe(userId: number): void {
-    this.usersSocialConnectionsService.subscribe(userId);
+    this.usersSocialConnectionsService.subscribe(userId).subscribe(
+      (subscribed) => {
+        if (subscribed) {
+
+          // adding session user to subscriber list
+          this.subscribers = this.subscribers.concat(this.sessionService.GetSessionUser());
+          this.subscribersAmount++;
+
+          // adding session user to friend list if current user subscribed
+          const sessionUserId: number = this.sessionService.GetSessionUserId();
+          let index: number = 0;
+          for (index; index < this.subscriptions.length; index++) {
+            if (this.subscriptions[index].id === sessionUserId) {
+              break;
+            }
+          }
+
+          if (index !== this.subscriptions.length) {
+            this.friends = this.friends.concat(this.sessionService.GetSessionUser());
+            this.friendsAmount++;
+          }
+        }
+      }
+    );
   }
 
   public unsubscribe(userId: number): void {
-    this.usersSocialConnectionsService.unsubscribe(userId);
+
+    this.usersSocialConnectionsService.unsubscribe(userId).subscribe(
+      (unsubscribed: boolean) => {
+
+        if (unsubscribed) {
+          const sessionUserId: number = this.sessionService.GetSessionUserId();
+
+          // deleting session user from subscribers list
+          let index: number = 0;
+          for (index; index < this.subscribers.length; index++) {
+            if (this.subscribers[index].id === sessionUserId) {
+              break;
+            }
+          }
+
+          if (index !== this.subscribers.length) {
+            this.subscribers.splice(index, 1);
+            this.subscribersAmount--;
+          }
+
+          // deleting session user from friends list
+          index = 0;
+          for (index; index < this.friends.length; index++) {
+            if (this.friends[index].id === sessionUserId) {
+              break;
+            }
+          }
+
+          if (index !== this.friends.length) {
+            this.friends.splice(index, 1);
+            this.friendsAmount--;
+          }
+        }
+      });
   }
+
 }

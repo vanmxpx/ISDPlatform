@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { of, Observable, pipe, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { User } from '@models';
 import { timeout, catchError } from 'rxjs/operators';
@@ -69,40 +69,40 @@ export class UsersSocialConnectionsService {
     return response;
   }
 
-  public subscribe(userId: number): void {
-    this.http.post(userSocialConnectionUrl + `/subscribe/${userId}`, {}).subscribe(() => {
-      console.log(`Subscribtion on user with id = ${userId}`);
-    },
-      (err) => {
-        console.log(`Error: ${err}`);
-      });
+  public subscribe(userId: number): Observable<boolean> {
+    return this.http.post<boolean>(userSocialConnectionUrl + `/subscribe/${userId}`, {})
+    .pipe(
+      catchError(this.handleError<boolean>(`subscription on user with id = ${userId}`, false)));
   }
 
-  public unsubscribe(userId: number): void {
-    this.http.delete(userSocialConnectionUrl + `/${userId}`).subscribe(() => {
-      console.log(`Unsubscribed from user with id = ${userId}`);
-    },
-      (err) => {
-        console.log(`Error: ${err}`);
-      });
+  public unsubscribe(userId: number): Observable<boolean> {
+    return this.http.delete<boolean>(userSocialConnectionUrl + `/${userId}`)
+    .pipe(
+      catchError(this.handleError<boolean>(`unsubscription from user with id = ${userId}`, false)));
   }
 
-  public ban(userId: number): void {
-    this.http.post(userSocialConnectionUrl + `/ban/${userId}`, {}).subscribe(() => {
-      console.log(`Banned user with id = ${userId}`);
-    },
-      (err) => {
-        console.log(`Error: ${err}`);
-      });
+  public ban(userId: number): Observable<boolean> {
+    return this.http.post<boolean>(userSocialConnectionUrl + `/ban/${userId}`, {})
+    .pipe(catchError(this.handleError<boolean>(`Banned user with id = ${userId}`, false)));
   }
 
-  public unban(userId: number): void {
-    this.http.post(userSocialConnectionUrl + `/unban/${userId}`, {}).subscribe(() => {
-      console.log(`Unbanned user with id = ${userId}`);
-    },
-      (err) => {
-        console.log(`Error: ${err}`);
-      });
+  public unban(userId: number): Observable<boolean> {
+    return this.http.post<boolean>(userSocialConnectionUrl + `/unban/${userId}`, {})
+    .pipe(catchError(this.handleError<boolean>(`Unbanned user with id = ${userId}`, false)));
+  }
+
+  private handleError<T>(operation: string = 'operation', result?: T): any {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      console.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
   }
 
 }
