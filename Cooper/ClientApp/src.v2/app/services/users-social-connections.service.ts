@@ -68,4 +68,41 @@ export class UsersSocialConnectionsService {
 
     return response;
   }
+
+  public subscribe(userId: number): void {
+    this.http.post(userSocialConnectionUrl + `/subscribe/${userId}`, {}).subscribe(() => {
+      console.log(`Subscribtion on user with id = ${userId}`);
+    },
+      (err) => {
+        console.log(`Error: ${err}`);
+      });
+  }
+
+  public unsubscribe(userId: number): void {
+    this.http.delete(userSocialConnectionUrl + `/${userId}`).subscribe(() => {
+      console.log(`Unsubscribed from user with id = ${userId}`);
+    },
+      (err) => {
+        console.log(`Error: ${err}`);
+      });
+  }
+
+  public ban(userId: number): void {
+    this.http.post(userSocialConnectionUrl + `/ban/${userId}`, {}).subscribe(() => {
+      console.log(`Banned user with id = ${userId}`);
+    },
+      (err) => {
+        console.log(`Error: ${err}`);
+      });
+  }
+
+  public unban(userId: number): void {
+    this.http.post(userSocialConnectionUrl + `/unban/${userId}`, {}).subscribe(() => {
+      console.log(`Unbanned user with id = ${userId}`);
+    },
+      (err) => {
+        console.log(`Error: ${err}`);
+      });
+  }
+
 }

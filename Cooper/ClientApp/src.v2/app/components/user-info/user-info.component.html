@@ -14,4 +14,8 @@
     <h5>Bio:</h5>
     <p class="card-field">{{profile.description}}</p>
   </mat-card-content>
+
+  <div (click)="(isSubscription) ? onUnsubscribeButtonClicked() : onSubscribeButtonClicked()">
+    <button mat-raised-button class="my-button">{{(isSubscription)? 'Unsubscribe' : 'Subscribe'}}</button>
+  </div>
 </div>

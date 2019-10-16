@@ -26,6 +26,7 @@ export class ProfileLayoutComponent implements OnInit, OnDestroy {
 
   public profile: User;
   public isOwnProfile: boolean = false;
+  public isSubscription: boolean = false;
 
   public routeChangeSubscription: Subscription;
 
@@ -95,6 +96,8 @@ export class ProfileLayoutComponent implements OnInit, OnDestroy {
     }
 
     this.isOwnProfile = this.sessionService.GetSessionUserId() === this.profile.id;
+
+    this.isSubscription = this.isOwnProfile ? true : this.sessionService.isSubscription(this.profile.id);
   }
 
   // Dummy method
@@ -117,5 +120,13 @@ export class ProfileLayoutComponent implements OnInit, OnDestroy {
     if (this.isOwnProfile) {
       this.userService.updateUserInfo(updatedUser);
     }
+  }
+
+  public subscribe(userId: number): void {
+    this.usersSocialConnectionsService.subscribe(userId);
+  }
+
+  public unsubscribe(userId: number): void {
+    this.usersSocialConnectionsService.unsubscribe(userId);
   }
 }
