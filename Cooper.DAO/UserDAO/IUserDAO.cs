@@ -20,9 +20,9 @@ namespace Cooper.DAO
         IEnumerable<UserDb> GetAll();
 
         long Save(UserDb user);
-        void Delete(object id);
-        void Update(UserDb user, bool removePassword);
-        void Update(UserDb user);
-        void UpdateAvatar(string url, long userId);
+        bool Delete(object id);
+        bool Update(UserDb user, bool removePassword);
+        bool Update(UserDb user);
+        bool UpdateAvatar(string url, long userId);
     }
 }

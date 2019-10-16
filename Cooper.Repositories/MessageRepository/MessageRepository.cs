@@ -12,9 +12,9 @@ namespace Cooper.Repositories
         private readonly IMessageDAO messageDAO;
         private readonly ModelsMapper mapper;
 
-        public MessageRepository(IConfigProvider configProvider)
+        public MessageRepository(ISession session)
         {
-            messageDAO = new MessageDAO(configProvider);
+            messageDAO = new MessageDAO(session);
             mapper = new ModelsMapper();
         }
 

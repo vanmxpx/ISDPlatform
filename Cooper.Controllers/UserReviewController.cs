@@ -12,10 +12,11 @@ namespace Cooper.Controllers
     {
         // GET: api/<controller>
         private readonly UserReviewRepository userReviewRepository;
-
-        public UserReviewController(IConfigProvider configProvider)
+        private readonly ISession session;
+        public UserReviewController(ISessionFactory sessionFactory)
         {
-            userReviewRepository = new UserReviewRepository(configProvider);
+            session = sessionFactory.FactoryMethod();
+            userReviewRepository = new UserReviewRepository(session);
         }
 
         // TODO: get all reviews for reviewed user method
@@ -24,7 +25,11 @@ namespace Cooper.Controllers
         [HttpGet]
         public IEnumerable<UserReview> GetAll()
         {
-            return userReviewRepository.GetAll();
+            var usersReviews = userReviewRepository.GetAll();
+
+            session.EndSession();
+
+            return usersReviews;
         }
 
         // GET api/<controller>/5
@@ -34,6 +39,8 @@ namespace Cooper.Controllers
         public IActionResult GetUserReviewById(long id)
         {
             UserReview userReview = userReviewRepository.Get(id);
+            session.EndSession();
+
             if (userReview == null)
             {
                 return NotFound();
@@ -48,32 +55,57 @@ namespace Cooper.Controllers
         [ProducesResponseType(201)]
         public IActionResult Post([FromBody]UserReview userReview)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            IActionResult result;
+
+            session.StartSession();
+
+            bool isSuccessfull = true;
 
             if (userReview.Id == 0)
             {
                 long id = userReviewRepository.Create(userReview);
                 userReview.Id = id;
 
-                return Ok(userReview);
+                isSuccessfull &= (userReview.Id != 0);
             }
             else
             {
-                userReviewRepository.Update(userReview);
-
-                return Ok(userReview);
+                isSuccessfull = userReviewRepository.Update(userReview);
             }
+
+            if (isSuccessfull)
+            {
+                session.Commit(endSession: true);
+                result = Ok(userReview);
+            }
+            else
+            {
+                session.Rollback(endSession: true);
+                result = StatusCode(500, "Connection to database failed");
+            }
+
+            return result;
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            userReviewRepository.Delete(id);
-            return Ok();
+            IActionResult result;
+            bool isDeleted = userReviewRepository.Delete(id);
+            
+            if (isDeleted)
+            {
+                session.Commit(endSession: true);
+                result = Ok();
+            }
+            else
+            {
+                session.Rollback(endSession: true);
+                result = StatusCode(500, "Connection to database failed");
+            }
+
+            return result;
         }
     }
 }

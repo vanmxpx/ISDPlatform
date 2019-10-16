@@ -7,7 +7,7 @@ namespace Cooper.Repositories
         IEnumerable<Entity> GetAll();
         Entity Get(object obj);
         long Create(Entity entity);
-        void Update(Entity entity);
-        void Delete(long id);
+        bool Update(Entity entity);
+        bool Delete(long id);
     }
 }

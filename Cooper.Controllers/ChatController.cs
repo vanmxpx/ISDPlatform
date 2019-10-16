@@ -23,14 +23,16 @@ namespace Cooper.Controllers
         private readonly IChatRepository chatRepository;
         private readonly IUserRepository userRepository;
         private readonly IMessageRepository messageRepository;
+        private readonly Cooper.Services.Interfaces.ISession session;
 
         private readonly IHubContext<ChatHub, ITypedHubClient> hubContext;
 
-        public ChatController(IHubContext<ChatHub, ITypedHubClient> hubContext, IConfigProvider configProvider, IJwtHandlerService jwtHandlerService)
+        public ChatController(IHubContext<ChatHub, ITypedHubClient> hubContext, IJwtHandlerService jwtHandlerService, ISessionFactory sessionFactory)
         {
-            userRepository = new UserRepository(jwtHandlerService, configProvider);
-            messageRepository = new MessageRepository(configProvider);
-            chatRepository = new ChatRepository(configProvider, messageRepository, userRepository as IRepository<User>);
+            session = sessionFactory.FactoryMethod();
+            userRepository = new UserRepository(jwtHandlerService, session);
+            messageRepository = new MessageRepository(session);
+            chatRepository = new ChatRepository(messageRepository, userRepository as IRepository<User>, session);
 
             this.hubContext = hubContext;
         }
@@ -47,10 +49,12 @@ namespace Cooper.Controllers
 
             if (user == null)
             {
+                session.EndSession();
                 return StatusCode(500, "Connection to database failed");
             }
 
             IList<Chat> chats = chatRepository.GetPersonalChatsByUserId(user.Id);
+            session.EndSession();
 
             if (chats == null)
             {
@@ -65,6 +69,8 @@ namespace Cooper.Controllers
         [Authorize]
         public IActionResult Post([FromBody]MessageJSONDeserializedBody body)
         {
+            IActionResult result;
+
             Message message = body.message;
             IList<User> participants = body.participants;
 
@@ -75,6 +81,10 @@ namespace Cooper.Controllers
 
             message.CreateDate = System.DateTime.Now;
 
+            bool isSuccessfull = true;
+
+            session.StartSession();
+
             if (message.ChatId == 0)
             {
                 Chat chat = chatRepository.GetOnetoOneChatByParticipants(participants);
@@ -84,49 +94,97 @@ namespace Cooper.Controllers
                     chat = new Chat() { Participants = participants };
                     chat.Id = chatRepository.Create(chat);
 
+                    isSuccessfull &= (chat.Id != 0);
+
                     message.ChatId = chat.Id;
                     message.Id = messageRepository.Create(message);
 
+                    isSuccessfull = isSuccessfull && (message.Id != 0);
+
                     chat.Messages = new List<Message>() { message };
 
-                    hubContext.Clients.All.BroadcastChat(chat);
+                    if (isSuccessfull)
+                    {
+                        session.Commit(endSession: true);
+                        hubContext.Clients.All.BroadcastChat(chat);
+                        result = Ok();
+                    }
+                    else
+                    {
+                        session.Rollback(endSession: true);
+                        result = StatusCode(500, "Connection to database failed");
+                    }
                 }
                 else
                 {
                     message.ChatId = chat.Id;
                     message.Id = messageRepository.Create(message);
 
-                    hubContext.Clients.All.BroadcastMessage(message);
+                    isSuccessfull &= (message.Id != 0);
+
+                    if (isSuccessfull)
+                    {
+                        session.Commit(endSession: true);
+                        hubContext.Clients.All.BroadcastMessage(message);
+                        result = Ok();
+                    }
+                    else
+                    {
+                        session.Rollback(endSession: true);
+                        result = StatusCode(500, "Connection to database failed");
+                    }
                 }
 
             }
             else
             {
                 message.Id = messageRepository.Create(message);
-                hubContext.Clients.All.BroadcastMessage(message);
+
+                isSuccessfull &= (message.Id != 0);
+
+                if (isSuccessfull)
+                {
+                    session.Commit(endSession: true);
+                    hubContext.Clients.All.BroadcastMessage(message);
+                    result = Ok();
+                }
+                else
+                {
+                    session.Rollback(endSession: true);
+                    result = StatusCode(500, "Connection to database failed");
+                }
             }
 
-            return Ok(message);
+            return result;
         }
 
         [HttpPost("read-messages")]
         [Authorize]
         public IActionResult Post([FromBody]Chat chat)
         {
+            IActionResult result;
 
             if (chat == null)
             {
                 return BadRequest();
             }
 
+            session.StartSession();
+
             bool messagesRead = messageRepository.ReadNewMessages(chat);
 
-            if (!messagesRead)
+            if (messagesRead)
             {
-                return StatusCode(500,"Connection to database failed");
+                session.Commit(endSession: true);
+                result = Ok();
+            }
+            else
+            {
+                session.Rollback(endSession: true);
+                result = StatusCode(500, "Connection to database failed");
             }
 
-            return Ok();
+            return result;
         }
 
 
@@ -134,8 +192,22 @@ namespace Cooper.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            chatRepository.Delete(id);
-            return Ok();
+            IActionResult result;
+            session.StartSession();
+
+            bool isDeleted = chatRepository.Delete(id);
+
+            if (isDeleted)
+            {
+                session.Commit(endSession: true);
+                result = Ok();
+            }
+            else
+            {
+                session.Rollback(endSession: true);
+                result = StatusCode(500, "Connection to database failed");
+            }
+            return result;
         }
     }
 }

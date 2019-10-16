@@ -14,16 +14,22 @@ namespace Cooper.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserRepository userRepository;
+        private readonly Cooper.Services.Interfaces.ISession session;
 
-        public UserController(IJwtHandlerService jwtService, IConfigProvider configProvider)
+        public UserController(IJwtHandlerService jwtService, ISessionFactory sessionFactory)
         {
-            userRepository = new UserRepository(jwtService, configProvider);
+            session = sessionFactory.FactoryMethod();
+
+            userRepository = new UserRepository(jwtService, session);
         }
 
         [HttpGet]
         public IEnumerable<User> GetAll()
         {
-            return userRepository.GetAll();
+            var users = userRepository.GetAll();
+            session.EndSession();
+
+            return users;
         }
 
         // GET api/<controller>/5
@@ -33,6 +39,8 @@ namespace Cooper.Controllers
         public IActionResult GetUserById(long id)
         {
             User user = userRepository.Get(id);
+            session.EndSession();
+
             if (user == null)
             {
                 return NotFound();
@@ -47,6 +55,7 @@ namespace Cooper.Controllers
         public IActionResult GetUserByEmail(string email)
         {
             User user = userRepository.GetByEmail(email);
+            session.EndSession();
 
             if (user == null)
             {
@@ -63,23 +72,13 @@ namespace Cooper.Controllers
         {
 
             User user = userRepository.GetByNickname(nickname);
-            var myUser = Request.GetAuthorizedUser(userRepository);
-
-            if (myUser == null && user == null)
-                return BadRequest();
-
-            myUser.IsMy = true;
-
-            if (nickname == myUser.Nickname || nickname == "my")
-            {
-                return Ok(myUser);
-            }
+            session.EndSession();
 
             if (user == null)
             {
                 return NotFound();
             }
-            user.IsMy = false;
+
             return Ok(user);
         }
 
@@ -89,6 +88,7 @@ namespace Cooper.Controllers
         public IActionResult GetUserByJWToken()
         {
             User user = Request.GetAuthorizedUser(userRepository);
+            session.EndSession();
 
             if (user == null)
             {
@@ -104,14 +104,30 @@ namespace Cooper.Controllers
         [ProducesResponseType(201)]
         public IActionResult Post([FromBody]User user)
         {
-            if (!ModelState.IsValid || user.Id == 0)
+
+            if (user.Id == 0)
             {
-                return BadRequest(ModelState);
+                return BadRequest();
             }
 
-            userRepository.Update(user);
+            IActionResult result;
 
-            return Ok(user);
+            session.StartSession();
+
+            bool isUpdated = userRepository.Update(user);
+
+            if (isUpdated)
+            {
+                session.Commit(endSession: true);
+                result = Ok();
+            }
+            else
+            {
+                session.Rollback(endSession: true);
+                result = StatusCode(500, "Connection to database failed");
+            }
+
+            return result;
         }
 
         // DELETE api/<controller>/5
@@ -124,8 +140,23 @@ namespace Cooper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Delete(long id)
         {
-            userRepository.Delete(id);
-            return Ok();
+            IActionResult result;
+            session.StartSession();
+
+            bool isDeleted = userRepository.Delete(id);
+
+            if (isDeleted)
+            {
+                session.Commit(endSession: true);
+                result = Ok();
+            }
+            else
+            {
+                session.Rollback(endSession: true);
+                result = StatusCode(500, "Connection to database failed");
+            }
+
+            return result;
         }
     }
 }

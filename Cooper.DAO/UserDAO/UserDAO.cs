@@ -12,8 +12,6 @@ namespace Cooper.DAO
 {
     public class UserDAO : IUserDAO
     {
-        private readonly DbConnect dbConnect;
-        private readonly OracleConnection Connection;
         private readonly Logger logger;
         private readonly CRUD crud;
 
@@ -22,11 +20,9 @@ namespace Cooper.DAO
         private HashSet<string> attributes;
         private HashSet<string> unique_attributes;
 
-        public UserDAO(IConfigProvider configProvider)
+        public UserDAO(ISession session)
         {
-            crud = new CRUD(configProvider);
-            dbConnect = new DbConnect(configProvider);
-            Connection = dbConnect.GetConnection();
+            crud = new CRUD(session);
             logger = LogManager.GetLogger("CooperLoger");
 
             table = "USERS";
@@ -200,44 +196,6 @@ namespace Cooper.DAO
 
         }
 
-        #region Interop properties info reading
-        private List<long> GetConnectionsList(long id)
-        {
-            List<long> connectionList = new List<long>();
-
-            string sqlExpression = $"SELECT ID from USERSCONNECTIONS WHERE user1 = {id}";
-
-            try
-            {
-                Connection.Open();
-
-                OracleCommand command = new OracleCommand(sqlExpression, Connection);
-                OracleDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    long idUser = Convert.ToInt64(reader["user1"]);
-                    connectionList.Add(idUser);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                Connection.Close();
-            }
-
-
-
-            return connectionList;
-        }
-
-
-        #endregion
-
         #endregion
             
         public long Save(UserDb user)
@@ -254,11 +212,11 @@ namespace Cooper.DAO
             return user_id;
         }
 
-        public void Delete(object id)
+        public bool Delete(object id)
         {
-            bool ifDeleted = crud.Delete(id, table, idColumn);
+            bool isDeleted = crud.Delete(id, table, idColumn);
 
-            if (ifDeleted)
+            if (isDeleted)
             {
                 logger.Info($"User with id={id} was successfully deleted from table {table}.");
             }
@@ -267,14 +225,17 @@ namespace Cooper.DAO
                 logger.Info($"Deleting user with id={id} was failed.");
             }
 
+            return isDeleted;
         }
 
-        public void Update(UserDb user)
+        public bool Update(UserDb user)
         {
-            Update(user, removePassword: false);
+            bool isUpdated = Update(user, removePassword: false);
+
+            return isUpdated;
         }
 
-        public void Update(UserDb user, bool removePassword)
+        public bool Update(UserDb user, bool removePassword)
         {
             EntityORM entity = EntityMapping.Map(user, attributes);
 
@@ -289,9 +250,9 @@ namespace Cooper.DAO
 
             var whereRequest = new WhereRequest(idColumn, Operators.Equal, user.Id.ToString());
 
-            bool ifUpdated = crud.Update(table, entity, whereRequest);
+            bool isUpdated = crud.Update(table, entity, whereRequest);
 
-            if (ifUpdated)
+            if (isUpdated)
             {
                 logger.Info($"User with id={user.Id} was successfully updated.");
             }
@@ -299,16 +260,18 @@ namespace Cooper.DAO
             {
                 logger.Info($"Updating user with id={user.Id} was failed.");
             }
+
+            return isUpdated;
         }
 
-        public void UpdateAvatar(string url, long userId)
+        public bool UpdateAvatar(string url, long userId)
         {
             EntityORM entity = new EntityORM();
             entity.attributeValue.Add(DbTools.GetVariableAttribute("PHOTOURL"), $"'{url}'");
 
-            bool ifUpdated = crud.Update(table, entity, new WhereRequest(idColumn, Operators.Equal, userId.ToString()));
+            bool isUpdated = crud.Update(table, entity, new WhereRequest(idColumn, Operators.Equal, userId.ToString()));
 
-            if (ifUpdated)
+            if (isUpdated)
             {
                 logger.Info($"User avatar with id={userId} was successfully updated.");
             }
@@ -316,6 +279,8 @@ namespace Cooper.DAO
             {
                 logger.Info($"Updating user avatar with id={userId} was failed.");
             }
+
+            return isUpdated;
         }
 
         #endregion

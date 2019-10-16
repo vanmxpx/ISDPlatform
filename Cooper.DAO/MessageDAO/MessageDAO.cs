@@ -15,16 +15,14 @@ namespace Cooper.DAO
     {
         private readonly CRUD crud;
         private readonly Logger logger;
-        private readonly DbConnect dbConnect;
 
         private string table;
         private string idColumn;
         private HashSet<string> attributes;
 
-        public MessageDAO(IConfigProvider configProvider)
+        public MessageDAO(ISession session)
         {
-            crud = new CRUD(configProvider);
-            dbConnect = new DbConnect(configProvider);
+            crud = new CRUD(session);
             logger = LogManager.GetLogger("CooperLoger");
 
             table = "MESSAGES";

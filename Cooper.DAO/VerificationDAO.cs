@@ -11,8 +11,6 @@ namespace Cooper.DAO
 {
     public class VerificationDAO : IDAO<VerificationDb>
     {
-        private readonly DbConnect dbConnect;
-        private readonly OracleConnection Connection;
         private readonly Logger logger;
         private readonly CRUD crud;
 
@@ -21,11 +19,9 @@ namespace Cooper.DAO
         private HashSet<string> attributes;
         private HashSet<string> unique_attributes;
 
-        public VerificationDAO(IConfigProvider configProvider)
+        public VerificationDAO(ISession session)
         {
-            crud = new CRUD(configProvider);
-            dbConnect = new DbConnect(configProvider);
-            Connection = dbConnect.GetConnection();
+            crud = new CRUD(session);
             logger = LogManager.GetLogger("CooperLoger");
 
             table = "TOKENS";
@@ -60,15 +56,19 @@ namespace Cooper.DAO
             return verify_id;
         }
 
-        public void Delete(object id)
+        public bool Delete(object id)
         {
-            if (crud.Delete(id, table, idColumn)) 
+            bool isDeleted = crud.Delete(id, table, idColumn);
+
+            if (isDeleted) 
             {
                  logger.Info($"Token with id={id} was successfully deleted from table {table}.");
             }
             else {
                 logger.Info($"Deleting token with id={id} was failed.");
             }
+
+            return isDeleted;
         }
 
         public VerificationDb Get(object id)
@@ -86,8 +86,9 @@ namespace Cooper.DAO
 
             return verify;
         }
-        public void Update(VerificationDb user) {
+        public bool Update(VerificationDb user) {
             //TODO: update
+            return true;
         }
     }
 }

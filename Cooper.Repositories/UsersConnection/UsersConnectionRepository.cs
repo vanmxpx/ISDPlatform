@@ -6,6 +6,7 @@ using Cooper.Repositories.Mapping;
 using Cooper.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data;
 
 namespace Cooper.Repositories
 {
@@ -14,9 +15,9 @@ namespace Cooper.Repositories
         private readonly IUsersConnectionDAO userConnectionsDAO;
         private readonly ModelsMapper mapper;
 
-        public UsersConnectionRepository(IConfigProvider configProvider)
+        public UsersConnectionRepository(ISession session)
         {
-            userConnectionsDAO = new UsersConnectionDAO(configProvider);
+            userConnectionsDAO = new UsersConnectionDAO(session);
             mapper = new ModelsMapper();
         }
         public List<User> GetSpecifiedTypeUsersList(long userId, ConnectionType specifiedType)

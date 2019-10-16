@@ -8,9 +8,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static void AddTokenCleanerService(this IServiceCollection services)
         {
-            IServiceProvider serviceProvider = services.BuildServiceProvider();
-            TokenCleaner tokenCleaner = new TokenCleaner(serviceProvider.GetService<IConfigProvider>());
-            services.AddSingleton<ITokenCleaner>(tokenCleaner);
+            services.AddSingleton<ITokenCleaner, TokenCleaner>();
         }
     }
 }

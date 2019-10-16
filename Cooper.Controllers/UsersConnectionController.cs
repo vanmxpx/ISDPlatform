@@ -15,10 +15,14 @@ namespace Cooper.Controllers
     {
         private readonly IUsersConnectionRepository userConnectionsRepository;
         private readonly IUsersConnectionService userConnectionService;
+        private readonly ISession session;
 
-        public UsersConnectionController(IConfigProvider configProvider, IUsersConnectionService userConnectionService)
+        public UsersConnectionController(IConfigProvider configProvider, IUsersConnectionService userConnectionService,
+            ISessionFactory sessionFactory)
         {
-            userConnectionsRepository = new UsersConnectionRepository(configProvider);
+            session = sessionFactory.FactoryMethod();
+
+            userConnectionsRepository = new UsersConnectionRepository(session);
             this.userConnectionService = userConnectionService;
         }
 
@@ -29,10 +33,11 @@ namespace Cooper.Controllers
         {
             string userToken = Request.GetUserToken();
 
-            long userId = userConnectionService.GetUserId(userToken);
+            long userId = userConnectionService.GetUserId(userToken, session);
 
             List<User> blackList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Blacklist);
 
+            session.EndSession();
             return Ok(blackList);
         }
 
@@ -42,7 +47,8 @@ namespace Cooper.Controllers
         public IActionResult GetUserSubscribersList(long userId)
         {
             List<User> subscribersList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Subscribers);
-
+            
+            session.EndSession();
             return Ok(subscribersList);
         }
 
@@ -53,6 +59,7 @@ namespace Cooper.Controllers
         {
             List<User> subscriptionsList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Subscriptions);
 
+            session.EndSession();
             return Ok(subscriptionsList);
         }
 
@@ -63,6 +70,7 @@ namespace Cooper.Controllers
         {
             List<User> friendsList = userConnectionsRepository.GetSpecifiedTypeUsersList(userId, ConnectionType.Friends);
 
+            session.EndSession();
             return Ok(friendsList);
         }
 
@@ -71,24 +79,34 @@ namespace Cooper.Controllers
         [ProducesResponseType(201)]
         public IActionResult Subscribe(long userId)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
             string subscriberToken = Request.GetUserToken();
 
-            UsersConnection usersConnection = userConnectionService.CreateConnection(userId, subscriberToken);
+            UsersConnection usersConnection = userConnectionService.CreateConnection(userId, subscriberToken, session);
 
             if (usersConnection.User1.Id == usersConnection.User2.Id)
             {
                 return BadRequest();
             }
 
+            IActionResult result;
+
+            session.StartSession();
 
             bool isSubscribed = userConnectionsRepository.CreateSubscription(usersConnection);
 
-            return Ok(isSubscribed);
+            if (isSubscribed)
+            {
+                session.Commit(endSession: true);
+                result = Ok(isSubscribed);
+            }
+            else
+            {
+                session.Rollback(endSession: true);
+                result = StatusCode(500, "Connection to database failed");
+            }
+
+            return result;
         }
 
         [HttpPost("ban/{bannedUserId}"), Authorize]
@@ -96,45 +114,67 @@ namespace Cooper.Controllers
         [ProducesResponseType(201)]
         public IActionResult Ban(long bannedUserId)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
             string userToken = Request.GetUserToken();
 
-            UsersConnection usersConnection = userConnectionService.CreateConnection(userToken, bannedUserId, ban: true);
+            UsersConnection usersConnection = userConnectionService.CreateConnection(userToken, bannedUserId, session, ban: true);
 
             if (usersConnection.User1.Id == usersConnection.User2.Id)
             {
                 return BadRequest();
             }
 
-            bool isBanned = userConnectionsRepository.BanUser(usersConnection);
+            IActionResult result;
 
-            return Ok(isBanned);
+            session.StartSession();
+
+            bool isBanned = userConnectionsRepository.BanUser(usersConnection);
+            
+            if (isBanned)
+            {
+                session.Commit(endSession: true);
+                result = Ok();
+            }
+            else
+            {
+                session.Rollback(endSession: true);
+                result = StatusCode(500, "Connection to database failed");
+            }
+
+            return result;
         }
 
         [HttpPost("unban/{bannedUserId}"), Authorize]
         public IActionResult Unban(long bannedUserId)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
             string userToken = Request.GetUserToken();
 
-            UsersConnection usersConnection = userConnectionService.CreateConnection(userToken, bannedUserId, ban: false);
+            UsersConnection usersConnection = userConnectionService.CreateConnection(userToken, bannedUserId, session, ban: false);
 
             if (usersConnection.User1.Id == usersConnection.User2.Id)
             {
                 return BadRequest();
             }
 
-            bool isUnbanned = userConnectionsRepository.UnbanUser(usersConnection);
+            IActionResult result;
 
-            return Ok(isUnbanned);
+            session.StartSession();
+
+            bool isUnbanned = userConnectionsRepository.UnbanUser(usersConnection);
+            
+            if (isUnbanned)
+            {
+                session.Commit(endSession: true);
+                result = Ok();
+            }
+            else
+            {
+                session.Rollback(endSession: true);
+                result = StatusCode(500, "Connection to database failed");
+            }
+
+            return result;
         }
 
         [HttpDelete("{userId}"), Authorize]
@@ -142,16 +182,32 @@ namespace Cooper.Controllers
         {
             string subscriberToken = Request.GetUserToken();
 
-            UsersConnection usersConnection = userConnectionService.CreateConnection(userId, subscriberToken);
+            UsersConnection usersConnection = userConnectionService.CreateConnection(userId, subscriberToken, session);
 
             if (usersConnection.User1.Id == usersConnection.User2.Id)
             {
                 return BadRequest();
             }
 
+            IActionResult result;
+
+            session.StartSession();
+
             bool isUnsubscribed = userConnectionsRepository.Unsubscribe(usersConnection);
 
-            return Ok(isUnsubscribed);
+            if (isUnsubscribed)
+            {
+                session.Commit(endSession: true);
+                result = Ok();
+            }
+            else
+            {
+                session.Rollback(endSession: true);
+                result = StatusCode(500, "Connection to database failed");
+            }
+
+
+            return result;
         }
     }
 }

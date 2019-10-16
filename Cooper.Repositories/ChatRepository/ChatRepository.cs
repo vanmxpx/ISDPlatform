@@ -15,9 +15,9 @@ namespace Cooper.Repositories
         private readonly IMessageRepository messageRepository;
         private readonly IRepository<User> userRepository;
 
-        public ChatRepository(IConfigProvider configProvider, IMessageRepository messageRepository, IRepository<User> userRepository)
+        public ChatRepository(IMessageRepository messageRepository, IRepository<User> userRepository, ISession session)
         {
-            chatDAO = new ChatDAO(configProvider);
+            chatDAO = new ChatDAO(session);
             mapper = new ModelsMapper();
 
             this.messageRepository = messageRepository;
@@ -102,16 +102,23 @@ namespace Cooper.Repositories
             return chatId;
         }
 
-        public void Update(Chat chat)
+        public bool Update(Chat chat)
         {
+            bool updated = false;
             ChatDb chatDb = mapper.Map(chat);
 
-            chatDAO.Update(chatDb);
+            updated = chatDAO.Update(chatDb);
+
+            return updated;
         }
 
-        public void Delete(long chatId)
+        public bool Delete(long chatId)
         {
-            chatDAO.Delete(chatId);
+            bool deleted = false;
+
+            deleted = chatDAO.Delete(chatId);
+
+            return deleted;
         }
     }
 }

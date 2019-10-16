@@ -17,12 +17,14 @@ namespace Cooper.Controllers
         private readonly ISmtpClient smtpClient;
         private readonly ITokenCleaner cleaner;
         private readonly ISocialAuth socialAuth;
+        private readonly Cooper.Services.Interfaces.ISession session;
 
         private const string emailConfirmURL = "https://cooper.serve.games/confirm?token=";
-
-        public RegistrationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider, ISocialAuth socialAuth, ITokenCleaner cleaner, ISmtpClient smtpClient)
+ 	public RegistrationController(IJwtHandlerService jwtHandler, ISocialAuth socialAuth, ITokenCleaner cleaner, ISmtpClient smtpClient, ISessionFactory sessionFactory)
         {
-            userRepository = new UserRepository(jwtHandler, configProvider);
+            session = sessionFactory.FactoryMethod();
+
+            userRepository = new UserRepository(jwtHandler, session);
             this.smtpClient = smtpClient;
             this.cleaner = cleaner;
             this.socialAuth = socialAuth;
@@ -47,8 +49,9 @@ namespace Cooper.Controllers
             user.Nickname = DbTools.SanitizeString(user.Nickname);
             user.Email = DbTools.SanitizeString(user.Email);
 
-            if (ModelState.IsValid
-                && !userRepository.IfNicknameExists(user.Nickname)
+            session.StartSession();
+
+            if (!userRepository.IfNicknameExists(user.Nickname)
                 && !userRepository.IfEmailExists(user.Email))
             {
                 user.Password = DbTools.SanitizeString(user.Password);
@@ -75,6 +78,7 @@ namespace Cooper.Controllers
                 }
             }
 
+            session.EndSession();
             return result;
         }
     }

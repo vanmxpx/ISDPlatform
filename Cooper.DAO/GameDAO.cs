@@ -17,9 +17,9 @@ namespace Cooper.DAO
         private string idColumn;
         private HashSet<string> attributes;
 
-        public GameDAO(IConfigProvider configProvider)
+        public GameDAO(ISession session)
         {
-            crud = new CRUD(configProvider);
+            crud = new CRUD(session);
             logger = LogManager.GetLogger("CooperLoger");
 
             table = "GAMES";
@@ -126,11 +126,11 @@ namespace Cooper.DAO
             return idGame;
         }
 
-        public void Delete(object id)
+        public bool Delete(object id)
         {
-            bool ifDeleted = crud.Delete(id, table, idColumn);
+            bool isDeleted = crud.Delete(id, table, idColumn);
 
-            if (ifDeleted)
+            if (isDeleted)
             {
                 logger.Info($"Game with id={id} was successfully deleted from table {table}.");
             }
@@ -139,9 +139,10 @@ namespace Cooper.DAO
                 logger.Info($"Deleting game with id={id} was failed.");
             }
 
+            return isDeleted;
         }
 
-        public void Update(GameDb game)
+        public bool Update(GameDb game)
         {
             EntityORM entity = EntityMapping.Map(game, attributes);
 
@@ -150,9 +151,9 @@ namespace Cooper.DAO
 
             var whereRequest = new WhereRequest(idColumn, Operators.Equal, game.Id.ToString());
 
-            bool ifUpdated = crud.Update(table, entity, whereRequest);
+            bool isUpdated = crud.Update(table, entity, whereRequest);
 
-            if (ifUpdated)
+            if (isUpdated)
             {
                 logger.Info($"Game with id={game.Id} was successfully updated.");
             }
@@ -160,6 +161,8 @@ namespace Cooper.DAO
             {
                 logger.Info($"Updating game with id={game.Id} was failed.");
             }
+
+            return isUpdated;
         }
 
     }

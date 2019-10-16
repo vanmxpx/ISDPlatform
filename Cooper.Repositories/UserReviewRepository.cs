@@ -12,9 +12,9 @@ namespace Cooper.Repositories
         private readonly UserReviewDAO userReviewDAO;
         private readonly ModelsMapper mapper;
 
-        public UserReviewRepository(IConfigProvider configProvider)
+        public UserReviewRepository(ISession session)
         {
-            userReviewDAO = new UserReviewDAO(configProvider);
+            userReviewDAO = new UserReviewDAO(session);
             mapper = new ModelsMapper();
         }
 
@@ -54,16 +54,20 @@ namespace Cooper.Repositories
             return userReviewDAO.Save(userReviewDb);
         }
 
-        public void Update(UserReview userReview)
+        public bool Update(UserReview userReview)
         {
             UserReviewDb userReviewDb = mapper.Map(userReview);
 
-            userReviewDAO.Update(userReviewDb);
+            bool isUpdated = userReviewDAO.Update(userReviewDb);
+
+            return isUpdated;
         }
 
-        public void Delete(long id)
+        public bool Delete(long id)
         {
-            userReviewDAO.Delete(id);
+            bool isDeleted = userReviewDAO.Delete(id);
+
+            return isDeleted;
         }
 
     }

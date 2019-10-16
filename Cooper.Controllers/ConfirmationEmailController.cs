@@ -9,10 +9,12 @@ namespace Cooper.Controllers
     public class ConfirmationEmailController : ControllerBase
     {
         private readonly UserRepository userRepository;
+        private readonly Cooper.Services.Interfaces.ISession session;
 
-        public ConfirmationEmailController(IJwtHandlerService jwtHandler, IConfigProvider configProvider)
+        public ConfirmationEmailController(IJwtHandlerService jwtHandler, ISessionFactory sessionFactory)
         {
-            userRepository = new UserRepository(jwtHandler, configProvider);
+            session = sessionFactory.FactoryMethod();
+            userRepository = new UserRepository(jwtHandler, session);
         }
 
         /// <summary>
@@ -32,6 +34,8 @@ namespace Cooper.Controllers
         {
             IActionResult result;
 
+            session.StartSession();
+
             string token = Request.Query["token"];
             string email = userRepository.GetVerifyEmail($"\'{token}\'");
 
@@ -41,8 +45,17 @@ namespace Cooper.Controllers
             }
             else
             {
-                userRepository.ConfirmEmail(token, email);
-                userRepository.DeleteToken($"\'{token}\'");
+                bool confirmed = userRepository.ConfirmEmail(token, email);
+                bool deleted = userRepository.DeleteToken($"\'{token}\'");
+
+                if (deleted && confirmed)
+                {
+                    session.Commit(endSession: true);
+                }
+                else
+                {
+                    session.Rollback(endSession: false);
+                }
 
                 result = Redirect("/auth");
                 //TODO: Auth

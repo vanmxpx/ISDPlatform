@@ -16,12 +16,15 @@ namespace Cooper.Controllers
         private readonly IMediaserver mediaserver;
         private readonly UserRepository userRepository;
         private readonly string getApiImage;
+        private readonly Cooper.Services.Interfaces.ISession session;
 
-        public MediaserverController(IMediaserver mediaserver, IJwtHandlerService jwtService, IConfigProvider configProvider)
+        public MediaserverController(IMediaserver mediaserver, IJwtHandlerService jwtService, IConfigProvider configProvider, ISessionFactory sessionFactory)
         {
+            session = sessionFactory.FactoryMethod();
+
             this.mediaserver = mediaserver;
             this.getApiImage = configProvider.MediaserverConf.GetApiUrl;
-            userRepository = new UserRepository(jwtService, configProvider);
+            userRepository = new UserRepository(jwtService, session);
         }
 
         [HttpPost, Authorize]
@@ -34,6 +37,7 @@ namespace Cooper.Controllers
         {
             IActionResult result = BadRequest("Files not found!");
             IFormFileCollection files = HttpContext.Request.Form.Files;
+            session.StartSession();
 
             if (files.Count != 0)
             {
@@ -67,6 +71,7 @@ namespace Cooper.Controllers
                 }
             }
 
+            session.EndSession();
             return result;
         }
     }

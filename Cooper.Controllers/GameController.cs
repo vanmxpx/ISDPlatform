@@ -14,12 +14,12 @@ namespace Cooper.Controllers
     public class GameController : ControllerBase
     {
         private readonly IRepository<Game> gameRepository;
-        private readonly ILogger<GameController> logger;
+        private readonly Cooper.Services.Interfaces.ISession session;
 
-        public GameController(IConfigProvider configProvider, ILogger<GameController> logger)
+        public GameController(ISessionFactory sessionFactory)
         {
-            gameRepository = new GameRepository(configProvider);
-            this.logger = logger;
+            session = sessionFactory.FactoryMethod();
+            gameRepository = new GameRepository(session);
         }
 
         /// <summary>
@@ -32,8 +32,10 @@ namespace Cooper.Controllers
         [ProducesResponseType(typeof(IEnumerable<Game>), StatusCodes.Status200OK)]
         public IActionResult GetAll()
         {
-            logger.LogInformation("Getting all games");
-            return Ok(gameRepository.GetAll());
+            var games = gameRepository.GetAll();
+
+            session.EndSession();
+            return Ok(games);
         }
 
         /// <summary>
@@ -57,7 +59,9 @@ namespace Cooper.Controllers
             {
                 game = gameRepository.Get(name);
             }
-            
+
+            session.EndSession();
+
             if (game == null)
             {
                 return NotFound();
@@ -77,26 +81,39 @@ namespace Cooper.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Post(Game game, string Token)
         {
+            IActionResult result;
+
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
             var decodedToken = handler.ReadJwtToken(Token);
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-            else if (game.Id == 0)
+            session.StartSession();
+
+            bool isSuccessfull = true;
+
+            if (game.Id == 0)
             {
                 long id = gameRepository.Create(game);
                 game.Id = id;
-
-                return Ok(game);
+                
+                isSuccessfull &= (id != 0);
             }
             else
             {
-                gameRepository.Update(game);
-
-                return Ok(game);
+                isSuccessfull = gameRepository.Update(game);
             }
+
+            if (isSuccessfull)
+            {
+                session.Commit(endSession: true);
+                result = Ok(game);
+            }
+            else
+            {
+                session.Rollback(endSession: false);
+                result = StatusCode(500, "Connection to database failed");
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -109,8 +126,21 @@ namespace Cooper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Delete(long id)
         {
-            gameRepository.Delete(id);
-            return Ok();
+            IActionResult result;
+            bool isDeleted = gameRepository.Delete(id);
+
+            if (isDeleted)
+            {
+                session.Commit(endSession: true);
+                result = Ok();
+            }
+            else
+            {
+                session.Rollback(endSession: true);
+                result = StatusCode(500, "Connection to database failed");
+            }
+
+            return result;
         }
     }
 }

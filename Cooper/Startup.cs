@@ -10,6 +10,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.IO;
 using System.Reflection;
+using Cooper.Services;
 
 [assembly: ApiController]
 namespace Cooper
@@ -46,6 +47,7 @@ namespace Cooper
 
             services.AddJWTHandler();
             services.AddConfigurationProvider(Configuration);
+            services.AddOracleSessionFactory();
             services.AddJWTAuthorization();
 
             services.AddSmtpClientExtensionService();
@@ -68,6 +70,7 @@ namespace Cooper
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

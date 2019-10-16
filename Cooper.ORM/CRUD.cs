@@ -5,17 +5,18 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Data;
 
 namespace Cooper.ORM
 {
     public class CRUD : ICRUD
     {
-        private readonly DbConnect dbConnect;
+        private readonly ISession session;
         private readonly Logger logger;
 
-        public CRUD(IConfigProvider configProvider)
+        public CRUD(ISession session)
         {
-            dbConnect = new DbConnect(configProvider);
+            this.session = session;
             logger = LogManager.GetCurrentClassLogger();
         }
 
@@ -25,7 +26,6 @@ namespace Cooper.ORM
 
             try
             {
-                dbConnect.OpenConnection();
 
                 #region Creating SQL expression text
                 string sqlExpression = String.Format("INSERT INTO {0} ({1}) VALUES ({2})",
@@ -37,12 +37,12 @@ namespace Cooper.ORM
                 {
                     sqlExpression += $" returning {idColumn} into :id";
                     Console.WriteLine($"{sqlExpression}");
-                    insertId = long.Parse(dbConnect.ExecuteNonQuery(sqlExpression, getId: true).ToString());
+                    insertId = long.Parse(session.ExecuteNonQuery(sqlExpression, getId: true).ToString());
                 }
                 else
                 {
                     Console.WriteLine($"{sqlExpression}");
-                    dbConnect.ExecuteNonQuery(sqlExpression);
+                    session.ExecuteNonQuery(sqlExpression);
                 }
                 #endregion
 
@@ -50,10 +50,6 @@ namespace Cooper.ORM
             catch (DbException ex)
             {
                 logger.Info("Exception.Message: {0}", ex.Message);
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
             }
 
             return insertId;
@@ -64,10 +60,16 @@ namespace Cooper.ORM
             List<EntityORM> entities = new List<EntityORM>();
             try
             {
-                string sqlExpression = DbTools.CreateSelectQuery(table, attributes, whereRequest);
+                var connection = (OracleConnection)session.GetConnection();
 
-                dbConnect.OpenConnection();
-                OracleCommand command = new OracleCommand(sqlExpression, dbConnect.GetConnection());
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                string sqlExpression = DbTools.CreateSelectQuery(table, attributes, whereRequest);
+                
+                OracleCommand command = new OracleCommand(sqlExpression, connection);
 
                 OracleDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -85,30 +87,28 @@ namespace Cooper.ORM
             {
                 logger.Info("Exception.Message: {0}", ex.Message);
             }
-            finally
-            {
-                dbConnect.CloseConnection();
-            }
 
             return entities;
         }
 
         public bool Update(string table, EntityORM entity, WhereRequest whereRequest = null)
         {
+
+            string sqlExpression = DbTools.CreateUpdateQuery(table, entity, whereRequest);
+
             try
             {
-                dbConnect.OpenConnection();
-                string sqlExpression = DbTools.CreateUpdateQuery(table, entity, whereRequest);
-                dbConnect.ExecuteNonQuery(sqlExpression);
+                var oracleCommand = new OracleCommand(sqlExpression, (OracleConnection)session.GetConnection())
+                {
+                    Transaction = (OracleTransaction)session.GetTransaction()
+                };
+
+                oracleCommand.ExecuteNonQuery();
             }
             catch (DbException ex)
             {
                 logger.Info("Exception.Message: {0}", ex.Message);
                 return false;
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
             }
 
             return true;
@@ -116,21 +116,18 @@ namespace Cooper.ORM
 
         public bool Delete(object id, string table, string idColumn)
         {
+            // TODO: Inject WHERE-Request
+
             try
             {
-                dbConnect.OpenConnection();
                 string sqlExpression = $"DELETE FROM {table} WHERE {idColumn} = '{id}'";
 
-                dbConnect.ExecuteNonQuery(sqlExpression);
+                session.ExecuteNonQuery(sqlExpression);
             }
             catch (DbException ex)
             {
                 logger.Info("Exception.Message: {0}", ex.Message);
                 return false;
-            }
-            finally
-            {
-                dbConnect.CloseConnection();
             }
 
             return true;

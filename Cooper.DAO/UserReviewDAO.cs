@@ -17,9 +17,9 @@ namespace Cooper.DAO
         private string idColumn;
         private HashSet<string> attributes;
 
-        public UserReviewDAO(IConfigProvider configProvider)
+        public UserReviewDAO(ISession session)
         {
-            crud = new CRUD(configProvider);
+            crud = new CRUD(session);
             logger = LogManager.GetLogger("CooperLoger");
 
             table = "USERSREVIEWS";
@@ -97,11 +97,11 @@ namespace Cooper.DAO
             return idUserReview;
         }
 
-        public void Delete(long id)
+        public bool Delete(long id)
         {
-            bool ifDeleted = crud.Delete(id, table, idColumn);
+            bool isDeleted = crud.Delete(id, table, idColumn);
 
-            if (ifDeleted)
+            if (isDeleted)
             {
                 logger.Info($"Game with id={id} was successfully deleted from table {table}.");
             }
@@ -110,9 +110,10 @@ namespace Cooper.DAO
                 logger.Info($"Deleting userReview with id={id} was failed.");
             }
 
+            return isDeleted;
         }
 
-        public void Update(UserReviewDb userReview)
+        public bool Update(UserReviewDb userReview)
         {
             EntityORM entity = EntityMapping.Map(userReview, attributes);
 
@@ -121,9 +122,9 @@ namespace Cooper.DAO
 
             var whereRequest = new WhereRequest(idColumn, Operators.Equal, userReview.Id.ToString());
 
-            bool ifUpdated = crud.Update(table, entity, whereRequest);
+            bool isUpdated = crud.Update(table, entity, whereRequest);
 
-            if (ifUpdated)
+            if (isUpdated)
             {
                 logger.Info($"Game with id={userReview.Id} was successfully updated.");
             }
@@ -131,6 +132,8 @@ namespace Cooper.DAO
             {
                 logger.Info($"Updating userReview with id={userReview.Id} was failed.");
             }
+
+            return isUpdated;
         }
 
     }
