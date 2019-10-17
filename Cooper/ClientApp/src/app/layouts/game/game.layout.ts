@@ -17,9 +17,9 @@ export class GameLayoutComponent implements OnInit, IComponentCanDeactivate {
   constructor(private route: ActivatedRoute, private gameService: GamesService) { }
 
   public ngOnInit(): void {
-    this.gameService.getGame('proxy/' + this.route.snapshot.params['link']).subscribe((data) => {
+    this.gameService.getGame(this.route.snapshot.params['link']).subscribe((data) => {
         this.game = data;
-        this.url = this.game.link;
+        this.url = 'proxy/' + this.game.link;
       },
       (err) => {
         console.log(err);
