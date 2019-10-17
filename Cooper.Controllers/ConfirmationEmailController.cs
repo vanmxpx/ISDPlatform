@@ -24,7 +24,7 @@ namespace Cooper.Controllers
         /// </remarks>
         /// <returns>A redirect to "/auth"</returns>
         /// <response code="302">Always</response>  
-        [HttpPost]
+        [HttpGet]
         [Route("confirm")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status302Found)]
@@ -44,7 +44,7 @@ namespace Cooper.Controllers
                 userRepository.ConfirmEmail(token, email);
                 userRepository.DeleteToken($"\'{token}\'");
 
-                result = Redirect("/auth");
+                result = Redirect("/login");
                 //TODO: Auth
             }
 

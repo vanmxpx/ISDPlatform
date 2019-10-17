@@ -22,7 +22,7 @@ namespace Cooper.Controllers
         private readonly ISmtpClient smtpClient;
         private readonly IResetPasswordService resetService;
 
-        private const string passwordResetURL = "https://cooper.serve.games/confirm;token=";
+        private const string passwordResetURL = "https://cooper.games/confirm;token=";
 
         public AuthController(IJwtHandlerService jwtService, ISocialAuth socialAuth, IConfigProvider configProvider,
             ILogger<AuthController> logger, ISmtpClient smtpClient, IResetPasswordService resetService)

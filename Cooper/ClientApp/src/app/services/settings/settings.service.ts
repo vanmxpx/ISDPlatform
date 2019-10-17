@@ -40,7 +40,10 @@ export class SettingsService {
   public deleteAccount(): void {
     this.http.post(settingsUrl + 'delete', '').subscribe(
         () => {
-            this.updateAccountEvent.emit();
+          console.log('1');
+          localStorage.removeItem('JwtCooper');
+          document.location.reload();
+          this.updateAccountEvent.emit();
         }
       );
   }
