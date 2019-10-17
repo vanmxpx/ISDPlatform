@@ -18,7 +18,7 @@ namespace Cooper.Controllers
         private readonly ITokenCleaner cleaner;
         private readonly ISocialAuth socialAuth;
 
-        private const string emailConfirmURL = "https://cooper.serve.games/confirm?token=";
+        private const string emailConfirmURL = "https://cooper.games/confirm?token=";
 
         public RegistrationController(IJwtHandlerService jwtHandler, IConfigProvider configProvider, ISocialAuth socialAuth, ITokenCleaner cleaner, ISmtpClient smtpClient)
         {
