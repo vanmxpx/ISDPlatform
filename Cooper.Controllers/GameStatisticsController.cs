@@ -2,7 +2,6 @@ using Cooper.Models;
 using Cooper.Repositories;
 using Cooper.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace Cooper.Controllers
 {
@@ -17,30 +16,13 @@ namespace Cooper.Controllers
             statisticsRepository = new StatisticsRepository(configProvider);
         }
 
-        // GET: api/<controller>
-        // [HttpGet("{id}")]
-        // public IEnumerable<Statistics> GetAllStatistics()
-        // {
-        //     return statisticsRepository.GetAll();
-        // }
-
-        // public IEnumerable<Statistics> GetAllStatisticsByUserId(long Id)
-        // {
-        //     return statisticsRepository.GetStatisticsByUser(Id);
-        // }
-
         // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public IEnumerable<Statistics> GetAllStatisticByGameId(long id)
+        [HttpGet("get")]
+        public IActionResult GetAllStatisticByGameId(long userId, long gameId)
         {
-            return statisticsRepository.GetStatisticsByGame(id);
+            return Ok(statisticsRepository.GetStatistics(userId, gameId));
         }
 
-        [HttpGet]
-        public Statistics GetStatisticsById(long id)
-        {
-            return statisticsRepository.Get(id);
-        }
 
         // POST api/<controller>
         [HttpPost]

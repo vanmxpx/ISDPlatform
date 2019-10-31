@@ -393,16 +393,17 @@ namespace Cooper.Repositories.Mapping
             #region Transfer main attributes
 
             statistics_newType.Id = statistics.Id;
-            statistics_newType.TimeSpent = statistics.TimeSpent;
-            statistics_newType.RunsAmount = statistics.RunsAmount;
-            statistics_newType.UserRecord = statistics.UserRecord;
+            statistics_newType.BestScore = statistics.BestScore;
+            statistics_newType.DateOfLastGame = statistics.DateOfLastGame;
+            statistics_newType.LoseGames = statistics.LoseGames;
+            statistics_newType.WinGames = statistics.WinGames;
 
             #endregion
 
             #region Transfering interop attributes
 
-            statistics_newType.User = new User() { Id = statistics.IdUser };
-            statistics_newType.Game = new Game() { Id = statistics.IdGame };
+            statistics_newType.User = new User() { Id = statistics.UserId };
+            statistics_newType.Game = new Game() { Id = statistics.GameId };
 
             #endregion
 
@@ -416,16 +417,17 @@ namespace Cooper.Repositories.Mapping
             #region Transfer main attributes
 
             statistics_newType.Id = statistics.Id;
-            statistics_newType.TimeSpent = statistics.TimeSpent;
-            statistics_newType.RunsAmount = statistics.RunsAmount;
-            statistics_newType.UserRecord = statistics.UserRecord;
+            statistics_newType.BestScore = statistics.BestScore;
+            statistics_newType.DateOfLastGame = statistics.DateOfLastGame;
+            statistics_newType.LoseGames = statistics.LoseGames;
+            statistics_newType.WinGames = statistics.WinGames;
 
             #endregion
 
             #region Transfering interop attributes
 
-            statistics_newType.IdUser = statistics.User.Id;
-            statistics_newType.IdGame = statistics.Game.Id;
+            statistics_newType.UserId = statistics.User.Id;
+            statistics_newType.GameId = statistics.Game.Id;
 
             #endregion
 

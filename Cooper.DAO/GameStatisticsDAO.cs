@@ -14,7 +14,7 @@ namespace Cooper.DAO
         private readonly Logger logger;
 
         private string table;
-        private string idColumn;
+        const string columnId = "ID";
         private HashSet<string> attributes;
 
         public GameStatisticsDAO(IConfigProvider configProvider)
@@ -22,21 +22,20 @@ namespace Cooper.DAO
             crud = new CRUD(configProvider);
             logger = LogManager.GetLogger("CooperLoger");
 
-            table = "GAMESTATISTICS";
-            idColumn = "ID";
+            table = "STATISTICS";
             attributes = new HashSet<string>()
             {
-                "ID", "TIMESPENT", "USERRECORD", "RUNSAMOUNT", "IDUSER", "IDGAME"
+                "ID", "GAMEID", "USERID", "DATEOFLASTGAME", "WINGAMES", "LOSEGAMES", "BESTSCORE"
             };
         }
 
         #region Get methods
 
-        public StatisticsDb Get(long id)
+        public StatisticsDb Get(long userId, long gameId)
         {
             StatisticsDb statistics = null;
 
-            var whereRequest = new WhereRequest(idColumn, Operators.Equal, id.ToString());
+            var whereRequest = new WhereRequest("USERID", Operators.Equal, userId.ToString()).And("GAMEID", Operators.Equal, gameId.ToString());
 
             List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes, whereRequest);
 
@@ -48,54 +47,20 @@ namespace Cooper.DAO
             return statistics;
         }
 
-        /// <summary>
-        /// Return the MessageDb object with interop properties
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public StatisticsDb GetExtended(long id)
-        {
-            StatisticsDb statistics = Get(id);
-
-            return statistics;
-        }
-
-        public IEnumerable<StatisticsDb> GetAll()
-        {
-            List<StatisticsDb> statistics = new List<StatisticsDb>();
-
-            List<EntityORM> entities = (List<EntityORM>)crud.Read(table, attributes);
-
-            foreach (EntityORM entity in entities)              // Mapping entities to messages
-            {
-                EntityMapping.Map(entity, out StatisticsDb statistic);
-                statistics.Add(statistic);
-            }
-
-            return statistics;
-        }
-
-
-        #region Interop properties info reading
-        // Here they will be
-
-        #endregion
-        #endregion
-
         public long Save(StatisticsDb statistics)
         {
             EntityORM entity = EntityMapping.Map(statistics, attributes);
 
-            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+            entity.attributeValue.Remove(columnId);
 
-            long idStatistic = crud.Create(table, idColumn, entity);
+            long idStatistic = crud.Create(table, columnId, entity);
 
             return idStatistic;
         }
 
         public void Delete(long id)
         {
-            bool ifDeleted = crud.Delete(id, table, idColumn);
+            bool ifDeleted = crud.Delete(id, table, columnId);
 
             if (ifDeleted)
             {
@@ -112,9 +77,9 @@ namespace Cooper.DAO
         {
             EntityORM entity = EntityMapping.Map(statistics, attributes);
 
-            entity.attributeValue.Remove("ID");     // getting sure that ID value is not touched
+            entity.attributeValue.Remove(columnId);
 
-            var whereRequest = new WhereRequest(idColumn, Operators.Equal, statistics.Id.ToString());
+            var whereRequest = new WhereRequest(columnId, Operators.Equal, statistics.Id.ToString());
 
             bool ifUpdated = crud.Update(table, entity, whereRequest);
 
@@ -127,5 +92,6 @@ namespace Cooper.DAO
                 logger.Info($"Updating statistics with id={statistics.Id} was failed.");
             }
         }
+        #endregion
     }
 }

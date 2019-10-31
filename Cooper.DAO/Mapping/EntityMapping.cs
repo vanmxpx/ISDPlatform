@@ -679,20 +679,23 @@ namespace Cooper.DAO.Mapping
                     case "ID":
                         statistics.Id = Convert.ToInt64(aV.Value);
                         break;
-                    case "IDUSER":
-                        statistics.IdUser = Convert.ToInt64(aV.Value);
+                    case "USERID":
+                        statistics.UserId = Convert.ToInt64(aV.Value);
                         break;
-                    case "IDGAME":
-                        statistics.IdGame = Convert.ToInt64(aV.Value);
+                    case "GAMEID":
+                        statistics.GameId = Convert.ToInt64(aV.Value);
                         break;
-                    case "RUNSAMOUNT":
-                        statistics.RunsAmount = Convert.ToInt64(aV.Value);
+                    case "DATEOFLASTGAME":
+                        statistics.DateOfLastGame = (DateTime)aV.Value;
                         break;
-                    case "TIMESPENT":
-                        statistics.TimeSpent = (decimal)aV.Value;
+                    case "WINGAMES":
+                        statistics.WinGames = Convert.ToInt64(aV.Value);
                         break;
-                    case "USERRECORD":
-                        statistics.UserRecord = Convert.ToInt64(aV.Value);
+                    case "LOSEGAMES":
+                        statistics.LoseGames = Convert.ToInt64(aV.Value);
+                        break;
+                    case "BESTSCORE":
+                        statistics.BestScore = Convert.ToInt64(aV.Value);
                         break;
                     default:
                         break;
@@ -708,23 +711,25 @@ namespace Cooper.DAO.Mapping
             {
                 object value = null;
 
-
                 switch (attribute)
                 {
-                    case "IDUSER":
-                        value = statistics.IdUser;
+                    case "ID":
+                        value = statistics.Id;
                         break;
-                    case "IDGAME":
-                        value = statistics.IdGame;
+                    case "GAMEID":
+                        value = statistics.GameId;
                         break;
-                    case "RUNSAMOUNT":
-                        value = statistics.RunsAmount;
+                    case "DATEOFLASTGAME":
+                        value = $"\'{statistics.DateOfLastGame.ToString("dd-MMM-yyyy")}\'"; ;
                         break;
-                    case "TIMESPENT":
-                        value = statistics.TimeSpent;
+                    case "WINGAMES":
+                        value = statistics.WinGames;
                         break;
-                    case "USERRECORD":
-                        value = statistics.UserRecord;
+                    case "LOSEGAMES":
+                        value = statistics.LoseGames;
+                        break;
+                    case "BESTSCORE":
+                        value = statistics.BestScore;
                         break;
                     default:
                         break;

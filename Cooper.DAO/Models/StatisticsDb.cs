@@ -1,20 +1,15 @@
-﻿namespace Cooper.DAO.Models
+﻿using System;
+
+namespace Cooper.DAO.Models
 {
     public class StatisticsDb : EntityDb
     {
-        #region Main attributes
-
-        public decimal TimeSpent { get; set; }
-        public long RunsAmount { get; set; }
-        public long UserRecord { get; set; }
-
-        #endregion
-
-        #region Interop attributes
-
-        public long IdUser { get; set; }
-        public long IdGame { get; set; }
-
-        #endregion
+        public long Id { get; set; }
+        public long UserId { get; set; }
+        public long GameId { get; set; }
+        public DateTime DateOfLastGame { get; set; }
+        public long WinGames { get; set; }
+        public long LoseGames { get; set; }
+        public long BestScore { get; set; }
     }
 }

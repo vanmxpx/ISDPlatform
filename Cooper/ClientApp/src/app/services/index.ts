@@ -22,3 +22,5 @@ export {ChatService} from './chat.service';
 export { MediaserverService } from './mediaserver/mediaserver.service';
 
 export { SettingsService } from './settings/settings.service';
+
+export { GameStatisticsService } from './game-statistics/game-statistics.service';

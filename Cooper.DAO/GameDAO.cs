@@ -122,7 +122,7 @@ namespace Cooper.DAO
             entity.attributeValue.Remove("ID");
 
             long idGame = crud.Create(table, idColumn, entity);
-
+            
             return idGame;
         }
 

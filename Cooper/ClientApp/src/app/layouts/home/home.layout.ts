@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {SessionService} from '@services';
-import {Router} from '@angular/router';
+import {SessionService, GameStatisticsService } from '@services';
+import { GameStatistics } from '@models';
 
 @Component({
   selector: 'coop-home',
@@ -8,11 +8,16 @@ import {Router} from '@angular/router';
   styleUrls: ['./home.layout.scss']
 })
 export class HomeLayoutComponent {
+  public statistics: GameStatistics;
 
-  constructor(private sessionService: SessionService, private router: Router) {
-   }
+  constructor(private sessionService: SessionService, private gameStatistics: GameStatisticsService) {
+    this.refresh();
+  }
 
-  public goToProfilePage(): void {
-    this.router.navigate(['/platform/profile/' + this.sessionService.GetSessionUserNickname()]);
+  private refresh(): void {
+    this.gameStatistics.getStatistics(this.sessionService.GetSessionUserId(), 21).subscribe((statistics) => {
+      this.statistics = statistics;
+      this.refresh();
+    });
   }
 }

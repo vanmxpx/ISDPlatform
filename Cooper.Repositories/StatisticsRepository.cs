@@ -3,7 +3,6 @@ using Cooper.DAO.Models;
 using Cooper.Models;
 using Cooper.Repositories.Mapping;
 using Cooper.Services.Interfaces;
-using System.Collections.Generic;
 
 namespace Cooper.Repositories
 {
@@ -18,65 +17,11 @@ namespace Cooper.Repositories
             mapper = new ModelsMapper();
         }
 
-        public IEnumerable<Statistics> GetAll()
+        public Statistics GetStatistics(long userId, long gameId)
         {
-            List<StatisticsDb> statistics = (List<StatisticsDb>)statisticsDAO.GetAll();
+            StatisticsDb statistics = (StatisticsDb)statisticsDAO.Get(userId, gameId);
 
-            List<Statistics> statistics_newType = new List<Statistics>();
-
-            foreach (StatisticsDb statistic in statistics)
-            {
-                Statistics statistic_newType = mapper.Map(statistic);
-
-                statistics_newType.Add(statistic_newType);
-            }
-
-            return statistics_newType;
-        }
-
-        public Statistics Get(long id)
-        {
-            StatisticsDb statistics = statisticsDAO.GetExtended(id);
-            Statistics statistics_newTyped = null;
-
-            if (statistics != null)
-            {
-                statistics_newTyped = mapper.Map(statistics);
-            }
-
-            return statistics_newTyped;
-        }
-
-        public IEnumerable<Statistics> GetStatisticsByUser(long userId)
-        {
-            List<StatisticsDb> allStatistics = (List<StatisticsDb>)statisticsDAO.GetAll();
-            List<Statistics> StatisticsByUser = new List<Statistics>();
-
-            foreach (StatisticsDb statistics in allStatistics)
-            {
-                if (statistics.IdUser == userId)
-                {
-                    StatisticsByUser.Add(mapper.Map(statistics));
-                }
-            }
-
-            return StatisticsByUser;
-        }
-
-        public IEnumerable<Statistics> GetStatisticsByGame(long gameId)
-        {
-            List<StatisticsDb> allStatistics = (List<StatisticsDb>)statisticsDAO.GetAll();
-            List<Statistics> StatisticsByGame = new List<Statistics>();
-
-            foreach (StatisticsDb statistics in allStatistics)
-            {
-                if (statistics.IdGame == gameId)
-                {
-                    StatisticsByGame.Add(mapper.Map(statistics));
-                }
-            }
-
-            return StatisticsByGame;
+            return statistics == null? new Statistics() : mapper.Map(statistics);
         }
 
         public long Create(Statistics statistics)
