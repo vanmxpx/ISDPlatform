@@ -2,10 +2,10 @@ import { User } from './user';
 import { Game } from './game-model';
 
 export class GameStatistics {
-    public User: User;
-    public Game: Game;
-    public DateOfLastGame: number;
-    public WinGames: number;
-    public LoseGames: number;
-    public BestScore: number;
+    public user: User;
+    public game: Game;
+    public dateOfLastGame: number;
+    public winGames: number;
+    public loseGames: number;
+    public bestScore: number;
 }

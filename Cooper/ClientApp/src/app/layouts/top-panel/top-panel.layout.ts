@@ -20,7 +20,8 @@ export class TopPanelLayoutComponent implements OnInit {
     {label: 'TOP-PANEL.CHATS', link: '/platform/chats'},
     {label: 'TOP-PANEL.MY-PROFILE', link: ''},
     {label: 'TOP-PANEL.FORUM', link: '#'},
-    {label: 'TOP-PANEL.VACANCIES', link: '#'}
+    {label: 'TOP-PANEL.VACANCIES', link: '#'},
+    {label: 'Statistics', link: '/platform/statistics'}
   ];
 
   constructor(public translate: TranslateService, public localizationService: LocalizationService,

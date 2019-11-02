@@ -5,7 +5,7 @@ import {LoginLayoutComponent, RegistrationLayoutComponent, PlatformLayoutCompone
   PageNotFoundLayoutComponent, GameLayoutComponent, GamesLayoutComponent, ProfileLayoutComponent,
 
   HomeLayoutComponent, ResetPasswordLayoutComponent, ConfirmPasswordLayoutComponent,
-  PersonalChatsLayoutComponent, SettingsLayoutComponent, GameLoadErrorLayoutComponent} from '@layouts';
+  PersonalChatsLayoutComponent, SettingsLayoutComponent, GameLoadErrorLayoutComponent, StatisticsLayoutComponent} from '@layouts';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -20,7 +20,8 @@ const routes: Routes = [
     {path: 'profile/:nickname', component: ProfileLayoutComponent},
     {path: 'settings', component: SettingsLayoutComponent},
     {path: 'home', component: HomeLayoutComponent},
-    {path: 'chats', component: PersonalChatsLayoutComponent}
+    {path: 'chats', component: PersonalChatsLayoutComponent},
+    {path: 'statistics', component: StatisticsLayoutComponent}
   ]},
   {path: 'proxy/:link', component: GameLoadErrorLayoutComponent},
   {path: '**', component: PageNotFoundLayoutComponent}

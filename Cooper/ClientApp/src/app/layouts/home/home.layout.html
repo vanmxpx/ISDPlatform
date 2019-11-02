@@ -1,7 +1,10 @@
-
 <div class="container">
 
   <img class="image" src='assets/imageKeeper/house-repair.png'>
   
-  <p>UserId: {{statistics.User.id}}</p>
+  <div class="text-block">
+    <p> {{'HOME-PAGE.TEXT' | translate}} </p>
+
+    <p><a (click)="goToProfilePage()">{{'HOME-PAGE.LINK-TEXT' | translate}}</a></p>
+  </div>
 </div>
